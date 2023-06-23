@@ -6,7 +6,6 @@ const initStore = (currentUser: any) => {
 		reducer: rootReducer
 	});
 
-	// if (currentUser) appStore.dispatch(setUser(currentUser));
 	return appStore;
 };
 
