@@ -5,7 +5,6 @@ import Topbar from '~/pages/global/Topbar';
 import { useMode, ColorModeContext } from '~/utils/theme';
 import Sidebar from '~/pages/global/Sidebar';
 import Dashboard from '~/pages/dashboard';
-import Contacts from '~/pages/contacts';
 import Form from '~/pages/form';
 import Invoices from '~/pages/invoices';
 import Team from '~/pages/team';
@@ -33,45 +32,39 @@ function App() {
 								<>
 									{/* @ts-ignore */}
 									<Sidebar isSidebar={isSidebar} />
-									{/* @ts-ignore */}
-									<Topbar setIsSidebar={setIsSidebar} />
-									<Dashboard />
+									<main className="content">
+										{/* @ts-ignore */}
+										<Topbar setIsSidebar={setIsSidebar} />
+										<Dashboard />
+									</main>
 								</>
 							}
 						/>
 						<Route
-							path="/admin/team"
+							path="/admin/users"
 							element={
 								<>
 									{/* @ts-ignore */}
 									<Sidebar isSidebar={isSidebar} />
-									{/* @ts-ignore */}
-									<Topbar setIsSidebar={setIsSidebar} />
-									<Team />
+									<main className="content">
+										{/* @ts-ignore */}
+										<Topbar setIsSidebar={setIsSidebar} />
+										<Team />
+									</main>
 								</>
 							}
 						/>
 						<Route
-							path="/admin/contacts"
+							path="/admin/permissions"
 							element={
 								<>
 									{/* @ts-ignore */}
 									<Sidebar isSidebar={isSidebar} />
-									{/* @ts-ignore */}
-									<Topbar setIsSidebar={setIsSidebar} />
-									<Contacts />
-								</>
-							}
-						/>
-						<Route
-							path="/admin/invoices"
-							element={
-								<>
-									{/* @ts-ignore */}
-									<Sidebar isSidebar={isSidebar} />
-									{/* @ts-ignore */}
-									<Topbar setIsSidebar={setIsSidebar} />
-									<Invoices />
+									<main className="content">
+										{/* @ts-ignore */}
+										<Topbar setIsSidebar={setIsSidebar} />
+										<Invoices />
+									</main>
 								</>
 							}
 						/>
@@ -81,9 +74,11 @@ function App() {
 								<>
 									{/* @ts-ignore */}
 									<Sidebar isSidebar={isSidebar} />
-									{/* @ts-ignore */}
-									<Topbar setIsSidebar={setIsSidebar} />
-									<Form />
+									<main className="content">
+										{/* @ts-ignore */}
+										<Topbar setIsSidebar={setIsSidebar} />
+										<Form />
+									</main>
 								</>
 							}
 						/>

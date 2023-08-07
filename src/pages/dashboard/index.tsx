@@ -42,7 +42,6 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
-					
 				>
 					<StatBox
 						title="12,361"
@@ -58,7 +57,6 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
-					
 				>
 					<StatBox
 						title="431,225"
@@ -74,7 +72,6 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
-					
 				>
 					<StatBox
 						title="32,441"
@@ -90,7 +87,6 @@ const Dashboard = () => {
 					display="flex"
 					alignItems="center"
 					justifyContent="center"
-					
 				>
 					<StatBox
 						title="1,325,134"
@@ -100,12 +96,7 @@ const Dashboard = () => {
 						icon={<TrafficIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
 				</Box>
-				<Box
-					gridColumn="span 8"
-					gridRow="span 2"
-					backgroundColor={colors.primary[400]}
-					
-				>
+				<Box gridColumn="span 8" gridRow="span 2" backgroundColor={colors.primary[400]}>
 					<Box
 						mt="25px"
 						p="0 30px"
@@ -136,7 +127,6 @@ const Dashboard = () => {
 					gridRow="span 2"
 					backgroundColor={colors.primary[400]}
 					overflow="auto"
-					
 				>
 					<Box
 						display="flex"
@@ -145,7 +135,6 @@ const Dashboard = () => {
 						borderBottom={`4px solid ${colors.primary[500]}`}
 						colors={colors.grey[100]}
 						p="15px"
-						
 					>
 						<Typography color={colors.grey[100]} variant="h5" fontWeight="600">
 							Recent Transactions
@@ -167,24 +156,13 @@ const Dashboard = () => {
 								<Typography color={colors.grey[100]}>{transaction.user}</Typography>
 							</Box>
 							<Box color={colors.grey[100]}>{transaction.date}</Box>
-							<Box
-								backgroundColor={colors.greenAccent[500]}
-								p="5px 10px"
-								borderRadius="4px"
-								
-							>
+							<Box backgroundColor={colors.greenAccent[500]} p="5px 10px" borderRadius="4px">
 								transaction.cost
 							</Box>
 						</Box>
 					))}
 				</Box>
-				<Box
-					gridColumn="span 4"
-					gridRow="span 2"
-					backgroundColor={colors.primary[400]}
-					p="30px"
-					
-				>
+				<Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.primary[400]} p="30px">
 					<Typography variant="h5" fontWeight="600">
 						Campaign
 					</Typography>
@@ -196,12 +174,7 @@ const Dashboard = () => {
 						<Typography>Includes extra misc expenditures and costs</Typography>
 					</Box>
 				</Box>
-				<Box
-					gridColumn="span 4"
-					gridRow="span 2"
-					backgroundColor={colors.primary[400]}
-					
-				>
+				<Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.primary[400]}>
 					<Typography variant="h5" fontWeight="600" sx={{ padding: '30px 30px 0 30px' }}>
 						Sales Quantity
 					</Typography>
@@ -214,7 +187,6 @@ const Dashboard = () => {
 					gridRow="span 2"
 					backgroundColor={colors.primary[400]}
 					padding="30px"
-					
 				>
 					<Typography variant="h5" fontWeight="600" sx={{ marginBottom: '15px' }}>
 						Geography Based Traffic
