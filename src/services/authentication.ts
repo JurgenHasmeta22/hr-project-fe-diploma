@@ -1,45 +1,20 @@
 import axios from 'axios';
-import IUser from '~/interfaces/IUser';
 
 const api = {
 	url: import.meta.env.VITE_API_URL
 };
 
 const authenticationController = {
-	onLogin: async (email: string, password: string): Promise<any> => {
-		const payload = {
-			email,
-			password
-		};
-
-		const responseLogin = await axios.post(`${api.url}/login`, payload).then((x) => x.data);
-
-		return responseLogin;
+	onLogin: async (model: any): Promise<any> => {
+		return await axios.post(`${api.url}/Account/login`, model).then((x) => x.data);
 	},
 
-	onRegister: async (username: string, email: string, password: string): Promise<any> => {
-		const payload = {
-			username,
-			email,
-			password
-		};
-
-		const responseLogin = await axios.post(`${api.url}/sign-up`, payload).then((x) => x.data);
-
-		return responseLogin;
+	onRegister: async (model: any): Promise<any> => {
+		return await axios.post(`${api.url}/Account/register`, model).then((x) => x.data);
 	},
 
-	validateUser: async () => {
-		if (localStorage.token) {
-			const config = {
-				headers: {
-					Authorization: localStorage.token
-				}
-			};
-
-			const response: IUser = await axios.get(`${api.url}/validate`, config).then((x) => x.data);
-			return response;
-		}
+	onLogout: () => {
+		localStorage.removeItem('token');
 	}
 };
 
