@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import { Box, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
 import { tokens } from '~/utils/theme';
+import Header from '~/components/dashboard/Header';
 
 const Calendar = () => {
 	const theme = useTheme();
@@ -46,7 +47,7 @@ const Calendar = () => {
 				>
 					<Typography variant="h5">Events</Typography>
 					<List>
-						{currentEvents.map((event) => (
+						{currentEvents.map((event: any) => (
 							<ListItem
 								key={event.id}
 								sx={{
