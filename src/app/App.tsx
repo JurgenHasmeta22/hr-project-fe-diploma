@@ -1,14 +1,17 @@
+import * as React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { useMode, ColorModeContext } from '~/utils/theme';
-import Dashboard from '~/pages/dashboard';
-import Invoices from '~/pages/permissions';
-import Team from '~/pages/users';
-import { Login } from '@mui/icons-material';
-import Register from '~/pages/register';
-import Form from '~/components/form';
+const Dashboard = React.lazy(() => import('~/pages/dashboard'));
+const Permissions = React.lazy(() => import('~/pages/permissions'));
+const Users = React.lazy(() => import('~/pages/users'));
+const Register = React.lazy(() => import('~/pages/register'));
+const Login = React.lazy(() => import('~/pages/login'));
+const Form = React.lazy(() => import('~/components/form'));
+const Error = React.lazy(() => import('~/pages/error'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
+import PrivateRoutes from '~/utils/PrivateRoutes';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -20,56 +23,80 @@ function App() {
 				<div className="app">
 					<Routes>
 						<Route index element={<Navigate replace to="/login" />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/register" element={<Register />} />
 						<Route
-							path="/admin/dashboard"
+							path="*"
 							element={
-								<>
-									<Sidebar />
-									<main className="content">
-										<Topbar />
-										<Dashboard />
-									</main>
-								</>
+								<React.Suspense fallback={<>...</>}>
+									<Error />
+								</React.Suspense>
 							}
 						/>
 						<Route
-							path="/admin/users"
+							path="/login"
 							element={
-								<>
-									<Sidebar />
-									<main className="content">
-										<Topbar />
-										<Team />
-									</main>
-								</>
+								<React.Suspense fallback={<>...</>}>
+									<Login />
+								</React.Suspense>
 							}
 						/>
 						<Route
-							path="/admin/permissions"
+							path="/register"
 							element={
-								<>
-									<Sidebar />
-									<main className="content">
-										<Topbar />
-										<Invoices />
-									</main>
-								</>
+								<React.Suspense fallback={<>...</>}>
+									<Register />
+								</React.Suspense>
 							}
 						/>
-						<Route
-							path="/admin/form"
-							element={
-								<>
-									<Sidebar />
-									<main className="content">
-										<Topbar />
-										<Form />
-									</main>
-								</>
-							}
-						/>
+						<Route element={<PrivateRoutes />}>
+							<Route
+								path="/admin/dashboard"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<Dashboard />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/users"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<Users />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/permissions"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<Permissions />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/form"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<Form />
+										</main>
+									</React.Suspense>
+								}
+							/>
+						</Route>
 					</Routes>
 				</div>
 			</ThemeProvider>
