@@ -8,11 +8,9 @@ const authenticationController = {
 	onLogin: async (model: any): Promise<any> => {
 		return await axios.post(`${api.url}/Account/login`, model).then((x) => x.data);
 	},
-
 	onRegister: async (model: any): Promise<any> => {
 		return await axios.post(`${api.url}/Account/register`, model).then((x) => x.data);
 	},
-
 	onLogout: () => {
 		localStorage.removeItem('token');
 	}

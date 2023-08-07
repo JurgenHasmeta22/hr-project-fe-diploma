@@ -1,5 +1,3 @@
-import '~/pages/register/style.css';
-
 export default function Register() {
 	return (
 		<>

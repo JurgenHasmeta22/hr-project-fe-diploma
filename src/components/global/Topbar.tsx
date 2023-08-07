@@ -15,9 +15,9 @@ const Topbar = () => {
 		<Box display="flex" justifyContent="space-between" p={2}>
 			<Box
 				display="flex"
-				// @ts-ignore
-				backgroundColor={colors.primary[400]}
+				sx={{backgroundColor: colors.primary[400]}}
 				borderRadius="3px"
+				component="div"
 			></Box>
 			<Box display="flex">
 				<IconButton onClick={colorMode.toggleColorMode}>
