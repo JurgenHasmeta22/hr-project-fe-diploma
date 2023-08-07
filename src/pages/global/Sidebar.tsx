@@ -9,7 +9,7 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { tokens } from '~/utils/theme';
-import "react-pro-sidebar/dist/css/styles.css";
+import 'react-pro-sidebar/dist/css/styles.css';
 
 const Item = ({ title, to, icon, selected, setSelected }: any) => {
 	const theme = useTheme();
@@ -92,7 +92,7 @@ const Sidebar = () => {
 									fontWeight="bold"
 									sx={{ m: '10px 0 0 0' }}
 								>
-									Brajan Hasmeta
+									Anonim
 								</Typography>
 								<Typography variant="h5" color={colors.greenAccent[500]}>
 									HR Admin
@@ -109,34 +109,27 @@ const Sidebar = () => {
 							setSelected={setSelected}
 						/>
 						<Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
-							Data
+							Te dhenat
 						</Typography>
 						<Item
-							title="Manage Team"
-							to="/admin/team"
+							title="Perdoruesit"
+							to="/admin/users"
 							icon={<PeopleOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
 						<Item
-							title="Contacts Information"
-							to="/admin/contacts"
-							icon={<ContactsOutlinedIcon />}
-							selected={selected}
-							setSelected={setSelected}
-						/>
-						<Item
-							title="Invoices Balances"
-							to="/admin/invoices"
+							title="Lejet"
+							to="/admin/permissions"
 							icon={<ReceiptOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
 						<Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
-							Pages
+							Forma
 						</Typography>
 						<Item
-							title="Profile Form"
+							title="Forme krijimi useri"
 							to="/admin/form"
 							icon={<PersonOutlinedIcon />}
 							selected={selected}
