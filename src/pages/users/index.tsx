@@ -4,13 +4,13 @@ import { mockDataTeam } from '../../data/mockData';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
-import Header from '../../components/Header';
 import { tokens } from '~/utils/theme';
+import Header from '~/components/dashboard/Header';
 
-const Team = () => {
+const Users = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const columns = [
+	const columns: any = [
 		{ field: 'id', headerName: 'ID' },
 		{
 			field: 'name',
@@ -47,13 +47,14 @@ const Team = () => {
 						p="5px"
 						display="flex"
 						justifyContent="center"
-						backgroundColor={
-							access === 'admin'
-								? colors.greenAccent[600]
-								: access === 'manager'
-								? colors.greenAccent[700]
-								: colors.greenAccent[700]
-						}
+						sx={{
+							backgroundColor:
+								access === 'admin'
+									? colors.greenAccent[600]
+									: access === 'manager'
+									? colors.greenAccent[700]
+									: colors.greenAccent[700]
+						}}
 						borderRadius="4px"
 					>
 						{access === 'admin' && <AdminPanelSettingsOutlinedIcon />}
@@ -70,7 +71,7 @@ const Team = () => {
 
 	return (
 		<Box m="20px">
-			<Header title="TEAM" subtitle="Managing the Team Members" />
+			<Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
 			<Box
 				m="40px 0 0 0"
 				height="75vh"
@@ -106,4 +107,4 @@ const Team = () => {
 	);
 };
 
-export default Team;
+export default Users;

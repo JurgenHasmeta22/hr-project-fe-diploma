@@ -1,5 +1,3 @@
-import '~/pages/login/style.css';
-
 export default function Login() {
 	return (
 		<>

@@ -1,24 +1,20 @@
-import { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import Topbar from '~/pages/global/Topbar';
 import { useMode, ColorModeContext } from '~/utils/theme';
-import Sidebar from '~/pages/global/Sidebar';
 import Dashboard from '~/pages/dashboard';
-import Form from '~/pages/form';
-import Invoices from '~/pages/invoices';
-import Team from '~/pages/team';
+import Invoices from '~/pages/permissions';
+import Team from '~/pages/users';
 import { Login } from '@mui/icons-material';
 import Register from '~/pages/register';
+import Form from '~/components/form';
+import Sidebar from '~/components/global/Sidebar';
+import Topbar from '~/components/global/Topbar';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const [isSidebar, setIsSidebar] = useState(true);
 
 	return (
-		// @ts-ignore
 		<ColorModeContext.Provider value={colorMode}>
-			{/* @ts-ignore */}
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<div className="app">
@@ -30,11 +26,9 @@ function App() {
 							path="/admin/dashboard"
 							element={
 								<>
-									{/* @ts-ignore */}
-									<Sidebar isSidebar={isSidebar} />
+									<Sidebar />
 									<main className="content">
-										{/* @ts-ignore */}
-										<Topbar setIsSidebar={setIsSidebar} />
+										<Topbar />
 										<Dashboard />
 									</main>
 								</>
@@ -44,11 +38,9 @@ function App() {
 							path="/admin/users"
 							element={
 								<>
-									{/* @ts-ignore */}
-									<Sidebar isSidebar={isSidebar} />
+									<Sidebar />
 									<main className="content">
-										{/* @ts-ignore */}
-										<Topbar setIsSidebar={setIsSidebar} />
+										<Topbar />
 										<Team />
 									</main>
 								</>
@@ -58,11 +50,9 @@ function App() {
 							path="/admin/permissions"
 							element={
 								<>
-									{/* @ts-ignore */}
-									<Sidebar isSidebar={isSidebar} />
+									<Sidebar />
 									<main className="content">
-										{/* @ts-ignore */}
-										<Topbar setIsSidebar={setIsSidebar} />
+										<Topbar />
 										<Invoices />
 									</main>
 								</>
@@ -72,11 +62,9 @@ function App() {
 							path="/admin/form"
 							element={
 								<>
-									{/* @ts-ignore */}
-									<Sidebar isSidebar={isSidebar} />
+									<Sidebar />
 									<main className="content">
-										{/* @ts-ignore */}
-										<Topbar setIsSidebar={setIsSidebar} />
+										<Topbar />
 										<Form />
 									</main>
 								</>
