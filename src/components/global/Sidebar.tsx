@@ -117,16 +117,30 @@ const Sidebar = () => {
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						{/* <Item
 							title="Lejet"
 							to="/admin/permissions"
 							icon={<ReceiptOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
-						/>
+						/> */}
 						<Item
 							title="Forme krijimi useri"
 							to="/admin/form"
+							icon={<PersonOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
+						<Item
+							title="Kalendari per Lejet"
+							to="/admin/calendar"
+							icon={<PersonOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
+						<Item
+							title="Lista e projekteve"
+							to="/admin/projects"
 							icon={<PersonOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}

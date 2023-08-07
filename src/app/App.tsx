@@ -8,6 +8,8 @@ const Users = React.lazy(() => import('~/pages/users'));
 const Register = React.lazy(() => import('~/pages/register'));
 const Login = React.lazy(() => import('~/pages/login'));
 const Form = React.lazy(() => import('~/components/form'));
+const Projects = React.lazy(() => import('~/pages/projects'));
+const Calendar = React.lazy(() => import('~/pages/calendar'));
 const Error = React.lazy(() => import('~/pages/error'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
@@ -92,6 +94,30 @@ function App() {
 										<main className="content">
 											<Topbar />
 											<Form />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/calendar"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<Calendar />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/projects"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<Projects />
 										</main>
 									</React.Suspense>
 								}
