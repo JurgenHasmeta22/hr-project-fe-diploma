@@ -9,7 +9,7 @@ const Register = React.lazy(() => import('~/pages/register'));
 const Login = React.lazy(() => import('~/pages/login'));
 const Form = React.lazy(() => import('~/components/form'));
 const Projects = React.lazy(() => import('~/pages/projects'));
-const Calendar = React.lazy(() => import('~/pages/calendar'));
+// const Calendar = React.lazy(() => import('~/pages/calendar'));
 const Error = React.lazy(() => import('~/pages/error'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
@@ -98,7 +98,7 @@ function App() {
 									</React.Suspense>
 								}
 							/>
-							<Route
+							{/* <Route
 								path="/admin/calendar"
 								element={
 									<React.Suspense fallback={<>...</>}>
@@ -109,7 +109,7 @@ function App() {
 										</main>
 									</React.Suspense>
 								}
-							/>
+							/> */}
 							<Route
 								path="/admin/projects"
 								element={
