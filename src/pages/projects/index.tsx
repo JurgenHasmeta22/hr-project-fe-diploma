@@ -1,44 +1,41 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { mockDataInvoices } from '../../data/mockData';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
+import IProject from '~/interfaces/IProject';
+import { useEffect, useState } from 'react';
+import projectsController from '~/services/projects';
 
 const Projects = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const columns = [
-		{ field: 'id', headerName: 'ID' },
 		{
-			field: 'name',
-			headerName: 'Name',
+			field: 'projektId',
+			headerName: 'Id',
 			flex: 1,
-			cellClassName: 'name-column--cell'
 		},
 		{
-			field: 'phone',
-			headerName: 'Phone Number',
+			field: 'emriProjekt',
+			headerName: 'Emri i projektit',
 			flex: 1
 		},
 		{
-			field: 'email',
-			headerName: 'Email',
-			flex: 1
-		},
-		{
-			field: 'cost',
-			headerName: 'Cost',
-			flex: 1,
-			renderCell: (params: any) => (
-				<Typography color={colors.greenAccent[500]}>${params.row.cost}</Typography>
-			)
-		},
-		{
-			field: 'date',
-			headerName: 'Date',
+			field: 'pershkrimProjekt',
+			headerName: 'Pershkrimi i projektit',
 			flex: 1
 		}
 	];
+	const [projects, setProjects] = useState<IProject[]>([]);
+
+	async function getProjects(): Promise<void> {
+		const response: IProject[] = await projectsController.getAllProjects();
+		setProjects(response);
+	}
+
+	useEffect(() => {
+		getProjects();
+	}, []);
 
 	return (
 		<Box m="20px">
@@ -72,7 +69,7 @@ const Projects = () => {
 					}
 				}}
 			>
-				<DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+				<DataGrid checkboxSelection rows={projects} columns={columns} />
 			</Box>
 		</Box>
 	);

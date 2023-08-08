@@ -1,74 +1,64 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { mockDataTeam } from '../../data/mockData';
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
-import SecurityOutlinedIcon from '@mui/icons-material/SecurityOutlined';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
+import { useState, useEffect } from 'react';
+import IProject from '~/interfaces/IProject';
+import IUser from '~/interfaces/IUser';
+import usersController from '~/services/users';
 
 const Users = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const columns: any = [
-		{ field: 'id', headerName: 'ID' },
+		{ field: 'userId', headerName: 'Id' },
 		{
-			field: 'name',
-			headerName: 'Name',
+			field: 'Username',
+			headerName: 'userName',
 			flex: 1,
-			cellClassName: 'name-column--cell'
 		},
 		{
-			field: 'age',
-			headerName: 'Age',
-			type: 'number',
-			headerAlign: 'left',
-			align: 'left'
-		},
-		{
-			field: 'phone',
-			headerName: 'Phone Number',
+			field: 'userFirstname',
+			headerName: 'Emri',
 			flex: 1
 		},
 		{
-			field: 'email',
+			field: 'userLastname',
+			headerName: 'Mbiemri',
+			flex: 1
+		},
+		{
+			field: 'userEmail',
 			headerName: 'Email',
 			flex: 1
 		},
 		{
-			field: 'accessLevel',
-			headerName: 'Access Level',
-			flex: 1,
-			renderCell: ({ row: { access } }: any) => {
-				return (
-					<Box
-						width="60%"
-						m="0 auto"
-						p="5px"
-						display="flex"
-						justifyContent="center"
-						sx={{
-							backgroundColor:
-								access === 'admin'
-									? colors.greenAccent[600]
-									: access === 'manager'
-									? colors.greenAccent[700]
-									: colors.greenAccent[700]
-						}}
-						borderRadius="4px"
-					>
-						{access === 'admin' && <AdminPanelSettingsOutlinedIcon />}
-						{access === 'manager' && <SecurityOutlinedIcon />}
-						{access === 'user' && <LockOpenOutlinedIcon />}
-						<Typography color={colors.grey[100]} sx={{ ml: '5px' }}>
-							{access}
-						</Typography>
-					</Box>
-				);
-			}
-		}
+			field: 'userIsActive',
+			headerName: 'Statusi',
+			flex: 1
+		},
+		{
+			field: 'balancaLeje',
+			headerName: 'Balanca e lejeve',
+			flex: 1
+		},
+		{
+			field: 'password',
+			headerName: 'Passwordi',
+			flex: 1
+		},
 	];
+	const [users, setUsers] = useState<IUser[]>([]);
 
+	async function getUsers(): Promise<void> {
+		const response: IUser[] = await usersController.getAllUsers();
+		setUsers(response);
+	}
+
+	useEffect(() => {
+		getUsers();
+	}, []);
+	
 	return (
 		<Box m="20px">
 			<Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
@@ -101,7 +91,7 @@ const Users = () => {
 					}
 				}}
 			>
-				<DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+				<DataGrid checkboxSelection rows={users} columns={columns} />
 			</Box>
 		</Box>
 	);

@@ -1,6 +1,5 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { mockDataInvoices } from '../../data/mockData';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
 
@@ -8,36 +7,33 @@ const Permissions = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const columns = [
-		{ field: 'id', headerName: 'ID' },
+		{ field: 'lejeId', headerName: 'Id' },
 		{
-			field: 'name',
-			headerName: 'Name',
+			field: 'dataFillim',
+			headerName: 'Data e fillimit',
+			flex: 1
+		},
+		{
+			field: 'dataMbarim',
+			headerName: 'Data e mbarimit',
 			flex: 1,
 			cellClassName: 'name-column--cell'
 		},
 		{
-			field: 'phone',
-			headerName: 'Phone Number',
+			field: 'tipiLeje',
+			headerName: 'Tipi i lejes',
 			flex: 1
 		},
 		{
-			field: 'email',
-			headerName: 'Email',
+			field: 'aprovuar',
+			headerName: 'Aprovuar',
 			flex: 1
 		},
 		{
-			field: 'cost',
-			headerName: 'Cost',
-			flex: 1,
-			renderCell: (params: any) => (
-				<Typography color={colors.greenAccent[500]}>${params.row.cost}</Typography>
-			)
-		},
-		{
-			field: 'date',
-			headerName: 'Date',
+			field: 'userId',
+			headerName: 'Id e userit',
 			flex: 1
-		}
+		},
 	];
 
 	return (
@@ -72,7 +68,7 @@ const Permissions = () => {
 					}
 				}}
 			>
-				<DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} />
+				{/* <DataGrid checkboxSelection rows={mockDataInvoices} columns={columns} /> */}
 			</Box>
 		</Box>
 	);
