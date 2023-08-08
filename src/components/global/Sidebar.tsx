@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ProSidebar, Menu, MenuItem } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -26,6 +26,36 @@ const Item = ({ title, to, icon, selected, setSelected }: any) => {
 			<Typography>{title}</Typography>
 			<Link to={to} />
 		</MenuItem>
+	);
+};
+
+const SubMenuItem = ({ label, selected, setSelected }: any) => {
+	const theme = useTheme();
+	const colors = tokens(theme.palette.mode);
+
+	return (
+		<SubMenu
+			title={label}
+			icon={<ReceiptOutlinedIcon />}
+			style={{
+				color: colors.grey[100]
+			}}
+		>
+			<Item
+				title="Lista e lejeve"
+				to="/admin/permissions"
+				icon={<ReceiptOutlinedIcon />}
+				selected={selected}
+				setSelected={setSelected}
+			/>
+			<Item
+				title="Rezervimi i lejeve"
+				to="/admin/calendar"
+				icon={<ReceiptOutlinedIcon />}
+				selected={selected}
+				setSelected={setSelected}
+			/>
+		</SubMenu>
 	);
 };
 
@@ -114,13 +144,7 @@ const Sidebar = () => {
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
-							title="Lejet"
-							to="/admin/permissions"
-							icon={<ReceiptOutlinedIcon />}
-							selected={selected}
-							setSelected={setSelected}
-						/>
+						<SubMenuItem label="Lejet" selected={selected} setSelected={setSelected} />
 						<Item
 							title="Projektet"
 							to="/admin/projects"

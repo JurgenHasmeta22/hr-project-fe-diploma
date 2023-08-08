@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import authenticationController from '~/services/authentication';
+import ILoginReq from '~/interfaces/ILoginReq';
 
 const initialValues = {
 	userName: '',
@@ -21,8 +23,13 @@ const loginSchema = yup.object().shape({
 });
 
 export default function Login() {
-	const handleFormSubmit = (values: any) => {
-		console.log(values);
+	const handleFormSubmit = async (values: any) => {
+		const payload: ILoginReq = {
+			userName: values.userName,
+			password: values.password
+		};
+		const response = await authenticationController.onLogin(payload);
+		console.log(response);
 	};
 
 	return (
@@ -52,12 +59,10 @@ export default function Login() {
 						<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 							<TextField
 								fullWidth
-								// autoFocus
-								// autoComplete="userName"
 								margin="normal"
 								label="Username"
 								name="userName"
-								// onBlur={handleBlur}
+								onBlur={handleBlur}
 								onChange={handleChange}
 								value={values.userName}
 								error={!!touched.userName && !!errors.userName}
@@ -65,13 +70,11 @@ export default function Login() {
 							/>
 							<TextField
 								fullWidth
-								// autoFocus
-								// autoComplete="password"
 								margin="normal"
 								name="password"
 								label="Password"
 								type="password"
-								// onBlur={handleBlur}
+								onBlur={handleBlur}
 								onChange={handleChange}
 								value={values.password}
 								error={!!touched.password && !!errors.password}
@@ -79,7 +82,7 @@ export default function Login() {
 							/>
 							<FormControlLabel
 								control={<Checkbox value="remember" color="primary" />}
-								label="Remember me"
+								label="Remember me ?"
 							></FormControlLabel>
 							<Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
 								Sign In
@@ -92,7 +95,7 @@ export default function Login() {
 										underline="none"
 										sx={{ color: '#fff' }}
 									>
-										Forgot password?
+										Forgot password ?
 									</Link>
 								</Grid>
 							</Grid>
