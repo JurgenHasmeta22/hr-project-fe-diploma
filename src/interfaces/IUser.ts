@@ -1,4 +1,10 @@
 export default interface IUser {
-	email: string;
-	password: string;
+	userId?: number;
+	userName: string
+	userFirstname: string
+	userLastname: string
+	userEmail: string
+	balancaLeje: number
+	userIsActive: number
+	password?: string;
 }

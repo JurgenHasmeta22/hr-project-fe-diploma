@@ -107,9 +107,6 @@ const Sidebar = () => {
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						{/* <Typography variant="h6" color={colors.grey[300]} sx={{ m: '15px 0 5px 20px' }}>
-							Te dhenat
-						</Typography> */}
 						<Item
 							title="Perdoruesit"
 							to="/admin/users"
@@ -117,29 +114,15 @@ const Sidebar = () => {
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						{/* <Item
+						<Item
 							title="Lejet"
 							to="/admin/permissions"
 							icon={<ReceiptOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
-						/> */}
-						<Item
-							title="Forme krijimi useri"
-							to="/admin/form"
-							icon={<PersonOutlinedIcon />}
-							selected={selected}
-							setSelected={setSelected}
 						/>
 						<Item
-							title="Kalendari per Lejet"
-							to="/admin/calendar"
-							icon={<PersonOutlinedIcon />}
-							selected={selected}
-							setSelected={setSelected}
-						/>
-						<Item
-							title="Lista e projekteve"
+							title="Projektet"
 							to="/admin/projects"
 							icon={<PersonOutlinedIcon />}
 							selected={selected}

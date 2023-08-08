@@ -5,7 +5,6 @@ import { useMode, ColorModeContext } from '~/utils/theme';
 const Dashboard = React.lazy(() => import('~/pages/dashboard'));
 const Permissions = React.lazy(() => import('~/pages/permissions'));
 const Users = React.lazy(() => import('~/pages/users'));
-const Register = React.lazy(() => import('~/pages/register'));
 const Login = React.lazy(() => import('~/pages/login'));
 const Form = React.lazy(() => import('~/components/form'));
 const Projects = React.lazy(() => import('~/pages/projects'));
@@ -38,14 +37,6 @@ function App() {
 							element={
 								<React.Suspense fallback={<>...</>}>
 									<Login />
-								</React.Suspense>
-							}
-						/>
-						<Route
-							path="/register"
-							element={
-								<React.Suspense fallback={<>...</>}>
-									<Register />
 								</React.Suspense>
 							}
 						/>
@@ -98,18 +89,18 @@ function App() {
 									</React.Suspense>
 								}
 							/>
-							{/* <Route
-								path="/admin/calendar"
+							<Route
+								path="/admin/form"
 								element={
 									<React.Suspense fallback={<>...</>}>
 										<Sidebar />
 										<main className="content">
 											<Topbar />
-											<Calendar />
+											<Form />
 										</main>
 									</React.Suspense>
 								}
-							/> */}
+							/>
 							<Route
 								path="/admin/projects"
 								element={
