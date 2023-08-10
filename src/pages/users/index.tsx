@@ -9,10 +9,15 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Users = () => {
+	const [users, setUsers] = useState<IUser[]>([]);
+	const [selectedRows, setSelectedRows] = useState<any[]>([]);
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const navigate = useNavigate();
 	const columns: any = [
 		{ field: 'userId', headerName: 'Id' },
 		{
@@ -60,22 +65,51 @@ const Users = () => {
 			flex: 1,
 			renderCell: (params: any) => (
 				<>
-					<Button onClick={() => {}}>
-						<EditOutlinedIcon color='action'/>
+					<Button
+						onClick={() => {
+							navigate(`/admin/editUser`, {
+								state: {
+									projectId: params.row.userId
+								}
+							});
+						}}
+					>
+						<EditOutlinedIcon color="action" />
 					</Button>
-					<Button onClick={() => {}}>
-						<OpenInNewOutlinedIcon  color='action' />
+					<Button
+						onClick={async () => {
+							const response = await usersController.deleteUser(params.row.userId);
+							if (response === '') {
+								toast.success('Elemini u krye me sukses !');
+								getUsers();
+							} else {
+								toast.error('Eleminimi nuk u realizua !');
+							}
+						}}
+					>
+						<ClearOutlinedIcon color="action" />
 					</Button>
 				</>
 			)
 		}
 	];
-	const [users, setUsers] = useState<IUser[]>([]);
 
 	async function getUsers(): Promise<void> {
 		const response: IUser[] = await usersController.getAllUsers();
 		setUsers(response);
 	}
+
+	const handleDeleteRow = async () => {
+		if (selectedRows.length !== 0) {
+			for (const element of selectedRows) {
+				const response = await usersController.deleteUser(element.userId);
+				if (response === '') {
+					toast.success('Eleminimi me sukses !');
+				}
+			}
+			getUsers();
+		}
+	};
 
 	useEffect(() => {
 		getUsers();
@@ -84,20 +118,35 @@ const Users = () => {
 	return (
 		<Box m="20px">
 			<Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
-			<Box display="flex" gap={'10px'}>
+			<Box display="flex" gap={'30px'}>
 				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
+					color="secondary"
+					variant="contained"
+					sx={{
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					}}
 				>
-					Add
+					Shto
 					<AddOutlinedIcon />
 				</Button>
 				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
+					color="secondary"
+					variant="contained"
+					sx={{
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					}}
+					onClick={() => {
+						handleDeleteRow();
+					}}
 				>
-					Delete
-					<ClearOutlinedIcon />
+					Elemino
+					<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
 				</Button>
 			</Box>
 			<Box
@@ -129,7 +178,16 @@ const Users = () => {
 					}
 				}}
 			>
-				<DataGrid checkboxSelection rows={users} columns={columns} />
+				<DataGrid
+					checkboxSelection
+					rows={users}
+					columns={columns}
+					onSelectionModelChange={(ids) => {
+						const clonedUsers = [...users];
+						const selectedRowsData = ids.map((id) => clonedUsers.find((row) => row.userId === id));
+						setSelectedRows(selectedRowsData);
+					}}
+				/>
 			</Box>
 		</Box>
 	);

@@ -6,12 +6,14 @@ import IProject from '~/interfaces/IProject';
 import { useEffect, useState } from 'react';
 import projectsController from '~/services/projects';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Projects = () => {
+	const [projects, setProjects] = useState<IProject[]>([]);
+	const [selectedRows, setSelectedRows] = useState<any[]>([]);
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
@@ -39,6 +41,7 @@ const Projects = () => {
 			filterable: false,
 			description: 'Mund te editosh dhe te fshish rekordin specifik',
 			flex: 1,
+			// align: 'center',
 			renderCell: (params: any) => (
 				<>
 					<Button
@@ -52,19 +55,40 @@ const Projects = () => {
 					>
 						<EditOutlinedIcon color="action" />
 					</Button>
-					<Button onClick={() => {}}>
-						<OpenInNewOutlinedIcon color="action" />
+					<Button
+						onClick={async () => {
+							const response = await projectsController.deleteProject(params.row.projektId);
+							if (response === '') {
+								toast.success('Elemini u krye me sukses !');
+								getProjects();
+							} else {
+								toast.error('Eleminimi nuk u realizua !');
+							}
+						}}
+					>
+						<ClearOutlinedIcon color="action" />
 					</Button>
 				</>
 			)
 		}
 	];
-	const [projects, setProjects] = useState<IProject[]>([]);
 
 	async function getProjects(): Promise<void> {
 		const response: IProject[] = await projectsController.getAllProjects();
 		setProjects(response);
 	}
+
+	const handleDeleteRow = async () => {
+		if (selectedRows.length !== 0) {
+			for (const element of selectedRows) {
+				const response = await projectsController.deleteProject(element.projektId);
+				if (response === '') {
+					toast.success('Eleminimi me sukses !');
+				}
+			}
+			getProjects();
+		}
+	};
 
 	useEffect(() => {
 		getProjects();
@@ -73,20 +97,35 @@ const Projects = () => {
 	return (
 		<Box m="20px">
 			<Header title="Projektet" subtitle="Lista e projekteve" />
-			<Box display="flex" gap={'10px'}>
+			<Box display="flex" gap={'30px'}>
 				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
+					color="secondary"
+					variant="contained"
+					sx={{
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					}}
 				>
-					Add
+					Shto
 					<AddOutlinedIcon />
 				</Button>
 				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
+					color="secondary"
+					variant="contained"
+					sx={{
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					}}
+					onClick={() => {
+						handleDeleteRow();
+					}}
 				>
-					Delete
-					<ClearOutlinedIcon />
+					Elemino
+					<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
 				</Button>
 			</Box>
 			<Box
@@ -123,6 +162,13 @@ const Projects = () => {
 					rows={projects}
 					columns={columns}
 					getRowId={(row) => String(row.projektId)}
+					onSelectionModelChange={(ids) => {
+						const clonedProjectd = [...projects];
+						const selectedRowsData = ids.map((id) =>
+							clonedProjectd.find((row) => row.projektId === id)
+						);
+						setSelectedRows(selectedRowsData);
+					}}
 				/>
 			</Box>
 		</Box>

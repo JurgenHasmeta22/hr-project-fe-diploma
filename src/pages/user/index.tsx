@@ -1,138 +1,228 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import { tokens } from '~/utils/theme';
+import { Box, Button, TextField, useMediaQuery } from '@mui/material';
 import Header from '~/components/dashboard/Header';
 import { useState, useEffect } from 'react';
-import IUser from '~/interfaces/IUser';
+import { useLocation, useNavigate } from 'react-router';
 import usersController from '~/services/users';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import IUser from '~/interfaces/IUser';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
-const Users = () => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-	const columns: any = [
-		{ field: 'userId', headerName: 'Id' },
-		{
-			field: 'Username',
-			headerName: 'userName',
-			flex: 1
-		},
-		{
-			field: 'userFirstname',
-			headerName: 'Emri',
-			flex: 1
-		},
-		{
-			field: 'userLastname',
-			headerName: 'Mbiemri',
-			flex: 1
-		},
-		{
-			field: 'userEmail',
-			headerName: 'Email',
-			flex: 1
-		},
-		{
-			field: 'userIsActive',
-			headerName: 'Statusi',
-			flex: 1
-		},
-		{
-			field: 'balancaLeje',
-			headerName: 'Balanca e lejeve',
-			flex: 1
-		},
-		{
-			field: 'password',
-			headerName: 'Passwordi',
-			flex: 1
-		},
-		{
-			field: '',
-			headerName: 'Veprimet',
-			sortable: false,
-			disableClickEventBubbling: true,
-			filterable: false,
-			description: 'Mund te editosh dhe te fshish rekordin specifik',
-			flex: 1,
-			renderCell: (params: any) => (
-				<>
-					<Button onClick={() => {}}>
-						<EditOutlinedIcon color='action'/>
-					</Button>
-					<Button onClick={() => {}}>
-						<OpenInNewOutlinedIcon  color='action' />
-					</Button>
-				</>
-			)
+const checkoutSchema = yup.object().shape({
+	emriProjekt: yup.string().required('required'),
+	pershkrimProjekt: yup.string().required('required')
+});
+
+const User = () => {
+	const [user, setUser] = useState<IUser | null>(null);
+	const [userId, setUserId] = useState<number | undefined>(0);
+	const [userName, setUserName] = useState<string>('');
+	const [userFirstname, setUserFirstname] = useState<string>('');
+	const [userLastname, setUserLastname] = useState<string>('');
+	const [userEmail, setUserEmail] = useState<string>('');
+	const [balancaLeje, setBalancaLeje] = useState<number>(0);
+	const [userIsActive, setUserIsActive] = useState<number>(0);
+	const [password, setPassword] = useState<string>('');
+	const navigate = useNavigate();
+	const location = useLocation();
+	const isNonMobile = useMediaQuery('(min-width:600px)');
+
+	const handleFormSubmit = async (values: any) => {
+		const payload = {
+			userName: values.userName,
+			userFirstname: values.userFirstname,
+			userLastname: values.userLastname,
+			userEmail: values.userEmail,
+			balancaLeje: values.balancaLeje,
+			userIsActive: values.userIsActive,
+			password: values.password
+		};
+
+		const response = await usersController.updateUser(user?.userId, payload);
+		if (response === '') {
+			getUser();
 		}
-	];
-	const [users, setUsers] = useState<IUser[]>([]);
+	};
 
-	async function getUsers(): Promise<void> {
-		const response: IUser[] = await usersController.getAllUsers();
-		setUsers(response);
+	async function getUser(): Promise<void> {
+		const response: IUser = await usersController.getUser(location.state?.userId!);
+		setUser(response);
+		setUserId(response.userId!);
+		setUserName(response.userName);
+		setUserFirstname(response.userFirstname);
+		setUserLastname(response.userLastname);
+		setUserEmail(response.userEmail);
+		setBalancaLeje(response.balancaLeje);
+		setUserIsActive(response.userIsActive);
+		setPassword(response.password!);
 	}
 
 	useEffect(() => {
-		getUsers();
+		getUser();
 	}, []);
 
 	return (
 		<Box m="20px">
-			<Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
-			<Box display="flex" gap={'10px'}>
-				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
-				>
-					Add
-					<AddOutlinedIcon />
-				</Button>
-				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
-				>
-					Delete
-					<ClearOutlinedIcon />
-				</Button>
-			</Box>
-			<Box
-				m="40px 0 0 0"
-				height="75vh"
-				sx={{
-					'& .MuiDataGrid-root': {
-						border: 'none'
-					},
-					'& .MuiDataGrid-cell': {
-						borderBottom: 'none'
-					},
-					'& .name-column--cell': {
-						color: colors.greenAccent[300]
-					},
-					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.blueAccent[700],
-						borderBottom: 'none'
-					},
-					'& .MuiDataGrid-virtualScroller': {
-						backgroundColor: colors.primary[400]
-					},
-					'& .MuiDataGrid-footerContainer': {
-						borderTop: 'none',
-						backgroundColor: colors.blueAccent[700]
-					},
-					'& .MuiCheckbox-root': {
-						color: `${colors.greenAccent[200]} !important`
-					}
+			<Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
+			<Formik
+				onSubmit={handleFormSubmit}
+				initialValues={{
+					userId,
+					userName,
+					userFirstname,
+					userLastname,
+					userEmail,
+					balancaLeje,
+					userIsActive,
+					password
 				}}
+				validationSchema={checkoutSchema}
+				enableReinitialize
 			>
-				<DataGrid checkboxSelection rows={users} columns={columns} />
-			</Box>
+				{({ values, errors, touched, handleBlur, handleChange, handleSubmit }: any) => (
+					<form onSubmit={handleSubmit}>
+						<Box
+							display="grid"
+							gap="30px"
+							gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+							sx={{
+								'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' }
+							}}
+						>
+							<TextField
+								fullWidth
+								disabled={true}
+								variant="filled"
+								type="text"
+								label="Id e perdoruesit"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.userId}
+								name="userId"
+								error={!!touched.userId && !!errors.userId}
+								helperText={touched.userId && errors.userId}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Username"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.userName}
+								name="userName"
+								error={!!touched.userName && !!errors.userName}
+								helperText={touched.userName && errors.userName}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Emri i perdoruesit"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.userFirstname}
+								name="userFirstname"
+								error={!!touched.userFirstname && !!errors.userFirstname}
+								helperText={touched.userFirstname && errors.userFirstname}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Mbiemri i perdoruesit"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.userLastname}
+								name="userLastname"
+								error={!!touched.userLastname && !!errors.userLastname}
+								helperText={touched.userLastname && errors.userLastname}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Emaili i perdoruesit"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.userEmail}
+								name="userEmail"
+								error={!!touched.userEmail && !!errors.userEmail}
+								helperText={touched.userEmail && errors.userEmail}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Balanca e lejeve te perdoruesit"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.balancaLeje}
+								name="balancaLeje"
+								error={!!touched.balancaLeje && !!errors.balancaLeje}
+								helperText={touched.balancaLeje && errors.balancaLeje}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+							<TextField
+								fullWidth
+								variant="filled"
+								type="text"
+								label="Statusi i perdoruesit"
+								onBlur={handleBlur}
+								onChange={handleChange}
+								value={values.userIsActive}
+								name="userIsActive"
+								error={!!touched.userIsActive && !!errors.userIsActive}
+								helperText={touched.userIsActive && errors.userIsActive}
+								sx={{ gridColumn: 'span 2' }}
+							/>
+						</Box>
+						<Box display="flex" justifyContent="end" mt="50px" gap="30px">
+							<Button
+								type="submit"
+								color="secondary"
+								variant="contained"
+								sx={{
+									border: '1px solid #000',
+									bgcolor: '#30969f',
+									fontSize: '15px',
+									fontWeight: '700'
+								}}
+							>
+								Ruaj ndryshimet
+								<SaveAsIcon sx={{ ml: '10px' }} color="action" />
+							</Button>
+							<Button
+								color="secondary"
+								variant="contained"
+								sx={{
+									border: '1px solid #000',
+									bgcolor: '#ff5252',
+									fontSize: '15px',
+									fontWeight: '700'
+								}}
+								onClick={async () => {
+									const response = await usersController.deleteUser(user?.userId);
+									if (response === '') {
+										navigate('/admin/users');
+									}
+								}}
+							>
+								Elemino
+								<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+							</Button>
+						</Box>
+					</form>
+				)}
+			</Formik>
 		</Box>
 	);
 };
 
-export default Users;
+export default User;
