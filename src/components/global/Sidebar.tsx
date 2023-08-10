@@ -50,7 +50,7 @@ const SubMenuItem = ({ label, selected, setSelected }: any) => {
 			/>
 			<Item
 				title="Rezervimi i lejeve"
-				to="/admin/calendar"
+				to="/admin/permissionReservation"
 				icon={<ReceiptOutlinedIcon />}
 				selected={selected}
 				setSelected={setSelected}
