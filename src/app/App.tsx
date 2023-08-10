@@ -11,6 +11,7 @@ const Projects = React.lazy(() => import('~/pages/projects'));
 // const Calendar = React.lazy(() => import('~/pages/calendar'));
 const Error = React.lazy(() => import('~/pages/error'));
 const Project = React.lazy(() => import('~/pages/project'));
+const User = React.lazy(() => import('~/pages/user'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
 import PrivateRoutes from '~/utils/PrivateRoutes';
@@ -122,6 +123,18 @@ function App() {
 										<main className="content">
 											<Topbar />
 											<Project />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/editUser"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<User />
 										</main>
 									</React.Suspense>
 								}
