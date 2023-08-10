@@ -29,7 +29,6 @@ export default function Login() {
 			password: values.password
 		};
 		const response = await authenticationController.onLogin(payload);
-		console.log(response);
 	};
 
 	return (

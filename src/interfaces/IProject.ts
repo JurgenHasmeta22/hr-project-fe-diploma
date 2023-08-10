@@ -1,5 +1,5 @@
 export default interface  IProject {
     projektId?: string,
-    emriProjekt: number,
-    pershkrimProjekt: number,
+    emriProjekt: string,
+    pershkrimProjekt: string,
 }
