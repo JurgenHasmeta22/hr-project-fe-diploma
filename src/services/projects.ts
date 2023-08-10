@@ -4,6 +4,9 @@ const projectsController = {
 	getAllProjects: async () => {
 		return await axios.get('https://localhost:7006/Projekt/getAllProjects').then((x) => x.data);
 	},
+	getProject: async (projectId: string) => {
+		return await axios.get(`https://localhost:7006/Projekt/GetById/${projectId}`).then((x) => x.data);
+	},
 	deleteProject: async (projectId: any) => {
 		return await axios.delete(`https://localhost:7006/Projekt/Delete/${projectId}`).then((x) => x.data);
 	},

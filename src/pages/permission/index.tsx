@@ -2,33 +2,52 @@ import { Box, Button, Typography, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
-import IProject from '~/interfaces/IProject';
-import { useEffect, useState } from 'react';
-import projectsController from '~/services/projects';
+import { useState, useEffect } from 'react';
+import IUser from '~/interfaces/IUser';
+import usersController from '~/services/users';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { useNavigate } from 'react-router-dom';
 
-const Projects = () => {
+const Users = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const navigate = useNavigate();
-	const columns = [
+	const columns: any = [
+		{ field: 'userId', headerName: 'Id' },
 		{
-			field: 'projektId',
-			headerName: 'Id',
+			field: 'Username',
+			headerName: 'userName',
 			flex: 1
 		},
 		{
-			field: 'emriProjekt',
-			headerName: 'Emri i projektit',
+			field: 'userFirstname',
+			headerName: 'Emri',
 			flex: 1
 		},
 		{
-			field: 'pershkrimProjekt',
-			headerName: 'Pershkrimi i projektit',
+			field: 'userLastname',
+			headerName: 'Mbiemri',
+			flex: 1
+		},
+		{
+			field: 'userEmail',
+			headerName: 'Email',
+			flex: 1
+		},
+		{
+			field: 'userIsActive',
+			headerName: 'Statusi',
+			flex: 1
+		},
+		{
+			field: 'balancaLeje',
+			headerName: 'Balanca e lejeve',
+			flex: 1
+		},
+		{
+			field: 'password',
+			headerName: 'Passwordi',
 			flex: 1
 		},
 		{
@@ -41,38 +60,30 @@ const Projects = () => {
 			flex: 1,
 			renderCell: (params: any) => (
 				<>
-					<Button
-						onClick={() => {
-							navigate(`/admin/editProject`, {
-								state: {
-									projectId: params.row.projektId
-								}
-							});
-						}}
-					>
-						<EditOutlinedIcon color="action" />
+					<Button onClick={() => {}}>
+						<EditOutlinedIcon color='action'/>
 					</Button>
 					<Button onClick={() => {}}>
-						<OpenInNewOutlinedIcon color="action" />
+						<OpenInNewOutlinedIcon  color='action' />
 					</Button>
 				</>
 			)
 		}
 	];
-	const [projects, setProjects] = useState<IProject[]>([]);
+	const [users, setUsers] = useState<IUser[]>([]);
 
-	async function getProjects(): Promise<void> {
-		const response: IProject[] = await projectsController.getAllProjects();
-		setProjects(response);
+	async function getUsers(): Promise<void> {
+		const response: IUser[] = await usersController.getAllUsers();
+		setUsers(response);
 	}
 
 	useEffect(() => {
-		getProjects();
+		getUsers();
 	}, []);
 
 	return (
 		<Box m="20px">
-			<Header title="Projektet" subtitle="Lista e projekteve" />
+			<Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
 			<Box display="flex" gap={'10px'}>
 				<Button
 					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
@@ -118,15 +129,10 @@ const Projects = () => {
 					}
 				}}
 			>
-				<DataGrid
-					checkboxSelection
-					rows={projects}
-					columns={columns}
-					getRowId={(row) => String(row.projektId)}
-				/>
+				<DataGrid checkboxSelection rows={users} columns={columns} />
 			</Box>
 		</Box>
 	);
 };
 
-export default Projects;
+export default Users;
