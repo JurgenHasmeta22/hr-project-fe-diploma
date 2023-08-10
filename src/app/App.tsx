@@ -6,9 +6,8 @@ const Dashboard = React.lazy(() => import('~/pages/dashboard'));
 const Permissions = React.lazy(() => import('~/pages/permissions'));
 const Users = React.lazy(() => import('~/pages/users'));
 const Login = React.lazy(() => import('~/pages/login'));
-const Form = React.lazy(() => import('~/components/form'));
 const Projects = React.lazy(() => import('~/pages/projects'));
-// const Calendar = React.lazy(() => import('~/pages/calendar'));
+const PermissionReservation = React.lazy(() => import('~/pages/permissionReservation'));
 const Error = React.lazy(() => import('~/pages/error'));
 const Project = React.lazy(() => import('~/pages/project'));
 const User = React.lazy(() => import('~/pages/user'));
@@ -82,30 +81,6 @@ function App() {
 								}
 							/>
 							<Route
-								path="/admin/form"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Form />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/form"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Form />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
 								path="/admin/projects"
 								element={
 									<React.Suspense fallback={<>...</>}>
@@ -161,6 +136,18 @@ function App() {
 										<main className="content">
 											<Topbar />
 											<CreateProject />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/admin/permissionReservation"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<Sidebar />
+										<main className="content">
+											<Topbar />
+											<PermissionReservation />
 										</main>
 									</React.Suspense>
 								}

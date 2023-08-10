@@ -7,8 +7,9 @@ import listPlugin from '@fullcalendar/list';
 import { Box, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
+import '@fullcalendar/core/vdom'
 
-const Calendar = () => {
+const permissionReservation = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const [currentEvents, setCurrentEvents] = useState([]);
@@ -37,7 +38,7 @@ const Calendar = () => {
 
 	return (
 		<Box m="20px">
-			<Header title="Calendar" subtitle="Full Calendar Interactive Page" />
+			<Header title="Rezervimi i lejeve" subtitle="Marrja e lejeve per punonjesit" />
 			<Box display="flex" justifyContent="space-between">
 				<Box
 					flex="1 1 20%"
@@ -45,7 +46,7 @@ const Calendar = () => {
 					p="15px"
 					borderRadius="4px"
 				>
-					<Typography variant="h5">Events</Typography>
+					<Typography variant="h5">Lista e lejeve</Typography>
 					<List>
 						{currentEvents.map((event: any) => (
 							<ListItem
@@ -74,7 +75,7 @@ const Calendar = () => {
 				</Box>
 				<Box flex="1 1 100%" ml="15px">
 					<FullCalendar
-						height="75vh"
+						height="100vh"
 						plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 						headerToolbar={{
 							left: 'prev,next today',
@@ -101,6 +102,7 @@ const Calendar = () => {
 								date: '2022-09-28'
 							}
 						]}
+						allDaySlot={true}
 					/>
 				</Box>
 			</Box>
@@ -108,4 +110,4 @@ const Calendar = () => {
 	);
 };
 
-export default Calendar;
+export default permissionReservation;

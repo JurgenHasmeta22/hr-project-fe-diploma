@@ -105,13 +105,12 @@ const User = () => {
 				}}
 				validationSchema={checkoutSchema}
 				enableReinitialize
-				// onReset={}
 			>
 				{({ values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm }: any) => (
 					<form onSubmit={handleSubmit}>
 						<Box
 							display="grid"
-							gap="30px"
+							gap="20px"
 							gridTemplateColumns="repeat(4, minmax(0, 1fr))"
 							sx={{
 								'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' }
@@ -210,7 +209,7 @@ const User = () => {
 								sx={{ gridColumn: 'span 2' }}
 							/>
 						</Box>
-						<Box display="flex" justifyContent="end" gap="30px">
+						<Box display="flex" justifyContent="end" mt="30px" gap="30px">
 							<Button
 								type="submit"
 								color="secondary"
