@@ -52,10 +52,10 @@ const Permissions = () => {
 			renderCell: (params: any) => (
 				<>
 					<Button onClick={() => {}}>
-						<EditOutlinedIcon color='action'/>
+						<EditOutlinedIcon color="action" />
 					</Button>
 					<Button onClick={() => {}}>
-						<OpenInNewOutlinedIcon  color='action' />
+						<OpenInNewOutlinedIcon color="action" />
 					</Button>
 				</>
 			)
@@ -76,22 +76,38 @@ const Permissions = () => {
 	return (
 		<Box m="20px">
 			<Header title="Lejet" subtitle="Lista e lejeve" />
-			<Box display="flex" gap={'10px'}>
+			<Box display="flex" gap={'30px'}>
 				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={() => {}}
+					color="secondary"
+					variant="contained"
+					sx={{
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					}}
+					onClick={() => {
+						// navigate('/admin/addProject');
+					}}
 				>
-					Add
+					Shto
 					<AddOutlinedIcon />
 				</Button>
 				<Button
-					sx={{ border: '2px solid #000', bgcolor: '#ff5252', fontSize: '16px' }}
-					onClick={(e: any) => {
-						e.stopPropagation()
+					color="secondary"
+					variant="contained"
+					sx={{
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					}}
+					onClick={() => {
+						// handleDeleteRow();
 					}}
 				>
-					Delete
-					<ClearOutlinedIcon />
+					Elemino
+					<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
 				</Button>
 			</Box>
 			<Box
