@@ -1,4 +1,4 @@
-import { Box, Button, TextField, useMediaQuery } from '@mui/material';
+import { Box, Breadcrumbs, Button, TextField, Typography, useMediaQuery } from '@mui/material';
 import Header from '~/components/dashboard/Header';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -8,6 +8,10 @@ import * as yup from 'yup';
 import IUser from '~/interfaces/IUser';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 const checkoutSchema = yup.object().shape({
 	emriProjekt: yup.string().required('required'),
@@ -27,6 +31,14 @@ const User = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isNonMobile = useMediaQuery('(min-width:600px)');
+	const breadcrumbs = [
+		<Link key="1" to={'/admin/users'} style={{ textDecoration: 'none' }}>
+			{location.state?.from!}
+		</Link>,
+		<Typography key="2" color="text.primary">
+			Detajet e perdoruesit
+		</Typography>
+	];
 
 	const handleFormSubmit = async (values: any) => {
 		const payload = {
@@ -64,6 +76,20 @@ const User = () => {
 
 	return (
 		<Box m="20px">
+			<Box mb={'30px'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'20px'}>
+				<Button
+					color="secondary"
+					variant="contained"
+					onClick={() => {
+						navigate('/admin/users');
+					}}
+				>
+					<ArrowBackIcon color="action" />
+				</Button>
+				<Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+					{breadcrumbs}
+				</Breadcrumbs>
+			</Box>
 			<Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
 			<Formik
 				onSubmit={handleFormSubmit}
@@ -79,8 +105,9 @@ const User = () => {
 				}}
 				validationSchema={checkoutSchema}
 				enableReinitialize
+				// onReset={}
 			>
-				{({ values, errors, touched, handleBlur, handleChange, handleSubmit }: any) => (
+				{({ values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm }: any) => (
 					<form onSubmit={handleSubmit}>
 						<Box
 							display="grid"
@@ -183,7 +210,7 @@ const User = () => {
 								sx={{ gridColumn: 'span 2' }}
 							/>
 						</Box>
-						<Box display="flex" justifyContent="end" mt="50px" gap="30px">
+						<Box display="flex" justifyContent="end" gap="30px">
 							<Button
 								type="submit"
 								color="secondary"
@@ -216,6 +243,23 @@ const User = () => {
 							>
 								Elemino
 								<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+							</Button>
+							<Button
+								onClick={() => {
+									resetForm();
+								}}
+								type="reset"
+								color="secondary"
+								variant="contained"
+								sx={{
+									border: '1px solid #000',
+									bgcolor: '#ff5252',
+									fontSize: '15px',
+									fontWeight: '700'
+								}}
+							>
+								Anullo
+								<ClearAllIcon color="action" sx={{ ml: '10px' }} />
 							</Button>
 						</Box>
 					</form>

@@ -1,4 +1,12 @@
-import { Box, Button, TextField, useMediaQuery } from '@mui/material';
+import {
+	Box,
+	Breadcrumbs,
+	Button,
+	// Link,
+	TextField,
+	Typography,
+	useMediaQuery
+} from '@mui/material';
 import Header from '~/components/dashboard/Header';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
@@ -9,6 +17,10 @@ import * as yup from 'yup';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import { toast } from 'react-toastify';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 const checkoutSchema = yup.object().shape({
 	emriProjekt: yup.string().required('required'),
@@ -23,6 +35,19 @@ const Project = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isNonMobile = useMediaQuery('(min-width:600px)');
+	const breadcrumbs = [
+		<Link
+			key="1"
+			// to={`${location.pathname}`}
+			to={'/admin/projects'}
+			style={{ textDecoration: 'none' }}
+		>
+			{location.state?.from!}
+		</Link>,
+		<Typography key="2" color="text.primary">
+			Project details
+		</Typography>
+	];
 
 	const handleFormSubmit = async (values: any) => {
 		const payload = {
@@ -53,6 +78,21 @@ const Project = () => {
 
 	return (
 		<Box m="20px">
+			{/* <Box m="20px" display='flex' flexDirection="column" gap='30px'> */}
+			<Box mb={'30px'} display={'flex'} flexDirection={'row'} alignItems={'center'} gap={'20px'}>
+				<Button
+					color="secondary"
+					variant="contained"
+					onClick={() => {
+						navigate('/admin/projects');
+					}}
+				>
+					<ArrowBackIcon color="action" />
+				</Button>
+				<Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+					{breadcrumbs}
+				</Breadcrumbs>
+			</Box>
 			<Header title="Detajet e projektit" subtitle="Vizualizo dhe edito projektin" />
 			<Formik
 				onSubmit={handleFormSubmit}
@@ -64,7 +104,7 @@ const Project = () => {
 				validationSchema={checkoutSchema}
 				enableReinitialize
 			>
-				{({ values, errors, touched, handleBlur, handleChange, handleSubmit }: any) => (
+				{({ values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm }: any) => (
 					<form onSubmit={handleSubmit}>
 						<Box
 							display="grid"
@@ -152,6 +192,23 @@ const Project = () => {
 							>
 								Elemino
 								<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+							</Button>
+							<Button
+								onClick={() => {
+									resetForm();
+								}}
+								type="reset"
+								color="secondary"
+								variant="contained"
+								sx={{
+									border: '1px solid #000',
+									bgcolor: '#ff5252',
+									fontSize: '15px',
+									fontWeight: '700'
+								}}
+							>
+								Anullo
+								<ClearAllIcon color="action" sx={{ ml: '10px' }} />
 							</Button>
 						</Box>
 					</form>

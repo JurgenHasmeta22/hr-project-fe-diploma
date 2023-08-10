@@ -48,7 +48,8 @@ const Projects = () => {
 						onClick={() => {
 							navigate(`/admin/editProject`, {
 								state: {
-									projectId: params.row.projektId
+									projectId: params.row.projektId,
+									from: "Projektet"
 								}
 							});
 						}}

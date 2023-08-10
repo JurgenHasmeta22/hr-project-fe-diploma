@@ -69,7 +69,8 @@ const Users = () => {
 						onClick={() => {
 							navigate(`/admin/editUser`, {
 								state: {
-									projectId: params.row.userId
+									projectId: params.row.userId,
+									from: 'Perdoruesit'
 								}
 							});
 						}}
