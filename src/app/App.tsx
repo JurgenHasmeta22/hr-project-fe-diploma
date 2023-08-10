@@ -13,6 +13,7 @@ const Project = React.lazy(() => import('~/pages/project'));
 const User = React.lazy(() => import('~/pages/user'));
 const CreateUser = React.lazy(() => import('~/pages/createUser'));
 const CreateProject = React.lazy(() => import('~/pages/createProject'));
+const Profile = React.lazy(() => import('~/pages/profile'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
 import PrivateRoutes from '~/utils/PrivateRoutes';
@@ -148,6 +149,17 @@ function App() {
 										<main className="content">
 											<Topbar />
 											<PermissionReservation />
+										</main>
+									</React.Suspense>
+								}
+							/>
+							<Route
+								path="/profile"
+								element={
+									<React.Suspense fallback={<>...</>}>
+										<main className="content">
+											<Topbar />
+											<Profile />
 										</main>
 									</React.Suspense>
 								}
