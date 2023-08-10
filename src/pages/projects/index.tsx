@@ -107,6 +107,9 @@ const Projects = () => {
 						fontSize: '15px',
 						fontWeight: '700'
 					}}
+					onClick={() => {
+						navigate('/admin/addProject');
+					}}
 				>
 					Shto
 					<AddOutlinedIcon />

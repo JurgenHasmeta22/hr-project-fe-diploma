@@ -128,6 +128,9 @@ const Users = () => {
 						fontSize: '15px',
 						fontWeight: '700'
 					}}
+					onClick={() => {
+						navigate('/admin/addUser');
+					}}
 				>
 					Shto
 					<AddOutlinedIcon />
