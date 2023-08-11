@@ -1,13 +1,10 @@
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
 import { useState, useEffect } from 'react';
 import IPermission from '~/interfaces/IPermission';
 import permissionsController from '~/services/permissions';
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
 
 const Permissions = () => {
@@ -77,24 +74,6 @@ const Permissions = () => {
 	return (
 		<Box m="20px">
 			<Header title="Lejet" subtitle="Lista e lejeve" />
-			<Box display="flex" gap={'30px'}>
-				<Button
-					color="secondary"
-					variant="contained"
-					sx={{
-						border: '1px solid #000',
-						bgcolor: '#30969f',
-						fontSize: '15px',
-						fontWeight: '700'
-					}}
-					onClick={() => {
-						navigate('/admin/permissionReservation');
-					}}
-				>
-					Shto
-					<AddOutlinedIcon />
-				</Button>
-			</Box>
 			<Box
 				m="40px 0 0 0"
 				height="75vh"
@@ -124,7 +103,7 @@ const Permissions = () => {
 					}
 				}}
 			>
-				<DataGrid checkboxSelection rows={permissions} columns={columns} />
+				<DataGrid rows={permissions} columns={columns} />
 			</Box>
 		</Box>
 	);
