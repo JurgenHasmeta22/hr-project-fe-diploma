@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 	Button,
 	Dialog,
@@ -15,7 +15,7 @@ import {
 	InputLabel
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikProps } from 'formik';
 
 type FieldConfig = {
 	name: string;
@@ -33,13 +33,25 @@ type ModalProps = {
 	onSave: (values: any) => void;
 	title: string;
 	actions: ActionConfig[];
+	formRef?: React.Ref<FormikProps<any>>;
+	onDataChange: (values: any) => void;
+	subTitle?: string;
 };
 
 type ActionConfig = {
 	label: string;
 	onClick: () => void;
 	type?: string;
-	color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+	// color?: any;
+	color?:
+		| 'inherit'
+		| 'primary'
+		| 'secondary'
+		| 'success'
+		| 'error'
+		| 'info'
+		| 'warning'
+		| 'default';
 	variant?: 'text' | 'outlined' | 'contained';
 	icon?: React.ReactNode;
 	sx?: any;
@@ -53,14 +65,17 @@ const Modal: React.FC<ModalProps> = ({
 	validationSchema,
 	onSave,
 	title,
-	actions
+	actions,
+	formRef,
+	onDataChange,
+	subTitle
 }) => {
 	return (
 		<Dialog
 			open={open}
 			onClose={onClose}
 			fullWidth
-			maxWidth="md"
+			// maxWidth="md"
 			// PaperProps={{ style: { backgroundColor: '#FAFAFA' } }}
 		>
 			<DialogTitle fontSize={'26px'}>
@@ -70,7 +85,7 @@ const Modal: React.FC<ModalProps> = ({
 				</IconButton>
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText fontSize={'18px'}>Plotesoni detajet e lejes</DialogContentText>
+				<DialogContentText fontSize={'18px'}>{subTitle}</DialogContentText>
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
@@ -78,57 +93,63 @@ const Modal: React.FC<ModalProps> = ({
 						onSave(values);
 						onClose();
 					}}
+					innerRef={formRef}
 				>
-					{({ errors, touched, resetForm }) => (
-						<Form>
-							<Grid container spacing={4} mt={'10px'}>
-								{fields.map((field) => (
-									<Grid item xs={6} key={field.name}>
-										{field.type === 'select' ? (
-											<FormControl fullWidth size="medium">
-												<InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
-												<Field name={field.name} labelId={`${field.name}-label`} as={Select}>
-													{field.options?.map((option) => (
-														<MenuItem key={option.value} value={option.value}>
-															{option.label}
-														</MenuItem>
-													))}
-												</Field>
-											</FormControl>
-										) : (
-											<Field
-												as={TextField}
-												name={field.name}
-												label={field.label}
-												fullWidth
-												size="medium"
-												type={field.type || 'text'}
-												helperText={touched[field.name] && errors[field.name]}
-												error={touched[field.name] && !!errors[field.name]}
-												InputLabelProps={field.type === 'date' ? { shrink: true } : undefined}
-											/>
-										)}
-									</Grid>
-								))}
-							</Grid>
-							<DialogActions>
-								{actions.map((action, index) => (
-									<Button
-										key={index}
-										onClick={action.onClick}
-										// @ts-ignore
-										color={action.color || 'default'}
-										variant={action.variant || 'text'}
-										sx={action.sx}
-										type={action.type}
-										endIcon={action.icon}
-									>
-										{action.label}
-									</Button>
-								))}
-							</DialogActions>
-						</Form>
-					)}
+					{({ errors, touched, values }) => {
+						useEffect(() => {
+							onDataChange(values);
+						}, [values]);
+						return (
+							<Form>
+								<Grid container spacing={4} mt={'10px'}>
+									{fields.map((field) => (
+										<Grid item xs={6} key={field.name}>
+											{field.type === 'select' ? (
+												<FormControl fullWidth size="medium">
+													<InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+													<Field name={field.name} labelId={`${field.name}-label`} as={Select}>
+														{field.options?.map((option) => (
+															<MenuItem key={option.value} value={option.value}>
+																{option.label}
+															</MenuItem>
+														))}
+													</Field>
+												</FormControl>
+											) : (
+												<Field
+													as={TextField}
+													name={field.name}
+													label={field.label}
+													fullWidth
+													size="medium"
+													type={field.type || 'text'}
+													helperText={touched[field.name] && errors[field.name]}
+													error={touched[field.name] && !!errors[field.name]}
+													InputLabelProps={field.type === 'date' ? { shrink: true } : undefined}
+												/>
+											)}
+										</Grid>
+									))}
+								</Grid>
+								<DialogActions style={{ marginTop: '15px' }}>
+									{actions.map((action, index) => (
+										<Button
+											key={index}
+											onClick={action.onClick}
+											// @ts-ignore
+											color={action.color || 'default'}
+											variant={action.variant || 'text'}
+											sx={action.sx}
+											type={action.type}
+											endIcon={action.icon}
+										>
+											{action.label}
+										</Button>
+									))}
+								</DialogActions>
+							</Form>
+						);
+					}}
 				</Formik>
 			</DialogContent>
 		</Dialog>
