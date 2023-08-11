@@ -1,33 +1,30 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { purple } from '@mui/material/colors';
+import React from 'react';
+import { Box, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-export default function Error() {
-	const primary = purple[500]; // #f44336
+const Error: React.FC = () => {
+	const navigate = useNavigate();
 
 	return (
 		<Box
-			sx={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				flexDirection: 'column',
-				backgroundColor: primary
-			}}
+			display="flex"
+			flexDirection="column"
+			justifyContent="center"
+			alignItems="center"
+			height="100vh"
+			textAlign="center"
 		>
-			<Container>
-				<Grid container>
-					<Grid>
-						<Typography variant="h1" style={{ color: 'white' }}>
-							404
-						</Typography>
-						<Typography variant="h6" style={{ color: 'white' }}>
-							The page you’re looking for doesn’t exist.
-						</Typography>
-						{/* <Button variant="contained">Back Home</Button> */}
-					</Grid>
-				</Grid>
-			</Container>
+			<Typography variant="h1" gutterBottom>
+				404
+			</Typography>
+			<Typography variant="h4" gutterBottom>
+				Page Not Found
+			</Typography>
+			<Button variant="contained" color="primary" onClick={() => navigate('/admin/dashboard')}>
+				Go to Home
+			</Button>
 		</Box>
 	);
-}
+};
+
+export default Error;
