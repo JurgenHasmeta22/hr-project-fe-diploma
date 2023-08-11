@@ -7,27 +7,39 @@ import listPlugin from '@fullcalendar/list';
 import { Box, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
-import '@fullcalendar/core/vdom'
+import '@fullcalendar/core/vdom';
+import Modal from '~/components/modal';
+import * as Yup from 'yup';
 
 const permissionReservation = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const [currentEvents, setCurrentEvents] = useState([]);
+	const [permissions, setPermissions] = useState([]);
+	const [currentPermissions, setCurrentPermissions] = useState([]);
+	const [open, setOpen] = useState(false);
+
+	const handleClose = () => {
+		setOpen(false);
+		// setCurrentPermissions(null);
+	};
+
+	const handleSave = (permission: any) => {
+		handleClose();
+	};
 
 	const handleDateClick = (selected: any) => {
-		const title = prompt('Please enter a new title for your event');
+		setOpen(true);
 		const calendarApi = selected.view.calendar;
 		calendarApi.unselect();
 
-		if (title) {
-			calendarApi.addEvent({
-				id: `${selected.dateStr}-${title}`,
-				title,
-				start: selected.startStr,
-				end: selected.endStr,
-				allDay: selected.allDay
-			});
-		}
+		// if (title) {
+		// calendarApi.addEvent({
+		// 	id: `${selected.dateStr}-${title}`,
+		// 	title,
+		// 	start: selected.startStr,
+		// 	end: selected.endStr,
+		// 	allDay: selected.allDay
+		// });
 	};
 
 	const handleEventClick = (selected: any) => {
@@ -48,7 +60,7 @@ const permissionReservation = () => {
 				>
 					<Typography variant="h5">Lista e lejeve</Typography>
 					<List>
-						{currentEvents.map((event: any) => (
+						{currentPermissions.map((event: any) => (
 							<ListItem
 								key={event.id}
 								sx={{
@@ -80,7 +92,7 @@ const permissionReservation = () => {
 						headerToolbar={{
 							left: 'prev,next today',
 							center: 'title',
-							right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+							right: 'dayGridMonth'
 						}}
 						initialView="dayGridMonth"
 						editable={true}
@@ -89,7 +101,7 @@ const permissionReservation = () => {
 						dayMaxEvents={true}
 						select={handleDateClick}
 						eventClick={handleEventClick}
-						eventsSet={(events: any) => setCurrentEvents(events)}
+						eventsSet={(events: any) => setCurrentPermissions(events)}
 						initialEvents={[
 							{
 								id: '12315',
@@ -103,6 +115,37 @@ const permissionReservation = () => {
 							}
 						]}
 						allDaySlot={true}
+					/>
+					<Modal
+						open={open}
+						onClose={() => setOpen(false)}
+						initialValues={{
+							dataFillim: '',
+							dataMbarim: '',
+							tipiLeje: ''
+						}}
+						fields={[
+							{ name: 'dataFillim', label: 'Data e fillimit', type: 'date' },
+							{ name: 'dataMbarim', label: 'Data e mbarimit', type: 'date' },
+							{
+								name: 'tipiLeje',
+								label: 'Tipi i lejes',
+								type: 'select',
+								options: [
+									{ label: 'Type 1', value: 'type1' },
+									{ label: 'Type 2', value: 'type2' }
+								]
+							}
+						]}
+						validationSchema={Yup.object({
+							dataFillim: Yup.string().required('Required'),
+							dataMbarim: Yup.string().required('Required'),
+							tipiLeje: Yup.string().required('Required')
+						})}
+						onSave={(values) => {
+							console.log(values);
+						}}
+						title={'Rezervo leje'}
 					/>
 				</Box>
 			</Box>
