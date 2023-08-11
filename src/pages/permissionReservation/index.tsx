@@ -10,6 +10,8 @@ import Header from '~/components/dashboard/Header';
 import '@fullcalendar/core/vdom';
 import Modal from '~/components/modal';
 import * as Yup from 'yup';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const permissionReservation = () => {
 	const theme = useTheme();
@@ -146,6 +148,38 @@ const permissionReservation = () => {
 							console.log(values);
 						}}
 						title={'Rezervo leje'}
+						actions={[
+							{
+								label: 'Anullo',
+								onClick: () => {
+									// resetForm();
+								},
+								type: 'reset',
+								color: 'secondary',
+								variant: 'contained',
+								sx: {
+									border: '1px solid #000',
+									bgcolor: '#ff5252',
+									fontSize: '15px',
+									fontWeight: '700'
+								},
+								icon: <ClearAllIcon />
+							},
+							{
+								label: 'Ruaj ndryshimet',
+								onClick: () => {},
+								type: 'submit',
+								color: 'secondary',
+								variant: 'contained',
+								sx: {
+									border: '1px solid #000',
+									bgcolor: '#30969f',
+									fontSize: '15px',
+									fontWeight: '700'
+								},
+								icon: <SaveAsIcon />
+							}
+						]}
 					/>
 				</Box>
 			</Box>

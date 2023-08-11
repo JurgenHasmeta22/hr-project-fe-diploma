@@ -16,8 +16,6 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Formik, Form, Field } from 'formik';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 type FieldConfig = {
 	name: string;
@@ -34,6 +32,17 @@ type ModalProps = {
 	validationSchema: any;
 	onSave: (values: any) => void;
 	title: string;
+	actions: ActionConfig[];
+};
+
+type ActionConfig = {
+	label: string;
+	onClick: () => void;
+	type?: string;
+	color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+	variant?: 'text' | 'outlined' | 'contained';
+	icon?: React.ReactNode;
+	sx?: any;
 };
 
 const Modal: React.FC<ModalProps> = ({
@@ -43,7 +52,8 @@ const Modal: React.FC<ModalProps> = ({
 	fields,
 	validationSchema,
 	onSave,
-	title
+	title,
+	actions
 }) => {
 	return (
 		<Dialog
@@ -101,39 +111,21 @@ const Modal: React.FC<ModalProps> = ({
 									</Grid>
 								))}
 							</Grid>
-
 							<DialogActions>
-								<Button
-									onClick={() => {
-										resetForm();
-									}}
-									type="reset"
-									color="secondary"
-									variant="contained"
-									sx={{
-										border: '1px solid #000',
-										bgcolor: '#ff5252',
-										fontSize: '15px',
-										fontWeight: '700'
-									}}
-								>
-									Anullo
-									<ClearAllIcon color="action" sx={{ ml: '10px' }} />
-								</Button>
-								<Button
-									type="submit"
-									color="secondary"
-									variant="contained"
-									sx={{
-										border: '1px solid #000',
-										bgcolor: '#30969f',
-										fontSize: '15px',
-										fontWeight: '700'
-									}}
-								>
-									Ruaj ndryshimet
-									<SaveAsIcon sx={{ ml: '10px' }} color="action" />
-								</Button>
+								{actions.map((action, index) => (
+									<Button
+										key={index}
+										onClick={action.onClick}
+										// @ts-ignore
+										color={action.color || 'default'}
+										variant={action.variant || 'text'}
+										sx={action.sx}
+										type={action.type}
+										endIcon={action.icon}
+									>
+										{action.label}
+									</Button>
+								))}
 							</DialogActions>
 						</Form>
 					)}
