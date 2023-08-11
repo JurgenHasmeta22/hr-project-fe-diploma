@@ -61,36 +61,11 @@ const permissionReservation = () => {
 					p="15px"
 					borderRadius="4px"
 				>
-					<Typography variant="h5">Lista e lejeve</Typography>
-					<List>
-						{currentPermissions.map((event: any) => (
-							<ListItem
-								key={event.id}
-								sx={{
-									backgroundColor: colors.greenAccent[500],
-									margin: '10px 0',
-									borderRadius: '2px'
-								}}
-							>
-								<ListItemText
-									primary={event.title}
-									secondary={
-										<Typography>
-											{formatDate(event.start, {
-												year: 'numeric',
-												month: 'short',
-												day: 'numeric'
-											})}
-										</Typography>
-									}
-								/>
-							</ListItem>
-						))}
-					</List>
+					<Typography variant="h5">Legjenda</Typography>
 				</Box>
 				<Box flex="1 1 100%" ml="15px">
 					<FullCalendar
-						height="100vh"
+						height="65vh"
 						plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 						headerToolbar={{
 							left: 'prev,next today',
