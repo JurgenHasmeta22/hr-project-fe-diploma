@@ -21,6 +21,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 const checkoutSchema = yup.object().shape({
 	emriProjekt: yup.string().required('required'),
@@ -209,6 +210,23 @@ const Project = () => {
 							>
 								Anullo
 								<ClearAllIcon color="action" sx={{ ml: '10px' }} />
+							</Button>
+							<Button
+								onClick={() => {
+									// resetForm();
+								}}
+								type="reset"
+								color="secondary"
+								variant="contained"
+								sx={{
+									border: '1px solid #000',
+									bgcolor: '#ff5252',
+									fontSize: '15px',
+									fontWeight: '700'
+								}}
+							>
+								Futu ne projekt
+								<MeetingRoomIcon color="action" sx={{ ml: '10px' }} />
 							</Button>
 						</Box>
 					</form>
