@@ -1,11 +1,13 @@
 import { Box, Button, TextField, useMediaQuery } from '@mui/material';
 import Header from '~/components/dashboard/Header';
 import { useNavigate } from 'react-router';
-import { Formik } from 'formik';
 import * as yup from 'yup';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
 import { toast } from 'react-toastify';
 import authenticationController from '~/services/authentication';
+// import FormAdvanced from '~/components/form';
+import { Formik, FormikProps } from 'formik';
+import { useState, useRef } from 'react';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const checkoutSchema = yup.object().shape({
 	emriProjekt: yup.string().required('required'),
@@ -15,6 +17,16 @@ const checkoutSchema = yup.object().shape({
 const CreateUser = () => {
 	const navigate = useNavigate();
 	const isNonMobile = useMediaQuery('(min-width:600px)');
+	const [formData, setFormData] = useState({});
+	const formikRef = useRef<FormikProps<any>>(null);
+
+	// const handleDataChange = (values: any) => {
+	// 	setFormData(values); // Update the parent's state with form data
+	// };
+
+	// const handleResetFromParent = () => {
+	// 	formikRef.current?.resetForm();
+	// };
 
 	const handleFormSubmit = async (values: any) => {
 		const payload = {
@@ -40,6 +52,27 @@ const CreateUser = () => {
 	return (
 		<Box m="20px">
 			<Header title="Shto nje perdorues" subtitle="Krijo nje perdorues te ri" />
+			{/* <FormAdvanced
+				initialValues={{
+					userId: '',
+					userName: '',
+					userFirstname: '',
+					userLastname: '',
+					userEmail: '',
+					balancaLeje: '',
+					userIsActive: '',
+					password: ''
+				}}
+				onSubmit={handleFormSubmit}
+				validationSchema={checkoutSchema}
+				onFormChange={(values, formikHelpers) => {
+					// Any additional logic on form change if necessary
+				}}
+				// formRef={formikRef}
+				// onDataChange={(values: any) => {
+				// 	handleDataChange(values);
+				// }}
+			/> */}
 			<Formik
 				onSubmit={handleFormSubmit}
 				initialValues={{
