@@ -18,7 +18,7 @@ const CreateUser = () => {
 	const navigate = useNavigate();
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 	const [formData, setFormData] = useState({});
-	const formikRef = useRef<FormikProps<any>>(null);
+	// const formikRef = useRef<FormikProps<any>>(null);
 
 	// const handleDataChange = (values: any) => {
 	// 	setFormData(values); // Update the parent's state with form data
@@ -65,9 +65,9 @@ const CreateUser = () => {
 				}}
 				onSubmit={handleFormSubmit}
 				validationSchema={checkoutSchema}
-				onFormChange={(values, formikHelpers) => {
-					// Any additional logic on form change if necessary
-				}}
+				// onFormChange={(values, formikHelpers) => {
+				// 	// Any additional logic on form change if necessary
+				// }}
 				// formRef={formikRef}
 				// onDataChange={(values: any) => {
 				// 	handleDataChange(values);
