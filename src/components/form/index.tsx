@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, TextField, Select, MenuItem } from '@mui/material';
-import { Field, Formik, FormikProps, Form } from 'formik';
+import { Formik, FormikProps, Form, Field } from 'formik';
 import * as yup from 'yup';
 
 type FieldOption = {
@@ -17,16 +17,15 @@ type FieldConfig = {
 	span?: number;
 };
 
-const fields: FieldConfig[] = [];
-
 type FormProps = {
 	initialValues: any;
 	onSubmit: (values: any) => void;
 	validationSchema: yup.ObjectSchema<any>;
 	onFormChange?: (values: any, formikHelpers: any) => void;
 	resetTrigger?: boolean;
-	// formRef?: React.Ref<FormikProps<any>>;
 };
+
+const fields: FieldConfig[] = [];
 
 const FormAdvanced: React.FC<FormProps> = ({
 	initialValues,
@@ -34,24 +33,11 @@ const FormAdvanced: React.FC<FormProps> = ({
 	validationSchema,
 	onFormChange,
 	resetTrigger
-	// formRef
 }) => {
 	return (
-		<Formik
-			initialValues={initialValues}
-			validationSchema={validationSchema}
-			onSubmit={onSubmit}
-			// enableReinitialize
-			// innerRef={formRef}
-		>
-			{({ values, errors, touched, handleBlur, handleChange, handleSubmit }: FormikProps<any>) => {
-				// if (onFormChange) {
-				// 	onFormChange(values, { values, errors, touched, handleBlur, handleChange, handleSubmit });
-				// }
-
-				// useEffect(() => {
-				//     onDataChange(values);
-				// }, [values]);
+		<Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+			{(formikProps) => {
+				const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formikProps;
 
 				const commonProps = (field: FieldConfig) => ({
 					name: field.name,
