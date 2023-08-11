@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import FullCalendar, { formatDate } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -12,6 +12,7 @@ import Modal from '~/components/modal';
 import * as Yup from 'yup';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
+import { FormikProps } from 'formik';
 
 const permissionReservation = () => {
 	const theme = useTheme();
@@ -19,10 +20,19 @@ const permissionReservation = () => {
 	const [permissions, setPermissions] = useState([]);
 	const [currentPermissions, setCurrentPermissions] = useState([]);
 	const [open, setOpen] = useState(false);
+	const [formData, setFormData] = useState({});
+	const formikRef = useRef<FormikProps<any>>(null);
+
+	const handleDataChange = (values: any) => {
+		setFormData(values); // Update the parent's state with form data
+	};
+
+	const handleResetFromParent = () => {
+		formikRef.current?.resetForm();
+	};
 
 	const handleClose = () => {
 		setOpen(false);
-		// setCurrentPermissions(null);
 	};
 
 	const handleSave = (permission: any) => {
@@ -33,21 +43,12 @@ const permissionReservation = () => {
 		setOpen(true);
 		const calendarApi = selected.view.calendar;
 		calendarApi.unselect();
-
-		// if (title) {
-		// calendarApi.addEvent({
-		// 	id: `${selected.dateStr}-${title}`,
-		// 	title,
-		// 	start: selected.startStr,
-		// 	end: selected.endStr,
-		// 	allDay: selected.allDay
-		// });
 	};
 
 	const handleEventClick = (selected: any) => {
-		if (window.confirm(`Are you sure you want to delete the event '${selected.event.title}'`)) {
-			selected.event.remove();
-		}
+		// if (window.confirm(`Are you sure you want to delete the event '${selected.event.title}'`)) {
+		// 	selected.event.remove();
+		// }
 	};
 
 	return (
@@ -120,6 +121,7 @@ const permissionReservation = () => {
 					/>
 					<Modal
 						open={open}
+						formRef={formikRef}
 						onClose={() => setOpen(false)}
 						initialValues={{
 							dataFillim: '',
@@ -152,7 +154,7 @@ const permissionReservation = () => {
 							{
 								label: 'Anullo',
 								onClick: () => {
-									// resetForm();
+									handleResetFromParent();
 								},
 								type: 'reset',
 								color: 'secondary',
@@ -180,6 +182,10 @@ const permissionReservation = () => {
 								icon: <SaveAsIcon />
 							}
 						]}
+						onDataChange={(values: any) => {
+							handleDataChange(values);
+						}}
+						subTitle="Plotesoni detajet e lejes"
 					/>
 				</Box>
 			</Box>
