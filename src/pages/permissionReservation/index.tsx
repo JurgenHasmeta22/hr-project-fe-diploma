@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
-import FullCalendar, { formatDate } from '@fullcalendar/react';
+import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
-import { Box, List, ListItem, ListItemText, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
 import '@fullcalendar/core/vdom';
@@ -56,7 +56,7 @@ const permissionReservation = () => {
 			<Header title="Rezervimi i lejeve" subtitle="Marrja e lejeve per punonjesit" />
 			<Box display="flex" justifyContent="space-between">
 				<Box
-					flex="1 1 20%"
+					flex="1 1 15%"
 					sx={{ backgroundColor: colors.primary[400] }}
 					p="15px"
 					borderRadius="4px"
@@ -77,6 +77,7 @@ const permissionReservation = () => {
 						selectable={true}
 						selectMirror={true}
 						dayMaxEvents={true}
+						weekends={true}
 						select={handleDateClick}
 						eventClick={handleEventClick}
 						eventsSet={(events: any) => setCurrentPermissions(events)}
