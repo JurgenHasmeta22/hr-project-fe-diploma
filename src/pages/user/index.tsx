@@ -1,9 +1,9 @@
 import { Box, Breadcrumbs, Button, TextField, Typography, useMediaQuery } from '@mui/material';
 import Header from '~/components/dashboard/Header';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import usersController from '~/services/users';
-import { Formik } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import * as yup from 'yup';
 import IUser from '~/interfaces/IUser';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
@@ -12,10 +12,17 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import FormAdvanced from '~/components/form';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
-const checkoutSchema = yup.object().shape({
-	emriProjekt: yup.string().required('required'),
-	pershkrimProjekt: yup.string().required('required')
+const userSchema = yup.object().shape({
+	userName: yup.string().required('required'),
+	userFirstname: yup.string().required('required'),
+	userLastname: yup.string().required('required'),
+	userEmail: yup.string().required('required'),
+	balancaLeje: yup.string().required('required'),
+	userIsActive: yup.string().required('required'),
+	password: yup.string().required('required')
 });
 
 const User = () => {
@@ -39,6 +46,16 @@ const User = () => {
 			Detajet e perdoruesit
 		</Typography>
 	];
+
+	const [formData, setFormData] = useState({});
+	const formikRef = useRef<FormikProps<any>>(null);
+	const handleDataChange = (values: any) => {
+		setFormData(values); // Update the parent's state with form data
+	};
+
+	const handleResetFromParent = () => {
+		formikRef.current?.resetForm();
+	};
 
 	const handleFormSubmit = async (values: any) => {
 		const payload = {
@@ -91,179 +108,102 @@ const User = () => {
 				</Breadcrumbs>
 			</Box>
 			<Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
-			<Formik
-				onSubmit={handleFormSubmit}
+			<FormAdvanced
 				initialValues={{
-					userId,
-					userName,
-					userFirstname,
-					userLastname,
-					userEmail,
-					balancaLeje,
-					userIsActive,
-					password
+					userId: '',
+					emriProjekt: '',
+					pershkrimProjekt: ''
 				}}
-				validationSchema={checkoutSchema}
-				enableReinitialize
-			>
-				{({ values, errors, touched, handleBlur, handleChange, handleSubmit, resetForm }: any) => (
-					<form onSubmit={handleSubmit}>
-						<Box
-							display="grid"
-							gap="20px"
-							gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-							sx={{
-								'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' }
-							}}
-						>
-							<TextField
-								fullWidth
-								disabled={true}
-								variant="filled"
-								type="text"
-								label="Id e perdoruesit"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.userId}
-								name="userId"
-								error={!!touched.userId && !!errors.userId}
-								helperText={touched.userId && errors.userId}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Username"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.userName}
-								name="userName"
-								error={!!touched.userName && !!errors.userName}
-								helperText={touched.userName && errors.userName}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Emri i perdoruesit"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.userFirstname}
-								name="userFirstname"
-								error={!!touched.userFirstname && !!errors.userFirstname}
-								helperText={touched.userFirstname && errors.userFirstname}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Mbiemri i perdoruesit"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.userLastname}
-								name="userLastname"
-								error={!!touched.userLastname && !!errors.userLastname}
-								helperText={touched.userLastname && errors.userLastname}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Emaili i perdoruesit"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.userEmail}
-								name="userEmail"
-								error={!!touched.userEmail && !!errors.userEmail}
-								helperText={touched.userEmail && errors.userEmail}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Balanca e lejeve te perdoruesit"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.balancaLeje}
-								name="balancaLeje"
-								error={!!touched.balancaLeje && !!errors.balancaLeje}
-								helperText={touched.balancaLeje && errors.balancaLeje}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-							<TextField
-								fullWidth
-								variant="filled"
-								type="text"
-								label="Statusi i perdoruesit"
-								onBlur={handleBlur}
-								onChange={handleChange}
-								value={values.userIsActive}
-								name="userIsActive"
-								error={!!touched.userIsActive && !!errors.userIsActive}
-								helperText={touched.userIsActive && errors.userIsActive}
-								sx={{ gridColumn: 'span 2' }}
-							/>
-						</Box>
-						<Box display="flex" justifyContent="end" mt="30px" gap="30px">
-							<Button
-								type="submit"
-								color="secondary"
-								variant="contained"
-								sx={{
-									border: '1px solid #000',
-									bgcolor: '#30969f',
-									fontSize: '15px',
-									fontWeight: '700'
-								}}
-							>
-								Ruaj ndryshimet
-								<SaveAsIcon sx={{ ml: '10px' }} color="action" />
-							</Button>
-							<Button
-								color="secondary"
-								variant="contained"
-								sx={{
-									border: '1px solid #000',
-									bgcolor: '#ff5252',
-									fontSize: '15px',
-									fontWeight: '700'
-								}}
-								onClick={async () => {
-									const response = await usersController.deleteUser(user?.userId);
-									if (response === '') {
-										navigate('/admin/users');
-									}
-								}}
-							>
-								Elemino
-								<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
-							</Button>
-							<Button
-								onClick={() => {
-									resetForm();
-								}}
-								type="reset"
-								color="secondary"
-								variant="contained"
-								sx={{
-									border: '1px solid #000',
-									bgcolor: '#ff5252',
-									fontSize: '15px',
-									fontWeight: '700'
-								}}
-							>
-								Anullo
-								<ClearAllIcon color="action" sx={{ ml: '10px' }} />
-							</Button>
-						</Box>
-					</form>
-				)}
-			</Formik>
+				fields={[
+					{
+						name: 'projektId',
+						label: 'Id',
+						disabled: true,
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					},
+					{
+						name: 'emriProjekt',
+						label: 'Emri',
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					},
+					{
+						name: 'pershkrimProjekt',
+						label: 'Pershkrim',
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					}
+				]}
+				onDataChange={(values: any) => {
+					handleDataChange(values);
+				}}
+				onSubmit={handleFormSubmit}
+				validationSchema={userSchema}
+				formRef={formikRef}
+				actions={[
+					{
+						label: 'Ruaj ndryshimet',
+						onClick: () => {},
+						type: 'submit',
+						color: 'secondary',
+						variant: 'contained',
+						sx: {
+							border: '1px solid #000',
+							bgcolor: '#30969f',
+							fontSize: '15px',
+							fontWeight: '700'
+						},
+						icon: <SaveAsIcon sx={{ ml: '10px' }} color="action" />
+					},
+					{
+						label: 'Elemino',
+						onClick: () => {},
+						color: 'secondary',
+						variant: 'contained',
+						sx: {
+							border: '1px solid #000',
+							bgcolor: '#ff5252',
+							fontSize: '15px',
+							fontWeight: '700'
+						},
+						icon: <ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+					},
+					{
+						label: 'Anullo',
+						type: 'reset',
+						onClick: () => {
+							handleResetFromParent();
+						},
+						color: 'secondary',
+						variant: 'contained',
+						sx: {
+							border: '1px solid #000',
+							bgcolor: '#ff5252',
+							fontSize: '15px',
+							fontWeight: '700'
+						},
+						icon: <ClearAllIcon color="action" sx={{ ml: '10px' }} />
+					},
+					{
+						label: 'Futu ne projekt',
+						onClick: () => {},
+						type: 'submit',
+						color: 'secondary',
+						variant: 'contained',
+						sx: {
+							border: '1px solid #000',
+							bgcolor: '#ff5252',
+							fontSize: '15px',
+							fontWeight: '700'
+						},
+						icon: <MeetingRoomIcon color="action" sx={{ ml: '10px' }} />
+					}
+				]}
+			/>
 		</Box>
 	);
 };

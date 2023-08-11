@@ -32,7 +32,7 @@ type ModalProps = {
 	validationSchema: any;
 	onSave: (values: any) => void;
 	title: string;
-	actions: ActionConfig[];
+	actions?: ActionConfig[];
 	formRef?: React.Ref<FormikProps<any>>;
 	onDataChange: (values: any) => void;
 	subTitle?: string;
@@ -132,7 +132,7 @@ const Modal: React.FC<ModalProps> = ({
 									))}
 								</Grid>
 								<DialogActions style={{ marginTop: '15px' }}>
-									{actions.map((action, index) => (
+									{actions!.map((action, index) => (
 										<Button
 											key={index}
 											onClick={action.onClick}
