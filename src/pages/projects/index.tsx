@@ -10,6 +10,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
 const Projects = () => {
 	const [projects, setProjects] = useState<IProject[]>([]);
@@ -39,7 +40,7 @@ const Projects = () => {
 			sortable: false,
 			disableClickEventBubbling: true,
 			filterable: false,
-			description: 'Mund te editosh dhe te fshish rekordin specifik',
+			description: 'Mund te editosh, fshi, dhe futesh ne projektin specifik',
 			flex: 1,
 			// align: 'center',
 			renderCell: (params: any) => (
@@ -49,7 +50,7 @@ const Projects = () => {
 							navigate(`/admin/editProject`, {
 								state: {
 									projectId: params.row.projektId,
-									from: "Projektet"
+									from: 'Projektet'
 								}
 							});
 						}}
@@ -68,6 +69,9 @@ const Projects = () => {
 						}}
 					>
 						<ClearOutlinedIcon color="action" />
+					</Button>
+					<Button onClick={() => {}}>
+						<MeetingRoomIcon color="action" />
 					</Button>
 				</>
 			)

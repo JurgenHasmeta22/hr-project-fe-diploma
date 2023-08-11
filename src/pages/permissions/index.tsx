@@ -7,12 +7,13 @@ import IPermission from '~/interfaces/IPermission';
 import permissionsController from '~/services/permissions';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const Permissions = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const navigate = useNavigate();
 	const columns = [
 		{ field: 'lejeId', headerName: 'Id' },
 		{
@@ -40,26 +41,26 @@ const Permissions = () => {
 			field: 'userId',
 			headerName: 'Id e userit',
 			flex: 1
-		},
-		{
-			field: '',
-			headerName: 'Veprimet',
-			sortable: false,
-			disableClickEventBubbling: true,
-			filterable: false,
-			description: 'Mund te editosh dhe te fshish rekordin specifik',
-			flex: 1,
-			renderCell: (params: any) => (
-				<>
-					<Button onClick={() => {}}>
-						<EditOutlinedIcon color="action" />
-					</Button>
-					<Button onClick={() => {}}>
-						<OpenInNewOutlinedIcon color="action" />
-					</Button>
-				</>
-			)
 		}
+		// {
+		// 	field: '',
+		// 	headerName: 'Veprimet',
+		// 	sortable: false,
+		// 	disableClickEventBubbling: true,
+		// 	filterable: false,
+		// 	description: 'Mund te editosh dhe te fshish rekordin specifik',
+		// 	flex: 1,
+		// 	renderCell: (params: any) => (
+		// 		<>
+		// 			<Button onClick={() => {}}>
+		// 				<EditOutlinedIcon color="action" />
+		// 			</Button>
+		// 			<Button onClick={() => {}}>
+		// 				<OpenInNewOutlinedIcon color="action" />
+		// 			</Button>
+		// 		</>
+		// 	)
+		// }
 	];
 
 	const [permissions, setPermissions] = useState<IPermission[]>([]);
@@ -87,27 +88,11 @@ const Permissions = () => {
 						fontWeight: '700'
 					}}
 					onClick={() => {
-						// navigate('/admin/addProject');
+						navigate('/admin/permissionReservation');
 					}}
 				>
 					Shto
 					<AddOutlinedIcon />
-				</Button>
-				<Button
-					color="secondary"
-					variant="contained"
-					sx={{
-						border: '1px solid #000',
-						bgcolor: '#ff5252',
-						fontSize: '15px',
-						fontWeight: '700'
-					}}
-					onClick={() => {
-						// handleDeleteRow();
-					}}
-				>
-					Elemino
-					<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
 				</Button>
 			</Box>
 			<Box
