@@ -17,6 +17,7 @@ const Profile = React.lazy(() => import('~/pages/profile'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
 import PrivateRoutes from '~/utils/PrivateRoutes';
+import { DrawerProvider } from '~/components/drawer/drawerContext';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -25,148 +26,150 @@ function App() {
 		<ColorModeContext.Provider value={colorMode}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<div className="app">
-					<Routes>
-						<Route index element={<Navigate replace to="/login" />} />
-						<Route
-							path="*"
-							element={
-								<React.Suspense fallback={<>...</>}>
-									<Error />
-								</React.Suspense>
-							}
-						/>
-						<Route
-							path="/login"
-							element={
-								<React.Suspense fallback={<>...</>}>
-									<Login />
-								</React.Suspense>
-							}
-						/>
-						<Route element={<PrivateRoutes />}>
+				<DrawerProvider>
+					<div className="app">
+						<Routes>
+							<Route index element={<Navigate replace to="/login" />} />
 							<Route
-								path="/admin/dashboard"
+								path="*"
 								element={
 									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Dashboard />
-										</main>
+										<Error />
 									</React.Suspense>
 								}
 							/>
 							<Route
-								path="/admin/users"
+								path="/login"
 								element={
 									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Users />
-										</main>
+										<Login />
 									</React.Suspense>
 								}
 							/>
-							<Route
-								path="/admin/permissions"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Permissions />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/projects"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Projects />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/editProject"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<Project />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/editUser"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<User />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/addUser"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<CreateUser />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/addProject"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<CreateProject />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/admin/permissionReservation"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<Sidebar />
-										<main className="content">
-											<Topbar />
-											<PermissionReservation />
-										</main>
-									</React.Suspense>
-								}
-							/>
-							<Route
-								path="/profile"
-								element={
-									<React.Suspense fallback={<>...</>}>
-										<main className="content">
-											<Topbar />
-											<Profile />
-										</main>
-									</React.Suspense>
-								}
-							/>
-						</Route>
-					</Routes>
-				</div>
+							<Route element={<PrivateRoutes />}>
+								<Route
+									path="/admin/dashboard"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<Dashboard />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/users"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<Users />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/permissions"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<Permissions />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/projects"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<Projects />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/editProject"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<Project />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/editUser"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<User />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/addUser"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<CreateUser />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/addProject"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<CreateProject />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/admin/permissionReservation"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<Sidebar />
+											<main className="content">
+												<Topbar />
+												<PermissionReservation />
+											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/profile"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<main className="content">
+												<Topbar />
+												<Profile />
+											</main>
+										</React.Suspense>
+									}
+								/>
+							</Route>
+						</Routes>
+					</div>
+				</DrawerProvider>
 			</ThemeProvider>
 		</ColorModeContext.Provider>
 	);

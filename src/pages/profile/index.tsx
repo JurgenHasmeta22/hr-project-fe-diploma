@@ -5,21 +5,24 @@ import {
 	Card,
 	CardActions,
 	CardContent,
-	CardMedia,
 	Chip,
 	Divider,
 	Grid,
-	IconButton,
 	Tab,
 	Tabs,
 	Typography
 } from '@mui/material';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import TabPanel from '~/components/tabPanel';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { FormikProps } from 'formik';
+import * as Yup from 'yup';
+import ClearAllIcon from '@mui/icons-material/ClearAll';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import { useDrawer } from '~/components/drawer/drawerContext';
 
 interface CardInfo {
 	title: string;
@@ -47,15 +50,165 @@ const cardData: CardInfo[] = [
 	// ... add more cards as needed
 ];
 
+const userSchema = Yup.object().shape({
+	userName: Yup.string().required('required'),
+	userFirstname: Yup.string().required('required'),
+	userLastname: Yup.string().required('required'),
+	userEmail: Yup.string().required('required'),
+	balancaLeje: Yup.string().required('required'),
+	userIsActive: Yup.string().required('required'),
+	password: Yup.string().required('required')
+});
+
 export default function Profile() {
 	const [value, setValue] = useState(0);
 	const navigate = useNavigate();
+	// const [open, setOpen] = useState(false);
+	const [formData, setFormData] = useState({});
+	const formikRef = useRef<FormikProps<any>>(null);
+	const { openDrawer } = useDrawer();
 
 	const handleChange = (event: any, newValue: any) => {
 		setValue(newValue);
 	};
 	const handleEditAvatar = () => {
 		console.log('Edit Avatar clicked');
+	};
+
+	const handleDataChange = (values: any) => {
+		setFormData(values); // Update the parent's state with form data
+	};
+
+	const handleResetFromParent = () => {
+		formikRef.current?.resetForm();
+	};
+
+	// const handleClose = () => {
+	// 	setOpen(false);
+	// };
+
+	// const handleSave = (permission: any) => {
+	// 	handleClose();
+	// };
+
+	const handleEditProfile = () => {
+		// setOpen(true);
+		openDrawer({
+			// open,
+			formRef: formikRef,
+			initialValues: {
+				userId: '',
+				userName: '',
+				userFirstname: '',
+				userLastname: '',
+				userEmail: '',
+				balancaLeje: '',
+				userIsActive: '',
+				password: ''
+			},
+			fields: [
+				{
+					name: 'userId',
+					label: 'Id e perdoruesit',
+					disabled: true,
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'userName',
+					label: 'Username',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'userFirstname',
+					label: 'Emri',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'userLastname',
+					label: 'Mbiemri',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'userEmail',
+					label: 'Email',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'balancaLeje',
+					label: 'Balanca e lejeve',
+					variant: 'filled',
+					type: 'text',
+					disabled: true,
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'userIsActive',
+					label: 'Statusi',
+					variant: 'filled',
+					type: 'text',
+					disabled: true,
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'password',
+					label: 'Passwordi',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				}
+			],
+			validationSchema: userSchema,
+			onSave: (values: any) => {
+				console.log(values);
+			},
+			title: 'Edito perdoruesin',
+			actions: [
+				{
+					label: 'Anullo',
+					onClick: () => {
+						handleResetFromParent();
+					},
+					type: 'reset',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearAllIcon />
+				},
+				{
+					label: 'Ruaj ndryshimet',
+					onClick: () => {},
+					type: 'submit',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <SaveAsIcon />
+				}
+			],
+			onDataChange: (values: any) => {
+				handleDataChange(values);
+			},
+			subTitle: 'Plotesoni detajet e perdoruesit'
+		});
 	};
 
 	return (
@@ -95,7 +248,14 @@ export default function Profile() {
 					<Box flexGrow={2}>
 						<Typography variant="body1">{'bio'}</Typography>
 					</Box>
-					<Button variant="contained" startIcon={<EditIcon />} color="secondary">
+					<Button
+						variant="contained"
+						startIcon={<EditIcon />}
+						color="secondary"
+						onClick={() => {
+							handleEditProfile();
+						}}
+					>
 						Edito profilin
 					</Button>
 				</Box>
