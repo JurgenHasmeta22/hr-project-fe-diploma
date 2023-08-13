@@ -46,9 +46,9 @@ const permissionReservation = () => {
 	};
 
 	const handleEventClick = (selected: any) => {
-		// if (window.confirm(`Are you sure you want to delete the event '${selected.event.title}'`)) {
-		// 	selected.event.remove();
-		// }
+		setOpen(true);
+		const calendarApi = selected.view.calendar;
+		calendarApi.unselect();
 	};
 
 	return (
@@ -65,7 +65,7 @@ const permissionReservation = () => {
 				</Box>
 				<Box flex="1 1 100%" ml="15px">
 					<FullCalendar
-						height="65vh"
+						height="75vh"
 						plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 						headerToolbar={{
 							left: 'prev,next today',
@@ -83,14 +83,9 @@ const permissionReservation = () => {
 						eventsSet={(events: any) => setCurrentPermissions(events)}
 						initialEvents={[
 							{
-								id: '12315',
+								id: '1',
 								title: 'All-day event',
-								date: '2022-09-14'
-							},
-							{
-								id: '5123',
-								title: 'Timed event',
-								date: '2022-09-28'
+								date: '2023-08-13'
 							}
 						]}
 						allDaySlot={true}

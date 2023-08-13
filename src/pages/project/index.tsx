@@ -33,7 +33,7 @@ const Project = () => {
 			{location.state?.from!}
 		</Link>,
 		<Typography key="2" color="text.primary">
-			Project details
+			Detajet e projektit
 		</Typography>
 	];
 
