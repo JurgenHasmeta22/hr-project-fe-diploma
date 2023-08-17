@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '~/components/modal/modalContext';
 import IPermission from '~/interfaces/IPermission';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 const permissionReservation = () => {
 	const theme = useTheme();
@@ -32,7 +33,7 @@ const permissionReservation = () => {
 	const [loading, setLoading] = useState(true);
 
 	const handleDataChange = (values: any) => {
-		setFormData(values); // Update the parent's state with form data
+		setFormData(values);
 	};
 
 	const handleResetFromParent = () => {
@@ -46,7 +47,7 @@ const permissionReservation = () => {
 	function formatDate(date: any) {
 		const d = new Date(date);
 		const year = d.getFullYear();
-		const month = String(d.getMonth() + 1).padStart(2, '0'); // Add 1 since months are 0-indexed.
+		const month = String(d.getMonth() + 1).padStart(2, '0');
 		const day = String(d.getDate()).padStart(2, '0');
 		return `${year}-${month}-${day}`;
 	}
@@ -169,6 +170,27 @@ const permissionReservation = () => {
 			title: 'Detajet e lejes',
 			actions: [
 				{
+					label: 'Elemino',
+					onClick: async () => {
+						const response = await permissionsController.deletePermission(selected.event.id);
+						if (response === '') {
+							toast.success('Elemini u krye me sukses !');
+							navigate('/projects');
+						} else {
+							toast.error('Eleminimi nuk u realizua !');
+						}
+					},
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+				},
+				{
 					label: 'Anullo',
 					onClick: () => handleResetFromParent(),
 					type: 'reset',
@@ -184,7 +206,9 @@ const permissionReservation = () => {
 				},
 				{
 					label: 'Ruaj ndryshimet',
-					onClick: () => handleSave(),
+					onClick: () => {
+						handleSave();
+					},
 					type: 'submit',
 					color: 'secondary',
 					variant: 'contained',
@@ -207,14 +231,13 @@ const permissionReservation = () => {
 
 	async function getPermissions(): Promise<void> {
 		const response: IPermission[] = await permissionsController.getAllPermissions();
-
 		const convertedEvents = response.map((permission) => ({
 			id: permission.lejeId?.toString(),
 			title: permission.tipiLeje,
 			start: permission.dataFillim,
-			end: permission.dataMbarim
+			end: permission.dataMbarim,
+			allDay: true
 		}));
-
 		setCalendarEvents(convertedEvents);
 		setPermissions(response);
 	}

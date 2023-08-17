@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { tokens } from '~/utils/theme';
 import Header from '~/components/dashboard/Header';
@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import IPermission from '~/interfaces/IPermission';
 import permissionsController from '~/services/permissions';
 import { useNavigate } from 'react-router-dom';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 
 const Permissions = () => {
 	const theme = useTheme();
@@ -31,36 +33,90 @@ const Permissions = () => {
 		},
 		{
 			field: 'aprovuar',
-			headerName: 'Aprovuar',
-			flex: 1
+			headerName: 'Statusi',
+			flex: 1,
+			renderCell: (params: any) => {
+				if (params.value === 2) {
+					return (
+						<div
+							style={{
+								backgroundColor: '#28a745',
+								color: '#fff',
+								padding: '5px 10px',
+								borderRadius: '5px'
+							}}
+						>
+							Aprovuar
+						</div>
+					);
+				} else if (params.value === 1) {
+					return (
+						<div
+							style={{
+								backgroundColor: '#ffcc00',
+								color: '#fff',
+								padding: '5px 10px',
+								borderRadius: '5px'
+							}}
+						>
+							Ne pritje
+						</div>
+					);
+				} else {
+					return (
+						<div
+							style={{
+								backgroundColor: '#c82333',
+								color: '#fff',
+								padding: '5px 10px',
+								borderRadius: '5px'
+							}}
+						>
+							Disaprovuar
+						</div>
+					);
+				}
+			}
 		},
-		// {
-		// 	field: 'userId',
-		// 	headerName: 'Id e userit',
-		// 	flex: 1
-		// }
-		// {
-		// 	field: '',
-		// 	headerName: 'Veprimet',
-		// 	sortable: false,
-		// 	disableClickEventBubbling: true,
-		// 	filterable: false,
-		// 	description: 'Mund te editosh dhe te fshish rekordin specifik',
-		// 	flex: 1,
-		// 	renderCell: (params: any) => (
-		// 		<>
-		// 			<Button onClick={() => {}}>
-		// 				<EditOutlinedIcon color="action" />
-		// 			</Button>
-		// 			<Button onClick={() => {}}>
-		// 				<OpenInNewOutlinedIcon color="action" />
-		// 			</Button>
-		// 		</>
-		// 	)
-		// }
+		{
+			field: '',
+			headerName: 'Veprimet',
+			sortable: false,
+			disableClickEventBubbling: true,
+			filterable: false,
+			description: 'Mund te aprovosh ose te disaprovosh eventin',
+			flex: 1,
+			renderCell: (params: any) => (
+				<>
+					<Button
+						onClick={() => {
+							handleApprovePermission(params.row.id);
+						}}
+					>
+						<CheckCircleIcon color="action" />
+					</Button>
+					<Button
+						onClick={() => {
+							handleDisapprovePermission(params.row.id);
+						}}
+					>
+						<ThumbDownAltIcon color="action" />
+					</Button>
+				</>
+			)
+		}
 	];
-
 	const [permissions, setPermissions] = useState<IPermission[]>([]);
+
+	async function handleApprovePermission(permissionId: any): Promise<void> {
+		const response: IPermission[] = await permissionsController.approvePermission(permissionId);
+		getPermissions();
+	}
+
+	async function handleDisapprovePermission(permissionId: any): Promise<void> {
+		const response: IPermission[] = await permissionsController.dissaprovePermission(permissionId);
+		getPermissions();
+	}
 
 	async function getPermissions(): Promise<void> {
 		const response: IPermission[] = await permissionsController.getAllPermissions();
