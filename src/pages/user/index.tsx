@@ -1,9 +1,9 @@
-import { Box, Breadcrumbs, Button, TextField, Typography, useMediaQuery } from '@mui/material';
+import { Box, Breadcrumbs, Button, Typography, useMediaQuery } from '@mui/material';
 import Header from '~/components/dashboard/Header';
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import usersController from '~/services/users';
-import { Formik, FormikProps } from 'formik';
+import { FormikProps } from 'formik';
 import * as yup from 'yup';
 import IUser from '~/interfaces/IUser';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
@@ -14,6 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import FormAdvanced from '~/components/form';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import { toast } from 'react-toastify';
 
 const userSchema = yup.object().shape({
 	userName: yup.string().required('required'),
@@ -21,8 +22,7 @@ const userSchema = yup.object().shape({
 	userLastname: yup.string().required('required'),
 	userEmail: yup.string().required('required'),
 	balancaLeje: yup.string().required('required'),
-	userIsActive: yup.string().required('required'),
-	password: yup.string().required('required')
+	userIsActive: yup.string().required('required')
 });
 
 const User = () => {
@@ -34,12 +34,12 @@ const User = () => {
 	const [userEmail, setUserEmail] = useState<string>('');
 	const [balancaLeje, setBalancaLeje] = useState<number>(0);
 	const [userIsActive, setUserIsActive] = useState<number>(0);
-	const [password, setPassword] = useState<string>('');
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 	const breadcrumbs = [
-		<Link key="1" to={'/admin/users'} style={{ textDecoration: 'none' }}>
+		<Link key="1" to={'/users'} style={{ textDecoration: 'none' }}>
 			{location.state?.from!}
 		</Link>,
 		<Typography key="2" color="text.primary">
@@ -64,8 +64,7 @@ const User = () => {
 			userLastname: values.userLastname,
 			userEmail: values.userEmail,
 			balancaLeje: values.balancaLeje,
-			userIsActive: values.userIsActive,
-			password: values.password
+			userIsActive: values.userIsActive
 		};
 
 		const response = await usersController.updateUser(user?.userId, payload);
@@ -84,12 +83,17 @@ const User = () => {
 		setUserEmail(response.userEmail);
 		setBalancaLeje(response.balancaLeje);
 		setUserIsActive(response.userIsActive);
-		setPassword(response.password!);
 	}
 
 	useEffect(() => {
-		getUser();
+		async function fetchData() {
+			await getUser();
+			setLoading(false);
+		}
+		fetchData();
 	}, []);
+
+	if (loading) return <div>Loading...</div>;
 
 	return (
 		<Box m="20px">
@@ -98,7 +102,7 @@ const User = () => {
 					color="secondary"
 					variant="contained"
 					onClick={() => {
-						navigate('/admin/users');
+						navigate('/users');
 					}}
 				>
 					<ArrowBackIcon color="action" />
@@ -110,29 +114,61 @@ const User = () => {
 			<Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
 			<FormAdvanced
 				initialValues={{
-					userId: '',
-					emriProjekt: '',
-					pershkrimProjekt: ''
+					userId,
+					userName,
+					userFirstname,
+					userLastname,
+					userEmail,
+					balancaLeje,
+					userIsActive
 				}}
 				fields={[
 					{
-						name: 'projektId',
-						label: 'Id',
+						name: 'userId',
+						label: 'Id e perdoruesit',
 						disabled: true,
 						variant: 'filled',
 						type: 'text',
 						sx: { gridColumn: 'span 2' }
 					},
 					{
-						name: 'emriProjekt',
+						name: 'userName',
+						label: 'Username',
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					},
+					{
+						name: 'userFirstname',
 						label: 'Emri',
 						variant: 'filled',
 						type: 'text',
 						sx: { gridColumn: 'span 2' }
 					},
 					{
-						name: 'pershkrimProjekt',
-						label: 'Pershkrim',
+						name: 'userLastname',
+						label: 'Mbiemri',
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					},
+					{
+						name: 'userEmail',
+						label: 'Email',
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					},
+					{
+						name: 'balancaLeje',
+						label: 'Balanca e lejeve',
+						variant: 'filled',
+						type: 'text',
+						sx: { gridColumn: 'span 2' }
+					},
+					{
+						name: 'userIsActive',
+						label: 'Statusi',
 						variant: 'filled',
 						type: 'text',
 						sx: { gridColumn: 'span 2' }
@@ -147,7 +183,6 @@ const User = () => {
 				actions={[
 					{
 						label: 'Ruaj ndryshimet',
-						onClick: () => {},
 						type: 'submit',
 						color: 'secondary',
 						variant: 'contained',
@@ -161,7 +196,15 @@ const User = () => {
 					},
 					{
 						label: 'Elemino',
-						onClick: () => {},
+						onClick: async () => {
+							const response = await usersController.deleteUser(userId);
+							if (response === '') {
+								toast.success('Elemini u krye me sukses !');
+								navigate('/users');
+							} else {
+								toast.error('Eleminimi nuk u realizua !');
+							}
+						},
 						color: 'secondary',
 						variant: 'contained',
 						sx: {

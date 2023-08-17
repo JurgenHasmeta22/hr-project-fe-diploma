@@ -34,11 +34,11 @@ const Permissions = () => {
 			headerName: 'Aprovuar',
 			flex: 1
 		},
-		{
-			field: 'userId',
-			headerName: 'Id e userit',
-			flex: 1
-		}
+		// {
+		// 	field: 'userId',
+		// 	headerName: 'Id e userit',
+		// 	flex: 1
+		// }
 		// {
 		// 	field: '',
 		// 	headerName: 'Veprimet',
@@ -103,7 +103,7 @@ const Permissions = () => {
 					}
 				}}
 			>
-				<DataGrid rows={permissions} columns={columns} />
+				<DataGrid rows={permissions} columns={columns} getRowId={(row) => String(row.lejeId)} />
 			</Box>
 		</Box>
 	);

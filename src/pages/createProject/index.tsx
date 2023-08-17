@@ -20,6 +20,7 @@ const CreateProject = () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 	const [formData, setFormData] = useState({});
 	const formikRef = useRef<FormikProps<any>>(null);
+
 	const handleDataChange = (values: any) => {
 		setFormData(values); // Update the parent's state with form data
 	};
@@ -37,15 +38,15 @@ const CreateProject = () => {
 
 		if (response) {
 			toast.success('Ruajtja e ndryshimeve me sukses !');
-			navigate('/admin/projects');
+			navigate('/projects');
 		} else {
-			toast.error('Rujtja nuk e realizua !');
+			toast.error('Ruajtja nuk e realizua !');
 		}
 	};
 
 	return (
 		<Box m="20px">
-			<Header title="Shto perdorues" subtitle="Krijo nje perdorues te ri" />
+			<Header title="Shto projekt" subtitle="Krijo nje projekt te ri" />
 			<FormAdvanced
 				initialValues={{
 					userId: '',
@@ -53,14 +54,6 @@ const CreateProject = () => {
 					pershkrimProjekt: ''
 				}}
 				fields={[
-					{
-						name: 'projektId',
-						label: 'Id',
-						disabled: true,
-						variant: 'filled',
-						type: 'text',
-						sx: { gridColumn: 'span 2' }
-					},
 					{
 						name: 'emriProjekt',
 						label: 'Emri',
@@ -85,7 +78,6 @@ const CreateProject = () => {
 				actions={[
 					{
 						label: 'Ruaj ndryshimet',
-						onClick: () => {},
 						type: 'submit',
 						color: 'secondary',
 						variant: 'contained',

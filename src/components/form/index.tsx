@@ -37,9 +37,8 @@ type FormProps = {
 
 type ActionConfig = {
 	label: string;
-	onClick: () => void;
+	onClick?: () => void;
 	type?: string;
-	// color?: any;
 	color?:
 		| 'inherit'
 		| 'primary'
@@ -69,6 +68,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 			initialValues={initialValues}
 			validationSchema={validationSchema}
 			onSubmit={onSubmit}
+			enableReinitialize
 		>
 			{({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
 				useEffect(() => {
@@ -76,7 +76,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 				}, [values]);
 				return (
 					<Form onSubmit={handleSubmit}>
-						<Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 1fr))">
+						<Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 0.25fr))">
 							{fields.map((field: FieldConfig) => {
 								switch (field.type) {
 									case 'select':
@@ -88,7 +88,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 													fullWidth
 													onBlur={handleBlur}
 													onChange={handleChange}
-													value={values.name}
+													value={values[field.name]}
 													labelId={`${field.name}-label`}
 													as={Select}
 													sx={field.sx}
@@ -111,7 +111,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 													fullWidth
 													onBlur={handleBlur}
 													onChange={handleChange}
-													value={values.name}
+													value={values[field.name]}
 													labelId={`${field.name}-label`}
 													as={Select}
 													multiple
@@ -138,7 +138,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 												onBlur={handleBlur}
 												onChange={handleChange}
 												sx={field.sx}
-												value={values.name}
+												value={values[field.name]}
 												type={field.type || 'text'}
 												helperText={touched[field.name] && errors[field.name]}
 												error={touched[field.name] && !!errors[field.name]}
@@ -154,7 +154,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 												fullWidth
 												onBlur={handleBlur}
 												onChange={handleChange}
-												value={values.name}
+												value={values[field.name]}
 												variant={field.variant}
 												size="medium"
 												sx={field.sx}

@@ -219,7 +219,7 @@ export default function Profile() {
 						color="secondary"
 						variant="contained"
 						onClick={() => {
-							navigate('/admin/dashboard');
+							navigate('/dashboard');
 						}}
 					>
 						<ArrowBackIcon color="action" />

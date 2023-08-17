@@ -14,6 +14,7 @@ const User = React.lazy(() => import('~/pages/user'));
 const CreateUser = React.lazy(() => import('~/pages/createUser'));
 const CreateProject = React.lazy(() => import('~/pages/createProject'));
 const Profile = React.lazy(() => import('~/pages/profile'));
+const ChangePassword = React.lazy(() => import('~/pages/changePassword'));
 import Sidebar from '~/components/global/Sidebar';
 import Topbar from '~/components/global/Topbar';
 import PrivateRoutes from '~/utils/PrivateRoutes';
@@ -48,7 +49,7 @@ function App() {
 							/>
 							<Route element={<PrivateRoutes />}>
 								<Route
-									path="/admin/dashboard"
+									path="/dashboard"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -60,7 +61,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/users"
+									path="/users"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -72,7 +73,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/permissions"
+									path="/permissions"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -84,7 +85,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/projects"
+									path="/projects"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -96,7 +97,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/editProject"
+									path="/editProject"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -108,7 +109,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/editUser"
+									path="/editUser"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -120,7 +121,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/addUser"
+									path="/addUser"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -132,7 +133,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/addProject"
+									path="/addProject"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -144,7 +145,7 @@ function App() {
 									}
 								/>
 								<Route
-									path="/admin/permissionReservation"
+									path="/permissionReservation"
 									element={
 										<React.Suspense fallback={<>...</>}>
 											<Sidebar />
@@ -163,6 +164,14 @@ function App() {
 												<Topbar />
 												<Profile />
 											</main>
+										</React.Suspense>
+									}
+								/>
+								<Route
+									path="/changePassword"
+									element={
+										<React.Suspense fallback={<>...</>}>
+											<ChangePassword />
 										</React.Suspense>
 									}
 								/>

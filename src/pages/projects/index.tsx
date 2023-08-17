@@ -47,7 +47,7 @@ const Projects = () => {
 				<>
 					<Button
 						onClick={() => {
-							navigate(`/admin/editProject`, {
+							navigate(`/editProject`, {
 								state: {
 									projectId: params.row.projektId,
 									from: 'Projektet'
@@ -113,7 +113,7 @@ const Projects = () => {
 						fontWeight: '700'
 					}}
 					onClick={() => {
-						navigate('/admin/addProject');
+						navigate('/addProject');
 					}}
 				>
 					Shto

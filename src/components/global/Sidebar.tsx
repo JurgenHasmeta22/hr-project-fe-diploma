@@ -43,14 +43,14 @@ const SubMenuItem = ({ label, selected, setSelected }: any) => {
 		>
 			<Item
 				title="Lista e lejeve"
-				to="/admin/permissions"
+				to="/permissions"
 				icon={<ReceiptOutlinedIcon />}
 				selected={selected}
 				setSelected={setSelected}
 			/>
 			<Item
 				title="Rezervimi i lejeve"
-				to="/admin/permissionReservation"
+				to="/permissionReservation"
 				icon={<ReceiptOutlinedIcon />}
 				selected={selected}
 				setSelected={setSelected}
@@ -132,14 +132,14 @@ const Sidebar = () => {
 					<Box paddingLeft={isCollapsed ? undefined : '10%'}>
 						<Item
 							title="Dashboard"
-							to="/admin/dashboard"
+							to="/dashboard"
 							icon={<HomeOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
 						<Item
 							title="Perdoruesit"
-							to="/admin/users"
+							to="/users"
 							icon={<PeopleOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
@@ -147,7 +147,7 @@ const Sidebar = () => {
 						<SubMenuItem label="Lejet" selected={selected} setSelected={setSelected} />
 						<Item
 							title="Projektet"
-							to="/admin/projects"
+							to="/projects"
 							icon={<PersonOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
