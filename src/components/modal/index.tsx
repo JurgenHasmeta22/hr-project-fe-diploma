@@ -42,7 +42,6 @@ type ActionConfig = {
 	label: string;
 	onClick: () => void;
 	type?: string;
-	// color?: any;
 	color?:
 		| 'inherit'
 		| 'primary'
@@ -58,7 +57,6 @@ type ActionConfig = {
 };
 
 const Modal: React.FC<ModalProps> = ({
-	open,
 	onClose,
 	initialValues,
 	fields,
@@ -71,13 +69,7 @@ const Modal: React.FC<ModalProps> = ({
 	subTitle
 }) => {
 	return (
-		<Dialog
-			open={open}
-			onClose={onClose}
-			fullWidth
-			// maxWidth="md"
-			// PaperProps={{ style: { backgroundColor: '#FAFAFA' } }}
-		>
+		<Dialog open={true} onClose={onClose} fullWidth>
 			<DialogTitle fontSize={'26px'}>
 				{title}
 				<IconButton style={{ position: 'absolute', right: 0, top: 0 }} onClick={onClose}>
@@ -107,7 +99,12 @@ const Modal: React.FC<ModalProps> = ({
 											{field.type === 'select' ? (
 												<FormControl fullWidth size="medium">
 													<InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
-													<Field name={field.name} labelId={`${field.name}-label`} as={Select}>
+													<Field
+														name={field.name}
+														value={values[field.name]}
+														labelId={`${field.name}-label`}
+														as={Select}
+													>
 														{field.options?.map((option) => (
 															<MenuItem key={option.value} value={option.value}>
 																{option.label}
@@ -121,6 +118,7 @@ const Modal: React.FC<ModalProps> = ({
 													name={field.name}
 													label={field.label}
 													fullWidth
+													value={values[field.name]}
 													size="medium"
 													type={field.type || 'text'}
 													helperText={touched[field.name] && errors[field.name]}
