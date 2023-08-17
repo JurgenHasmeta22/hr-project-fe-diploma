@@ -26,10 +26,11 @@ const Project = () => {
 	const [projektId, setProjektId] = useState<string | undefined>('');
 	const [emriProjekt, setEmriProjekt] = useState<string>('');
 	const [pershkrimProjekt, setPershkrimProjekt] = useState<string>('');
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 	const location = useLocation();
 	const breadcrumbs = [
-		<Link key="1" to={'/admin/projects'} style={{ textDecoration: 'none' }}>
+		<Link key="1" to={'/projects'} style={{ textDecoration: 'none' }}>
 			{location.state?.from!}
 		</Link>,
 		<Typography key="2" color="text.primary">
@@ -71,8 +72,14 @@ const Project = () => {
 	}
 
 	useEffect(() => {
-		getProject();
+		async function fetchData() {
+			await getProject();
+			setLoading(false);
+		}
+		fetchData();
 	}, []);
+
+	if (loading) return <div>Loading...</div>;
 
 	return (
 		<Box m="20px">
@@ -82,7 +89,7 @@ const Project = () => {
 					color="secondary"
 					variant="contained"
 					onClick={() => {
-						navigate('/admin/projects');
+						navigate('/projects');
 					}}
 				>
 					<ArrowBackIcon color="action" />
@@ -94,9 +101,9 @@ const Project = () => {
 			<Header title="Detajet e projektit" subtitle="Vizualizo dhe edito projektin" />
 			<FormAdvanced
 				initialValues={{
-					userId: '',
-					emriProjekt: '',
-					pershkrimProjekt: ''
+					projektId,
+					emriProjekt,
+					pershkrimProjekt
 				}}
 				fields={[
 					{
@@ -131,7 +138,6 @@ const Project = () => {
 				actions={[
 					{
 						label: 'Ruaj ndryshimet',
-						onClick: () => {},
 						type: 'submit',
 						color: 'secondary',
 						variant: 'contained',
@@ -145,7 +151,15 @@ const Project = () => {
 					},
 					{
 						label: 'Elemino',
-						onClick: () => {},
+						onClick: async () => {
+							const response = await projectsController.deleteProject(projektId);
+							if (response === '') {
+								toast.success('Elemini u krye me sukses !');
+								navigate("/projects")
+							} else {
+								toast.error('Eleminimi nuk u realizua !');
+							}
+						},
 						color: 'secondary',
 						variant: 'contained',
 						sx: {

@@ -1,11 +1,11 @@
-import { Box, Button, TextField, useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import Header from '~/components/dashboard/Header';
 import { useNavigate } from 'react-router';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import authenticationController from '~/services/authentication';
 import FormAdvanced from '~/components/form';
-import { Formik, FormikProps } from 'formik';
+import { FormikProps } from 'formik';
 import { useState, useRef } from 'react';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
@@ -16,8 +16,7 @@ const userSchema = yup.object().shape({
 	userLastname: yup.string().required('required'),
 	userEmail: yup.string().required('required'),
 	balancaLeje: yup.string().required('required'),
-	userIsActive: yup.string().required('required'),
-	password: yup.string().required('required')
+	userIsActive: yup.string().required('required')
 });
 
 const CreateUser = () => {
@@ -48,7 +47,7 @@ const CreateUser = () => {
 
 		if (response) {
 			toast.success('Ruajtja e ndryshimeve me sukses !');
-			navigate('/admin/users');
+			navigate('/users');
 		} else {
 			toast.error('Rujtja nuk e realizua !');
 		}
@@ -65,8 +64,7 @@ const CreateUser = () => {
 					userLastname: '',
 					userEmail: '',
 					balancaLeje: '',
-					userIsActive: '',
-					password: ''
+					userIsActive: ''
 				}}
 				fields={[
 					{
@@ -115,13 +113,6 @@ const CreateUser = () => {
 					{
 						name: 'userIsActive',
 						label: 'Statusi',
-						variant: 'filled',
-						type: 'text',
-						sx: { gridColumn: 'span 2' }
-					},
-					{
-						name: 'password',
-						label: 'Passwordi',
 						variant: 'filled',
 						type: 'text',
 						sx: { gridColumn: 'span 2' }

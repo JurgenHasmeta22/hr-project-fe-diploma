@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import IUser from '~/interfaces/IUser';
 import usersController from '~/services/users';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
@@ -51,25 +50,20 @@ const Users = () => {
 			flex: 1
 		},
 		{
-			field: 'password',
-			headerName: 'Passwordi',
-			flex: 1
-		},
-		{
 			field: '',
 			headerName: 'Veprimet',
 			sortable: false,
 			disableClickEventBubbling: true,
 			filterable: false,
 			description: 'Mund te editosh dhe te fshish rekordin specifik',
-			flex: 1,
+			flex: 2,
 			renderCell: (params: any) => (
 				<>
 					<Button
 						onClick={() => {
-							navigate(`/admin/editUser`, {
+							navigate(`/editUser`, {
 								state: {
-									projectId: params.row.userId,
+									userId: params.row.userId,
 									from: 'Perdoruesit'
 								}
 							});
@@ -130,7 +124,7 @@ const Users = () => {
 						fontWeight: '700'
 					}}
 					onClick={() => {
-						navigate('/admin/addUser');
+						navigate('/addUser');
 					}}
 				>
 					Shto
@@ -185,6 +179,7 @@ const Users = () => {
 				<DataGrid
 					checkboxSelection
 					rows={users}
+					getRowId={(row) => String(row.userId)}
 					columns={columns}
 					onSelectionModelChange={(ids) => {
 						const clonedUsers = [...users];
