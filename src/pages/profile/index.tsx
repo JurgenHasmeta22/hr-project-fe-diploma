@@ -83,18 +83,8 @@ export default function Profile() {
 		formikRef.current?.resetForm();
 	};
 
-	// const handleClose = () => {
-	// 	setOpen(false);
-	// };
-
-	// const handleSave = (permission: any) => {
-	// 	handleClose();
-	// };
-
 	const handleEditProfile = () => {
-		// setOpen(true);
 		openDrawer({
-			// open,
 			formRef: formikRef,
 			initialValues: {
 				userId: '',

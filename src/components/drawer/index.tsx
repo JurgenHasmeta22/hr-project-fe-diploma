@@ -28,7 +28,6 @@ type FieldConfig = {
 };
 
 type DrawerProps = {
-	// open: boolean;
 	onClose: () => void;
 	initialValues: any;
 	fields: FieldConfig[];
@@ -60,7 +59,6 @@ type ActionConfig = {
 };
 
 const RightPanel: React.FC<DrawerProps> = ({
-	// open,
 	onClose,
 	initialValues,
 	fields,
