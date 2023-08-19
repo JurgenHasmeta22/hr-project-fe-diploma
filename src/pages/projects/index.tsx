@@ -55,7 +55,11 @@ const Projects = () => {
 							});
 						}}
 					>
-						<EditOutlinedIcon color="action" />
+						<EditOutlinedIcon
+							sx={{
+								color: 'green'
+							}}
+						/>
 					</Button>
 					<Button
 						onClick={async () => {
@@ -68,10 +72,18 @@ const Projects = () => {
 							}
 						}}
 					>
-						<ClearOutlinedIcon color="action" />
+						<ClearOutlinedIcon
+							sx={{
+								color: 'red'
+							}}
+						/>
 					</Button>
 					<Button onClick={() => {}}>
-						<MeetingRoomIcon color="action" />
+						<MeetingRoomIcon
+							sx={{
+								color: 'blue'
+							}}
+						/>
 					</Button>
 				</>
 			)
