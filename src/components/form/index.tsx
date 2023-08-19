@@ -76,7 +76,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 				}, [values]);
 				return (
 					<Form onSubmit={handleSubmit}>
-						<Box display="grid" gap="30px" gridTemplateColumns="repeat(4, minmax(0, 0.25fr))">
+						<Box display="grid" gap="20px" gridTemplateColumns="repeat(4, minmax(0, 0.25fr))">
 							{fields.map((field: FieldConfig) => {
 								switch (field.type) {
 									case 'select':
@@ -166,7 +166,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 								}
 							})}
 						</Box>
-						<Box display="flex" justifyContent="end" mt="50px" gap="30px">
+						<Box display="flex" justifyContent="end" mt="30px" gap="30px">
 							{actions!.map((action, index) => (
 								<Button
 									key={index}

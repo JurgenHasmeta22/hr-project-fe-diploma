@@ -41,7 +41,7 @@ const Project = () => {
 	const [formData, setFormData] = useState({});
 	const formikRef = useRef<FormikProps<any>>(null);
 	const handleDataChange = (values: any) => {
-		setFormData(values); // Update the parent's state with form data
+		setFormData(values);
 	};
 
 	const handleResetFromParent = () => {
@@ -155,7 +155,7 @@ const Project = () => {
 							const response = await projectsController.deleteProject(projektId);
 							if (response === '') {
 								toast.success('Elemini u krye me sukses !');
-								navigate("/projects")
+								navigate('/projects');
 							} else {
 								toast.error('Eleminimi nuk u realizua !');
 							}
@@ -188,13 +188,24 @@ const Project = () => {
 					},
 					{
 						label: 'Futu ne projekt',
-						onClick: () => {},
-						type: 'submit',
+						onClick: async () => {
+							const response = await projectsController.assignProjectToUser('guid', projektId, {
+								dataFillim: '2023-08-19T13:44:45.790Z',
+								dataMbarim: '2023-08-19T13:44:45.790Z'
+							});
+
+							if (response === '') {
+								toast.success('Futja ne projekt u krye me sukses !');
+								navigate('/users');
+							} else {
+								toast.error('Futja ne projekt nuk u realizua !');
+							}
+						},
 						color: 'secondary',
 						variant: 'contained',
 						sx: {
 							border: '1px solid #000',
-							bgcolor: '#ff5252',
+							bgcolor: '#3377FF',
 							fontSize: '15px',
 							fontWeight: '700'
 						},

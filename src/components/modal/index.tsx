@@ -27,14 +27,14 @@ type FieldConfig = {
 type ModalProps = {
 	open: boolean;
 	onClose: () => void;
-	initialValues: any;
-	fields: FieldConfig[];
-	validationSchema: any;
-	onSave: (values: any) => void;
+	initialValues?: any;
+	fields?: FieldConfig[];
+	validationSchema?: any;
+	onSave?: (values: any) => void;
 	title: string;
 	actions?: ActionConfig[];
 	formRef?: React.Ref<FormikProps<any>>;
-	onDataChange: (values: any) => void;
+	onDataChange?: (values: any) => void;
 	subTitle?: string;
 };
 
@@ -82,19 +82,19 @@ const Modal: React.FC<ModalProps> = ({
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={(values) => {
-						onSave(values);
+						onSave!(values);
 						onClose();
 					}}
 					innerRef={formRef}
 				>
 					{({ errors, touched, values }) => {
 						useEffect(() => {
-							onDataChange(values);
+							onDataChange!(values);
 						}, [values]);
 						return (
 							<Form>
 								<Grid container spacing={4} mt={'10px'}>
-									{fields.map((field) => (
+									{fields && fields!.map((field) => (
 										<Grid item xs={6} key={field.name}>
 											{field.type === 'select' ? (
 												<FormControl fullWidth size="medium">

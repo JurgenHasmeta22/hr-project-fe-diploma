@@ -29,7 +29,7 @@ interface CardInfo {
 	description: string;
 	imageUrl: string;
 	date: string;
-	tags: string[];
+	tags?: string[];
 }
 
 const cardData: CardInfo[] = [
@@ -37,17 +37,14 @@ const cardData: CardInfo[] = [
 		title: 'Sample Card 1',
 		description: 'Detailed description of card 1.',
 		imageUrl: 'https://via.placeholder.com/150',
-		date: 'July 15, 2023',
-		tags: ['Design', 'UI/UX']
+		date: 'July 15, 2023'
 	},
 	{
 		title: 'Sample Card 2',
 		description: 'Detailed description of card 2.',
 		imageUrl: 'https://via.placeholder.com/150',
-		date: 'August 10, 2023',
-		tags: ['Development', 'React']
+		date: 'August 10, 2023'
 	}
-	// ... add more cards as needed
 ];
 
 const userSchema = Yup.object().shape({
@@ -285,24 +282,13 @@ export default function Profile() {
 										<Typography variant="caption" color="textSecondary">
 											{card.date}
 										</Typography>
-										<Box mt={2}>
-											{card.tags.map((tag) => (
-												<Chip
-													label={tag}
-													variant="outlined"
-													size="small"
-													sx={{ mr: 1, mt: 1 }}
-													key={tag}
-												/>
-											))}
-										</Box>
 									</CardContent>
-									<CardActions>
-										<Button size="small" color="primary">
-											Learn More
-										</Button>
+									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
 										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
 											Edito
+										</Button>
+										<Button size="small" startIcon={<EditIcon />} color="error">
+											Elemino
 										</Button>
 									</CardActions>
 								</Card>
@@ -330,24 +316,13 @@ export default function Profile() {
 										<Typography variant="caption" color="textSecondary">
 											{card.date}
 										</Typography>
-										<Box mt={2}>
-											{card.tags.map((tag) => (
-												<Chip
-													label={tag}
-													variant="outlined"
-													size="small"
-													sx={{ mr: 1, mt: 1 }}
-													key={tag}
-												/>
-											))}
-										</Box>
 									</CardContent>
-									<CardActions>
-										<Button size="small" color="primary">
-											Learn More
-										</Button>
+									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
 										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
 											Edito
+										</Button>
+										<Button size="small" startIcon={<EditIcon />} color="error">
+											Elemino
 										</Button>
 									</CardActions>
 								</Card>
@@ -375,24 +350,13 @@ export default function Profile() {
 										<Typography variant="caption" color="textSecondary">
 											{card.date}
 										</Typography>
-										<Box mt={2}>
-											{card.tags.map((tag) => (
-												<Chip
-													label={tag}
-													variant="outlined"
-													size="small"
-													sx={{ mr: 1, mt: 1 }}
-													key={tag}
-												/>
-											))}
-										</Box>
 									</CardContent>
-									<CardActions>
-										<Button size="small" color="primary">
-											Learn More
-										</Button>
+									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
 										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
 											Edito
+										</Button>
+										<Button size="small" startIcon={<EditIcon />} color="error">
+											Elemino
 										</Button>
 									</CardActions>
 								</Card>
