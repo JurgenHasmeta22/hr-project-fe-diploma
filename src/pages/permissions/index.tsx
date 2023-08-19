@@ -85,28 +85,48 @@ const Permissions = () => {
 			disableClickEventBubbling: true,
 			filterable: false,
 			description: 'Mund te aprovosh ose te disaprovosh eventin',
-			flex: 1,
+			flex: 1.6,
 			renderCell: (params: any) => (
-				<>
+				<Box display={'flex'} flexDirection={'row'} gap={'10px'}>
 					<Button
 						onClick={() => {
 							handleApprovePermission(params.row.id);
 						}}
+						style={{
+							backgroundColor: '#28a745',
+							color: '#fff',
+							padding: '5px 15px',
+							borderRadius: '5px'
+						}}
 					>
-						<CheckCircleIcon color="secondary" />
+						Aprovo
+						<CheckCircleIcon
+							color="secondary"
+							sx={{
+								paddingLeft: '5px'
+							}}
+						/>
 					</Button>
 					<Button
 						onClick={() => {
 							handleDisapprovePermission(params.row.id);
 						}}
+						style={{
+							backgroundColor: '#c82333',
+							color: '#fff',
+							padding: '5px 15px',
+							borderRadius: '5px'
+						}}
 					>
+						Disaprovo
 						<ThumbDownAltIcon
 							sx={{
-								color: 'red'
+								color: 'red',
+								paddingLeft: '5px'
 							}}
 						/>
 					</Button>
-				</>
+				</Box>
 			)
 		}
 	];

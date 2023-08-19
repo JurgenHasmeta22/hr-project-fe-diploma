@@ -172,13 +172,50 @@ const permissionReservation = () => {
 				{
 					label: 'Elemino',
 					onClick: async () => {
-						const response = await permissionsController.deletePermission(selected.event.id);
-						if (response === '') {
-							toast.success('Elemini u krye me sukses !');
-							navigate('/projects');
-						} else {
-							toast.error('Eleminimi nuk u realizua !');
-						}
+						openModal({
+							onClose: () => setOpen(false),
+							title: 'Elemino',
+							actions: [
+								{
+									label: 'Po',
+									onClick: async () => {
+										const response = await permissionsController.deletePermission(
+											selected.event.id
+										);
+
+										if (response === '') {
+											toast.success('Elemini u krye me sukses !');
+											navigate('/projects');
+										} else {
+											toast.error('Eleminimi nuk u realizua !');
+										}
+									},
+									type: 'submit',
+									color: 'secondary',
+									variant: 'contained',
+									sx: {
+										border: '1px solid #000',
+										bgcolor: '#30969f',
+										fontSize: '15px',
+										fontWeight: '700'
+									}
+								},
+								{
+									label: 'Jo',
+									onClick: () => setOpen(false),
+									type: 'reset',
+									color: 'secondary',
+									variant: 'contained',
+									sx: {
+										border: '1px solid #000',
+										bgcolor: '#ff5252',
+										fontSize: '15px',
+										fontWeight: '700'
+									}
+								}
+							],
+							subTitle: 'Deshironi ta fshini ?'
+						});
 					},
 					color: 'secondary',
 					variant: 'contained',

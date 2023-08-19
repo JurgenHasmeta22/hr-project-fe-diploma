@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
 import FormAdvanced from '~/components/form';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { toast } from 'react-toastify';
 
 const userSchema = yup.object().shape({
@@ -230,20 +229,6 @@ const User = () => {
 							fontWeight: '700'
 						},
 						icon: <ClearAllIcon color="action" sx={{ ml: '10px' }} />
-					},
-					{
-						label: 'Futu ne projekt',
-						onClick: () => {},
-						type: 'submit',
-						color: 'secondary',
-						variant: 'contained',
-						sx: {
-							border: '1px solid #000',
-							bgcolor: '#ff5252',
-							fontSize: '15px',
-							fontWeight: '700'
-						},
-						icon: <MeetingRoomIcon color="action" sx={{ ml: '10px' }} />
 					}
 				]}
 			/>

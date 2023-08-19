@@ -101,7 +101,7 @@ const RightPanel: React.FC<DrawerProps> = ({
 						return (
 							<Form>
 								<Grid container spacing={2}>
-									{fields.map((field) => (
+									{fields && fields!.map((field) => (
 										<Grid item xs={6} key={field.name}>
 											{field.type === 'select' ? (
 												<FormControl fullWidth size="medium">
