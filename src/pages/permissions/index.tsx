@@ -93,14 +93,18 @@ const Permissions = () => {
 							handleApprovePermission(params.row.id);
 						}}
 					>
-						<CheckCircleIcon color="action" />
+						<CheckCircleIcon color="secondary" />
 					</Button>
 					<Button
 						onClick={() => {
 							handleDisapprovePermission(params.row.id);
 						}}
 					>
-						<ThumbDownAltIcon color="action" />
+						<ThumbDownAltIcon
+							sx={{
+								color: 'red'
+							}}
+						/>
 					</Button>
 				</>
 			)

@@ -42,7 +42,36 @@ const Users = () => {
 		{
 			field: 'userIsActive',
 			headerName: 'Statusi',
-			flex: 1
+			flex: 1,
+			renderCell: (params: any) => {
+				if (params.value === true) {
+					return (
+						<div
+							style={{
+								backgroundColor: '#28a745',
+								color: '#fff',
+								padding: '5px 10px',
+								borderRadius: '5px'
+							}}
+						>
+							Aktiv
+						</div>
+					);
+				} else if (params.value === false) {
+					return (
+						<div
+							style={{
+								backgroundColor: '#ffcc00',
+								color: '#fff',
+								padding: '5px 10px',
+								borderRadius: '5px'
+							}}
+						>
+							Jo aktiv
+						</div>
+					);
+				}
+			}
 		},
 		{
 			field: 'balancaLeje',
@@ -69,7 +98,11 @@ const Users = () => {
 							});
 						}}
 					>
-						<EditOutlinedIcon color="action" />
+						<EditOutlinedIcon
+							sx={{
+								color: 'green'
+							}}
+						/>
 					</Button>
 					<Button
 						onClick={async () => {
@@ -82,7 +115,11 @@ const Users = () => {
 							}
 						}}
 					>
-						<ClearOutlinedIcon color="action" />
+						<ClearOutlinedIcon
+							sx={{
+								color: 'red'
+							}}
+						/>
 					</Button>
 				</>
 			)
