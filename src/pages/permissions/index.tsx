@@ -14,7 +14,7 @@ const Permissions = () => {
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
 	const columns = [
-		{ field: 'lejeId', headerName: 'Id' },
+		{ field: 'lejeId', headerName: 'Id', hide: true },
 		{
 			field: 'dataFillim',
 			headerName: 'Data e fillimit',
@@ -40,39 +40,13 @@ const Permissions = () => {
 					return (
 						<div
 							style={{
-								backgroundColor: '#28a745',
-								color: '#fff',
-								padding: '5px 10px',
-								borderRadius: '5px'
-							}}
-						>
-							Aprovuar
-						</div>
-					);
-				} else if (params.value === 1) {
-					return (
-						<div
-							style={{
-								backgroundColor: '#ffcc00',
+								backgroundColor: '#cc8400',
 								color: '#fff',
 								padding: '5px 10px',
 								borderRadius: '5px'
 							}}
 						>
 							Ne pritje
-						</div>
-					);
-				} else {
-					return (
-						<div
-							style={{
-								backgroundColor: '#c82333',
-								color: '#fff',
-								padding: '5px 10px',
-								borderRadius: '5px'
-							}}
-						>
-							Disaprovuar
 						</div>
 					);
 				}
@@ -90,7 +64,7 @@ const Permissions = () => {
 				<Box display={'flex'} flexDirection={'row'} gap={'10px'}>
 					<Button
 						onClick={() => {
-							handleApprovePermission(params.row.id);
+							handleApprovePermission(params.row.lejeId);
 						}}
 						style={{
 							backgroundColor: '#28a745',
@@ -109,7 +83,7 @@ const Permissions = () => {
 					</Button>
 					<Button
 						onClick={() => {
-							handleDisapprovePermission(params.row.id);
+							handleDisapprovePermission(params.row.lejeId);
 						}}
 						style={{
 							backgroundColor: '#c82333',
@@ -144,7 +118,8 @@ const Permissions = () => {
 
 	async function getPermissions(): Promise<void> {
 		const response: IPermission[] = await permissionsController.getAllPermissions();
-		setPermissions(response);
+		const filteredPermissions = response.filter(permission => permission.aprovuar === 2);
+		setPermissions(filteredPermissions);
 	}
 
 	useEffect(() => {

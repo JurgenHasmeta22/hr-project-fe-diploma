@@ -15,6 +15,7 @@ import FormAdvanced from '~/components/form';
 import * as yup from 'yup';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import { useStore } from '~/store/zustand/store';
 
 const projectSchema = yup.object().shape({
 	emriProjekt: yup.string().required('required'),
@@ -28,6 +29,7 @@ const Project = () => {
 	const [emriProjekt, setEmriProjekt] = useState<string>('');
 	const [pershkrimProjekt, setPershkrimProjekt] = useState<string>('');
 	const [loading, setLoading] = useState(true);
+	const { user } = useStore();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const breadcrumbs = [
@@ -38,9 +40,9 @@ const Project = () => {
 			Detajet e projektit
 		</Typography>
 	];
-
 	const [formData, setFormData] = useState({});
 	const formikRef = useRef<FormikProps<any>>(null);
+	
 	const handleDataChange = (values: any) => {
 		setFormData(values);
 	};
@@ -55,7 +57,6 @@ const Project = () => {
 			pershkrimProjekt: values.pershkrimProjekt
 		};
 		const response = await projectsController.updateProject(project?.projektId, payload);
-
 		if (response === '') {
 			toast.success('Ruajtja e ndryshimeve me sukses !');
 			getProject();
@@ -192,7 +193,7 @@ const Project = () => {
 					{
 						label: 'Bashkangjitu projektit',
 						onClick: async () => {
-							const response = await projectsController.assignProjectToUser('guid', projektId, {
+							const response = await projectsController.assignProjectToUser(user?.userId, projektId, {
 								dataFillim: currentTime,
 								dataMbarim: null
 							});

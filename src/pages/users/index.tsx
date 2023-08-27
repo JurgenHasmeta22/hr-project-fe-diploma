@@ -19,7 +19,7 @@ const Users = () => {
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
 	const columns: any = [
-		{ field: 'userId', headerName: 'Id' },
+		{ field: 'userId', headerName: 'Id', hide: true },
 		{
 			field: 'userName',
 			headerName: 'userName',

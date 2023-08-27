@@ -11,10 +11,13 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import { useStore } from '~/store/zustand/store';
 
 const Projects = () => {
 	const [projects, setProjects] = useState<IProject[]>([]);
 	const [selectedRows, setSelectedRows] = useState<any[]>([]);
+	const [currentTime, setCurrentTime] = useState('');
+	const { user } = useStore();
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
@@ -22,7 +25,8 @@ const Projects = () => {
 		{
 			field: 'projektId',
 			headerName: 'Id',
-			flex: 1
+			flex: 1,
+			hide: true
 		},
 		{
 			field: 'emriProjekt',
@@ -78,7 +82,24 @@ const Projects = () => {
 							}}
 						/>
 					</Button>
-					<Button onClick={() => {}}>
+					<Button
+						onClick={async () => {
+							const response = await projectsController.assignProjectToUser(
+								user?.userId,
+								params.row.projektId,
+								{
+									dataFillim: currentTime,
+									dataMbarim: null
+								}
+							);
+							if (response === '') {
+								toast.success('Futja ne projekt u krye me sukses !');
+								navigate('/users');
+							} else {
+								toast.error('Futja ne projekt nuk u realizua !');
+							}
+						}}
+					>
 						<MeetingRoomIcon
 							sx={{
 								color: 'blue'
@@ -109,6 +130,8 @@ const Projects = () => {
 	};
 
 	useEffect(() => {
+		const now = new Date().toISOString();
+		setCurrentTime(now);
 		getProjects();
 	}, []);
 
