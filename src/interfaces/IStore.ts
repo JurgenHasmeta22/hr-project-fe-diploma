@@ -1,7 +1,8 @@
 import IUser from './IUser';
 
 export default interface AppStoreState {
-	user: IUser | null;
-	setUser: (data: IUser | null) => void;
+	user: any | null;
+	setUser: (data: any) => void;
 	unsetUser: () => void;
+	loadUserFromLocalStorage: () => void;
 }

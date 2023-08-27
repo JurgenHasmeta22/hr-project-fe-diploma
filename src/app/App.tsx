@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { useMode, ColorModeContext } from '~/utils/theme';
 const Dashboard = React.lazy(() => import('~/pages/dashboard'));
@@ -20,9 +20,23 @@ import Topbar from '~/components/global/Topbar';
 import PrivateRoutes from '~/utils/PrivateRoutes';
 import { DrawerProvider } from '~/components/drawer/drawerContext';
 import { ModalProvider } from '~/components/modal/modalContext';
+import { useStore } from '~/store/zustand/store';
+import { useEffect } from 'react';
 
 function App() {
 	const [theme, colorMode] = useMode();
+	const { loadUserFromLocalStorage, user } = useStore();
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		loadUserFromLocalStorage();
+	}, []);
+
+	useEffect(() => {
+		if (user) {
+			navigate('/dashboard');
+		}
+	}, [user]);
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>
