@@ -9,6 +9,7 @@ import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { tokens } from '~/utils/theme';
 import 'react-pro-sidebar/dist/css/styles.css';
+import { useStore } from '~/store/zustand/store';
 
 const Item = ({ title, to, icon, selected, setSelected }: any) => {
 	const theme = useTheme();
@@ -64,6 +65,7 @@ const Sidebar = () => {
 	const colors = tokens(theme.palette.mode);
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState('Dashboard');
+	const { user } = useStore();
 
 	return (
 		<Box
@@ -103,17 +105,8 @@ const Sidebar = () => {
 							</Box>
 						)}
 					</MenuItem>
-					{!isCollapsed && (
+					{/* {!isCollapsed && (
 						<Box mb="25px">
-							<Box display="flex" justifyContent="center" alignItems="center">
-								<img
-									alt="profile-user"
-									width="100px"
-									height="100px"
-									src={'../../../assets/images/user.png'}
-									style={{ cursor: 'pointer', borderRadius: '50%' }}
-								/>
-							</Box>
 							<Box textAlign="center">
 								<Typography
 									variant="h2"
@@ -121,14 +114,14 @@ const Sidebar = () => {
 									fontWeight="bold"
 									sx={{ m: '10px 0 0 0' }}
 								>
-									Anonim
+									{user?.username}
 								</Typography>
 								<Typography variant="h5" color={colors.greenAccent[500]}>
 									HR Admin
 								</Typography>
 							</Box>
 						</Box>
-					)}
+					)} */}
 					<Box paddingLeft={isCollapsed ? undefined : '10%'}>
 						<Item
 							title="Dashboard"

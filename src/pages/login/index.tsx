@@ -10,6 +10,7 @@ import authenticationController from '~/services/authentication';
 import ILoginReq from '~/interfaces/ILoginReq';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useStore } from '~/store/zustand/store';
 
 const initialValues = {
 	userName: '',
@@ -23,6 +24,7 @@ const loginSchema = yup.object().shape({
 
 export default function Login() {
 	const navigate = useNavigate();
+	const { setUser } = useStore();
 
 	const handleFormSubmit = async (values: any) => {
 		const payload: ILoginReq = {
@@ -31,6 +33,7 @@ export default function Login() {
 		};
 		const response = await authenticationController.onLogin(payload);
 		if (response) {
+			setUser(response);
 			navigate('/dashboard');
 		}
 	};

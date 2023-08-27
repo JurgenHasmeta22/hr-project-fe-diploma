@@ -211,11 +211,6 @@ export default function Profile() {
 					>
 						<ArrowBackIcon color="action" />
 					</Button>
-					<Avatar
-						src={'../../../assets/images/user.png'}
-						alt={`Jurgen Profile Picture`}
-						sx={{ width: 100, height: 100 }}
-					/>
 					<Box flexGrow={1}>
 						<Typography variant="h5" gutterBottom>
 							{'jurgen22'}

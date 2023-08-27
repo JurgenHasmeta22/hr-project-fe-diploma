@@ -5,6 +5,7 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import { tokens, ColorModeContext } from '~/utils/theme';
 import { useNavigate } from 'react-router-dom';
+import { useStore } from '~/store/zustand/store';
 
 const Topbar = () => {
 	const theme = useTheme();
@@ -13,7 +14,8 @@ const Topbar = () => {
 	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
-	
+	const { user, unsetUser } = useStore();
+
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -21,6 +23,7 @@ const Topbar = () => {
 		setAnchorEl(null);
 	};
 	const handleLogout = () => {
+		unsetUser();
 		navigate('/login');
 	};
 	const handleRedirectToProfile = () => {
@@ -35,7 +38,7 @@ const Topbar = () => {
 				borderRadius="3px"
 				component="div"
 			></Box>
-			<Box display="flex">
+			<Box display="flex" gap={'10px'}>
 				<IconButton onClick={colorMode.toggleColorMode}>
 					{theme.palette.mode === 'dark' ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
 				</IconButton>
@@ -45,8 +48,10 @@ const Topbar = () => {
 					aria-haspopup="true"
 					aria-expanded={open ? 'true' : undefined}
 					onClick={handleClick}
+					sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
 				>
-					<PersonOutlinedIcon />
+					<PersonOutlinedIcon color="action" />
+					{user?.username}
 				</IconButton>
 				<Menu
 					id="menuProfile"
@@ -58,7 +63,7 @@ const Topbar = () => {
 					}}
 				>
 					<MenuItem onClick={handleRedirectToProfile}>Profili im</MenuItem>
-					<MenuItem onClick={handleLogout}>Logout</MenuItem>
+					<MenuItem onClick={handleLogout}>Logohu jasht</MenuItem>
 				</Menu>
 			</Box>
 		</Box>
