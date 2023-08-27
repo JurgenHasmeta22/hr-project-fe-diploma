@@ -15,8 +15,8 @@ const userSchema = yup.object().shape({
 	userFirstname: yup.string().required('required'),
 	userLastname: yup.string().required('required'),
 	userEmail: yup.string().required('required'),
-	balancaLeje: yup.string().required('required'),
-	userIsActive: yup.string().required('required')
+	password: yup.string().required('required'),
+	roles: yup.string().required('required'),
 });
 
 const CreateUser = () => {
@@ -25,7 +25,7 @@ const CreateUser = () => {
 	const [formData, setFormData] = useState({});
 	const formikRef = useRef<FormikProps<any>>(null);
 	const handleDataChange = (values: any) => {
-		setFormData(values); // Update the parent's state with form data
+		setFormData(values);
 	};
 
 	const handleResetFromParent = () => {
@@ -34,17 +34,14 @@ const CreateUser = () => {
 
 	const handleFormSubmit = async (values: any) => {
 		const payload = {
-			userId: values.userId,
 			userName: values.userName,
 			userFirstname: values.userFirstname,
 			userLastname: values.userLastname,
 			userEmail: values.userEmail,
-			balancaLeje: values.balancaLeje,
-			userIsActive: values.userIsActive,
-			password: values.password
+			password: values.password,
+			roles: [values.roles]
 		};
 		const response = await authenticationController.onRegister(payload);
-
 		if (response) {
 			toast.success('Ruajtja e ndryshimeve me sukses !');
 			navigate('/users');
@@ -58,23 +55,13 @@ const CreateUser = () => {
 			<Header title="Shto nje perdorues" subtitle="Krijo nje perdorues te ri" />
 			<FormAdvanced
 				initialValues={{
-					userId: '',
 					userName: '',
 					userFirstname: '',
 					userLastname: '',
 					userEmail: '',
-					balancaLeje: '',
-					userIsActive: ''
+					password: ''
 				}}
 				fields={[
-					{
-						name: 'userId',
-						label: 'Id e perdoruesit',
-						disabled: true,
-						variant: 'filled',
-						type: 'text',
-						sx: { gridColumn: 'span 2' }
-					},
 					{
 						name: 'userName',
 						label: 'Username',
@@ -104,24 +91,28 @@ const CreateUser = () => {
 						sx: { gridColumn: 'span 2' }
 					},
 					{
-						name: 'balancaLeje',
-						label: 'Balanca e lejeve',
+						name: 'password',
+						label: 'Password',
 						variant: 'filled',
 						type: 'text',
 						sx: { gridColumn: 'span 2' }
 					},
 					{
-						name: 'userIsActive',
-						label: 'Statusi',
-						variant: 'filled',
-						type: 'text',
-						sx: { gridColumn: 'span 2' }
+						name: 'roles',
+						label: 'Roli',
+						type: 'select',
+						options: [
+							{ label: 'Administrator', value: 'Administrator' },
+							{ label: 'Board Member', value: 'Board Member' },
+							{ label: 'HR Specialist', value: 'HR Specialist' },
+							{ label: 'HR Manager', value: 'HR Manager' },
+							{ label: 'Employee', value: 'Employee' }
+						]
 					}
 				]}
 				actions={[
 					{
 						label: 'Ruaj ndryshimet',
-						onClick: () => {},
 						type: 'submit',
 						color: 'secondary',
 						variant: 'contained',

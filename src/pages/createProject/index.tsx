@@ -22,7 +22,7 @@ const CreateProject = () => {
 	const formikRef = useRef<FormikProps<any>>(null);
 
 	const handleDataChange = (values: any) => {
-		setFormData(values); // Update the parent's state with form data
+		setFormData(values);
 	};
 
 	const handleResetFromParent = () => {

@@ -73,7 +73,7 @@ export default function Profile() {
 	};
 
 	const handleDataChange = (values: any) => {
-		setFormData(values); // Update the parent's state with form data
+		setFormData(values);
 	};
 
 	const handleResetFromParent = () => {

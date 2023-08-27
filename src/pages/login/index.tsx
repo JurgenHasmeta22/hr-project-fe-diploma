@@ -30,8 +30,8 @@ export default function Login() {
 			password: values.password
 		};
 		const response = await authenticationController.onLogin(payload);
-		if (response.status === 201) {
-			navigate('/changePassword');
+		if (response) {
+			navigate('/dashboard');
 		}
 	};
 

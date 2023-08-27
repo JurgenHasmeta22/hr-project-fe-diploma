@@ -23,6 +23,7 @@ const projectSchema = yup.object().shape({
 
 const Project = () => {
 	const [project, setProject] = useState<IProject | null>(null);
+	const [currentTime, setCurrentTime] = useState('');
 	const [projektId, setProjektId] = useState<string | undefined>('');
 	const [emriProjekt, setEmriProjekt] = useState<string>('');
 	const [pershkrimProjekt, setPershkrimProjekt] = useState<string>('');
@@ -77,6 +78,8 @@ const Project = () => {
 			setLoading(false);
 		}
 		fetchData();
+		const now = new Date().toISOString();
+		setCurrentTime(now);
 	}, []);
 
 	if (loading) return <div>Loading...</div>;
@@ -187,13 +190,12 @@ const Project = () => {
 						icon: <ClearAllIcon color="action" sx={{ ml: '10px' }} />
 					},
 					{
-						label: 'Futu ne projekt',
+						label: 'Bashkangjitu projektit',
 						onClick: async () => {
 							const response = await projectsController.assignProjectToUser('guid', projektId, {
-								dataFillim: '2023-08-19T13:44:45.790Z',
-								dataMbarim: '2023-08-19T13:44:45.790Z'
+								dataFillim: currentTime,
+								dataMbarim: null
 							});
-
 							if (response === '') {
 								toast.success('Futja ne projekt u krye me sukses !');
 								navigate('/users');

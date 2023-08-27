@@ -20,7 +20,7 @@ const Users = () => {
 	const columns: any = [
 		{ field: 'userId', headerName: 'Id' },
 		{
-			field: 'Username',
+			field: 'userName',
 			headerName: 'userName',
 			flex: 1
 		},
@@ -106,12 +106,15 @@ const Users = () => {
 					</Button>
 					<Button
 						onClick={async () => {
-							const response = await usersController.deleteUser(params.row.userId);
-							if (response === '') {
-								toast.success('Elemini u krye me sukses !');
+							const response = await usersController.updateUser(params.row.userId, {
+								...params.row,
+								userIsActive: false
+							});
+							if (response) {
+								toast.success('Fshirja u krye me sukses !');
 								getUsers();
 							} else {
-								toast.error('Eleminimi nuk u realizua !');
+								toast.error('Fshirja nuk u realizua !');
 							}
 						}}
 					>
@@ -133,11 +136,17 @@ const Users = () => {
 
 	const handleDeleteRow = async () => {
 		if (selectedRows.length !== 0) {
+			let response;
 			for (const element of selectedRows) {
-				const response = await usersController.deleteUser(element.userId);
-				if (response === '') {
-					toast.success('Eleminimi me sukses !');
-				}
+				response = await usersController.updateUser(element.userId, {
+					...element,
+					userIsActive: false
+				});
+			}
+			if (response) {
+				toast.success('Fshirja me sukses !');
+			} else {
+				toast.error('Fshirja nuk u realizua !');
 			}
 			getUsers();
 		}
