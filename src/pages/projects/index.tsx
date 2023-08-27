@@ -97,11 +97,12 @@ const Projects = () => {
 
 	const handleDeleteRow = async () => {
 		if (selectedRows.length !== 0) {
+			let response;
 			for (const element of selectedRows) {
-				const response = await projectsController.deleteProject(element.projektId);
-				if (response === '') {
-					toast.success('Eleminimi me sukses !');
-				}
+				response = await projectsController.deleteProject(element.projektId);
+			}
+			if (response === '') {
+				toast.success('Eleminimi me sukses !');
 			}
 			getProjects();
 		}

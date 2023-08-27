@@ -9,9 +9,6 @@ const usersController = {
 	},
 	updateUser: async (userId: any, model: any) => {
 		return await axios.put(`https://localhost:7006/User/${userId}`, model).then((x) => x.data);
-	},
-	deleteUser: async (userId: any) => {
-		return await axios.delete(`https://localhost:7006/User/${userId}`).then((x) => x.data);
 	}
 };
 

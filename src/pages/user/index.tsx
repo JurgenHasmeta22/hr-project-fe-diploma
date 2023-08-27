@@ -49,7 +49,7 @@ const User = () => {
 	const [formData, setFormData] = useState({});
 	const formikRef = useRef<FormikProps<any>>(null);
 	const handleDataChange = (values: any) => {
-		setFormData(values); // Update the parent's state with form data
+		setFormData(values);
 	};
 
 	const handleResetFromParent = () => {
@@ -67,8 +67,11 @@ const User = () => {
 		};
 
 		const response = await usersController.updateUser(user?.userId, payload);
-		if (response === '') {
+		if (response) {
+			toast.success('Modifikimi u krye me sukses !');
 			getUser();
+		} else {
+			toast.error('Modifikimi nuk u krye me sukses !');
 		}
 	};
 
@@ -162,6 +165,7 @@ const User = () => {
 						name: 'balancaLeje',
 						label: 'Balanca e lejeve',
 						variant: 'filled',
+						disabled: true,
 						type: 'text',
 						sx: { gridColumn: 'span 2' }
 					},
@@ -196,12 +200,15 @@ const User = () => {
 					{
 						label: 'Elemino',
 						onClick: async () => {
-							const response = await usersController.deleteUser(userId);
-							if (response === '') {
-								toast.success('Elemini u krye me sukses !');
+							const response = await usersController.updateUser(userId, {
+								...user,
+								userIsActive: false
+							});
+							if (response) {
+								toast.success('Fshirja u krye me sukses !');
 								navigate('/users');
 							} else {
-								toast.error('Eleminimi nuk u realizua !');
+								toast.error('Fshirja nuk u realizua !');
 							}
 						},
 						color: 'secondary',

@@ -156,6 +156,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 												onChange={handleChange}
 												value={values[field.name]}
 												variant={field.variant}
+												disabled={field.disabled}
 												size="medium"
 												sx={field.sx}
 												type={field.type || 'text'}
