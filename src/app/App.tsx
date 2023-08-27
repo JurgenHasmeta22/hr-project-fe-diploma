@@ -22,20 +22,33 @@ import { DrawerProvider } from '~/components/drawer/drawerContext';
 import { ModalProvider } from '~/components/modal/modalContext';
 import { useStore } from '~/store/zustand/store';
 import { useEffect } from 'react';
+import IUser from '~/interfaces/IUser';
+import usersController from '~/services/users';
 
 function App() {
 	const [theme, colorMode] = useMode();
 	const { loadUserFromLocalStorage, user } = useStore();
 	const navigate = useNavigate();
+	const { setUserDetailsLoggedIn } = useStore();
 
 	useEffect(() => {
 		loadUserFromLocalStorage();
 	}, []);
 
 	useEffect(() => {
-		if (user) {
-			navigate('/dashboard');
-		}
+		const fetchUser = async () => {
+			if (user) {
+				try {
+					const response: IUser = await usersController.getUser(user.userId);
+					if (response) {
+						setUserDetailsLoggedIn(response);
+					}
+				} catch (error) {
+					console.error('Failed to fetch user:', error);
+				}
+			}
+		};
+		fetchUser();
 	}, [user]);
 
 	return (

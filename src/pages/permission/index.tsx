@@ -14,7 +14,7 @@ const Users = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const columns: any = [
-		{ field: 'userId', headerName: 'Id' },
+		{ field: 'userId', headerName: 'Id', hide: true},
 		{
 			field: 'Username',
 			headerName: 'userName',

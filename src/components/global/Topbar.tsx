@@ -27,7 +27,12 @@ const Topbar = () => {
 		navigate('/login');
 	};
 	const handleRedirectToProfile = () => {
-		navigate('/profile');
+		navigate('/profile', {
+			state: {
+				userId: user?.userId,
+				from: 'Perdoruesit'
+			}
+		});
 	};
 
 	return (

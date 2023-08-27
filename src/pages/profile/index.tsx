@@ -353,73 +353,6 @@ export default function Profile() {
 		});
 	};
 
-	const handleCreateProject = () => {
-		openDrawer({
-			formRef: formikRef,
-			initialValues: {
-				emriProjekt: '',
-				pershkrimProjekt: ''
-			},
-			fields: [
-				{
-					name: 'emriProjekt',
-					label: 'Emri',
-					variant: 'filled',
-					type: 'text',
-					sx: { gridColumn: 'span 2' }
-				},
-				{
-					name: 'pershkrimProjekt',
-					label: 'Pershkrimi',
-					variant: 'filled',
-					type: 'text',
-					sx: { gridColumn: 'span 2' }
-				}
-			],
-			validationSchema: projectSchema,
-			onSave: (values: any) => {
-				console.log(values);
-			},
-			title: 'Edito perdoruesin',
-			actions: [
-				{
-					label: 'Anullo',
-					onClick: () => {
-						handleResetFromParent();
-					},
-					type: 'reset',
-					color: 'secondary',
-					variant: 'contained',
-					sx: {
-						border: '1px solid #000',
-						bgcolor: '#ff5252',
-						fontSize: '15px',
-						fontWeight: '700'
-					},
-					icon: <ClearAllIcon />
-				},
-				{
-					label: 'Ruaj ndryshimet',
-					onClick: () => {},
-					type: 'submit',
-					color: 'secondary',
-					variant: 'contained',
-					sx: {
-						border: '1px solid #000',
-						bgcolor: '#30969f',
-						fontSize: '15px',
-						fontWeight: '700'
-					},
-					icon: <SaveAsIcon />
-				}
-			],
-			onDataChange: (values: any) => {
-				handleDataChange(values);
-			}
-			// subTitle: 'Plotesoni detajet e perdoruesit'
-		});
-	};
-
 	const handleCreateEducation = () => {
 		openDrawer({
 			formRef: formikRef,
@@ -620,71 +553,6 @@ export default function Profile() {
 			title: 'Edito pune',
 			onSave: (values: any) => {
 				console.log('Updated work values:', values);
-			},
-			actions: [
-				{
-					label: 'Anullo',
-					onClick: () => {
-						handleResetFromParent();
-					},
-					type: 'reset',
-					color: 'secondary',
-					variant: 'contained',
-					sx: {
-						border: '1px solid #000',
-						bgcolor: '#ff5252',
-						fontSize: '15px',
-						fontWeight: '700'
-					},
-					icon: <ClearAllIcon />
-				},
-				{
-					label: 'Ruaj ndryshimet',
-					onClick: () => {},
-					type: 'submit',
-					color: 'secondary',
-					variant: 'contained',
-					sx: {
-						border: '1px solid #000',
-						bgcolor: '#30969f',
-						fontSize: '15px',
-						fontWeight: '700'
-					},
-					icon: <SaveAsIcon />
-				}
-			],
-			onDataChange: (values: any) => {
-				handleDataChange(values);
-			}
-		});
-	};
-
-	const handleEditProject = (project: IProject) => {
-		openDrawer({
-			formRef: formikRef,
-			initialValues: {
-				emriProjekt: project.emriProjekt,
-				pershkrimProjekt: project.pershkrimProjekt
-			},
-			fields: [
-				{
-					name: 'emriProjekt',
-					label: 'Emri',
-					variant: 'filled',
-					type: 'text',
-					sx: { gridColumn: 'span 2' }
-				},
-				{
-					name: 'pershkrimProjekt',
-					label: 'Pershkrimi',
-					variant: 'filled',
-					type: 'text',
-					sx: { gridColumn: 'span 2' }
-				}
-			],
-			title: 'Edito projektin',
-			onSave: (values: any) => {
-				console.log('Updated project values:', values);
 			},
 			actions: [
 				{
@@ -952,18 +820,6 @@ export default function Profile() {
 					</Grid>
 				</TabPanel>
 				<TabPanel value={value} index={2}>
-					<Box>
-						<Button
-							variant="contained"
-							startIcon={<AddOutlinedIcon />}
-							color="error"
-							onClick={() => {
-								handleCreateProject();
-							}}
-						>
-							Shto
-						</Button>
-					</Box>
 					<Grid container spacing={4} mt={'5px'}>
 						{userProfile?.userProjekts!.map((project: IProject, index) => (
 							<Grid item xs={12} sm={6} md={3} key={index}>
@@ -976,19 +832,6 @@ export default function Profile() {
 											{project.pershkrimProjekt}
 										</Typography>
 									</CardContent>
-									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-										<Button
-											variant="contained"
-											startIcon={<EditIcon />}
-											color="secondary"
-											onClick={() => handleEditProject(project)}
-										>
-											Edito
-										</Button>
-										<Button size="small" startIcon={<EditIcon />} color="error">
-											Elemino
-										</Button>
-									</CardActions>
 								</Card>
 							</Grid>
 						))}

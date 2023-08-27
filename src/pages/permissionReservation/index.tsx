@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '~/components/modal/modalContext';
 import IPermission from '~/interfaces/IPermission';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import { useStore } from '~/store/zustand/store';
 
 const permissionReservation = () => {
 	const theme = useTheme();
@@ -31,6 +32,7 @@ const permissionReservation = () => {
 	const navigate = useNavigate();
 	const { openModal } = useModal();
 	const [loading, setLoading] = useState(true);
+	const { user } = useStore();
 
 	const handleDataChange = (values: any) => {
 		setFormData(values);
@@ -53,10 +55,7 @@ const permissionReservation = () => {
 	}
 
 	const handleSave = async () => {
-		const response = await permissionsController.askPermission(
-			formData,
-			'cc9ef9d7-6197-4490-92f7-4f28cf6c1a96'
-		);
+		const response = await permissionsController.askPermission(formData, user?.userId);
 
 		if (response === '') {
 			toast.success('Rezervimi i lejes u krijua me sukses !');
@@ -82,12 +81,8 @@ const permissionReservation = () => {
 				{ name: 'dataMbarim', label: 'Data e mbarimit', type: 'date' },
 				{
 					name: 'tipiLeje',
-					label: 'Tipi i lejes',
-					type: 'select',
-					options: [
-						{ label: 'Type 1', value: 'type1' },
-						{ label: 'Type 2', value: 'type2' }
-					]
+					label: 'Pershkrimi i lejes',
+					type: 'text'
 				}
 			],
 			validationSchema: Yup.object({
@@ -95,8 +90,8 @@ const permissionReservation = () => {
 				dataMbarim: Yup.string().required('Required'),
 				tipiLeje: Yup.string().required('Required')
 			}),
-			onSave: (values: any) => {
-				console.log(values);
+			onSave: () => {
+				handleSave();
 			},
 			title: 'Rezervo leje',
 			actions: [
@@ -116,7 +111,6 @@ const permissionReservation = () => {
 				},
 				{
 					label: 'Ruaj ndryshimet',
-					onClick: () => handleSave(),
 					type: 'submit',
 					color: 'secondary',
 					variant: 'contained',
@@ -151,12 +145,8 @@ const permissionReservation = () => {
 				{ name: 'dataMbarim', label: 'Data e mbarimit', type: 'date' },
 				{
 					name: 'tipiLeje',
-					label: 'Tipi i lejes',
-					type: 'select',
-					options: [
-						{ label: 'Type 1', value: 'type1' },
-						{ label: 'Type 2', value: 'type2' }
-					]
+					label: 'Pershkrimi i lejes',
+					type: 'text'
 				}
 			],
 			validationSchema: Yup.object({
@@ -165,7 +155,7 @@ const permissionReservation = () => {
 				tipiLeje: Yup.string().required('Required')
 			}),
 			onSave: (values: any) => {
-				console.log(values);
+				handleSave();
 			},
 			title: 'Detajet e lejes',
 			actions: [
@@ -182,7 +172,6 @@ const permissionReservation = () => {
 										const response = await permissionsController.deletePermission(
 											selected.event.id
 										);
-
 										if (response === '') {
 											toast.success('Elemini u krye me sukses !');
 											navigate('/projects');
@@ -190,7 +179,7 @@ const permissionReservation = () => {
 											toast.error('Eleminimi nuk u realizua !');
 										}
 									},
-									type: 'submit',
+									// type: 'submit',
 									color: 'secondary',
 									variant: 'contained',
 									sx: {
@@ -268,7 +257,8 @@ const permissionReservation = () => {
 
 	async function getPermissions(): Promise<void> {
 		const response: IPermission[] = await permissionsController.getAllPermissions();
-		const convertedEvents = response.map((permission) => ({
+		const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
+		const convertedEvents = filteredPermissions.map((permission) => ({
 			id: permission.lejeId?.toString(),
 			title: permission.tipiLeje,
 			start: permission.dataFillim,
