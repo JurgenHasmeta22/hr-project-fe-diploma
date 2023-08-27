@@ -479,6 +479,308 @@ export default function Profile() {
 		});
 	};
 
+	const handleEditCertificate = (certificate: ICertification) => {
+		openDrawer({
+			formRef: formikRef,
+			initialValues: {
+				certEmri: certificate.certEmri,
+				certPershkrim: certificate.certPershkrim
+			},
+			fields: [
+				{
+					name: 'certEmri',
+					label: 'Emri',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'certPershkrim',
+					label: 'Pershkrimi',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				}
+			],
+			title: 'Edito certifikate',
+			onSave: (values: any) => {
+				console.log('Updated certificate values:', values);
+				// Call API or method to update certificate here
+			},
+			actions: [
+				{
+					label: 'Anullo',
+					onClick: () => {
+						handleResetFromParent();
+					},
+					type: 'reset',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearAllIcon />
+				},
+				{
+					label: 'Ruaj ndryshimet',
+					onClick: () => {},
+					type: 'submit',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <SaveAsIcon />
+				}
+			],
+			onDataChange: (values: any) => {
+				handleDataChange(values);
+			}
+		});
+	};
+
+	const handleEditSkill = (skill: ISkill) => {
+		openDrawer({
+			formRef: formikRef,
+			initialValues: {
+				llojiAftesise: skill.llojiAftesise
+			},
+			fields: [
+				{
+					name: 'llojiAftesise',
+					label: 'Lloji i aftesise',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				}
+			],
+			title: 'Edito Aftesi',
+			onSave: (values: any) => {
+				console.log('Updated skill values:', values);
+			},
+			actions: [
+				{
+					label: 'Anullo',
+					onClick: () => {
+						handleResetFromParent();
+					},
+					type: 'reset',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearAllIcon />
+				},
+				{
+					label: 'Ruaj ndryshimet',
+					onClick: () => {},
+					type: 'submit',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <SaveAsIcon />
+				}
+			],
+			onDataChange: (values: any) => {
+				handleDataChange(values);
+			}
+		});
+	};
+
+	const handleEditWork = (work: IWorkExperience) => {
+		openDrawer({
+			formRef: formikRef,
+			initialValues: {
+				ppEmri: work.ppEmri
+			},
+			fields: [
+				{
+					name: 'ppEmri',
+					label: 'Emri',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				}
+			],
+			title: 'Edito pune',
+			onSave: (values: any) => {
+				console.log('Updated work values:', values);
+			},
+			actions: [
+				{
+					label: 'Anullo',
+					onClick: () => {
+						handleResetFromParent();
+					},
+					type: 'reset',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearAllIcon />
+				},
+				{
+					label: 'Ruaj ndryshimet',
+					onClick: () => {},
+					type: 'submit',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <SaveAsIcon />
+				}
+			],
+			onDataChange: (values: any) => {
+				handleDataChange(values);
+			}
+		});
+	};
+
+	const handleEditProject = (project: IProject) => {
+		openDrawer({
+			formRef: formikRef,
+			initialValues: {
+				emriProjekt: project.emriProjekt,
+				pershkrimProjekt: project.pershkrimProjekt
+			},
+			fields: [
+				{
+					name: 'emriProjekt',
+					label: 'Emri',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				},
+				{
+					name: 'pershkrimProjekt',
+					label: 'Pershkrimi',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				}
+			],
+			title: 'Edito projektin',
+			onSave: (values: any) => {
+				console.log('Updated project values:', values);
+			},
+			actions: [
+				{
+					label: 'Anullo',
+					onClick: () => {
+						handleResetFromParent();
+					},
+					type: 'reset',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearAllIcon />
+				},
+				{
+					label: 'Ruaj ndryshimet',
+					onClick: () => {},
+					type: 'submit',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <SaveAsIcon />
+				}
+			],
+			onDataChange: (values: any) => {
+				handleDataChange(values);
+			}
+		});
+	};
+
+	const handleEditEducation = (education: IEducation) => {
+		openDrawer({
+			formRef: formikRef,
+			initialValues: {
+				eduName: education.eduName
+			},
+			fields: [
+				{
+					name: 'eduName',
+					label: 'Emri',
+					variant: 'filled',
+					type: 'text',
+					sx: { gridColumn: 'span 2' }
+				}
+			],
+			title: 'Edito edukimin',
+			onSave: (values: any) => {
+				console.log('Updated education values:', values);
+			},
+			actions: [
+				{
+					label: 'Anullo',
+					onClick: () => {
+						handleResetFromParent();
+					},
+					type: 'reset',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#ff5252',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <ClearAllIcon />
+				},
+				{
+					label: 'Ruaj ndryshimet',
+					onClick: () => {},
+					type: 'submit',
+					color: 'secondary',
+					variant: 'contained',
+					sx: {
+						border: '1px solid #000',
+						bgcolor: '#30969f',
+						fontSize: '15px',
+						fontWeight: '700'
+					},
+					icon: <SaveAsIcon />
+				}
+			],
+			onDataChange: (values: any) => {
+				handleDataChange(values);
+			}
+		});
+	};
+
 	useEffect(() => {
 		if (location.state?.userId) {
 			async function fetchUserDetails() {
@@ -592,7 +894,12 @@ export default function Profile() {
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
+										<Button
+											variant="contained"
+											startIcon={<EditIcon />}
+											color="secondary"
+											onClick={() => handleEditCertificate(certificate)}
+										>
 											Edito
 										</Button>
 										<Button size="small" startIcon={<EditIcon />} color="error">
@@ -627,7 +934,12 @@ export default function Profile() {
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
+										<Button
+											variant="contained"
+											startIcon={<EditIcon />}
+											color="secondary"
+											onClick={() => handleEditEducation(education)}
+										>
 											Edito
 										</Button>
 										<Button size="small" startIcon={<EditIcon />} color="error">
@@ -665,7 +977,12 @@ export default function Profile() {
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
+										<Button
+											variant="contained"
+											startIcon={<EditIcon />}
+											color="secondary"
+											onClick={() => handleEditProject(project)}
+										>
 											Edito
 										</Button>
 										<Button size="small" startIcon={<EditIcon />} color="error">
@@ -700,7 +1017,12 @@ export default function Profile() {
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
+										<Button
+											variant="contained"
+											startIcon={<EditIcon />}
+											color="secondary"
+											onClick={() => handleEditSkill(skill)}
+										>
 											Edito
 										</Button>
 										<Button size="small" startIcon={<EditIcon />} color="error">
@@ -735,7 +1057,12 @@ export default function Profile() {
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
-										<Button variant="contained" startIcon={<EditIcon />} color="secondary">
+										<Button
+											variant="contained"
+											startIcon={<EditIcon />}
+											color="secondary"
+											onClick={() => handleEditWork(work)}
+										>
 											Edito
 										</Button>
 										<Button size="small" startIcon={<EditIcon />} color="error">
