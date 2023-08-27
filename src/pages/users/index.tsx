@@ -10,6 +10,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Users = () => {
 	const [users, setUsers] = useState<IUser[]>([]);
@@ -84,7 +85,7 @@ const Users = () => {
 			sortable: false,
 			disableClickEventBubbling: true,
 			filterable: false,
-			description: 'Mund te editosh dhe te fshish rekordin specifik',
+			description: 'Mund te editosh, shikosh dhe te fshish rekordin specifik',
 			flex: 2,
 			renderCell: (params: any) => (
 				<>
@@ -101,6 +102,22 @@ const Users = () => {
 						<EditOutlinedIcon
 							sx={{
 								color: 'green'
+							}}
+						/>
+					</Button>
+					<Button
+						onClick={() => {
+							navigate(`/profile`, {
+								state: {
+									userId: params.row.userId,
+									from: 'Perdoruesit'
+								}
+							});
+						}}
+					>
+						<VisibilityIcon
+							sx={{
+								color: 'blue'
 							}}
 						/>
 					</Button>
