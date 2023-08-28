@@ -756,15 +756,15 @@ export default function Profile() {
 						</Button>
 					</Box>
 					<Grid container spacing={4} mt={'5px'}>
-						{userProfile?.userCertifikates!.map((certificate: ICertification, index) => (
+						{userProfile?.userCertifikates!.map((el, index) => (
 							<Grid item xs={12} sm={6} md={3} key={index}>
 								<Card elevation={4}>
 									<CardContent>
 										<Typography variant="h6" gutterBottom>
-											{certificate.certEmri}
+											Emri: {el.certificate.certEmri}
 										</Typography>
 										<Typography variant="body2" color="textSecondary" gutterBottom>
-											{certificate.certPershkrim}
+											Pershkrim: {el.certificate.certPershkrim}
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
@@ -772,7 +772,7 @@ export default function Profile() {
 											variant="contained"
 											startIcon={<EditIcon />}
 											color="secondary"
-											onClick={() => handleEditCertificate(certificate)}
+											onClick={() => handleEditCertificate(el.certificate)}
 										>
 											Edito
 										</Button>
@@ -799,12 +799,12 @@ export default function Profile() {
 						</Button>
 					</Box>
 					<Grid container spacing={4} mt={'5px'}>
-						{userProfile?.userEdukims!.map((education: IEducation, index) => (
+						{userProfile?.userEdukims!.map((el, index) => (
 							<Grid item xs={12} sm={6} md={3} key={index}>
 								<Card elevation={4}>
 									<CardContent>
 										<Typography variant="h6" gutterBottom>
-											{education.eduName}
+											Emri: {el.edukim.eduName}
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
@@ -812,7 +812,7 @@ export default function Profile() {
 											variant="contained"
 											startIcon={<EditIcon />}
 											color="secondary"
-											onClick={() => handleEditEducation(education)}
+											onClick={() => handleEditEducation(el.edukim)}
 										>
 											Edito
 										</Button>
@@ -827,15 +827,15 @@ export default function Profile() {
 				</TabPanel>
 				<TabPanel value={value} index={2}>
 					<Grid container spacing={4} mt={'5px'}>
-						{userProfile?.userProjekts!.map((project: IProject, index) => (
+						{userProfile?.userProjekts!.map((el, index) => (
 							<Grid item xs={12} sm={6} md={3} key={index}>
 								<Card elevation={4}>
 									<CardContent>
 										<Typography variant="h6" gutterBottom>
-											{project.emriProjekt}
+											Emri: {el.projekt.emriProjekt}
 										</Typography>
 										<Typography variant="body2" color="textSecondary" gutterBottom>
-											{project.pershkrimProjekt}
+											Pershkrimi: {el.projekt.pershkrimProjekt}
 										</Typography>
 									</CardContent>
 								</Card>
@@ -857,12 +857,12 @@ export default function Profile() {
 						</Button>
 					</Box>
 					<Grid container spacing={4} mt={'5px'}>
-						{userProfile?.userAftesis!.map((skill: ISkill, index) => (
+						{userProfile?.userAftesis!.map((el, index) => (
 							<Grid item xs={12} sm={6} md={3} key={index}>
 								<Card elevation={4}>
 									<CardContent>
 										<Typography variant="h6" gutterBottom>
-											{skill.llojiAftesise}
+											Emri: {el.aftesi.llojiAftesise}
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
@@ -870,7 +870,7 @@ export default function Profile() {
 											variant="contained"
 											startIcon={<EditIcon />}
 											color="secondary"
-											onClick={() => handleEditSkill(skill)}
+											onClick={() => handleEditSkill(el.aftesi)}
 										>
 											Edito
 										</Button>
@@ -897,12 +897,12 @@ export default function Profile() {
 						</Button>
 					</Box>
 					<Grid container spacing={4} mt={'5px'}>
-						{userProfile?.userPervojePunes!.map((work: IWorkExperience, index) => (
+						{userProfile?.userPervojePunes!.map((el, index) => (
 							<Grid item xs={12} sm={6} md={3} key={index}>
 								<Card elevation={4}>
 									<CardContent>
 										<Typography variant="h6" gutterBottom>
-											{work.ppEmri}
+											Emri: {el.pervojePune.ppEmri}
 										</Typography>
 									</CardContent>
 									<CardActions sx={{ display: 'flex', flexDirection: 'row', gap: '30px' }}>
@@ -910,7 +910,7 @@ export default function Profile() {
 											variant="contained"
 											startIcon={<EditIcon />}
 											color="secondary"
-											onClick={() => handleEditWork(work)}
+											onClick={() => handleEditWork(el.pervojePune)}
 										>
 											Edito
 										</Button>
