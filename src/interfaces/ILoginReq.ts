@@ -1,4 +1,4 @@
-export default interface  ILoginReq {
-    userName: string,
-    password: string
+export default interface ILoginReq {
+  userName: string;
+  password: string;
 }

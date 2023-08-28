@@ -1,4 +1,4 @@
-export default interface  IEducation {
-    eduId?: number,
-    eduName: string
+export default interface IEducation {
+  eduId?: number;
+  eduName: string;
 }
