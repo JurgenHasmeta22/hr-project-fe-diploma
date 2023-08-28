@@ -24,7 +24,7 @@ type FieldConfig = {
 	disabled?: boolean;
 	sx: {
 		gridColumn: string;
-	}
+	};
 };
 
 type DrawerProps = {
@@ -101,34 +101,35 @@ const RightPanel: React.FC<DrawerProps> = ({
 						return (
 							<Form>
 								<Grid container spacing={2}>
-									{fields && fields!.map((field) => (
-										<Grid item xs={6} key={field.name}>
-											{field.type === 'select' ? (
-												<FormControl fullWidth size="medium">
-													<InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
-													<Field name={field.name} labelId={`${field.name}-label`} as={Select}>
-														{field.options?.map((option) => (
-															<MenuItem key={option.value} value={option.value}>
-																{option.label}
-															</MenuItem>
-														))}
-													</Field>
-												</FormControl>
-											) : (
-												<Field
-													as={TextField}
-													name={field.name}
-													label={field.label}
-													fullWidth
-													size="medium"
-													type={field.type || 'text'}
-													helperText={touched[field.name] && errors[field.name]}
-													error={touched[field.name] && !!errors[field.name]}
-													InputLabelProps={field.type === 'date' ? { shrink: true } : undefined}
-												/>
-											)}
-										</Grid>
-									))}
+									{fields &&
+										fields!.map((field) => (
+											<Grid item xs={6} key={field.name}>
+												{field.type === 'select' ? (
+													<FormControl fullWidth size="medium">
+														<InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+														<Field name={field.name} labelId={`${field.name}-label`} as={Select}>
+															{field.options?.map((option) => (
+																<MenuItem key={option.value} value={option.value}>
+																	{option.label}
+																</MenuItem>
+															))}
+														</Field>
+													</FormControl>
+												) : (
+													<Field
+														as={TextField}
+														name={field.name}
+														label={field.label}
+														fullWidth
+														size="medium"
+														type={field.type || 'text'}
+														helperText={touched[field.name] && errors[field.name]}
+														error={touched[field.name] && !!errors[field.name]}
+														InputLabelProps={field.type === 'date' ? { shrink: true } : undefined}
+													/>
+												)}
+											</Grid>
+										))}
 								</Grid>
 								<Box mt={3} display={'flex'} gap={'10px'} justifyContent={'end'}>
 									{actions!.map((action, index) => (

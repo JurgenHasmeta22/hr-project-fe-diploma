@@ -123,6 +123,15 @@ export const themeSettings = (mode: any) => {
 	const colors = tokens(mode);
 
 	return {
+		transitions: {
+			easing: {
+				sharp: 'cubic-bezier(0.4, 0, 0.6, 1)'
+			},
+			duration: {
+				enteringScreen: 1000,
+				leavingScreen: 1000
+			}
+		},
 		palette: {
 			mode: mode,
 			...(mode === 'dark'
