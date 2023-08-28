@@ -9,17 +9,17 @@ import 'react-toastify/dist/ReactToastify.css';
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
-	<BrowserRouter>
-		<ToastContainer
-			autoClose={2000}
-			hideProgressBar={false}
-			newestOnTop={false}
-			closeOnClick
-			rtl={false}
-			pauseOnFocusLoss
-			draggable
-			pauseOnHover
-		/>
-		<App />
-	</BrowserRouter>
+  <BrowserRouter>
+    <ToastContainer
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+    <App />
+  </BrowserRouter>
 );

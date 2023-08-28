@@ -1,5 +1,5 @@
 export default interface IRole {
-    roliId?: number,
-    roliEmri: number,
-    roliPershkrim: string,
+  roliId?: number;
+  roliEmri: number;
+  roliPershkrim: string;
 }

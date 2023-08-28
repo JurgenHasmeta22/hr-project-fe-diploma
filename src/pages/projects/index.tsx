@@ -14,217 +14,221 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { useStore } from '~/store/zustand/store';
 
 const Projects = () => {
-	const [projects, setProjects] = useState<IProject[]>([]);
-	const [selectedRows, setSelectedRows] = useState<any[]>([]);
-	const [currentTime, setCurrentTime] = useState('');
-	const { user } = useStore();
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-	const navigate = useNavigate();
-	const { userDetailsLoggedIn } = useStore();
-	const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === 'Employee');
-	const columns = [
-		{
-			field: 'projektId',
-			headerName: 'Id',
-			flex: 1,
-			hide: true
-		},
-		{
-			field: 'emriProjekt',
-			headerName: 'Emri i projektit',
-			flex: 1
-		},
-		{
-			field: 'pershkrimProjekt',
-			headerName: 'Pershkrimi i projektit',
-			flex: 1
-		},
-		{
-			field: '',
-			headerName: 'Veprimet',
-			sortable: false,
-			disableClickEventBubbling: true,
-			filterable: false,
-			description: 'Mund te editosh, fshi, dhe futesh ne projektin specifik',
-			flex: !isEmployee ? 1 : 0.2,
-			// align: 'center',
-			renderCell: (params: any) => (
-				<>
-					{!isEmployee && (
-						<>
-							<Button
-								onClick={() => {
-									navigate(`/editProject`, {
-										state: {
-											projectId: params.row.projektId,
-											from: 'Projektet'
-										}
-									});
-								}}
-							>
-								<EditOutlinedIcon
-									sx={{
-										color: 'green'
-									}}
-								/>
-							</Button>
-							<Button
-								onClick={async () => {
-									const response = await projectsController.deleteProject(params.row.projektId);
-									if (response === '') {
-										toast.success('Elemini u krye me sukses !');
-										getProjects();
-									} else {
-										toast.error('Eleminimi nuk u realizua !');
-									}
-								}}
-							>
-								<ClearOutlinedIcon
-									sx={{
-										color: 'red'
-									}}
-								/>
-							</Button>
-						</>
-					)}
-					<Button
-						onClick={async () => {
-							const response = await projectsController.assignProjectToUser(
-								user?.userId,
-								params.row.projektId,
-								{
-									dataFillim: currentTime,
-									dataMbarim: null
-								}
-							);
-							if (response === '') {
-								toast.success('Futja ne projekt u krye me sukses !');
-								navigate('/users');
-							} else {
-								toast.error('Futja ne projekt nuk u realizua !');
-							}
-						}}
-					>
-						<MeetingRoomIcon
-							sx={{
-								color: 'blue'
-							}}
-						/>
-					</Button>
-				</>
-			)
-		}
-	];
+  const [projects, setProjects] = useState<IProject[]>([]);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [currentTime, setCurrentTime] = useState('');
+  const { user } = useStore();
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
+  const { userDetailsLoggedIn } = useStore();
+  const isEmployee = userDetailsLoggedIn?.userRolis?.some(
+    (el) => el.roli.roliEmri === 'Employee'
+  );
+  const columns = [
+    {
+      field: 'projektId',
+      headerName: 'Id',
+      flex: 1,
+      hide: true,
+    },
+    {
+      field: 'emriProjekt',
+      headerName: 'Emri i projektit',
+      flex: 1,
+    },
+    {
+      field: 'pershkrimProjekt',
+      headerName: 'Pershkrimi i projektit',
+      flex: 1,
+    },
+    {
+      field: '',
+      headerName: 'Veprimet',
+      sortable: false,
+      disableClickEventBubbling: true,
+      filterable: false,
+      description: 'Mund te editosh, fshi, dhe futesh ne projektin specifik',
+      flex: !isEmployee ? 1 : 0.2,
+      // align: 'center',
+      renderCell: (params: any) => (
+        <>
+          {!isEmployee && (
+            <>
+              <Button
+                onClick={() => {
+                  navigate(`/editProject`, {
+                    state: {
+                      projectId: params.row.projektId,
+                      from: 'Projektet',
+                    },
+                  });
+                }}
+              >
+                <EditOutlinedIcon
+                  sx={{
+                    color: 'green',
+                  }}
+                />
+              </Button>
+              <Button
+                onClick={async () => {
+                  const response = await projectsController.deleteProject(
+                    params.row.projektId
+                  );
+                  if (response === '') {
+                    toast.success('Elemini u krye me sukses !');
+                    getProjects();
+                  } else {
+                    toast.error('Eleminimi nuk u realizua !');
+                  }
+                }}
+              >
+                <ClearOutlinedIcon
+                  sx={{
+                    color: 'red',
+                  }}
+                />
+              </Button>
+            </>
+          )}
+          <Button
+            onClick={async () => {
+              const response = await projectsController.assignProjectToUser(
+                user?.userId,
+                params.row.projektId,
+                {
+                  dataFillim: currentTime,
+                  dataMbarim: null,
+                }
+              );
+              if (response === '') {
+                toast.success('Futja ne projekt u krye me sukses !');
+                navigate('/users');
+              } else {
+                toast.error('Futja ne projekt nuk u realizua !');
+              }
+            }}
+          >
+            <MeetingRoomIcon
+              sx={{
+                color: 'blue',
+              }}
+            />
+          </Button>
+        </>
+      ),
+    },
+  ];
 
-	async function getProjects(): Promise<void> {
-		const response: IProject[] = await projectsController.getAllProjects();
-		setProjects(response);
-	}
+  async function getProjects(): Promise<void> {
+    const response: IProject[] = await projectsController.getAllProjects();
+    setProjects(response);
+  }
 
-	const handleDeleteRow = async () => {
-		if (selectedRows.length !== 0) {
-			let response;
-			for (const element of selectedRows) {
-				response = await projectsController.deleteProject(element.projektId);
-			}
-			if (response === '') {
-				toast.success('Eleminimi me sukses !');
-			}
-			getProjects();
-		}
-	};
+  const handleDeleteRow = async () => {
+    if (selectedRows.length !== 0) {
+      let response;
+      for (const element of selectedRows) {
+        response = await projectsController.deleteProject(element.projektId);
+      }
+      if (response === '') {
+        toast.success('Eleminimi me sukses !');
+      }
+      getProjects();
+    }
+  };
 
-	useEffect(() => {
-		const now = new Date().toISOString();
-		setCurrentTime(now);
-		getProjects();
-	}, []);
+  useEffect(() => {
+    const now = new Date().toISOString();
+    setCurrentTime(now);
+    getProjects();
+  }, []);
 
-	return (
-		<Box m="20px">
-			<Header title="Projektet" subtitle="Lista e projekteve" />
-			{!isEmployee && (
-				<Box display="flex" gap={'30px'}>
-					<Button
-						color="secondary"
-						variant="contained"
-						sx={{
-							border: '1px solid #000',
-							bgcolor: '#30969f',
-							fontSize: '15px',
-							fontWeight: '700'
-						}}
-						onClick={() => {
-							navigate('/addProject');
-						}}
-					>
-						Shto
-						<AddOutlinedIcon />
-					</Button>
-					<Button
-						color="secondary"
-						variant="contained"
-						sx={{
-							border: '1px solid #000',
-							bgcolor: '#ff5252',
-							fontSize: '15px',
-							fontWeight: '700'
-						}}
-						onClick={() => {
-							handleDeleteRow();
-						}}
-					>
-						Elemino
-						<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
-					</Button>
-				</Box>
-			)}
-			<Box
-				m="40px 0 0 0"
-				height="75vh"
-				sx={{
-					'& .MuiDataGrid-root': {
-						border: 'none'
-					},
-					'& .MuiDataGrid-cell': {
-						borderBottom: 'none'
-					},
-					'& .name-column--cell': {
-						color: colors.greenAccent[300]
-					},
-					'& .MuiDataGrid-columnHeaders': {
-						backgroundColor: colors.blueAccent[700],
-						borderBottom: 'none'
-					},
-					'& .MuiDataGrid-virtualScroller': {
-						backgroundColor: colors.primary[400]
-					},
-					'& .MuiDataGrid-footerContainer': {
-						borderTop: 'none',
-						backgroundColor: colors.blueAccent[700]
-					},
-					'& .MuiCheckbox-root': {
-						color: `${colors.greenAccent[200]} !important`
-					}
-				}}
-			>
-				<DataGrid
-					checkboxSelection={!isEmployee ? true : false}
-					rows={projects}
-					columns={columns}
-					getRowId={(row) => String(row.projektId)}
-					onSelectionModelChange={(ids) => {
-						const clonedProjectd = [...projects];
-						const selectedRowsData = ids.map((id) =>
-							clonedProjectd.find((row) => row.projektId === id)
-						);
-						setSelectedRows(selectedRowsData);
-					}}
-				/>
-			</Box>
-		</Box>
-	);
+  return (
+    <Box m="20px">
+      <Header title="Projektet" subtitle="Lista e projekteve" />
+      {!isEmployee && (
+        <Box display="flex" gap={'30px'}>
+          <Button
+            color="secondary"
+            variant="contained"
+            sx={{
+              border: '1px solid #000',
+              bgcolor: '#30969f',
+              fontSize: '15px',
+              fontWeight: '700',
+            }}
+            onClick={() => {
+              navigate('/addProject');
+            }}
+          >
+            Shto
+            <AddOutlinedIcon />
+          </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            sx={{
+              border: '1px solid #000',
+              bgcolor: '#ff5252',
+              fontSize: '15px',
+              fontWeight: '700',
+            }}
+            onClick={() => {
+              handleDeleteRow();
+            }}
+          >
+            Elemino
+            <ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+          </Button>
+        </Box>
+      )}
+      <Box
+        m="40px 0 0 0"
+        height="75vh"
+        sx={{
+          '& .MuiDataGrid-root': {
+            border: 'none',
+          },
+          '& .MuiDataGrid-cell': {
+            borderBottom: 'none',
+          },
+          '& .name-column--cell': {
+            color: colors.greenAccent[300],
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: 'none',
+          },
+          '& .MuiDataGrid-virtualScroller': {
+            backgroundColor: colors.primary[400],
+          },
+          '& .MuiDataGrid-footerContainer': {
+            borderTop: 'none',
+            backgroundColor: colors.blueAccent[700],
+          },
+          '& .MuiCheckbox-root': {
+            color: `${colors.greenAccent[200]} !important`,
+          },
+        }}
+      >
+        <DataGrid
+          checkboxSelection={!isEmployee ? true : false}
+          rows={projects}
+          columns={columns}
+          getRowId={(row) => String(row.projektId)}
+          onSelectionModelChange={(ids) => {
+            const clonedProjectd = [...projects];
+            const selectedRowsData = ids.map((id) =>
+              clonedProjectd.find((row) => row.projektId === id)
+            );
+            setSelectedRows(selectedRowsData);
+          }}
+        />
+      </Box>
+    </Box>
+  );
 };
 
 export default Projects;

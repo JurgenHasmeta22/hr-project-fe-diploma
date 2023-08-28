@@ -1,4 +1,4 @@
 export default interface IOfficialDaysVacation {
-    dita: string,
-    pershkrimiDita: string
+  dita: string;
+  pershkrimiDita: string;
 }
