@@ -32,6 +32,12 @@ const Permissions = () => {
 			flex: 1
 		},
 		{
+			field: 'userName',
+			headerName: 'Lejekerkuesi',
+			flex: 1,
+			valueGetter: (params: any) => params.row.user?.userName || ''
+		},
+		{
 			field: 'aprovuar',
 			headerName: 'Statusi',
 			flex: 1,
@@ -118,7 +124,7 @@ const Permissions = () => {
 
 	async function getPermissions(): Promise<void> {
 		const response: IPermission[] = await permissionsController.getAllPermissions();
-		const filteredPermissions = response.filter(permission => permission.aprovuar === 2);
+		const filteredPermissions = response.filter((permission) => permission.aprovuar === 2);
 		setPermissions(filteredPermissions);
 	}
 

@@ -12,4 +12,5 @@ export default interface IUser {
 	userEdukims?: any[];
 	userProjekts?: any[];
 	userAftesis?: any[];
+	userRolis?: any[];
 }
