@@ -21,6 +21,8 @@ const Projects = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
+	const { userDetailsLoggedIn } = useStore();
+	const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === 'Employee');
 	const columns = [
 		{
 			field: 'projektId',
@@ -45,43 +47,47 @@ const Projects = () => {
 			disableClickEventBubbling: true,
 			filterable: false,
 			description: 'Mund te editosh, fshi, dhe futesh ne projektin specifik',
-			flex: 1,
+			flex: !isEmployee ? 1 : 0.2,
 			// align: 'center',
 			renderCell: (params: any) => (
 				<>
-					<Button
-						onClick={() => {
-							navigate(`/editProject`, {
-								state: {
-									projectId: params.row.projektId,
-									from: 'Projektet'
-								}
-							});
-						}}
-					>
-						<EditOutlinedIcon
-							sx={{
-								color: 'green'
-							}}
-						/>
-					</Button>
-					<Button
-						onClick={async () => {
-							const response = await projectsController.deleteProject(params.row.projektId);
-							if (response === '') {
-								toast.success('Elemini u krye me sukses !');
-								getProjects();
-							} else {
-								toast.error('Eleminimi nuk u realizua !');
-							}
-						}}
-					>
-						<ClearOutlinedIcon
-							sx={{
-								color: 'red'
-							}}
-						/>
-					</Button>
+					{!isEmployee && (
+						<>
+							<Button
+								onClick={() => {
+									navigate(`/editProject`, {
+										state: {
+											projectId: params.row.projektId,
+											from: 'Projektet'
+										}
+									});
+								}}
+							>
+								<EditOutlinedIcon
+									sx={{
+										color: 'green'
+									}}
+								/>
+							</Button>
+							<Button
+								onClick={async () => {
+									const response = await projectsController.deleteProject(params.row.projektId);
+									if (response === '') {
+										toast.success('Elemini u krye me sukses !');
+										getProjects();
+									} else {
+										toast.error('Eleminimi nuk u realizua !');
+									}
+								}}
+							>
+								<ClearOutlinedIcon
+									sx={{
+										color: 'red'
+									}}
+								/>
+							</Button>
+						</>
+					)}
 					<Button
 						onClick={async () => {
 							const response = await projectsController.assignProjectToUser(
@@ -138,40 +144,42 @@ const Projects = () => {
 	return (
 		<Box m="20px">
 			<Header title="Projektet" subtitle="Lista e projekteve" />
-			<Box display="flex" gap={'30px'}>
-				<Button
-					color="secondary"
-					variant="contained"
-					sx={{
-						border: '1px solid #000',
-						bgcolor: '#30969f',
-						fontSize: '15px',
-						fontWeight: '700'
-					}}
-					onClick={() => {
-						navigate('/addProject');
-					}}
-				>
-					Shto
-					<AddOutlinedIcon />
-				</Button>
-				<Button
-					color="secondary"
-					variant="contained"
-					sx={{
-						border: '1px solid #000',
-						bgcolor: '#ff5252',
-						fontSize: '15px',
-						fontWeight: '700'
-					}}
-					onClick={() => {
-						handleDeleteRow();
-					}}
-				>
-					Elemino
-					<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
-				</Button>
-			</Box>
+			{!isEmployee && (
+				<Box display="flex" gap={'30px'}>
+					<Button
+						color="secondary"
+						variant="contained"
+						sx={{
+							border: '1px solid #000',
+							bgcolor: '#30969f',
+							fontSize: '15px',
+							fontWeight: '700'
+						}}
+						onClick={() => {
+							navigate('/addProject');
+						}}
+					>
+						Shto
+						<AddOutlinedIcon />
+					</Button>
+					<Button
+						color="secondary"
+						variant="contained"
+						sx={{
+							border: '1px solid #000',
+							bgcolor: '#ff5252',
+							fontSize: '15px',
+							fontWeight: '700'
+						}}
+						onClick={() => {
+							handleDeleteRow();
+						}}
+					>
+						Elemino
+						<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+					</Button>
+				</Box>
+			)}
 			<Box
 				m="40px 0 0 0"
 				height="75vh"
@@ -202,7 +210,7 @@ const Projects = () => {
 				}}
 			>
 				<DataGrid
-					checkboxSelection
+					checkboxSelection={!isEmployee ? true : false}
 					rows={projects}
 					columns={columns}
 					getRowId={(row) => String(row.projektId)}

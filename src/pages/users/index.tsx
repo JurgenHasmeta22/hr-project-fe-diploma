@@ -11,6 +11,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useStore } from '~/store/zustand/store';
 
 const Users = () => {
 	const [users, setUsers] = useState<IUser[]>([]);
@@ -18,6 +19,8 @@ const Users = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const navigate = useNavigate();
+	const { userDetailsLoggedIn } = useStore();
+	const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === 'Employee');
 	const columns: any = [
 		{ field: 'userId', headerName: 'Id', hide: true },
 		{
@@ -86,25 +89,27 @@ const Users = () => {
 			disableClickEventBubbling: true,
 			filterable: false,
 			description: 'Mund te editosh, shikosh dhe te fshish rekordin specifik',
-			flex: 2,
+			flex: !isEmployee ? 2 : 0.5,
 			renderCell: (params: any) => (
 				<>
-					<Button
-						onClick={() => {
-							navigate(`/editUser`, {
-								state: {
-									userId: params.row.userId,
-									from: 'Perdoruesit'
-								}
-							});
-						}}
-					>
-						<EditOutlinedIcon
-							sx={{
-								color: 'green'
+					{!isEmployee && (
+						<Button
+							onClick={() => {
+								navigate(`/editUser`, {
+									state: {
+										userId: params.row.userId,
+										from: 'Perdoruesit'
+									}
+								});
 							}}
-						/>
-					</Button>
+						>
+							<EditOutlinedIcon
+								sx={{
+									color: 'green'
+								}}
+							/>
+						</Button>
+					)}
 					<Button
 						onClick={() => {
 							navigate(`/profile`, {
@@ -121,26 +126,28 @@ const Users = () => {
 							}}
 						/>
 					</Button>
-					<Button
-						onClick={async () => {
-							const response = await usersController.updateUser(params.row.userId, {
-								...params.row,
-								userIsActive: false
-							});
-							if (response) {
-								toast.success('Fshirja u krye me sukses !');
-								getUsers();
-							} else {
-								toast.error('Fshirja nuk u realizua !');
-							}
-						}}
-					>
-						<ClearOutlinedIcon
-							sx={{
-								color: 'red'
+					{!isEmployee && (
+						<Button
+							onClick={async () => {
+								const response = await usersController.updateUser(params.row.userId, {
+									...params.row,
+									userIsActive: false
+								});
+								if (response) {
+									toast.success('Fshirja u krye me sukses !');
+									getUsers();
+								} else {
+									toast.error('Fshirja nuk u realizua !');
+								}
 							}}
-						/>
-					</Button>
+						>
+							<ClearOutlinedIcon
+								sx={{
+									color: 'red'
+								}}
+							/>
+						</Button>
+					)}
 				</>
 			)
 		}
@@ -176,40 +183,42 @@ const Users = () => {
 	return (
 		<Box m="20px">
 			<Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
-			<Box display="flex" gap={'30px'}>
-				<Button
-					color="secondary"
-					variant="contained"
-					sx={{
-						border: '1px solid #000',
-						bgcolor: '#30969f',
-						fontSize: '15px',
-						fontWeight: '700'
-					}}
-					onClick={() => {
-						navigate('/addUser');
-					}}
-				>
-					Shto
-					<AddOutlinedIcon />
-				</Button>
-				<Button
-					color="secondary"
-					variant="contained"
-					sx={{
-						border: '1px solid #000',
-						bgcolor: '#ff5252',
-						fontSize: '15px',
-						fontWeight: '700'
-					}}
-					onClick={() => {
-						handleDeleteRow();
-					}}
-				>
-					Elemino
-					<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
-				</Button>
-			</Box>
+			{!isEmployee && (
+				<Box display="flex" gap={'30px'}>
+					<Button
+						color="secondary"
+						variant="contained"
+						sx={{
+							border: '1px solid #000',
+							bgcolor: '#30969f',
+							fontSize: '15px',
+							fontWeight: '700'
+						}}
+						onClick={() => {
+							navigate('/addUser');
+						}}
+					>
+						Shto
+						<AddOutlinedIcon />
+					</Button>
+					<Button
+						color="secondary"
+						variant="contained"
+						sx={{
+							border: '1px solid #000',
+							bgcolor: '#ff5252',
+							fontSize: '15px',
+							fontWeight: '700'
+						}}
+						onClick={() => {
+							handleDeleteRow();
+						}}
+					>
+						Elemino
+						<ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+					</Button>
+				</Box>
+			)}
 			<Box
 				m="40px 0 0 0"
 				height="75vh"
@@ -240,7 +249,7 @@ const Users = () => {
 				}}
 			>
 				<DataGrid
-					checkboxSelection
+					checkboxSelection={!isEmployee ? true : false}
 					rows={users}
 					getRowId={(row) => String(row.userId)}
 					columns={columns}
