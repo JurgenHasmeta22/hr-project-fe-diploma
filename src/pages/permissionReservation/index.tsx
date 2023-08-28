@@ -179,7 +179,6 @@ const permissionReservation = () => {
 											toast.error('Eleminimi nuk u realizua !');
 										}
 									},
-									// type: 'submit',
 									color: 'secondary',
 									variant: 'contained',
 									sx: {
