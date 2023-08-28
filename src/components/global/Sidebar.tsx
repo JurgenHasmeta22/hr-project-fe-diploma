@@ -70,6 +70,8 @@ const Sidebar = () => {
 	const colors = tokens(theme.palette.mode);
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState('Dashboard');
+	// const [position, setPosition] = useState<'left' | 'right'>('left');
+	const [visible, setVisible] = useState(true);
 	const { userDetailsLoggedIn } = useStore();
 
 	return (
@@ -103,10 +105,8 @@ const Sidebar = () => {
 						}}
 					>
 						{!isCollapsed && (
-							<Box display="flex" justifyContent="end" alignItems="center" ml="15px">
-								<IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-									<MenuOutlinedIcon />
-								</IconButton>
+							<Box position="absolute" top={4} right={5}>
+								<IconButton onClick={() => setVisible(false)}>X</IconButton>
 							</Box>
 						)}
 					</MenuItem>

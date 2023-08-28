@@ -37,15 +37,12 @@ const permissionReservation = () => {
 	const handleDataChange = (values: any) => {
 		setFormData(values);
 	};
-
 	const handleResetFromParent = () => {
 		formikRef.current?.resetForm();
 	};
-
 	const handleClose = () => {
 		setOpen(false);
 	};
-
 	function formatDate(date: any) {
 		const d = new Date(date);
 		const year = d.getFullYear();
@@ -56,17 +53,14 @@ const permissionReservation = () => {
 
 	const handleSave = async () => {
 		const response = await permissionsController.askPermission(formData, user?.userId);
-
 		if (response === '') {
 			toast.success('Rezervimi i lejes u krijua me sukses !');
 			navigate('/users');
 		} else {
 			toast.error('Rezervimi i lejes nuk u realizua !');
 		}
-
 		handleClose();
 	};
-
 	const handleDateClick = (selected: any) => {
 		openModal({
 			formRef: formikRef,
@@ -130,7 +124,6 @@ const permissionReservation = () => {
 		const calendarApi = selected.view.calendar;
 		calendarApi.unselect();
 	};
-
 	const handleEventClick = (selected: any) => {
 		openModal({
 			formRef: formikRef,
