@@ -65,7 +65,7 @@ const Sidebar = () => {
 	const colors = tokens(theme.palette.mode);
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState('Dashboard');
-	const { user } = useStore();
+	const { userDetailsLoggedIn } = useStore();
 
 	return (
 		<Box
@@ -105,23 +105,23 @@ const Sidebar = () => {
 							</Box>
 						)}
 					</MenuItem>
-					{/* {!isCollapsed && (
-						<Box mb="25px">
+					{!isCollapsed && (
+						<Box mb="35px">
 							<Box textAlign="center">
 								<Typography
 									variant="h2"
 									color={colors.grey[100]}
 									fontWeight="bold"
-									sx={{ m: '10px 0 0 0' }}
+									sx={{ m: '20px 0 0 0' }}
 								>
-									{user?.username}
+									{userDetailsLoggedIn?.userName}
 								</Typography>
 								<Typography variant="h5" color={colors.greenAccent[500]}>
-									HR Admin
+									{userDetailsLoggedIn?.userRolis![0].roli.roliEmri}
 								</Typography>
 							</Box>
 						</Box>
-					)} */}
+					)}
 					<Box paddingLeft={isCollapsed ? undefined : '10%'}>
 						<Item
 							title="Dashboard"

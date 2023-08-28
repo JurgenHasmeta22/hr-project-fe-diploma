@@ -1,14 +1,46 @@
 import { Box, useTheme } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { tokens } from '~/utils/theme';
 import StatBox from '~/components/dashboard/StatBox';
 import Header from '~/components/dashboard/Header';
+import { useEffect, useState } from 'react';
+import IUser from '~/interfaces/IUser';
+import usersController from '~/services/users';
+import IProject from '~/interfaces/IProject';
+import projectsController from '~/services/projects';
+import IPermission from '~/interfaces/IPermission';
+import permissionsController from '~/services/permissions';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 const Dashboard = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const [users, setUsers] = useState<IUser[]>([]);
+	const [projects, setProjects] = useState<IProject[]>([]);
+	const [permissions, setPermissions] = useState<IPermission[]>([]);
+
+	async function getUsers(): Promise<void> {
+		const response: IUser[] = await usersController.getAllUsers();
+		setUsers(response);
+	}
+
+	async function getProjects(): Promise<void> {
+		const response: IProject[] = await projectsController.getAllProjects();
+		setProjects(response);
+	}
+
+	async function getPermissions(): Promise<void> {
+		const response: IPermission[] = await permissionsController.getAllPermissions();
+		const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
+		setPermissions(filteredPermissions);
+	}
+
+	useEffect(() => {
+		getUsers();
+		getProjects();
+		getPermissions();
+	}, []);
 
 	return (
 		<Box m="20px">
@@ -24,11 +56,11 @@ const Dashboard = () => {
 					justifyContent="center"
 				>
 					<StatBox
-						title="7"
+						title={projects?.length}
 						subtitle="Nr i projekteve"
 						progress="0.75"
 						increase="+14%"
-						icon={<EmailIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
+						icon={<AccountTreeIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
 				</Box>
 				<Box
@@ -39,11 +71,11 @@ const Dashboard = () => {
 					justifyContent="center"
 				>
 					<StatBox
-						title="37"
+						title={users?.length}
 						subtitle="Nr i punonjeseve"
 						progress="0.50"
 						increase="+21%"
-						icon={<PointOfSaleIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
+						icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
 				</Box>
 				<Box
@@ -54,11 +86,11 @@ const Dashboard = () => {
 					justifyContent="center"
 				>
 					<StatBox
-						title="27"
+						title={permissions?.length}
 						subtitle="Nr i lejeve"
 						progress="0.30"
 						increase="+5%"
-						icon={<PersonAddIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
+						icon={<EventNoteIcon sx={{ color: colors.greenAccent[600], fontSize: '26px' }} />}
 					/>
 				</Box>
 			</Box>
