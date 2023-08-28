@@ -24,7 +24,6 @@ const ChangePassword: React.FC = () => {
 
 	const handleFormSubmit = (values: typeof initialValues) => {
 		console.log(values);
-		// Handle your password change logic here...
 	};
 
 	return (
