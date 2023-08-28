@@ -29,6 +29,7 @@ import IEducation from '~/interfaces/IEducation';
 import IProject from '~/interfaces/IProject';
 import ISkill from '~/interfaces/ISkill';
 import IWorkExperience from '~/interfaces/IWorkExperience';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const userSchema = Yup.object().shape({
 	userName: Yup.string().required('required'),
@@ -666,7 +667,7 @@ export default function Profile() {
 	return (
 		<>
 			<Box padding={3}>
-				<Box display="flex" alignItems="center" gap={3}>
+				<Box display="flex" alignItems="center" gap={1} justifyContent={'center'}>
 					<Button
 						color="secondary"
 						variant="contained"
@@ -676,36 +677,41 @@ export default function Profile() {
 					>
 						<ArrowBackIcon color="action" />
 					</Button>
-					<Box flexGrow={1}>
-						<Box display={'flex'} flexDirection={'row'} gap={'50px'}>
-							<Typography variant="h5" gutterBottom>
-								{userProfile?.userName}
-							</Typography>
-							<Box display={'flex'} flexDirection={'row'} gap={'5px'}>
+					<Box flexGrow={1} display="flex" alignItems="center" justifyContent="center">
+						<Box>
+							<AccountCircleIcon style={{ fontSize: 60, marginRight: 15 }} />
+						</Box>
+						<Box>
+							<Box display={'flex'} flexDirection={'row'} gap={'25px'}>
 								<Typography variant="h5" gutterBottom>
-									{userProfile?.userFirstname}
+									{userProfile?.userName}
 								</Typography>
-								<Typography variant="h5" gutterBottom>
-									{userProfile?.userLastname}
+								<Box display={'flex'} flexDirection={'row'} gap={'5px'}>
+									<Typography variant="h5" gutterBottom>
+										{userProfile?.userFirstname}
+									</Typography>
+									<Typography variant="h5" gutterBottom>
+										{userProfile?.userLastname}
+									</Typography>
+								</Box>
+							</Box>
+							<Box display="flex" alignItems="center" gap={3}>
+								<Typography variant="body1" color="textSecondary">
+									Certifikatat: {userProfile?.userCertifikates!.length}
+								</Typography>
+								<Typography variant="body1" color="textSecondary">
+									Punet e meparshme: {userProfile?.userPervojePunes!.length}
+								</Typography>
+								<Typography variant="body1" color="textSecondary">
+									Edukimi: {userProfile?.userEdukims!.length}
+								</Typography>
+								<Typography variant="body1" color="textSecondary">
+									Projektet: {userProfile?.userProjekts!.length}
+								</Typography>
+								<Typography variant="body1" color="textSecondary">
+									Aftesite: {userProfile?.userAftesis!.length}
 								</Typography>
 							</Box>
-						</Box>
-						<Box display="flex" alignItems="center" gap={3}>
-							<Typography variant="body1" color="textSecondary">
-								Certifikatat: {userProfile?.userCertifikates!.length}
-							</Typography>
-							<Typography variant="body1" color="textSecondary">
-								Punet e meparshme: {userProfile?.userPervojePunes!.length}
-							</Typography>
-							<Typography variant="body1" color="textSecondary">
-								Edukimi: {userProfile?.userEdukims!.length}
-							</Typography>
-							<Typography variant="body1" color="textSecondary">
-								Projektet: {userProfile?.userProjekts!.length}
-							</Typography>
-							<Typography variant="body1" color="textSecondary">
-								Aftesite: {userProfile?.userAftesis!.length}
-							</Typography>
 						</Box>
 					</Box>
 					<Button

@@ -10,6 +10,7 @@ import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { tokens } from '~/utils/theme';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { useStore } from '~/store/zustand/store';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Item = ({ title, to, icon, selected, setSelected }: any) => {
 	const theme = useTheme();
@@ -33,6 +34,8 @@ const Item = ({ title, to, icon, selected, setSelected }: any) => {
 const SubMenuItem = ({ label, selected, setSelected }: any) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const { userDetailsLoggedIn } = useStore();
+	const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === 'Employee');
 
 	return (
 		<SubMenu
@@ -42,13 +45,15 @@ const SubMenuItem = ({ label, selected, setSelected }: any) => {
 				color: colors.grey[100]
 			}}
 		>
-			<Item
-				title="Lista e lejeve"
-				to="/permissions"
-				icon={<ReceiptOutlinedIcon />}
-				selected={selected}
-				setSelected={setSelected}
-			/>
+			{!isEmployee && (
+				<Item
+					title="Lista e lejeve"
+					to="/permissions"
+					icon={<ReceiptOutlinedIcon />}
+					selected={selected}
+					setSelected={setSelected}
+				/>
+			)}
 			<Item
 				title="Rezervimi i lejeve"
 				to="/permissionReservation"
@@ -108,6 +113,7 @@ const Sidebar = () => {
 					{!isCollapsed && (
 						<Box mb="35px">
 							<Box textAlign="center">
+								<AccountCircleIcon style={{ fontSize: 100 }} />
 								<Typography
 									variant="h2"
 									color={colors.grey[100]}
