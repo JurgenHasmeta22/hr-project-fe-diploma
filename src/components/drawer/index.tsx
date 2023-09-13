@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   IconButton,
@@ -11,6 +11,10 @@ import {
   Drawer,
   Box,
   Typography,
+  Step,
+  StepLabel,
+  Stepper,
+  StepButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { Formik, Form, Field, FormikProps } from 'formik';
@@ -38,6 +42,7 @@ type DrawerProps = {
   formRef?: React.Ref<FormikProps<any>>;
   onDataChange: (values: any) => void;
   subTitle?: string;
+  steps?: StepConfig[];
 };
 
 type ActionConfig = {
@@ -58,6 +63,13 @@ type ActionConfig = {
   sx?: any;
 };
 
+type StepConfig = {
+  title: string;
+  fields: FieldConfig[];
+  validationSchema: any;
+  actions?: ActionConfig[];
+};
+
 const RightPanel: React.FC<DrawerProps> = ({
   onClose,
   initialValues,
@@ -69,7 +81,20 @@ const RightPanel: React.FC<DrawerProps> = ({
   formRef,
   onDataChange,
   subTitle,
+  steps,
 }) => {
+  const [activeStep, setActiveStep] = useState(0);
+  const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);
+  const handleNext = () => {
+    setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
+  };
+  const handleBack = () => {
+    setActiveStep((prevActiveStep: any) => prevActiveStep - 1);
+  };
+  const handleStep = (step: any) => () => {
+    setActiveStep(step);
+  };
+
   return (
     <Drawer anchor="right" open={true} onClose={onClose}>
       <Box sx={{ width: 600, p: 3 }}>
@@ -79,7 +104,7 @@ const RightPanel: React.FC<DrawerProps> = ({
           alignItems="center"
           mb={2}
         >
-          <Typography variant="h6">{title}</Typography>
+          {title && <Typography variant="h6">{title}</Typography>}
           <IconButton onClick={onClose}>
             <CloseIcon color="action" />
           </IconButton>
@@ -89,12 +114,29 @@ const RightPanel: React.FC<DrawerProps> = ({
             {subTitle}
           </Typography>
         )}
+        {steps && (
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((stepConfig, index) => (
+              <Step key={stepConfig.title}>
+                <StepButton onClick={handleStep(index)}>
+                  <StepLabel>{stepConfig.title}</StepLabel>
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
+        )}
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validationSchema={
+            steps ? steps[activeStep].validationSchema : validationSchema
+          }
           onSubmit={(values) => {
-            onSave(values);
-            onClose();
+            if (isLastStep()) {
+              onSave(values);
+              onClose();
+            } else {
+              handleNext();
+            }
           }}
           innerRef={formRef}
         >
@@ -102,54 +144,57 @@ const RightPanel: React.FC<DrawerProps> = ({
             useEffect(() => {
               onDataChange(values);
             }, [values]);
-
             return (
               <Form>
-                <Grid container spacing={2}>
-                  {fields &&
-                    fields!.map((field) => (
-                      <Grid item xs={6} key={field.name}>
-                        {field.type === 'select' ? (
-                          <FormControl fullWidth size="medium">
-                            <InputLabel id={`${field.name}-label`}>
-                              {field.label}
-                            </InputLabel>
-                            <Field
-                              name={field.name}
-                              labelId={`${field.name}-label`}
-                              as={Select}
-                            >
-                              {field.options?.map((option) => (
-                                <MenuItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Field>
-                          </FormControl>
-                        ) : (
+                {steps && (
+                  <Box mt={3} display="flex" justifyContent="space-between">
+                    <Button disabled={activeStep === 0} onClick={handleBack}>
+                      Mbrapa
+                    </Button>
+                    {!isLastStep() && (
+                      <Button variant="contained" color="primary" type="submit">
+                        Tjetra
+                      </Button>
+                    )}
+                  </Box>
+                )}
+                <Grid container spacing={3} mt={3}>
+                  {(steps ? steps[activeStep].fields : fields).map((field) => (
+                    <Grid item xs={6} key={field.name}>
+                      {field.type === 'select' ? (
+                        <FormControl fullWidth size="medium">
+                          <InputLabel id={`${field.name}-label`}>
+                            {field.label}
+                          </InputLabel>
                           <Field
-                            as={TextField}
                             name={field.name}
-                            label={field.label}
-                            fullWidth
-                            size="medium"
-                            type={field.type || 'text'}
-                            helperText={
-                              touched[field.name] && errors[field.name]
-                            }
-                            error={touched[field.name] && !!errors[field.name]}
-                            InputLabelProps={
-                              field.type === 'date'
-                                ? { shrink: true }
-                                : undefined
-                            }
-                          />
-                        )}
-                      </Grid>
-                    ))}
+                            labelId={`${field.name}-label`}
+                            as={Select}
+                          >
+                            {field.options?.map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Field>
+                        </FormControl>
+                      ) : (
+                        <Field
+                          as={TextField}
+                          name={field.name}
+                          label={field.label}
+                          fullWidth
+                          size="medium"
+                          type={field.type || 'text'}
+                          helperText={touched[field.name] && errors[field.name]}
+                          error={touched[field.name] && !!errors[field.name]}
+                          InputLabelProps={
+                            field.type === 'date' ? { shrink: true } : undefined
+                          }
+                        />
+                      )}
+                    </Grid>
+                  ))}
                 </Grid>
                 <Box
                   mt={3}
@@ -157,20 +202,22 @@ const RightPanel: React.FC<DrawerProps> = ({
                   gap={'10px'}
                   justifyContent={'end'}
                 >
-                  {actions!.map((action, index) => (
-                    <Button
-                      key={index}
-                      onClick={action.onClick}
-                      // @ts-ignore
-                      color={action.color || 'default'}
-                      variant={action.variant || 'text'}
-                      sx={action.sx}
-                      type={action.type}
-                      endIcon={action.icon}
-                    >
-                      {action.label}
-                    </Button>
-                  ))}
+                  {(steps ? steps[activeStep].actions! : actions!).map(
+                    (action, index) => (
+                      <Button
+                        key={index}
+                        onClick={action.onClick}
+                        // @ts-ignore
+                        color={action.color || 'default'}
+                        variant={action.variant || 'text'}
+                        sx={action.sx}
+                        type={action.type}
+                        endIcon={action.icon}
+                      >
+                        {action.label}
+                      </Button>
+                    )
+                  )}
                 </Box>
               </Form>
             );
