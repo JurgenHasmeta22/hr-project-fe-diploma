@@ -19,7 +19,7 @@ const educationsController = {
   addUserertificate: async (educationId: any, userId: any, model: any) => {
     return await axios
       .post(
-        `https://localhost:7006/User/AddUserEducation/${educationId},${userId}`,
+        `https://localhost:7006/User/AddUserEdukim/${educationId},${userId}`,
         model
       )
       .then((x) => x.data);
@@ -27,7 +27,7 @@ const educationsController = {
   editUserEducation: async (educationId: any, userId: any, model: any) => {
     return await axios
       .put(
-        `https://localhost:7006/User/UpdateUserEducation/${educationId},${userId}`,
+        `https://localhost:7006/User/UpdateUserEdukim/${educationId},${userId}`,
         model
       )
       .then((x) => x.data);
@@ -35,7 +35,7 @@ const educationsController = {
   deleteUserEducation: async (educationId: any, userId: any) => {
     return await axios
       .delete(
-        `https://localhost:7006/User/DeleteUserEducation/${educationId},${userId}`
+        `https://localhost:7006/User/DeleteUserEdukim/${educationId},${userId}`
       )
       .then((x) => x.data);
   },
