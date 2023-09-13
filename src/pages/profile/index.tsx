@@ -197,11 +197,24 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: IEducation = {
-          eduName: values.eduName,
+        const payload1: ICertification = {
+          certEmri: values.certEmri,
+          certPershkrim: values.certPershkrim,
         };
-        const response = await educationsController.createEducation(payload);
-        if (response) {
+        const response1 = await certificatesController.createCertificate(
+          payload1
+        );
+        const payload2 = {
+          dataSkadence: values.dataSkadence,
+          dataFituar: values.dataFituar,
+        };
+        const response2 = await certificatesController.addUserCertificate(
+          response1.certId,
+          userDetailsLoggedIn?.userId,
+          payload2
+        );
+
+        if (response1 && response2 === '') {
           toast.success('Ruajtja e ndryshimeve me sukses !');
         } else {
           toast.error('Rujtja nuk e realizua !');
@@ -220,11 +233,20 @@ export default function Profile() {
         dataPerfitimit: '',
       },
       onSave: async (values: any) => {
-        const payload: ISkill = {
+        const payload1: ISkill = {
           llojiAftesise: values.llojiAftesise,
         };
-        const response = await skillsController.createSkill(payload);
-        if (response) {
+        const response1 = await skillsController.createSkill(payload1);
+        const payload2 = {
+          dataPerfitimit: values.dataPerfitimit,
+        };
+        const response2 = await skillsController.addUserSkill(
+          response1.aftesiId,
+          userDetailsLoggedIn?.userId,
+          payload2
+        );
+
+        if (response1 && response2 === '') {
           toast.success('Ruajtja e ndryshimeve me sukses !');
         } else {
           toast.error('Rujtja nuk e realizua !');
@@ -429,13 +451,26 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: IWorkExperience = {
+        const payload1: IWorkExperience = {
           ppemri: values.ppemri,
         };
-        const response = await workExperiencesController.createWorkExpierence(
-          payload
+        const response1 = await workExperiencesController.createWorkExpierence(
+          payload1
         );
-        if (response) {
+        const payload2 = {
+          dataFillim: values.dataFillim,
+          dataMbarim: values.dataMbarim,
+          pppozicion: values.pppozicion,
+          konfidencialiteti: values.konfidencialiteti,
+          pershkrimiPunes: values.pershkrimiPunes,
+        };
+        const response2 = await workExperiencesController.addUserWorkExperience(
+          response1.ppId,
+          userDetailsLoggedIn?.userId,
+          payload2
+        );
+
+        if (response1 && response2 === '') {
           toast.success('Ruajtja e ndryshimeve me sukses !');
         } else {
           toast.error('Rujtja nuk e realizua !');
@@ -555,17 +590,22 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: ICertification = {
-          certEmri: values.certEmri,
-          certPershkrim: values.certPershkrim,
+        const payload1: IEducation = {
+          eduName: values.eduName,
         };
-        const response1 = await certificatesController.createCertificate(
-          payload
+        const response1 = await educationsController.createEducation(payload1);
+        const payload2 = {
+          mesatarja: values.mesatarja,
+          dataFillim: values.dataFillim,
+          dataMbarim: values.dataMbarim,
+          llojiMaster: values.llojiMaster,
+        };
+        const response2 = await educationsController.addUserEducation(
+          response1.eduId,
+          userDetailsLoggedIn?.userId,
+          payload2
         );
-        // const response2 = await certificatesController.addUserCertificate(
-        //   payload
-        // );
-        if (response1) {
+        if (response1 && response2) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
         } else {
           toast.error('Rujtja nuk e realizua !');

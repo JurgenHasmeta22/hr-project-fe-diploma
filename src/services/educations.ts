@@ -16,7 +16,7 @@ const educationsController = {
       .delete(`https://localhost:7006/api/Edukim/${edukimId}`)
       .then((x) => x.data);
   },
-  addUserertificate: async (educationId: any, userId: any, model: any) => {
+  addUserEducation: async (educationId: any, userId: any, model: any) => {
     return await axios
       .post(
         `https://localhost:7006/User/AddUserEdukim/${userId},${educationId}`,

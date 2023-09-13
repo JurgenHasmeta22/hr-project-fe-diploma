@@ -16,7 +16,7 @@ const skillsController = {
       .delete(`https://localhost:7006/api/Aftesi/${aftesiId}`)
       .then((x) => x.data);
   },
-  addUserertificate: async (aftesiId: any, userId: any, model: any) => {
+  addUserSkill: async (aftesiId: any, userId: any, model: any) => {
     return await axios
       .post(
         `https://localhost:7006/User/AddUserAftesi/${userId},${aftesiId}`,
