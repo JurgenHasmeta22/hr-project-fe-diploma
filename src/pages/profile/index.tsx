@@ -34,6 +34,7 @@ import educationsController from '~/services/educations';
 import workExperiencesController from '~/services/workExperiences';
 import skillsController from '~/services/skills';
 import certificatesController from '~/services/certificates';
+import authenticationController from '~/services/authentication';
 
 const userSchema = Yup.object().shape({
   userName: Yup.string().required('required'),
@@ -59,7 +60,7 @@ export default function Profile() {
   const [value, setValue] = useState(0);
   const [userProfile, setUserProfile] = useState<IUser | null>(null);
   const [formData, setFormData] = useState({});
-  const { userDetailsLoggedIn } = useStore();
+  const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
   const navigate = useNavigate();
   const location = useLocation();
   const formikRef = useRef<FormikProps<any>>(null);
@@ -345,18 +346,17 @@ export default function Profile() {
     });
   };
 
-  const handleEditProfile = () => {
+  const handleEditProfile = (user: IUser) => {
     openDrawer({
       formRef: formikRef,
       initialValues: {
-        userId: '',
-        userName: '',
-        userFirstname: '',
-        userLastname: '',
-        userEmail: '',
-        balancaLeje: '',
-        userIsActive: '',
-        password: '',
+        userId: user.userId,
+        balancaLeje: user.balancaLeje,
+        userIsActive: user.userIsActive,
+        userName: user.userName,
+        userFirstname: user.userFirstname,
+        userLastname: user.userLastname,
+        userEmail: user.userEmail,
       },
       fields: [
         {
@@ -389,8 +389,27 @@ export default function Profile() {
         },
       ],
       validationSchema: userSchema,
-      onSave: (values: any) => {
-        console.log(values);
+      onSave: async (values: any) => {
+        const payload: IUser = {
+          userId: values.userId,
+          balancaLeje: values.balancaLeje,
+          userIsActive: values.userIsActive,
+          userName: values.userName,
+          userFirstname: values.userFirstname,
+          userLastname: values.userLastname,
+          userEmail: values.userEmail,
+        };
+        const response = await authenticationController.updateUser(
+          values.userId,
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+          setUserDetailsLoggedIn(response);
+          setUserProfile(response);
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       title: 'Edito perdoruesin',
       actions: [
@@ -434,6 +453,7 @@ export default function Profile() {
     openDrawer({
       formRef: formikRef,
       initialValues: {
+        certId: certificate.certId,
         certEmri: certificate.certEmri,
         certPershkrim: certificate.certPershkrim,
       },
@@ -465,8 +485,8 @@ export default function Profile() {
         );
         if (response) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
-        } else {
-          toast.error('Rujtja nuk e realizua !');
+          setUserDetailsLoggedIn(response);
+          setUserProfile(response);
         }
       },
       actions: [
@@ -509,6 +529,7 @@ export default function Profile() {
     openDrawer({
       formRef: formikRef,
       initialValues: {
+        aftesiId: skill.aftesiId,
         llojiAftesise: skill.llojiAftesise,
       },
       fields: [
@@ -531,6 +552,8 @@ export default function Profile() {
         );
         if (response) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
+          setUserDetailsLoggedIn(response);
+          setUserProfile(response);
         } else {
           toast.error('Rujtja nuk e realizua !');
         }
@@ -575,6 +598,7 @@ export default function Profile() {
     openDrawer({
       formRef: formikRef,
       initialValues: {
+        ppId: work.ppId,
         ppemri: work.ppemri,
       },
       fields: [
@@ -597,6 +621,8 @@ export default function Profile() {
         );
         if (response) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
+          setUserDetailsLoggedIn(response);
+          setUserProfile(response);
         } else {
           toast.error('Rujtja nuk e realizua !');
         }
@@ -641,6 +667,7 @@ export default function Profile() {
     openDrawer({
       formRef: formikRef,
       initialValues: {
+        eduId: education.eduId,
         eduName: education.eduName,
       },
       fields: [
@@ -663,6 +690,8 @@ export default function Profile() {
         );
         if (response) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
+          setUserDetailsLoggedIn(response);
+          setUserProfile(response);
         } else {
           toast.error('Rujtja nuk e realizua !');
         }
@@ -786,7 +815,7 @@ export default function Profile() {
               startIcon={<EditIcon />}
               color="secondary"
               onClick={() => {
-                handleEditProfile();
+                handleEditProfile(userDetailsLoggedIn!);
               }}
             >
               Edito profilin
