@@ -18,7 +18,12 @@ const permissionsController = {
   },
   deletePermission: async (lejeId: any) => {
     return await axios
-      .delete(`https://localhost:7006/DeleteLejeOfUser/${lejeId}`)
+      .delete(`https://localhost:7006/User/DeleteLejeOfUser/${lejeId}`)
+      .then((x) => x.data);
+  },
+  updatePermission: async (lejeId: any, model: any) => {
+    return await axios
+      .put(`https://localhost:7006/User/UpdateLeje/${lejeId}`, model)
       .then((x) => x.data);
   },
   getAllPermissions: async () => {
