@@ -55,6 +55,12 @@ const workSchema = Yup.object().shape({
 const educationSchema = Yup.object().shape({
   eduName: Yup.string().required('required'),
 });
+const userEducationSchema = Yup.object().shape({
+  mesatarja: Yup.string().required('required'),
+  dataFillim: Yup.string().required('required'),
+  dataMbarim: Yup.string().required('required'),
+  llojiMaster: Yup.string().required('required'),
+});
 
 export default function Profile() {
   const [value, setValue] = useState(0);
@@ -457,23 +463,52 @@ export default function Profile() {
         certEmri: certificate.certEmri,
         certPershkrim: certificate.certPershkrim,
       },
-      fields: [
+      steps: [
         {
-          name: 'certEmri',
-          label: 'Emri',
-          variant: 'filled',
-          type: 'text',
-          sx: { gridColumn: 'span 2' },
+          fields: [
+            {
+              name: 'certEmri',
+              label: 'Emri',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+            {
+              name: 'certPershkrim',
+              label: 'Pershkrimi',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+          ],
+          validationSchema: certificateSchema,
+          title: 'Edito certifikate',
+          actions: [
+            {
+              label: 'Anullo',
+              onClick: () => {
+                handleResetFromParent();
+              },
+              type: 'reset',
+              color: 'secondary',
+              variant: 'contained',
+              sx: {
+                border: '1px solid #000',
+                bgcolor: '#ff5252',
+                fontSize: '15px',
+                fontWeight: '700',
+              },
+              icon: <ClearAllIcon />,
+            },
+          ],
         },
-        {
-          name: 'certPershkrim',
-          label: 'Pershkrimi',
-          variant: 'filled',
-          type: 'text',
-          sx: { gridColumn: 'span 2' },
-        },
+        // {
+        //   fields: [],
+        //   validationSchema: {},
+        //   title: "Step 2 Title",
+        //   subTitle: "Step 2 Subtitle",
+        // },
       ],
-      title: 'Edito certifikate',
       onSave: async (values: any) => {
         const payload: ICertification = {
           certEmri: values.certEmri,
@@ -489,37 +524,6 @@ export default function Profile() {
           setUserProfile(response);
         }
       },
-      actions: [
-        {
-          label: 'Anullo',
-          onClick: () => {
-            handleResetFromParent();
-          },
-          type: 'reset',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#ff5252',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <ClearAllIcon />,
-        },
-        {
-          label: 'Ruaj ndryshimet',
-          type: 'submit',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#30969f',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <SaveAsIcon />,
-        },
-      ],
       onDataChange: (values: any) => {
         handleDataChange(values);
       },
@@ -532,16 +536,45 @@ export default function Profile() {
         aftesiId: skill.aftesiId,
         llojiAftesise: skill.llojiAftesise,
       },
-      fields: [
+      steps: [
         {
-          name: 'llojiAftesise',
-          label: 'Lloji i aftesise',
-          variant: 'filled',
-          type: 'text',
-          sx: { gridColumn: 'span 2' },
+          fields: [
+            {
+              name: 'llojiAftesise',
+              label: 'Lloji i aftesise',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+          ],
+          validationSchema: skillSchema,
+          title: 'Edito aftesine',
+          actions: [
+            {
+              label: 'Anullo',
+              onClick: () => {
+                handleResetFromParent();
+              },
+              type: 'reset',
+              color: 'secondary',
+              variant: 'contained',
+              sx: {
+                border: '1px solid #000',
+                bgcolor: '#ff5252',
+                fontSize: '15px',
+                fontWeight: '700',
+              },
+              icon: <ClearAllIcon />,
+            },
+          ],
         },
+        // {
+        //   fields: [],
+        //   validationSchema: {},
+        //   title: "Step 2 Title",
+        //   subTitle: "Step 2 Subtitle",
+        // },
       ],
-      title: 'Edito Aftesi',
       onSave: async (values: any) => {
         const payload: ISkill = {
           llojiAftesise: values.llojiAftesise,
@@ -558,37 +591,6 @@ export default function Profile() {
           toast.error('Rujtja nuk e realizua !');
         }
       },
-      actions: [
-        {
-          label: 'Anullo',
-          onClick: () => {
-            handleResetFromParent();
-          },
-          type: 'reset',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#ff5252',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <ClearAllIcon />,
-        },
-        {
-          label: 'Ruaj ndryshimet',
-          type: 'submit',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#30969f',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <SaveAsIcon />,
-        },
-      ],
       onDataChange: (values: any) => {
         handleDataChange(values);
       },
@@ -601,16 +603,45 @@ export default function Profile() {
         ppId: work.ppId,
         ppemri: work.ppemri,
       },
-      fields: [
+      steps: [
         {
-          name: 'ppemri',
-          label: 'Emri',
-          variant: 'filled',
-          type: 'text',
-          sx: { gridColumn: 'span 2' },
+          fields: [
+            {
+              name: 'ppemri',
+              label: 'Emri',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+          ],
+          validationSchema: workSchema,
+          title: 'Edito pervojen e punes',
+          actions: [
+            {
+              label: 'Anullo',
+              onClick: () => {
+                handleResetFromParent();
+              },
+              type: 'reset',
+              color: 'secondary',
+              variant: 'contained',
+              sx: {
+                border: '1px solid #000',
+                bgcolor: '#ff5252',
+                fontSize: '15px',
+                fontWeight: '700',
+              },
+              icon: <ClearAllIcon />,
+            },
+          ],
         },
+        // {
+        //   fields: [],
+        //   validationSchema: {},
+        //   title: "Step 2 Title",
+        //   subTitle: "Step 2 Subtitle",
+        // },
       ],
-      title: 'Edito pune',
       onSave: async (values: any) => {
         const payload: IWorkExperience = {
           ppemri: values.ppemri,
@@ -627,37 +658,6 @@ export default function Profile() {
           toast.error('Rujtja nuk e realizua !');
         }
       },
-      actions: [
-        {
-          label: 'Anullo',
-          onClick: () => {
-            handleResetFromParent();
-          },
-          type: 'reset',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#ff5252',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <ClearAllIcon />,
-        },
-        {
-          label: 'Ruaj ndryshimet',
-          type: 'submit',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#30969f',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <SaveAsIcon />,
-        },
-      ],
       onDataChange: (values: any) => {
         handleDataChange(values);
       },
@@ -670,16 +670,104 @@ export default function Profile() {
         eduId: education.eduId,
         eduName: education.eduName,
       },
-      fields: [
+      steps: [
         {
-          name: 'eduName',
-          label: 'Emri',
-          variant: 'filled',
-          type: 'text',
-          sx: { gridColumn: 'span 2' },
+          fields: [
+            {
+              name: 'eduName',
+              label: 'Emri',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+          ],
+          validationSchema: educationSchema,
+          title: 'Edito edukimin',
+          actions: [
+            {
+              label: 'Anullo',
+              onClick: () => {
+                handleResetFromParent();
+              },
+              type: 'reset',
+              color: 'secondary',
+              variant: 'contained',
+              sx: {
+                border: '1px solid #000',
+                bgcolor: '#ff5252',
+                fontSize: '15px',
+                fontWeight: '700',
+              },
+              icon: <ClearAllIcon />,
+            },
+          ],
+        },
+        {
+          fields: [
+            {
+              name: 'mesatarja',
+              label: 'Mesatarja',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+            {
+              name: 'dataFillim',
+              label: 'Data e fillimit',
+              variant: 'filled',
+              type: 'date',
+              sx: { gridColumn: 'span 2' },
+            },
+            {
+              name: 'dataMbarim',
+              label: 'Data e mbarimit',
+              variant: 'filled',
+              type: 'date',
+              sx: { gridColumn: 'span 2' },
+            },
+            {
+              name: 'llojiMaster',
+              label: 'Lloji i masterit',
+              variant: 'filled',
+              type: 'text',
+              sx: { gridColumn: 'span 2' },
+            },
+          ],
+          validationSchema: userEducationSchema,
+          title: 'Edito edukimin tend',
+          actions: [
+            {
+              label: 'Anullo',
+              onClick: () => {
+                handleResetFromParent();
+              },
+              type: 'reset',
+              color: 'secondary',
+              variant: 'contained',
+              sx: {
+                border: '1px solid #000',
+                bgcolor: '#ff5252',
+                fontSize: '15px',
+                fontWeight: '700',
+              },
+              icon: <ClearAllIcon />,
+            },
+            {
+              label: 'Ruaj ndryshimet',
+              type: 'submit',
+              color: 'secondary',
+              variant: 'contained',
+              sx: {
+                border: '1px solid #000',
+                bgcolor: '#30969f',
+                fontSize: '15px',
+                fontWeight: '700',
+              },
+              icon: <SaveAsIcon />,
+            },
+          ],
         },
       ],
-      title: 'Edito edukimin',
       onSave: async (values: any) => {
         const payload: IEducation = {
           eduName: values.eduName,
@@ -696,37 +784,6 @@ export default function Profile() {
           toast.error('Rujtja nuk e realizua !');
         }
       },
-      actions: [
-        {
-          label: 'Anullo',
-          onClick: () => {
-            handleResetFromParent();
-          },
-          type: 'reset',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#ff5252',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <ClearAllIcon />,
-        },
-        {
-          label: 'Ruaj ndryshimet',
-          type: 'submit',
-          color: 'secondary',
-          variant: 'contained',
-          sx: {
-            border: '1px solid #000',
-            bgcolor: '#30969f',
-            fontSize: '15px',
-            fontWeight: '700',
-          },
-          icon: <SaveAsIcon />,
-        },
-      ],
       onDataChange: (values: any) => {
         handleDataChange(values);
       },
