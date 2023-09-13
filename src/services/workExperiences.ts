@@ -6,20 +6,24 @@ const workExperiencesController = {
       .post('https://localhost:7006/api/PervojePune', model)
       .then((x) => x.data);
   },
-  editWorkExpierence: async (edukimId: any, model: any) => {
+  editWorkExpierence: async (workId: any, model: any) => {
     return await axios
-      .put(`https://localhost:7006/api/PervojePune/${edukimId}`, model)
+      .put(`https://localhost:7006/api/PervojePune/${workId}`, model)
       .then((x) => x.data);
   },
-  deleteWorkExpierence: async (edukimId: any) => {
+  deleteWorkExpierence: async (userId: any, workId: any) => {
     return await axios
-      .delete(`https://localhost:7006/api/PervojePune/${edukimId}`)
+      .delete(`https://localhost:7006/api/PervojePune/${workId}`)
       .then((x) => x.data);
   },
-  addUserertificate: async (workExperienceId: any, userId: any, model: any) => {
+  addUserWorkExperience: async (
+    workExperienceId: any,
+    userId: any,
+    model: any
+  ) => {
     return await axios
       .post(
-        `https://localhost:7006/User/AddUserPervojePune/${workExperienceId},${userId}`,
+        `https://localhost:7006/User/AddUserPervojePune/${userId},${workExperienceId}`,
         model
       )
       .then((x) => x.data);
@@ -31,7 +35,7 @@ const workExperiencesController = {
   ) => {
     return await axios
       .put(
-        `https://localhost:7006/User/UpdateUserPervojePune/${workExperienceId},${userId}`,
+        `https://localhost:7006/User/UpdateUserPervojePune/${userId},${workExperienceId}`,
         model
       )
       .then((x) => x.data);
@@ -39,7 +43,7 @@ const workExperiencesController = {
   deleteUserWorkExpierence: async (workExperienceId: any, userId: any) => {
     return await axios
       .delete(
-        `https://localhost:7006/User/DeleteUserPervojePune/${workExperienceId},${userId}`
+        `https://localhost:7006/User/DeleteUserPervojePune/${userId},${workExperienceId}`
       )
       .then((x) => x.data);
   },
