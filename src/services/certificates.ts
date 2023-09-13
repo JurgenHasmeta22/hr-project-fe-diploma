@@ -16,10 +16,10 @@ const certificatesController = {
       .delete(`https://localhost:7006/api/Certifikate/${certificateId}`)
       .then((x) => x.data);
   },
-  addUserertificate: async (certificateId: any, userId: any, model: any) => {
+  addUserCertificate: async (certificateId: any, userId: any, model: any) => {
     return await axios
       .post(
-        `https://localhost:7006/User/AddUserCertifikate/${certificateId},${userId}`,
+        `https://localhost:7006/User/AddUserCertifikate/${userId},${certificateId}`,
         model
       )
       .then((x) => x.data);
@@ -27,7 +27,7 @@ const certificatesController = {
   editUserCertificate: async (certificateId: any, userId: any, model: any) => {
     return await axios
       .put(
-        `https://localhost:7006/User/UpdateUserCertifikate/${certificateId},${userId}`,
+        `https://localhost:7006/User/UpdateUserCertifikate/${userId},${certificateId}`,
         model
       )
       .then((x) => x.data);
@@ -35,7 +35,7 @@ const certificatesController = {
   deleteUserCertificate: async (certificateId: any, userId: any) => {
     return await axios
       .delete(
-        `https://localhost:7006/User/DeleteUserCertifikate/${certificateId},${userId}`
+        `https://localhost:7006/User/DeleteUserCertifikate/${userId},${certificateId}`
       )
       .then((x) => x.data);
   },

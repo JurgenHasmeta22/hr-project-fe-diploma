@@ -559,10 +559,13 @@ export default function Profile() {
           certEmri: values.certEmri,
           certPershkrim: values.certPershkrim,
         };
-        const response = await certificatesController.createCertificate(
+        const response1 = await certificatesController.createCertificate(
           payload
         );
-        if (response) {
+        // const response2 = await certificatesController.addUserCertificate(
+        //   payload
+        // );
+        if (response1) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
         } else {
           toast.error('Rujtja nuk e realizua !');
@@ -779,18 +782,31 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: ICertification = {
+        const payload1: ICertification = {
           certEmri: values.certEmri,
           certPershkrim: values.certPershkrim,
         };
-        const response = await certificatesController.editCertificate(
+        const response1 = await certificatesController.editCertificate(
           values.certId,
-          payload
+          payload1
         );
-        if (response) {
+        const payload2 = {
+          dataFituar: values.dataFituar,
+          dataSkadence: values.dataSkadence,
+        };
+        const response2 = await certificatesController.editUserCertificate(
+          values.certId,
+          userDetailsLoggedIn?.userId,
+          payload2
+        );
+
+        if (response1 && response2) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
-          setUserDetailsLoggedIn(response);
-          setUserProfile(response);
+          const user = await usersController.getUser(
+            userDetailsLoggedIn?.userId
+          );
+          setUserDetailsLoggedIn(user);
+          setUserProfile(user);
         }
       },
       onDataChange: (values: any) => {
@@ -884,17 +900,28 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: ISkill = {
+        const payload1: ISkill = {
           llojiAftesise: values.llojiAftesise,
         };
-        const response = await skillsController.editSkill(
+        const response1 = await skillsController.editSkill(
           values.aftesiId,
-          payload
+          payload1
         );
-        if (response) {
+        const payload2 = {
+          dataPerfitimit: values.dataPerfitimit,
+        };
+        const response2 = await skillsController.editUserAftesi(
+          values.aftesiId,
+          userDetailsLoggedIn?.userId,
+          payload2
+        );
+        if (response1 && response2) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
-          setUserDetailsLoggedIn(response);
-          setUserProfile(response);
+          const user = await usersController.getUser(
+            userDetailsLoggedIn?.userId
+          );
+          setUserDetailsLoggedIn(user);
+          setUserProfile(user);
         } else {
           toast.error('Rujtja nuk e realizua !');
         }
@@ -1022,17 +1049,34 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: IWorkExperience = {
+        const payload1: IWorkExperience = {
           ppemri: values.ppemri,
         };
-        const response = await workExperiencesController.editWorkExpierence(
+        const response1 = await workExperiencesController.editWorkExpierence(
           values.ppId,
-          payload
+          payload1
         );
-        if (response) {
+        const payload2 = {
+          ppemri: values.ppemri,
+          dataFillim: values.dataFillim,
+          dataMbarim: values.dataMbarim,
+          pppozicion: values.pppozicion,
+          konfidencialiteti: values.konfidencialiteti,
+          pershkrimiPunes: values.pershkrimiPunes,
+        };
+        const response2 =
+          await workExperiencesController.editUserWorkExpierence(
+            values.ppId,
+            userDetailsLoggedIn?.userId,
+            payload2
+          );
+        if (response1 && response2) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
-          setUserDetailsLoggedIn(response);
-          setUserProfile(response);
+          const user = await usersController.getUser(
+            userDetailsLoggedIn?.userId
+          );
+          setUserDetailsLoggedIn(user);
+          setUserProfile(user);
         } else {
           toast.error('Rujtja nuk e realizua !');
         }
@@ -1152,22 +1196,33 @@ export default function Profile() {
         },
       ],
       onSave: async (values: any) => {
-        const payload: IEducation = {
+        const payload1: IEducation = {
           eduName: values.eduName,
         };
         const response1 = await educationsController.editEducation(
           values.eduId,
-          payload
+          payload1
         );
+        const payload2 = {
+          eduName: values.eduName,
+          mesatarja: values.mesatarja,
+          dataFillim: values.dataFillim,
+          dataMbarim: values.dataMbarim,
+          llojiMaster: values.llojiMaster,
+        };
         const response2 = await educationsController.editUserEducation(
           values.eduId,
           userDetailsLoggedIn?.userId,
-          payload
+          payload2
         );
+
         if (response1 && response2) {
           toast.success('Ruajtja e ndryshimeve me sukses !');
-          setUserDetailsLoggedIn(response2);
-          setUserProfile(response2);
+          const user = await usersController.getUser(
+            userDetailsLoggedIn?.userId
+          );
+          setUserDetailsLoggedIn(user);
+          setUserProfile(user);
         } else {
           toast.error('Rujtja nuk e realizua !');
         }
