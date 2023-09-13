@@ -64,6 +64,19 @@ const permissionReservation = () => {
     }
     handleClose();
   };
+  const handleUpdate = async (lejeId: any) => {
+    const response = await permissionsController.updatePermission(
+      lejeId,
+      formData
+    );
+    if (response) {
+      toast.success('Rezervimi i lejes u ndryshua me sukses !');
+      navigate('/users');
+    } else {
+      toast.error('Rezervimi i lejes nuk u azhornua !');
+    }
+    handleClose();
+  };
   const handleDateClick = (selected: any) => {
     openModal({
       formRef: formikRef,
@@ -229,7 +242,7 @@ const permissionReservation = () => {
         {
           label: 'Ruaj ndryshimet',
           onClick: () => {
-            handleSave();
+            handleUpdate(selected.event.id);
           },
           type: 'submit',
           color: 'secondary',
