@@ -19,7 +19,7 @@ const skillsController = {
   addUserertificate: async (aftesiId: any, userId: any, model: any) => {
     return await axios
       .post(
-        `https://localhost:7006/User/AddUserAftesi/${aftesiId},${userId}`,
+        `https://localhost:7006/User/AddUserAftesi/${userId},${aftesiId}`,
         model
       )
       .then((x) => x.data);
@@ -27,7 +27,7 @@ const skillsController = {
   editUserAftesi: async (aftesiId: any, userId: any, model: any) => {
     return await axios
       .put(
-        `https://localhost:7006/User/UpdateUserAftesi/${aftesiId},${userId}`,
+        `https://localhost:7006/User/UpdateUserAftesi/${userId},${aftesiId}`,
         model
       )
       .then((x) => x.data);
@@ -35,7 +35,7 @@ const skillsController = {
   deleteUserAftesi: async (aftesiId: any, userId: any) => {
     return await axios
       .delete(
-        `https://localhost:7006/User/DeleteUserAftesi/${aftesiId},${userId}`
+        `https://localhost:7006/User/DeleteUserAftesi/${userId},${aftesiId}`
       )
       .then((x) => x.data);
   },

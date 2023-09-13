@@ -146,18 +146,6 @@ const RightPanel: React.FC<DrawerProps> = ({
             }, [values]);
             return (
               <Form>
-                {steps && (
-                  <Box mt={3} display="flex" justifyContent="space-between">
-                    <Button disabled={activeStep === 0} onClick={handleBack}>
-                      Mbrapa
-                    </Button>
-                    {!isLastStep() && (
-                      <Button variant="contained" color="primary" type="submit">
-                        Tjetra
-                      </Button>
-                    )}
-                  </Box>
-                )}
                 <Grid container spacing={3} mt={3}>
                   {(steps ? steps[activeStep].fields : fields).map((field) => (
                     <Grid item xs={6} key={field.name}>
@@ -219,6 +207,23 @@ const RightPanel: React.FC<DrawerProps> = ({
                     )
                   )}
                 </Box>
+                {steps && (
+                  <Box mt={3} display="flex" justifyContent="space-between">
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      variant="contained"
+                      color="secondary"
+                    >
+                      Mbrapa
+                    </Button>
+                    {!isLastStep() && (
+                      <Button variant="contained" color="primary" type="submit">
+                        Tjetra
+                      </Button>
+                    )}
+                  </Box>
+                )}
               </Form>
             );
           }}
