@@ -29,6 +29,11 @@ import IEducation from '~/interfaces/IEducation';
 import ISkill from '~/interfaces/ISkill';
 import IWorkExperience from '~/interfaces/IWorkExperience';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { toast } from 'react-toastify';
+import educationsController from '~/services/educations';
+import workExperiencesController from '~/services/workExperiences';
+import skillsController from '~/services/skills';
+import certificatesController from '~/services/certificates';
 
 const userSchema = Yup.object().shape({
   userName: Yup.string().required('required'),
@@ -44,7 +49,7 @@ const skillSchema = Yup.object().shape({
   llojiAftesise: Yup.string().required('required'),
 });
 const workSchema = Yup.object().shape({
-  ppEmri: Yup.string().required('required'),
+  ppemri: Yup.string().required('required'),
 });
 const educationSchema = Yup.object().shape({
   eduName: Yup.string().required('required'),
@@ -94,8 +99,16 @@ export default function Profile() {
         },
       ],
       validationSchema: certificateSchema,
-      onSave: (values: any) => {
-        console.log(values);
+      onSave: async (values: any) => {
+        const payload: IEducation = {
+          eduName: values.eduName,
+        };
+        const response = await educationsController.createEducation(payload);
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       title: 'Shto certifikate',
       actions: [
@@ -117,7 +130,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -151,8 +163,16 @@ export default function Profile() {
         },
       ],
       validationSchema: skillSchema,
-      onSave: (values: any) => {
-        console.log(values);
+      onSave: async (values: any) => {
+        const payload: ISkill = {
+          llojiAftesise: values.llojiAftesise,
+        };
+        const response = await skillsController.createSkill(payload);
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       title: 'Shto Aftesi',
       actions: [
@@ -174,7 +194,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -196,11 +215,11 @@ export default function Profile() {
     openDrawer({
       formRef: formikRef,
       initialValues: {
-        ppEmri: '',
+        ppemri: '',
       },
       fields: [
         {
-          name: 'ppEmri',
+          name: 'ppemri',
           label: 'Emri',
           variant: 'filled',
           type: 'text',
@@ -208,8 +227,18 @@ export default function Profile() {
         },
       ],
       validationSchema: workSchema,
-      onSave: (values: any) => {
-        console.log(values);
+      onSave: async (values: any) => {
+        const payload: IWorkExperience = {
+          ppemri: values.ppemri,
+        };
+        const response = await workExperiencesController.createWorkExpierence(
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       title: 'Shto pune',
       actions: [
@@ -231,7 +260,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -265,8 +293,19 @@ export default function Profile() {
         },
       ],
       validationSchema: educationSchema,
-      onSave: (values: any) => {
-        console.log(values);
+      onSave: async (values: any) => {
+        const payload: ICertification = {
+          certEmri: values.certEmri,
+          certPershkrim: values.certPershkrim,
+        };
+        const response = await certificatesController.createCertificate(
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       title: 'Shto edukimin',
       actions: [
@@ -288,7 +327,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -374,7 +412,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -417,8 +454,20 @@ export default function Profile() {
         },
       ],
       title: 'Edito certifikate',
-      onSave: (values: any) => {
-        console.log('Updated certificate values:', values);
+      onSave: async (values: any) => {
+        const payload: ICertification = {
+          certEmri: values.certEmri,
+          certPershkrim: values.certPershkrim,
+        };
+        const response = await certificatesController.editCertificate(
+          values.certId,
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       actions: [
         {
@@ -439,7 +488,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -473,8 +521,19 @@ export default function Profile() {
         },
       ],
       title: 'Edito Aftesi',
-      onSave: (values: any) => {
-        console.log('Updated skill values:', values);
+      onSave: async (values: any) => {
+        const payload: ISkill = {
+          llojiAftesise: values.llojiAftesise,
+        };
+        const response = await skillsController.editSkill(
+          values.aftesiId,
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       actions: [
         {
@@ -495,7 +554,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -517,11 +575,11 @@ export default function Profile() {
     openDrawer({
       formRef: formikRef,
       initialValues: {
-        ppEmri: work.ppEmri,
+        ppemri: work.ppemri,
       },
       fields: [
         {
-          name: 'ppEmri',
+          name: 'ppemri',
           label: 'Emri',
           variant: 'filled',
           type: 'text',
@@ -529,8 +587,19 @@ export default function Profile() {
         },
       ],
       title: 'Edito pune',
-      onSave: (values: any) => {
-        console.log('Updated work values:', values);
+      onSave: async (values: any) => {
+        const payload: IWorkExperience = {
+          ppemri: values.ppemri,
+        };
+        const response = await workExperiencesController.editWorkExpierence(
+          values.ppId,
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       actions: [
         {
@@ -551,7 +620,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -585,8 +653,19 @@ export default function Profile() {
         },
       ],
       title: 'Edito edukimin',
-      onSave: (values: any) => {
-        console.log('Updated education values:', values);
+      onSave: async (values: any) => {
+        const payload: IEducation = {
+          eduName: values.eduName,
+        };
+        const response = await educationsController.editEducation(
+          values.eduId,
+          payload
+        );
+        if (response) {
+          toast.success('Ruajtja e ndryshimeve me sukses !');
+        } else {
+          toast.error('Rujtja nuk e realizua !');
+        }
       },
       actions: [
         {
@@ -607,7 +686,6 @@ export default function Profile() {
         },
         {
           label: 'Ruaj ndryshimet',
-          onClick: () => {},
           type: 'submit',
           color: 'secondary',
           variant: 'contained',
@@ -753,14 +831,14 @@ export default function Profile() {
                 <Card elevation={4}>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Emri: {el.certificate.certEmri}
+                      Emri: {el.cert!.certEmri!}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       gutterBottom
                     >
-                      Pershkrim: {el.certificate.certPershkrim}
+                      Pershkrim: {el.cert.certPershkrim}
                     </Typography>
                   </CardContent>
                   {userProfile?.userName === userDetailsLoggedIn?.userName && (
@@ -775,7 +853,7 @@ export default function Profile() {
                         variant="contained"
                         startIcon={<EditIcon />}
                         color="secondary"
-                        onClick={() => handleEditCertificate(el.certificate)}
+                        onClick={() => handleEditCertificate(el.cert)}
                       >
                         Edito
                       </Button>
@@ -814,7 +892,7 @@ export default function Profile() {
                 <Card elevation={4}>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Emri: {el.edukim.eduName}
+                      Emri: {el.edu.eduName}
                     </Typography>
                   </CardContent>
                   {userProfile?.userName === userDetailsLoggedIn?.userName && (
@@ -829,7 +907,7 @@ export default function Profile() {
                         variant="contained"
                         startIcon={<EditIcon />}
                         color="secondary"
-                        onClick={() => handleEditEducation(el.edukim)}
+                        onClick={() => handleEditEducation(el.edu)}
                       >
                         Edito
                       </Button>
@@ -944,7 +1022,7 @@ export default function Profile() {
                 <Card elevation={4}>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      Emri: {el.pervojePune.ppEmri}
+                      Emri: {el.pp.ppemri}
                     </Typography>
                   </CardContent>
                   {userProfile?.userName === userDetailsLoggedIn?.userName && (
@@ -959,7 +1037,7 @@ export default function Profile() {
                         variant="contained"
                         startIcon={<EditIcon />}
                         color="secondary"
-                        onClick={() => handleEditWork(el.pervojePune)}
+                        onClick={() => handleEditWork(el.pp)}
                       >
                         Edito
                       </Button>
