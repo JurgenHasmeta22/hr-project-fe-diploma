@@ -2,28 +2,50 @@ import React from 'react';
 import { Button, TextField, Box, Typography, Container } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import authenticationController from '~/services/authentication';
+import { toast } from 'react-toastify';
+import { useStore } from '~/store/zustand/store';
 
 const validationSchema = yup.object({
-  currentPassword: yup.string().required('Current password is required'),
+  oldPassword: yup.string().required('Passwordi aktual eshte i kerkuar'),
   newPassword: yup
     .string()
-    .required('New password is required')
-    .min(8, 'Password should be minimum 8 characters'),
+    .required('Passwordi i ri eshte i kerkuar')
+    .min(8, 'Passwordi duhet te jete minimum 8 karaktere'),
   confirmNewPassword: yup
     .string()
-    .oneOf([yup.ref('newPassword')], 'Passwords do not match')
-    .required('Confirm password is required'),
+    .oneOf([yup.ref('newPassword')], 'Passwordet nuk perputhen')
+    .required('Duhet konfirmimi i passwordit'),
 });
 
 const ChangePassword: React.FC = () => {
+  const navigate = useNavigate();
+  const { user, setUser } = useStore();
+
   const initialValues = {
-    currentPassword: '',
+    oldPassword: '',
     newPassword: '',
     confirmNewPassword: '',
   };
 
-  const handleFormSubmit = (values: typeof initialValues) => {
-    console.log(values);
+  const handleFormSubmit = async (values: typeof initialValues) => {
+    const payload = {
+      userId: user?.userId,
+      oldPassword: values.oldPassword,
+      newPassword: values.newPassword,
+      confirmNewPassword: values.confirmNewPassword,
+    };
+
+    const response = await authenticationController.onLogin(payload);
+
+    if (response) {
+      toast.success('Ju keni ndryshuar passwordin me sukses');
+      setUser(response);
+      navigate('/dashboard');
+    } else {
+      toast.error('Passwordi nuk eshte ndryshuar me sukses');
+    }
   };
 
   return (
@@ -53,13 +75,13 @@ const ChangePassword: React.FC = () => {
             <Form>
               <Box mb={2}>
                 <Field
-                  name="currentPassword"
+                  name="oldPassword"
                   as={TextField}
                   fullWidth
                   label="Passwordi aktual"
                   type="password"
-                  error={touched.currentPassword && !!errors.currentPassword}
-                  helperText={touched.currentPassword && errors.currentPassword}
+                  error={touched.oldPassword && !!errors.oldPassword}
+                  helperText={touched.oldPassword && errors.oldPassword}
                   sx={{
                     '& .MuiInputLabel-outlined': {
                       color: '#fff',

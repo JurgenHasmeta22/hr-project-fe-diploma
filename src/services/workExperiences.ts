@@ -1,27 +1,46 @@
 import axios from 'axios';
 
 const workExperiencesController = {
-  addWorkExperience: async (model: any, id: string) => {
+  createWorkExpierence: async (model: any) => {
     return await axios
-      .post(`https://localhost:7006/api/PervojePune/addWorkExperience`, model)
+      .post('https://localhost:7006/api/PervojePune', model)
       .then((x) => x.data);
   },
-  removeWorkExperience: async (id: string) => {
+  editWorkExpierence: async (edukimId: any, model: any) => {
     return await axios
-      .delete(`https://localhost:7006/api/PervojePune/removeWorkExperience`)
+      .put(`https://localhost:7006/api/PervojePune/${edukimId}`, model)
       .then((x) => x.data);
   },
-  updateWorkExperience: async (model: any, id: string) => {
+  deleteWorkExpierence: async (edukimId: any) => {
     return await axios
-      .put(
-        `https://localhost:7006/api/PervojePune/updateWorkExperience/${id}`,
+      .delete(`https://localhost:7006/api/PervojePune/${edukimId}`)
+      .then((x) => x.data);
+  },
+  addUserertificate: async (workExperienceId: any, userId: any, model: any) => {
+    return await axios
+      .post(
+        `https://localhost:7006/User/AddUserPervojePune/${workExperienceId},${userId}`,
         model
       )
       .then((x) => x.data);
   },
-  assignWorkExperience: async (model: any) => {
+  editUserWorkExpierence: async (
+    workExperienceId: any,
+    userId: any,
+    model: any
+  ) => {
     return await axios
-      .post(`https://localhost:7006/api/PervojePune/asignWorkExperience`, model)
+      .put(
+        `https://localhost:7006/User/UpdateUserPervojePune/${workExperienceId},${userId}`,
+        model
+      )
+      .then((x) => x.data);
+  },
+  deleteUserWorkExpierence: async (workExperienceId: any, userId: any) => {
+    return await axios
+      .delete(
+        `https://localhost:7006/User/DeleteUserPervojePune/${workExperienceId},${userId}`
+      )
       .then((x) => x.data);
   },
 };

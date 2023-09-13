@@ -11,6 +11,11 @@ const authenticationController = {
       .post('https://localhost:7006/api/Account/register', model)
       .then((x) => x.data);
   },
+  onChangePassword: async (model: any): Promise<any> => {
+    return await axios
+      .patch('https://localhost:7006/api/Account/changePassword', model)
+      .then((x) => x.data);
+  },
   onLogout: () => {
     localStorage.removeItem('token');
   },

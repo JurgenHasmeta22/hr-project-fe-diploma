@@ -11,6 +11,7 @@ import ILoginReq from '~/interfaces/ILoginReq';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useStore } from '~/store/zustand/store';
+import { toast } from 'react-toastify';
 
 const initialValues = {
   userName: '',
@@ -31,10 +32,15 @@ export default function Login() {
       userName: values.userName,
       password: values.password,
     };
+
     const response = await authenticationController.onLogin(payload);
+
     if (response) {
+      toast.success('Ju jeni loguar me sukses');
       setUser(response);
       navigate('/dashboard');
+    } else {
+      toast.error('Fjalekalimi ose username eshte gabim');
     }
   };
 
