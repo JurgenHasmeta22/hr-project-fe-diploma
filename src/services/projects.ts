@@ -34,6 +34,13 @@ const projectsController = {
       )
       .then((x) => x.data);
   },
+  deleteProjectToUser: async (userId: any, projektId: any) => {
+    return await axios
+      .delete(
+        `https://localhost:7006/User/DeleteMappedProjectToUser/${userId},${projektId}`
+      )
+      .then((x) => x.data);
+  },
 };
 
 export default projectsController;

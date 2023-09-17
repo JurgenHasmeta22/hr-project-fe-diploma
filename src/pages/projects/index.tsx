@@ -12,6 +12,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import { useStore } from '~/store/zustand/store';
+import LogoutIcon from '@mui/icons-material/Logout';
+import IUser from '~/interfaces/IUser';
+import usersController from '~/services/users';
 
 const Projects = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
@@ -25,6 +28,22 @@ const Projects = () => {
   const isEmployee = userDetailsLoggedIn?.userRolis?.some(
     (el) => el.roli.roliEmri === 'Employee'
   );
+  const { setUserDetailsLoggedIn } = useStore();
+  const checkIsUserInProject = (projektId: any): boolean => {
+    if (!userDetailsLoggedIn?.userProjekts) {
+      return false;
+    }
+
+    for (let el of userDetailsLoggedIn.userProjekts) {
+      if (el.projekt.projektId === projektId) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    return false;
+  };
   const columns = [
     {
       field: 'projektId',
@@ -92,30 +111,78 @@ const Projects = () => {
               </Button>
             </>
           )}
-          <Button
-            onClick={async () => {
-              const response = await projectsController.assignProjectToUser(
-                user?.userId,
-                params.row.projektId,
-                {
-                  dataFillim: currentTime,
-                  dataMbarim: null,
-                }
+          {projects.map((project: any) => {
+            if (!checkIsUserInProject(project.projektId)) {
+              return (
+                <Button
+                  key={project.projektId}
+                  onClick={async () => {
+                    const response =
+                      await projectsController.assignProjectToUser(
+                        user?.userId,
+                        project.projektId,
+                        {
+                          dataFillim: currentTime,
+                          dataMbarim: null,
+                        }
+                      );
+
+                    if (response === '') {
+                      toast.success('Futja ne projekt u krye me sukses !');
+                      // getProjects();
+                      const response: IUser = await usersController.getUser(
+                        user.userId
+                      );
+                      if (response) {
+                        setUserDetailsLoggedIn(response);
+                      }
+                      setUserDetailsLoggedIn(response);
+                    } else {
+                      toast.error('Futja ne projekt nuk u realizua !');
+                    }
+                  }}
+                >
+                  <MeetingRoomIcon
+                    sx={{
+                      color: 'blue',
+                    }}
+                  />
+                </Button>
               );
-              if (response === '') {
-                toast.success('Futja ne projekt u krye me sukses !');
-                navigate('/users');
-              } else {
-                toast.error('Futja ne projekt nuk u realizua !');
-              }
-            }}
-          >
-            <MeetingRoomIcon
-              sx={{
-                color: 'blue',
-              }}
-            />
-          </Button>
+            } else {
+              return (
+                <Button
+                  key={project.projektId}
+                  onClick={async () => {
+                    const response =
+                      await projectsController.deleteProjectToUser(
+                        user?.userId,
+                        project.projektId
+                      );
+
+                    if (response === '') {
+                      toast.success('Ikja nga projekti u krye me sukses !');
+                      const response: IUser = await usersController.getUser(
+                        user.userId
+                      );
+                      if (response) {
+                        setUserDetailsLoggedIn(response);
+                      }
+                      // getProjects();
+                    } else {
+                      toast.error('Ikja nga projekti nuk u realizua !');
+                    }
+                  }}
+                >
+                  <LogoutIcon
+                    sx={{
+                      color: 'red',
+                    }}
+                  />
+                </Button>
+              );
+            }
+          })}
         </>
       ),
     },

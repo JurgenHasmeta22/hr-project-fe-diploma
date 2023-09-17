@@ -4,7 +4,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import { tokens, ColorModeContext } from '~/utils/theme';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '~/store/zustand/store';
 
 const Topbar = () => {
@@ -72,6 +72,14 @@ const Topbar = () => {
           }}
         >
           <MenuItem onClick={handleRedirectToProfile}>Profili im</MenuItem>
+          <MenuItem>
+            <Link
+              to="/changePassword"
+              style={{ color: '#fff', textDecoration: 'none' }}
+            >
+              Ndrysho passwordin
+            </Link>
+          </MenuItem>
           <MenuItem onClick={handleLogout}>Logohu jasht</MenuItem>
         </Menu>
       </Box>
