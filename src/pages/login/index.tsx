@@ -9,7 +9,6 @@ import * as yup from 'yup';
 import authenticationController from '~/services/authentication';
 import ILoginReq from '~/interfaces/ILoginReq';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useStore } from '~/store/zustand/store';
 import { toast } from 'react-toastify';
 
@@ -35,7 +34,7 @@ export default function Login() {
 
     const response = await authenticationController.onLogin(payload);
 
-    if (response) {
+    if (response.status !== 401) {
       toast.success('Ju jeni loguar me sukses');
       setUser(response);
       navigate('/dashboard');
@@ -129,16 +128,6 @@ export default function Login() {
               >
                 Logohu
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link
-                    to="/changePassword"
-                    style={{ color: '#fff', textDecoration: 'none' }}
-                  >
-                    Ndrysho passwordin
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           )}
         </Formik>
