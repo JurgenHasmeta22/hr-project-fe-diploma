@@ -1,25 +1,46 @@
 import axios from 'axios';
 
-const api = {
-	url: import.meta.env.VITE_API_URL
+const projectsController = {
+  getAllProjects: async () => {
+    return await axios
+      .get('https://localhost:7006/Projekt/getAllProjects')
+      .then((x) => x.data);
+  },
+  getProject: async (projectId: string) => {
+    return await axios
+      .get(`https://localhost:7006/Projekt/GetById/${projectId}`)
+      .then((x) => x.data);
+  },
+  deleteProject: async (projectId: any) => {
+    return await axios
+      .delete(`https://localhost:7006/Projekt/Delete/${projectId}`)
+      .then((x) => x.data);
+  },
+  updateProject: async (projectId: any, model: any) => {
+    return await axios
+      .put(`https://localhost:7006/Projekt/Put/${projectId}`, model)
+      .then((x) => x.data);
+  },
+  addProject: async (model: any) => {
+    return await axios
+      .post('https://localhost:7006/Projekt', model)
+      .then((x) => x.data);
+  },
+  assignProjectToUser: async (userId: any, projektId: any, model: any) => {
+    return await axios
+      .post(
+        `https://localhost:7006/User/AssignProjectToUser/${userId},${projektId}`,
+        model
+      )
+      .then((x) => x.data);
+  },
+  deleteProjectToUser: async (userId: any, projektId: any) => {
+    return await axios
+      .delete(
+        `https://localhost:7006/User/DeleteMappedProjectToUser/${userId},${projektId}`
+      )
+      .then((x) => x.data);
+  },
 };
 
-const authenticationController = {
-	getAllProjects: async () => {
-		return await axios.get(`${api}/Projekt/getAllProjects`);
-	},
-
-	deleteProject: async (projectId: any) => {
-		return await axios.delete(`${api}/Projekt/Delete/${projectId}`);
-	},
-
-	updateProject: async (projectId: any, model: any) => {
-		return await axios.put(`${api}/Projekt/Put/${projectId}`, model);
-	},
-
-	addProject: async (model: any) => {
-		return await axios.post(`${api}/Projekt`, model);
-	}
-};
-
-export default authenticationController;
+export default projectsController;
