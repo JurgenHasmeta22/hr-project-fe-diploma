@@ -18,14 +18,14 @@ const Item = ({ title, to, icon, selected, setSelected }: any) => {
     return (
         <MenuItem
             active={selected === title}
-            style={{
+            rootStyles={{
                 color: colors.grey[100],
             }}
             onClick={() => setSelected(title)}
             icon={icon}
+            component={<Link to={to} />}
         >
             <Typography>{title}</Typography>
-            <Link to={to} />
         </MenuItem>
     );
 };
@@ -40,9 +40,9 @@ const SubMenuItem = ({ label, selected, setSelected }: any) => {
 
     return (
         <SubMenu
-            title={label}
+            label={label}
             icon={<ReceiptOutlinedIcon />}
-            style={{
+            rootStyles={{
                 color: colors.grey[100],
             }}
         >
@@ -75,98 +75,96 @@ const SidebarWrapper = () => {
     const { userDetailsLoggedIn } = useStore();
 
     return (
-        <Box
-            sx={{
-                '& .pro-sidebar-inner': {
+        <Sidebar
+            collapsed={isCollapsed}
+            rootStyles={{
+                '& .ps-sidebar-container': {
                     background: `${colors.primary[400]} !important`,
                 },
-                '& .pro-icon-wrapper': {
-                    backgroundColor: 'transparent !important',
+                '& .ps-menuitem-root:hover': {
+                    color: '#2b15ed !important',
                 },
-                '& .pro-inner-item': {
-                    padding: '5px 35px 5px 20px !important',
-                },
-                '& .pro-inner-item:hover': {
-                    color: '#868dfb !important',
-                },
-                '& .pro-menu-item.active': {
+                '& .ps-active': {
                     color: '#6870fa !important',
                 },
             }}
         >
-            <Sidebar collapsed={isCollapsed}>
-                <Menu>
-                    <MenuItem
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                        icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-                        style={{
-                            margin: '10px 0 20px 0',
-                            color: colors.grey[100],
-                        }}
-                    >
-                        {!isCollapsed && (
-                            <Box position="absolute" top={4} right={5}>
-                                <IconButton onClick={() => setVisible(false)}>
-                                    X
-                                </IconButton>
-                            </Box>
-                        )}
-                    </MenuItem>
-                    {!isCollapsed && (
-                        <Box mb="35px">
-                            <Box textAlign="center">
-                                <AccountCircleIcon style={{ fontSize: 100 }} />
-                                <Typography
-                                    variant="h2"
-                                    color={colors.grey[100]}
-                                    fontWeight="bold"
-                                    sx={{ m: '20px 0 0 0' }}
-                                >
-                                    {userDetailsLoggedIn?.userName}
-                                </Typography>
-                                <Typography
-                                    variant="h5"
-                                    color={colors.greenAccent[500]}
-                                >
-                                    {
-                                        userDetailsLoggedIn?.userRolis![0].roli
-                                            .roliEmri
-                                    }
-                                </Typography>
-                            </Box>
+            <Menu>
+                <Box
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    sx={{
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: '15px',
+                        marginBottom: '15px',
+                    }}
+                >
+                    {!isCollapsed ? (
+                        <Box position="absolute" top={4} right={5}>
+                            <IconButton onClick={() => setVisible(false)}>
+                                X
+                            </IconButton>
                         </Box>
+                    ) : (
+                        <MenuOutlinedIcon />
                     )}
-                    <Box paddingLeft={isCollapsed ? undefined : '10%'}>
-                        <Item
-                            title="Dashboard"
-                            to="/dashboard"
-                            icon={<HomeOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Perdoruesit"
-                            to="/users"
-                            icon={<PeopleOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <SubMenuItem
-                            label="Lejet"
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Projektet"
-                            to="/projects"
-                            icon={<PersonOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
+                </Box>
+                {!isCollapsed && (
+                    <Box mb="35px">
+                        <Box textAlign="center">
+                            <AccountCircleIcon style={{ fontSize: 100 }} />
+                            <Typography
+                                variant="h2"
+                                color={colors.grey[100]}
+                                fontWeight="bold"
+                                sx={{ m: '20px 0 0 0' }}
+                            >
+                                {userDetailsLoggedIn?.userName}
+                            </Typography>
+                            <Typography
+                                variant="h5"
+                                color={colors.greenAccent[500]}
+                            >
+                                {
+                                    userDetailsLoggedIn?.userRolis![0].roli
+                                        .roliEmri
+                                }
+                            </Typography>
+                        </Box>
                     </Box>
-                </Menu>
-            </Sidebar>
-        </Box>
+                )}
+                <Box paddingLeft={isCollapsed ? undefined : '10%'}>
+                    <Item
+                        title="Dashboard"
+                        to="/dashboard"
+                        icon={<HomeOutlinedIcon />}
+                        selected={selected}
+                        setSelected={setSelected}
+                    />
+                    <Item
+                        title="Perdoruesit"
+                        to="/users"
+                        icon={<PeopleOutlinedIcon />}
+                        selected={selected}
+                        setSelected={setSelected}
+                    />
+                    <SubMenuItem
+                        label="Lejet"
+                        selected={selected}
+                        setSelected={setSelected}
+                    />
+                    <Item
+                        title="Projektet"
+                        to="/projects"
+                        icon={<PersonOutlinedIcon />}
+                        selected={selected}
+                        setSelected={setSelected}
+                    />
+                </Box>
+            </Menu>
+        </Sidebar>
     );
 };
 
