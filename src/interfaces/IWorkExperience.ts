@@ -1,4 +1,4 @@
 export default interface IWorkExperience {
-  ppId?: number;
-  ppemri: string;
+    ppId?: number;
+    ppemri: string;
 }
