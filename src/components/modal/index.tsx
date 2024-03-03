@@ -26,7 +26,7 @@ type FieldConfig = {
 
 type ModalProps = {
     open: boolean;
-    onClose: () => void;
+    onClose?: () => void;
     initialValues?: any;
     fields?: FieldConfig[];
     validationSchema?: any;
@@ -69,12 +69,12 @@ const Modal: React.FC<ModalProps> = ({
     subTitle,
 }) => {
     return (
-        <Dialog open={true} onClose={onClose} fullWidth>
+        <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
             <DialogTitle fontSize={'26px'}>
                 {title}
                 <IconButton
                     style={{ position: 'absolute', right: 0, top: 0 }}
-                    onClick={onClose}
+                    onClick={onClose ? onClose : () => {}}
                 >
                     <CloseIcon color="action" />
                 </IconButton>
@@ -83,132 +83,187 @@ const Modal: React.FC<ModalProps> = ({
                 <DialogContentText fontSize={'18px'}>
                     {subTitle}
                 </DialogContentText>
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={(values) => {
-                        onSave!(values);
-                        onClose();
-                    }}
-                    innerRef={formRef}
-                >
-                    {({ errors, touched, values }) => {
-                        useEffect(() => {
-                            onDataChange!(values);
-                        }, [values]);
-                        return (
-                            <Form>
-                                <Grid container spacing={4} mt={'10px'}>
-                                    {fields &&
-                                        fields!.map((field) => (
-                                            <Grid item xs={6} key={field.name}>
-                                                {field.type === 'select' ? (
-                                                    <FormControl
-                                                        fullWidth
-                                                        size="medium"
-                                                    >
-                                                        <InputLabel
-                                                            id={`${field.name}-label`}
+                {validationSchema && initialValues && onDataChange ? (
+                    <Formik
+                        initialValues={initialValues ? initialValues : {}}
+                        validationSchema={
+                            validationSchema ? validationSchema : {}
+                        }
+                        onSubmit={(values) => {
+                            onSave ? onSave(values) : () => {};
+                            onClose ? onClose() : () => {};
+                        }}
+                        innerRef={formRef ? formRef : null}
+                    >
+                        {({ errors, touched, values }) => {
+                            if (onDataChange) {
+                                useEffect(() => {
+                                    onDataChange(values);
+                                }, [values]);
+                            }
+
+                            return (
+                                <Form>
+                                    <Grid container spacing={4} mt={'10px'}>
+                                        {fields &&
+                                            fields!.map((field) => (
+                                                <Grid
+                                                    item
+                                                    xs={6}
+                                                    key={field.name}
+                                                >
+                                                    {field.type === 'select' ? (
+                                                        <FormControl
+                                                            fullWidth
+                                                            size="medium"
                                                         >
-                                                            {field.label}
-                                                        </InputLabel>
+                                                            <InputLabel
+                                                                id={`${field.name}-label`}
+                                                            >
+                                                                {field.label}
+                                                            </InputLabel>
+                                                            <Field
+                                                                name={
+                                                                    field.name
+                                                                }
+                                                                value={
+                                                                    values[
+                                                                        field
+                                                                            .name
+                                                                    ]
+                                                                }
+                                                                labelId={`${field.name}-label`}
+                                                                as={Select}
+                                                            >
+                                                                {field.options?.map(
+                                                                    (
+                                                                        option,
+                                                                    ) => (
+                                                                        <MenuItem
+                                                                            key={
+                                                                                option.value
+                                                                            }
+                                                                            value={
+                                                                                option.value
+                                                                            }
+                                                                        >
+                                                                            {
+                                                                                option.label
+                                                                            }
+                                                                        </MenuItem>
+                                                                    ),
+                                                                )}
+                                                            </Field>
+                                                        </FormControl>
+                                                    ) : (
                                                         <Field
+                                                            as={TextField}
                                                             name={field.name}
+                                                            label={field.label}
+                                                            fullWidth
                                                             value={
                                                                 values[
                                                                     field.name
                                                                 ]
                                                             }
-                                                            labelId={`${field.name}-label`}
-                                                            as={Select}
-                                                        >
-                                                            {field.options?.map(
-                                                                (option) => (
-                                                                    <MenuItem
-                                                                        key={
-                                                                            option.value
-                                                                        }
-                                                                        value={
-                                                                            option.value
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            option.label
-                                                                        }
-                                                                    </MenuItem>
-                                                                ),
-                                                            )}
-                                                        </Field>
-                                                    </FormControl>
-                                                ) : (
-                                                    <Field
-                                                        as={TextField}
-                                                        name={field.name}
-                                                        label={field.label}
-                                                        fullWidth
-                                                        value={
-                                                            values[field.name]
-                                                        }
-                                                        size="medium"
-                                                        type={
-                                                            field.type || 'text'
-                                                        }
-                                                        helperText={
-                                                            touched[
-                                                                field.name
-                                                            ] &&
-                                                            errors[field.name]
-                                                        }
-                                                        error={
-                                                            touched[
-                                                                field.name
-                                                            ] &&
-                                                            !!errors[field.name]
-                                                        }
-                                                        InputLabelProps={
-                                                            field.type ===
-                                                            'date'
-                                                                ? {
-                                                                      shrink: true,
-                                                                  }
-                                                                : undefined
-                                                        }
-                                                    />
-                                                )}
-                                            </Grid>
+                                                            size="medium"
+                                                            type={
+                                                                field.type ||
+                                                                'text'
+                                                            }
+                                                            helperText={
+                                                                touched[
+                                                                    field.name
+                                                                ] &&
+                                                                errors[
+                                                                    field.name
+                                                                ]
+                                                            }
+                                                            error={
+                                                                touched[
+                                                                    field.name
+                                                                ] &&
+                                                                !!errors[
+                                                                    field.name
+                                                                ]
+                                                            }
+                                                            InputLabelProps={
+                                                                field.type ===
+                                                                'date'
+                                                                    ? {
+                                                                          shrink: true,
+                                                                      }
+                                                                    : undefined
+                                                            }
+                                                        />
+                                                    )}
+                                                </Grid>
+                                            ))}
+                                    </Grid>
+                                    <DialogActions
+                                        style={{ marginTop: '15px' }}
+                                    >
+                                        {actions!.map((action, index) => (
+                                            <Button
+                                                key={index}
+                                                onClick={action.onClick}
+                                                //@ts-ignore
+                                                color={
+                                                    action.color as
+                                                        | 'inherit'
+                                                        | 'primary'
+                                                        | 'secondary'
+                                                        | 'success'
+                                                        | 'error'
+                                                        | 'info'
+                                                        | 'warning'
+                                                        | 'default'
+                                                        | undefined
+                                                }
+                                                variant={
+                                                    action.variant || 'text'
+                                                }
+                                                sx={action.sx}
+                                                type={action.type}
+                                                endIcon={action.icon}
+                                            >
+                                                {action.label}
+                                            </Button>
                                         ))}
-                                </Grid>
-                                <DialogActions style={{ marginTop: '15px' }}>
-                                    {actions!.map((action, index) => (
-                                        <Button
-                                            key={index}
-                                            onClick={action.onClick}
-                                            //@ts-ignore
-                                            color={
-                                                action.color as
-                                                    | 'inherit'
-                                                    | 'primary'
-                                                    | 'secondary'
-                                                    | 'success'
-                                                    | 'error'
-                                                    | 'info'
-                                                    | 'warning'
-                                                    | 'default'
-                                                    | undefined
-                                            }
-                                            variant={action.variant || 'text'}
-                                            sx={action.sx}
-                                            type={action.type}
-                                            endIcon={action.icon}
-                                        >
-                                            {action.label}
-                                        </Button>
-                                    ))}
-                                </DialogActions>
-                            </Form>
-                        );
-                    }}
-                </Formik>
+                                    </DialogActions>
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+                ) : (
+                    <DialogActions style={{ marginTop: '15px' }}>
+                        {actions!.map((action, index) => (
+                            <Button
+                                key={index}
+                                onClick={action.onClick}
+                                //@ts-ignore
+                                color={
+                                    action.color as
+                                        | 'inherit'
+                                        | 'primary'
+                                        | 'secondary'
+                                        | 'success'
+                                        | 'error'
+                                        | 'info'
+                                        | 'warning'
+                                        | 'default'
+                                        | undefined
+                                }
+                                variant={action.variant || 'text'}
+                                sx={action.sx}
+                                type={action.type}
+                                endIcon={action.icon}
+                            >
+                                {action.label}
+                            </Button>
+                        ))}
+                    </DialogActions>
+                )}
             </DialogContent>
         </Dialog>
     );

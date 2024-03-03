@@ -35,6 +35,7 @@ import workExperiencesController from '~/services/workExperiences';
 import skillsController from '~/services/skills';
 import certificatesController from '~/services/certificates';
 import authenticationController from '~/services/authentication';
+import { useModal } from '~/components/modal/modalContext';
 
 const userSchema = Yup.object().shape({
     userName: Yup.string().required('required'),
@@ -80,11 +81,13 @@ export default function Profile() {
     const [value, setValue] = useState(0);
     const [userProfile, setUserProfile] = useState<IUser | null>(null);
     const [formData, setFormData] = useState({});
+    const [open, setOpen] = useState(false);
     const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
     const formikRef = useRef<FormikProps<any>>(null);
     const { openDrawer } = useDrawer();
+    const { openModal } = useModal();
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
@@ -94,6 +97,10 @@ export default function Profile() {
     };
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     const handleCreateCertificate = () => {
@@ -1286,6 +1293,213 @@ export default function Profile() {
         });
     };
 
+    const handleDeleteEducation = (education: any) => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: 'Eleminimi i Edukimit',
+            actions: [
+                {
+                    label: 'Anullo',
+                    onClick: () => handleClose(),
+                    type: 'reset',
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#ff5252',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: 'Elemino',
+                    // onClick: async () => {
+                    //     const response2 =
+                    //         await educationsController.deleteUserEducation(
+                    //             userDetailsLoggedIn?.userId,
+                    //             education.edu.eduId,
+                    //         );
+                    //     const response1 =
+                    //         await educationsController.deleteEducation(
+                    //             education.edu.eduId,
+                    //         );
+
+                    //     if (response1 && response2) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    type: 'submit',
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#30969f',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: 'Deshironi ta eleminoni ?',
+        });
+    };
+
+    const handleDeleteCertificate = (certificate: any) => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: 'Eleminimi i Certifikates',
+            actions: [
+                {
+                    label: 'Anullo',
+                    onClick: () => handleClose(),
+                    type: 'close',
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#ff5252',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: 'Elemino',
+                    type: 'delete',
+                    // onClick: async () => {
+                    //     const response2 =
+                    //         await certificatesController.deleteUserCertificate(
+                    //             userDetailsLoggedIn?.userId,
+                    //             certificate.cert.certId,
+                    //         );
+                    //     const response1 =
+                    //         await certificatesController.deleteCertificate(
+                    //             certificate.cert.certId,
+                    //         );
+
+                    //     if (response1 && response2) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#30969f',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: 'Deshironi ta eleminoni ?',
+        });
+    };
+
+    const handleDeleteWork = (work: any) => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: 'Eleminimi i punes',
+            actions: [
+                {
+                    label: 'Anullo',
+                    onClick: () => handleClose(),
+                    type: 'close',
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#ff5252',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: 'Elemino',
+                    type: 'delete',
+                    // onClick: async () => {
+                    //     const response =
+                    //         await workExperiencesController.deleteUserWorkExperience(
+                    //             userDetailsLoggedIn?.userId,
+                    //             work.pp.ppId,
+                    //         );
+
+                    //     if (response) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#30969f',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: 'Deshironi ta eleminoni ?',
+        });
+    };
+
+    const handleDeleteSkill = (skill: any) => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: 'Eleminimi i Aftesise',
+            actions: [
+                {
+                    label: 'Anullo',
+                    onClick: () => handleClose(),
+                    type: 'close',
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#ff5252',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: 'Elemino',
+                    type: 'delete',
+                    // onClick: async () => {
+                    //     const response1 =
+                    //         await skillsController.deleteUserSkill(
+                    //             userDetailsLoggedIn?.userId,
+                    //             skill.aftesi.aftesiId,
+                    //         );
+                    //     const response2 = await skillsController.deleteSkill(
+                    //         skill.aftesi.aftesiId,
+                    //     );
+
+                    //     if (response1 && response2) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    color: 'secondary',
+                    variant: 'contained',
+                    sx: {
+                        border: '1px solid #000',
+                        bgcolor: '#30969f',
+                        fontSize: '15px',
+                        fontWeight: '700',
+                    },
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: 'Deshironi ta eleminoni ?',
+        });
+    };
+
     useEffect(() => {
         if (location.state?.userId) {
             async function fetchUserDetails() {
@@ -1493,6 +1707,9 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
+                                                onClick={() =>
+                                                    handleDeleteCertificate(el)
+                                                }
                                             >
                                                 Elemino
                                             </Button>
@@ -1551,6 +1768,9 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
+                                                onClick={() =>
+                                                    handleDeleteEducation(el)
+                                                }
                                             >
                                                 Elemino
                                             </Button>
@@ -1632,6 +1852,9 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
+                                                onClick={() =>
+                                                    handleDeleteSkill(el)
+                                                }
                                             >
                                                 Elemino
                                             </Button>
@@ -1690,6 +1913,9 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
+                                                onClick={() =>
+                                                    handleDeleteWork(el)
+                                                }
                                             >
                                                 Elemino
                                             </Button>
