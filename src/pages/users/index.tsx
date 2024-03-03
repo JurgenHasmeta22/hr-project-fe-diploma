@@ -260,7 +260,7 @@ const Users = () => {
                     rows={users}
                     getRowId={(row) => String(row.userId)}
                     columns={columns}
-                    onSelectionModelChange={(ids) => {
+                    onRowSelectionModelChange={(ids) => {
                         const clonedUsers = [...users];
                         const selectedRowsData = ids.map((id) =>
                             clonedUsers.find((row) => row.userId === id),

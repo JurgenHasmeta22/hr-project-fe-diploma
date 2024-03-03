@@ -85,6 +85,7 @@ const RightPanel: React.FC<DrawerProps> = ({
 }) => {
     const [activeStep, setActiveStep] = useState(0);
     const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);
+
     const handleNext = () => {
         setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
     };

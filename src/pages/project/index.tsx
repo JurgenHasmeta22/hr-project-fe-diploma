@@ -60,6 +60,7 @@ const Project = () => {
             project?.projektId,
             payload,
         );
+
         if (response === '') {
             toast.success('Ruajtja e ndryshimeve me sukses !');
             getProject();

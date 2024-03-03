@@ -183,8 +183,19 @@ const Modal: React.FC<ModalProps> = ({
                                         <Button
                                             key={index}
                                             onClick={action.onClick}
-                                            // @ts-ignore
-                                            color={action.color || 'default'}
+                                            //@ts-ignore
+                                            color={
+                                                action.color as
+                                                    | 'inherit'
+                                                    | 'primary'
+                                                    | 'secondary'
+                                                    | 'success'
+                                                    | 'error'
+                                                    | 'info'
+                                                    | 'warning'
+                                                    | 'default'
+                                                    | undefined
+                                            }
                                             variant={action.variant || 'text'}
                                             sx={action.sx}
                                             type={action.type}

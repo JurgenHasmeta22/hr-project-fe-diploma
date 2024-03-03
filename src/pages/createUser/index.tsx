@@ -21,9 +21,9 @@ const userSchema = yup.object().shape({
 
 const CreateUser = () => {
     const navigate = useNavigate();
-    const isNonMobile = useMediaQuery('(min-width:600px)');
     const [formData, setFormData] = useState({});
     const formikRef = useRef<FormikProps<any>>(null);
+
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
@@ -41,7 +41,9 @@ const CreateUser = () => {
             password: values.password,
             roles: [values.roles],
         };
+
         const response = await authenticationController.onRegister(payload);
+
         if (response) {
             toast.success('Ruajtja e ndryshimeve me sukses !');
             navigate('/users');

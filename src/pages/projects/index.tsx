@@ -29,6 +29,7 @@ const Projects = () => {
         (el) => el.roli.roliEmri === 'Employee',
     );
     const { setUserDetailsLoggedIn } = useStore();
+
     const checkIsUserInProject = (projektId: any): boolean => {
         if (!userDetailsLoggedIn?.userProjekts) {
             return false;
@@ -44,6 +45,7 @@ const Projects = () => {
 
         return false;
     };
+
     const columns = [
         {
             field: 'projektId',
@@ -307,7 +309,7 @@ const Projects = () => {
                     rows={projects}
                     columns={columns}
                     getRowId={(row) => String(row.projektId)}
-                    onSelectionModelChange={(ids) => {
+                    onRowSelectionModelChange={(ids) => {
                         const clonedProjectd = [...projects];
                         const selectedRowsData = ids.map((id) =>
                             clonedProjectd.find((row) => row.projektId === id),

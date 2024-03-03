@@ -42,7 +42,6 @@ const User = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
-    const isNonMobile = useMediaQuery('(min-width:600px)');
     const breadcrumbs = [
         <Link key="1" to={'/users'} style={{ textDecoration: 'none' }}>
             {location.state?.from!}
@@ -54,6 +53,7 @@ const User = () => {
 
     const [formData, setFormData] = useState({});
     const formikRef = useRef<FormikProps<any>>(null);
+
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
@@ -103,6 +103,7 @@ const User = () => {
             await getUser();
             setLoading(false);
         }
+
         fetchData();
     }, []);
 

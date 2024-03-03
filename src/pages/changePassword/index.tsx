@@ -29,7 +29,7 @@ const ChangePassword: React.FC = () => {
         confirmNewPassword: '',
     };
 
-    const handleFormSubmit = async (values: typeof initialValues) => {
+    const handleFormSubmit = async (values: any) => {
         const payload = {
             userId: user?.userId,
             oldPassword: values.oldPassword,
@@ -93,9 +93,7 @@ const ChangePassword: React.FC = () => {
                                             color: '#fff',
                                         },
                                         '& .MuiInputLabel-outlined.Mui-focused':
-                                            {
-                                                color: '#fff',
-                                            },
+                                            { color: '#fff' },
                                     }}
                                 />
                             </Box>
@@ -119,9 +117,7 @@ const ChangePassword: React.FC = () => {
                                             color: '#fff',
                                         },
                                         '& .MuiInputLabel-outlined.Mui-focused':
-                                            {
-                                                color: '#fff',
-                                            },
+                                            { color: '#fff' },
                                     }}
                                 />
                             </Box>
@@ -145,9 +141,7 @@ const ChangePassword: React.FC = () => {
                                             color: '#fff',
                                         },
                                         '& .MuiInputLabel-outlined.Mui-focused':
-                                            {
-                                                color: '#fff',
-                                            },
+                                            { color: '#fff' },
                                     }}
                                 />
                             </Box>
