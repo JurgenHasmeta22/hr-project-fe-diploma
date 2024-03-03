@@ -1,44 +1,51 @@
 import axios from 'axios';
 
-const educationsController = {
-    createEducation: async (model: any) => {
+const educationController = {
+    createEducation: async (educationModel: any) => {
         return await axios
-            .post('https://localhost:7006/api/Edukim', model)
-            .then((x) => x.data);
+            .post('https://localhost:7006/api/Education', educationModel)
+            .then((response) => response.data);
     },
-    editEducation: async (edukimId: any, model: any) => {
-        return await axios
-            .put(`https://localhost:7006/api/Edukim/${edukimId}`, model)
-            .then((x) => x.data);
-    },
-    deleteEducation: async (edukimId: any) => {
-        return await axios
-            .delete(`https://localhost:7006/api/Edukim/${edukimId}`)
-            .then((x) => x.data);
-    },
-    addUserEducation: async (educationId: any, userId: any, model: any) => {
-        return await axios
-            .post(
-                `https://localhost:7006/User/AddUserEdukim/${userId},${educationId}`,
-                model,
-            )
-            .then((x) => x.data);
-    },
-    editUserEducation: async (educationId: any, userId: any, model: any) => {
+    editEducation: async (educationId: any, educationModel: any) => {
         return await axios
             .put(
-                `https://localhost:7006/User/UpdateUserEdukim/${userId},${educationId}`,
-                model,
+                `https://localhost:7006/api/Education/${educationId}`,
+                educationModel,
             )
-            .then((x) => x.data);
+            .then((response) => response.data);
+    },
+    deleteEducation: async (educationId: any) => {
+        return await axios
+            .delete(`https://localhost:7006/api/Education/${educationId}`)
+            .then((response) => response.data);
+    },
+    addUserEducation: async (educationId: any, userId: any, userModel: any) => {
+        return await axios
+            .post(
+                `https://localhost:7006/User/AddUserEducation/${userId},${educationId}`,
+                userModel,
+            )
+            .then((response) => response.data);
+    },
+    editUserEducation: async (
+        educationId: any,
+        userId: any,
+        userModel: any,
+    ) => {
+        return await axios
+            .put(
+                `https://localhost:7006/User/UpdateUserEducation/${userId},${educationId}`,
+                userModel,
+            )
+            .then((response) => response.data);
     },
     deleteUserEducation: async (educationId: any, userId: any) => {
         return await axios
             .delete(
-                `https://localhost:7006/User/DeleteUserEdukim/${userId},${educationId}`,
+                `https://localhost:7006/User/DeleteUserEducation/${userId},${educationId}`,
             )
-            .then((x) => x.data);
+            .then((response) => response.data);
     },
 };
 
-export default educationsController;
+export default educationController;

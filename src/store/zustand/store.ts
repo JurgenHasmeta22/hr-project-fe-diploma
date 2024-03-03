@@ -5,12 +5,13 @@ export const useStore = create<AppStoreState>(
     (set, get): AppStoreState => ({
         user: null,
         userDetailsLoggedIn: null,
-        setUser: (data) => {
-            set({ user: data });
-            localStorage.setItem('user', JSON.stringify(data));
+
+        setUser: (userData) => {
+            set({ user: userData });
+            localStorage.setItem('user', JSON.stringify(userData));
         },
-        setUserDetailsLoggedIn: (data) => {
-            set({ userDetailsLoggedIn: data });
+        setUserDetailsLoggedIn: (userData) => {
+            set({ userDetailsLoggedIn: userData });
         },
         unsetUser: () => {
             set({ user: null });

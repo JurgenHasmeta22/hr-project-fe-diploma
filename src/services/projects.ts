@@ -3,43 +3,43 @@ import axios from 'axios';
 const projectsController = {
     getAllProjects: async () => {
         return await axios
-            .get('https://localhost:7006/Projekt/getAllProjects')
-            .then((x) => x.data);
+            .get('https://localhost:7006/projects')
+            .then((response) => response.data);
     },
     getProject: async (projectId: string) => {
         return await axios
-            .get(`https://localhost:7006/Projekt/GetById/${projectId}`)
-            .then((x) => x.data);
+            .get(`https://localhost:7006/projects/${projectId}`)
+            .then((response) => response.data);
     },
     deleteProject: async (projectId: any) => {
         return await axios
-            .delete(`https://localhost:7006/Projekt/Delete/${projectId}`)
-            .then((x) => x.data);
+            .delete(`https://localhost:7006/projects/${projectId}`)
+            .then((response) => response.data);
     },
     updateProject: async (projectId: any, model: any) => {
         return await axios
-            .put(`https://localhost:7006/Projekt/Put/${projectId}`, model)
-            .then((x) => x.data);
+            .put(`https://localhost:7006/projects/${projectId}`, model)
+            .then((response) => response.data);
     },
     addProject: async (model: any) => {
         return await axios
-            .post('https://localhost:7006/Projekt', model)
-            .then((x) => x.data);
+            .post('https://localhost:7006/projects', model)
+            .then((response) => response.data);
     },
-    assignProjectToUser: async (userId: any, projektId: any, model: any) => {
+    assignProjectToUser: async (userId: any, projectId: any, model: any) => {
         return await axios
             .post(
-                `https://localhost:7006/User/AssignProjectToUser/${userId},${projektId}`,
+                `https://localhost:7006/users/${userId}/projects/${projectId}`,
                 model,
             )
-            .then((x) => x.data);
+            .then((response) => response.data);
     },
-    deleteProjectToUser: async (userId: any, projektId: any) => {
+    deleteProjectToUser: async (userId: any, projectId: any) => {
         return await axios
             .delete(
-                `https://localhost:7006/User/DeleteMappedProjectToUser/${userId},${projektId}`,
+                `https://localhost:7006/users/${userId}/projects/${projectId}`,
             )
-            .then((x) => x.data);
+            .then((response) => response.data);
     },
 };
 
