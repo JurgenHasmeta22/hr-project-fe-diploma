@@ -1,4 +1,4 @@
 export default interface ISkill {
-  aftesiId?: number;
-  llojiAftesise: string;
+    aftesiId?: number;
+    llojiAftesise: string;
 }

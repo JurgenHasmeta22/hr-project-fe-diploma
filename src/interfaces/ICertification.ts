@@ -1,5 +1,5 @@
 export default interface ICertification {
-  certId?: number;
-  certEmri: number;
-  certPershkrim: number;
+    certId?: number;
+    certEmri: number;
+    certPershkrim: number;
 }
