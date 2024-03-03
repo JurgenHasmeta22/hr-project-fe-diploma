@@ -17,285 +17,309 @@ import IUser from '~/interfaces/IUser';
 import usersController from '~/services/users';
 
 const Projects = () => {
-  const [projects, setProjects] = useState<IProject[]>([]);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [currentTime, setCurrentTime] = useState('');
-  const { user } = useStore();
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const navigate = useNavigate();
-  const { userDetailsLoggedIn } = useStore();
-  const isEmployee = userDetailsLoggedIn?.userRolis?.some(
-    (el) => el.roli.roliEmri === 'Employee'
-  );
-  const { setUserDetailsLoggedIn } = useStore();
-  const checkIsUserInProject = (projektId: any): boolean => {
-    if (!userDetailsLoggedIn?.userProjekts) {
-      return false;
-    }
+    const [projects, setProjects] = useState<IProject[]>([]);
+    const [selectedRows, setSelectedRows] = useState<any[]>([]);
+    const [currentTime, setCurrentTime] = useState('');
+    const { user } = useStore();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const navigate = useNavigate();
+    const { userDetailsLoggedIn } = useStore();
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some(
+        (el) => el.roli.roliEmri === 'Employee',
+    );
+    const { setUserDetailsLoggedIn } = useStore();
 
-    for (let el of userDetailsLoggedIn.userProjekts) {
-      if (el.projekt.projektId === projektId) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    const checkIsUserInProject = (projektId: any): boolean => {
+        if (!userDetailsLoggedIn?.userProjekts) {
+            return false;
+        }
 
-    return false;
-  };
-  const columns = [
-    {
-      field: 'projektId',
-      headerName: 'Id',
-      flex: 1,
-      hide: true,
-    },
-    {
-      field: 'emriProjekt',
-      headerName: 'Emri i projektit',
-      flex: 1,
-    },
-    {
-      field: 'pershkrimProjekt',
-      headerName: 'Pershkrimi i projektit',
-      flex: 1,
-    },
-    {
-      field: '',
-      headerName: 'Veprimet',
-      sortable: false,
-      disableClickEventBubbling: true,
-      filterable: false,
-      description: 'Mund te editosh, fshi, dhe futesh ne projektin specifik',
-      flex: !isEmployee ? 1 : 0.2,
-      // align: 'center',
-      renderCell: (params: any) => (
-        <>
-          {!isEmployee && (
-            <>
-              <Button
-                onClick={() => {
-                  navigate(`/editProject`, {
-                    state: {
-                      projectId: params.row.projektId,
-                      from: 'Projektet',
-                    },
-                  });
-                }}
-              >
-                <EditOutlinedIcon
-                  sx={{
-                    color: 'green',
-                  }}
-                />
-              </Button>
-              <Button
-                onClick={async () => {
-                  const response = await projectsController.deleteProject(
-                    params.row.projektId
-                  );
-                  if (response === '') {
-                    toast.success('Elemini u krye me sukses !');
-                    getProjects();
-                  } else {
-                    toast.error('Eleminimi nuk u realizua !');
-                  }
-                }}
-              >
-                <ClearOutlinedIcon
-                  sx={{
-                    color: 'red',
-                  }}
-                />
-              </Button>
-            </>
-          )}
-          {projects.map((project: any) => {
-            if (!checkIsUserInProject(project.projektId)) {
-              return (
-                <Button
-                  key={project.projektId}
-                  onClick={async () => {
-                    const response =
-                      await projectsController.assignProjectToUser(
-                        user?.userId,
-                        project.projektId,
-                        {
-                          dataFillim: currentTime,
-                          dataMbarim: null,
-                        }
-                      );
-
-                    if (response === '') {
-                      toast.success('Futja ne projekt u krye me sukses !');
-                      // getProjects();
-                      const response: IUser = await usersController.getUser(
-                        user.userId
-                      );
-                      if (response) {
-                        setUserDetailsLoggedIn(response);
-                      }
-                      setUserDetailsLoggedIn(response);
-                    } else {
-                      toast.error('Futja ne projekt nuk u realizua !');
-                    }
-                  }}
-                >
-                  <MeetingRoomIcon
-                    sx={{
-                      color: 'blue',
-                    }}
-                  />
-                </Button>
-              );
+        for (let el of userDetailsLoggedIn.userProjekts) {
+            if (el.projekt.projektId === projektId) {
+                return true;
             } else {
-              return (
-                <Button
-                  key={project.projektId}
-                  onClick={async () => {
-                    const response =
-                      await projectsController.deleteProjectToUser(
-                        user?.userId,
-                        project.projektId
-                      );
-
-                    if (response === '') {
-                      toast.success('Ikja nga projekti u krye me sukses !');
-                      const response: IUser = await usersController.getUser(
-                        user.userId
-                      );
-                      if (response) {
-                        setUserDetailsLoggedIn(response);
-                      }
-                      // getProjects();
-                    } else {
-                      toast.error('Ikja nga projekti nuk u realizua !');
-                    }
-                  }}
-                >
-                  <LogoutIcon
-                    sx={{
-                      color: 'red',
-                    }}
-                  />
-                </Button>
-              );
+                return false;
             }
-          })}
-        </>
-      ),
-    },
-  ];
+        }
 
-  async function getProjects(): Promise<void> {
-    const response: IProject[] = await projectsController.getAllProjects();
-    setProjects(response);
-  }
+        return false;
+    };
 
-  const handleDeleteRow = async () => {
-    if (selectedRows.length !== 0) {
-      let response;
-      for (const element of selectedRows) {
-        response = await projectsController.deleteProject(element.projektId);
-      }
-      if (response === '') {
-        toast.success('Eleminimi me sukses !');
-      }
-      getProjects();
+    const columns = [
+        {
+            field: 'projektId',
+            headerName: 'Id',
+            flex: 1,
+            hide: true,
+        },
+        {
+            field: 'emriProjekt',
+            headerName: 'Emri i projektit',
+            flex: 1,
+        },
+        {
+            field: 'pershkrimProjekt',
+            headerName: 'Pershkrimi i projektit',
+            flex: 1,
+        },
+        {
+            field: '',
+            headerName: 'Veprimet',
+            sortable: false,
+            disableClickEventBubbling: true,
+            filterable: false,
+            description:
+                'Mund te editosh, fshi, dhe futesh ne projektin specifik',
+            flex: !isEmployee ? 1 : 0.2,
+            // align: 'center',
+            renderCell: (params: any) => (
+                <>
+                    {!isEmployee && (
+                        <>
+                            <Button
+                                onClick={() => {
+                                    navigate(`/editProject`, {
+                                        state: {
+                                            projectId: params.row.projektId,
+                                            from: 'Projektet',
+                                        },
+                                    });
+                                }}
+                            >
+                                <EditOutlinedIcon
+                                    sx={{
+                                        color: 'green',
+                                    }}
+                                />
+                            </Button>
+                            <Button
+                                onClick={async () => {
+                                    const response =
+                                        await projectsController.deleteProject(
+                                            params.row.projektId,
+                                        );
+                                    if (response === '') {
+                                        toast.success(
+                                            'Elemini u krye me sukses !',
+                                        );
+                                        getProjects();
+                                    } else {
+                                        toast.error(
+                                            'Eleminimi nuk u realizua !',
+                                        );
+                                    }
+                                }}
+                            >
+                                <ClearOutlinedIcon
+                                    sx={{
+                                        color: 'red',
+                                    }}
+                                />
+                            </Button>
+                        </>
+                    )}
+                    {projects.map((project: any) => {
+                        if (!checkIsUserInProject(project.projektId)) {
+                            return (
+                                <Button
+                                    key={project.projektId}
+                                    onClick={async () => {
+                                        const response =
+                                            await projectsController.assignProjectToUser(
+                                                user?.userId,
+                                                project.projektId,
+                                                {
+                                                    dataFillim: currentTime,
+                                                    dataMbarim: null,
+                                                },
+                                            );
+
+                                        if (response === '') {
+                                            toast.success(
+                                                'Futja ne projekt u krye me sukses !',
+                                            );
+                                            // getProjects();
+                                            const response: IUser =
+                                                await usersController.getUser(
+                                                    user.userId,
+                                                );
+                                            if (response) {
+                                                setUserDetailsLoggedIn(
+                                                    response,
+                                                );
+                                            }
+                                            setUserDetailsLoggedIn(response);
+                                        } else {
+                                            toast.error(
+                                                'Futja ne projekt nuk u realizua !',
+                                            );
+                                        }
+                                    }}
+                                >
+                                    <MeetingRoomIcon
+                                        sx={{
+                                            color: 'blue',
+                                        }}
+                                    />
+                                </Button>
+                            );
+                        } else {
+                            return (
+                                <Button
+                                    key={project.projektId}
+                                    onClick={async () => {
+                                        const response =
+                                            await projectsController.deleteProjectToUser(
+                                                user?.userId,
+                                                project.projektId,
+                                            );
+
+                                        if (response === '') {
+                                            toast.success(
+                                                'Ikja nga projekti u krye me sukses !',
+                                            );
+                                            const response: IUser =
+                                                await usersController.getUser(
+                                                    user.userId,
+                                                );
+                                            if (response) {
+                                                setUserDetailsLoggedIn(
+                                                    response,
+                                                );
+                                            }
+                                            // getProjects();
+                                        } else {
+                                            toast.error(
+                                                'Ikja nga projekti nuk u realizua !',
+                                            );
+                                        }
+                                    }}
+                                >
+                                    <LogoutIcon
+                                        sx={{
+                                            color: 'red',
+                                        }}
+                                    />
+                                </Button>
+                            );
+                        }
+                    })}
+                </>
+            ),
+        },
+    ];
+
+    async function getProjects(): Promise<void> {
+        const response: IProject[] = await projectsController.getAllProjects();
+        setProjects(response);
     }
-  };
 
-  useEffect(() => {
-    const now = new Date().toISOString();
-    setCurrentTime(now);
-    getProjects();
-  }, []);
+    const handleDeleteRow = async () => {
+        if (selectedRows.length !== 0) {
+            let response;
+            for (const element of selectedRows) {
+                response = await projectsController.deleteProject(
+                    element.projektId,
+                );
+            }
+            if (response === '') {
+                toast.success('Eleminimi me sukses !');
+            }
+            getProjects();
+        }
+    };
 
-  return (
-    <Box m="20px">
-      <Header title="Projektet" subtitle="Lista e projekteve" />
-      {!isEmployee && (
-        <Box display="flex" gap={'30px'}>
-          <Button
-            color="secondary"
-            variant="contained"
-            sx={{
-              border: '1px solid #000',
-              bgcolor: '#30969f',
-              fontSize: '15px',
-              fontWeight: '700',
-            }}
-            onClick={() => {
-              navigate('/addProject');
-            }}
-          >
-            Shto
-            <AddOutlinedIcon />
-          </Button>
-          <Button
-            color="secondary"
-            variant="contained"
-            sx={{
-              border: '1px solid #000',
-              bgcolor: '#ff5252',
-              fontSize: '15px',
-              fontWeight: '700',
-            }}
-            onClick={() => {
-              handleDeleteRow();
-            }}
-          >
-            Elemino
-            <ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
-          </Button>
+    useEffect(() => {
+        const now = new Date().toISOString();
+        setCurrentTime(now);
+        getProjects();
+    }, []);
+
+    return (
+        <Box m="20px">
+            <Header title="Projektet" subtitle="Lista e projekteve" />
+            {!isEmployee && (
+                <Box display="flex" gap={'30px'}>
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        sx={{
+                            border: '1px solid #000',
+                            bgcolor: '#30969f',
+                            fontSize: '15px',
+                            fontWeight: '700',
+                        }}
+                        onClick={() => {
+                            navigate('/addProject');
+                        }}
+                    >
+                        Shto
+                        <AddOutlinedIcon />
+                    </Button>
+                    <Button
+                        color="secondary"
+                        variant="contained"
+                        sx={{
+                            border: '1px solid #000',
+                            bgcolor: '#ff5252',
+                            fontSize: '15px',
+                            fontWeight: '700',
+                        }}
+                        onClick={() => {
+                            handleDeleteRow();
+                        }}
+                    >
+                        Elemino
+                        <ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
+                    </Button>
+                </Box>
+            )}
+            <Box
+                m="40px 0 0 0"
+                height="75vh"
+                sx={{
+                    '& .MuiDataGrid-root': {
+                        border: 'none',
+                    },
+                    '& .MuiDataGrid-cell': {
+                        borderBottom: 'none',
+                    },
+                    '& .name-column--cell': {
+                        color: colors.greenAccent[300],
+                    },
+                    '& .MuiDataGrid-columnHeaders': {
+                        backgroundColor: colors.blueAccent[700],
+                        borderBottom: 'none',
+                    },
+                    '& .MuiDataGrid-virtualScroller': {
+                        backgroundColor: colors.primary[400],
+                    },
+                    '& .MuiDataGrid-footerContainer': {
+                        borderTop: 'none',
+                        backgroundColor: colors.blueAccent[700],
+                    },
+                    '& .MuiCheckbox-root': {
+                        color: `${colors.greenAccent[200]} !important`,
+                    },
+                }}
+            >
+                <DataGrid
+                    checkboxSelection={!isEmployee ? true : false}
+                    rows={projects}
+                    columns={columns}
+                    getRowId={(row) => String(row.projektId)}
+                    onRowSelectionModelChange={(ids) => {
+                        const clonedProjectd = [...projects];
+                        const selectedRowsData = ids.map((id) =>
+                            clonedProjectd.find((row) => row.projektId === id),
+                        );
+                        setSelectedRows(selectedRowsData);
+                    }}
+                />
+            </Box>
         </Box>
-      )}
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          '& .MuiDataGrid-root': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-cell': {
-            borderBottom: 'none',
-          },
-          '& .name-column--cell': {
-            color: colors.greenAccent[300],
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: 'none',
-          },
-          '& .MuiDataGrid-virtualScroller': {
-            backgroundColor: colors.primary[400],
-          },
-          '& .MuiDataGrid-footerContainer': {
-            borderTop: 'none',
-            backgroundColor: colors.blueAccent[700],
-          },
-          '& .MuiCheckbox-root': {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          checkboxSelection={!isEmployee ? true : false}
-          rows={projects}
-          columns={columns}
-          getRowId={(row) => String(row.projektId)}
-          onSelectionModelChange={(ids) => {
-            const clonedProjectd = [...projects];
-            const selectedRowsData = ids.map((id) =>
-              clonedProjectd.find((row) => row.projektId === id)
-            );
-            setSelectedRows(selectedRowsData);
-          }}
-        />
-      </Box>
-    </Box>
-  );
+    );
 };
 
 export default Projects;
