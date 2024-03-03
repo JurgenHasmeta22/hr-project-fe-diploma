@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -34,7 +33,7 @@ export default function Login() {
 
         const response = await authenticationController.onLogin(payload);
 
-        if (response.status !== 401) {
+        if (response && response?.status !== 401) {
             toast.success('Ju jeni loguar me sukses');
             setUser(response);
             navigate('/dashboard');
