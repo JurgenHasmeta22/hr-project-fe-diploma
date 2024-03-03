@@ -455,7 +455,7 @@ export default function Profile() {
                     ppemri: values.ppemri,
                 };
                 const response1 =
-                    await workExperiencesController.createWorkExpierence(
+                    await workExperiencesController.createWorkExperience(
                         payload1,
                     );
                 const payload2 = {
@@ -955,7 +955,7 @@ export default function Profile() {
                 const payload2 = {
                     dataPerfitimit: values.dataPerfitimit,
                 };
-                const response2 = await skillsController.editUserAftesi(
+                const response2 = await skillsController.editUserSkill(
                     values.aftesiId,
                     userDetailsLoggedIn?.userId,
                     payload2,
@@ -1098,7 +1098,7 @@ export default function Profile() {
                     ppemri: values.ppemri,
                 };
                 const response1 =
-                    await workExperiencesController.editWorkExpierence(
+                    await workExperiencesController.editWorkExperience(
                         values.ppId,
                         payload1,
                     );
@@ -1111,7 +1111,7 @@ export default function Profile() {
                     pershkrimiPunes: values.pershkrimiPunes,
                 };
                 const response2 =
-                    await workExperiencesController.editUserWorkExpierence(
+                    await workExperiencesController.editUserWorkExperience(
                         values.ppId,
                         userDetailsLoggedIn?.userId,
                         payload2,
