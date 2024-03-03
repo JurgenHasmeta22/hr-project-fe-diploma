@@ -225,6 +225,7 @@ export default function Profile() {
             },
         });
     };
+
     const handleCreateSkill = () => {
         openDrawer({
             formRef: formikRef,
@@ -334,6 +335,7 @@ export default function Profile() {
             },
         });
     };
+
     const handleCreateWork = () => {
         openDrawer({
             formRef: formikRef,
@@ -483,6 +485,7 @@ export default function Profile() {
             },
         });
     };
+
     const handleCreateEducation = () => {
         openDrawer({
             formRef: formikRef,
@@ -724,6 +727,7 @@ export default function Profile() {
             subTitle: 'Plotesoni detajet e perdoruesit',
         });
     };
+
     const handleEditCertificate = (certificate: any) => {
         openDrawer({
             formRef: formikRef,
@@ -859,6 +863,7 @@ export default function Profile() {
             },
         });
     };
+
     const handleEditSkill = (skill: any) => {
         openDrawer({
             formRef: formikRef,
@@ -976,6 +981,7 @@ export default function Profile() {
             },
         });
     };
+
     const handleEditWork = (work: any) => {
         openDrawer({
             formRef: formikRef,
@@ -1132,6 +1138,7 @@ export default function Profile() {
             },
         });
     };
+
     const handleEditEducation = (education: any) => {
         openDrawer({
             formRef: formikRef,

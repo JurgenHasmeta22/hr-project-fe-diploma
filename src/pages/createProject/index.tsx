@@ -17,7 +17,6 @@ const projectSchema = yup.object().shape({
 
 const CreateProject = () => {
     const navigate = useNavigate();
-    const isNonMobile = useMediaQuery('(min-width:600px)');
     const [formData, setFormData] = useState({});
     const formikRef = useRef<FormikProps<any>>(null);
 
@@ -34,6 +33,7 @@ const CreateProject = () => {
             emriProjekt: values.emriProjekt,
             pershkrimProjekt: values.pershkrimProjekt,
         };
+
         const response = await projectsController.addProject(payload);
 
         if (response) {

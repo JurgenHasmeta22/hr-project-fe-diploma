@@ -5,15 +5,12 @@ import Header from '~/components/dashboard/Header';
 import { useState, useEffect } from 'react';
 import IPermission from '~/interfaces/IPermission';
 import permissionsController from '~/services/permissions';
-import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import { useStore } from '~/store/zustand/store';
 
 const Permissions = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
     const [permissions, setPermissions] = useState<IPermission[]>([]);
     const columns = [
         { field: 'lejeId', headerName: 'Id', hide: true },
@@ -123,7 +120,7 @@ const Permissions = () => {
         permissionId: any,
     ): Promise<void> {
         const response: IPermission[] =
-            await permissionsController.dissaprovePermission(permissionId);
+            await permissionsController.disapprovePermission(permissionId);
         getPermissions();
     }
 
