@@ -1,6 +1,5 @@
 import { useState } from 'react';
-// @ts-ignore
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -9,7 +8,6 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { tokens } from '~/utils/theme';
-import 'react-pro-sidebar/dist/css/styles.css';
 import { useStore } from '~/store/zustand/store';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -68,7 +66,7 @@ const SubMenuItem = ({ label, selected, setSelected }: any) => {
     );
 };
 
-const Sidebar = () => {
+const SidebarWrapper = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -96,7 +94,7 @@ const Sidebar = () => {
                 },
             }}
         >
-            <ProSidebar collapsed={isCollapsed}>
+            <Sidebar collapsed={isCollapsed}>
                 <Menu>
                     <MenuItem
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -167,9 +165,9 @@ const Sidebar = () => {
                         />
                     </Box>
                 </Menu>
-            </ProSidebar>
+            </Sidebar>
         </Box>
     );
 };
 
-export default Sidebar;
+export default SidebarWrapper;
