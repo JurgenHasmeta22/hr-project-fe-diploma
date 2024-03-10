@@ -1,11 +1,11 @@
-import { Box, IconButton, Menu, MenuItem, useTheme } from '@mui/material';
-import { useContext, useState } from 'react';
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import { tokens, ColorModeContext } from '~/utils/theme';
-import { Link, useNavigate } from 'react-router-dom';
-import { useStore } from '~/store/zustand/store';
+import { Box, IconButton, Menu, MenuItem, useTheme } from "@mui/material";
+import { useContext, useState } from "react";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import { tokens, ColorModeContext } from "~/utils/theme";
+import { Link, useNavigate } from "react-router-dom";
+import { useStore } from "~/store/zustand/store";
 
 const Topbar = () => {
     const theme = useTheme();
@@ -24,40 +24,31 @@ const Topbar = () => {
     };
     const handleLogout = () => {
         unsetUser();
-        navigate('/login');
+        navigate("/login");
     };
     const handleRedirectToProfile = () => {
-        navigate('/profile', {
+        navigate("/profile", {
             state: {
                 userId: user?.userId,
-                from: 'Perdoruesit',
+                from: "Perdoruesit",
             },
         });
     };
 
     return (
         <Box display="flex" justifyContent="space-between" p={2}>
-            <Box
-                display="flex"
-                sx={{ backgroundColor: colors.primary[400] }}
-                borderRadius="3px"
-                component="div"
-            ></Box>
-            <Box display="flex" gap={'10px'}>
+            <Box display="flex" sx={{ backgroundColor: colors.primary[400] }} borderRadius="3px" component="div"></Box>
+            <Box display="flex" gap={"10px"}>
                 <IconButton onClick={colorMode.toggleColorMode}>
-                    {theme.palette.mode === 'dark' ? (
-                        <DarkModeOutlinedIcon />
-                    ) : (
-                        <LightModeOutlinedIcon />
-                    )}
+                    {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
                 <IconButton
                     id="buttonProfile"
-                    aria-controls={open ? 'menuProfile' : undefined}
+                    aria-controls={open ? "menuProfile" : undefined}
                     aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
+                    aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
-                    sx={{ display: 'flex', flexDirection: 'row', gap: '10px' }}
+                    sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
                 >
                     <PersonOutlinedIcon color="action" />
                     {user?.username}
@@ -68,17 +59,12 @@ const Topbar = () => {
                     open={open}
                     onClose={handleClose}
                     MenuListProps={{
-                        'aria-labelledby': 'buttonProfile',
+                        "aria-labelledby": "buttonProfile",
                     }}
                 >
-                    <MenuItem onClick={handleRedirectToProfile}>
-                        Profili im
-                    </MenuItem>
+                    <MenuItem onClick={handleRedirectToProfile}>Profili im</MenuItem>
                     <MenuItem>
-                        <Link
-                            to="/changePassword"
-                            style={{ color: '#fff', textDecoration: 'none' }}
-                        >
+                        <Link to="/changePassword" style={{ color: "#fff", textDecoration: "none" }}>
                             Ndrysho passwordin
                         </Link>
                     </MenuItem>

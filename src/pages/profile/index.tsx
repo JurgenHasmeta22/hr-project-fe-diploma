@@ -1,80 +1,69 @@
-import {
-    Box,
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
-    Grid,
-    Tab,
-    Tabs,
-    Typography,
-} from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
-import TabPanel from '~/components/tabPanel';
-import EditIcon from '@mui/icons-material/Edit';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useLocation, useNavigate } from 'react-router-dom';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import { FormikProps } from 'formik';
-import * as Yup from 'yup';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import { useDrawer } from '~/components/drawer/drawerContext';
-import { useStore } from '~/store/zustand/store';
-import usersController from '~/services/users';
-import IUser from '~/interfaces/IUser';
-import ICertification from '~/interfaces/ICertification';
-import IEducation from '~/interfaces/IEducation';
-import ISkill from '~/interfaces/ISkill';
-import IWorkExperience from '~/interfaces/IWorkExperience';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { toast } from 'react-toastify';
-import educationsController from '~/services/educations';
-import workExperiencesController from '~/services/workExperiences';
-import skillsController from '~/services/skills';
-import certificatesController from '~/services/certificates';
-import authenticationController from '~/services/authentication';
-import { useModal } from '~/components/modal/modalContext';
+import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import TabPanel from "~/components/tabPanel";
+import EditIcon from "@mui/icons-material/Edit";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useLocation, useNavigate } from "react-router-dom";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import { FormikProps } from "formik";
+import * as Yup from "yup";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { useDrawer } from "~/components/drawer/drawerContext";
+import { useStore } from "~/store/zustand/store";
+import usersController from "~/services/users";
+import IUser from "~/interfaces/IUser";
+import ICertification from "~/interfaces/ICertification";
+import IEducation from "~/interfaces/IEducation";
+import ISkill from "~/interfaces/ISkill";
+import IWorkExperience from "~/interfaces/IWorkExperience";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { toast } from "react-toastify";
+import educationsController from "~/services/educations";
+import workExperiencesController from "~/services/workExperiences";
+import skillsController from "~/services/skills";
+import certificatesController from "~/services/certificates";
+import authenticationController from "~/services/authentication";
+import { useModal } from "~/components/modal/modalContext";
 
 const userSchema = Yup.object().shape({
-    userName: Yup.string().required('required'),
-    userFirstname: Yup.string().required('required'),
-    userLastname: Yup.string().required('required'),
-    userEmail: Yup.string().required('required'),
+    userName: Yup.string().required("required"),
+    userFirstname: Yup.string().required("required"),
+    userLastname: Yup.string().required("required"),
+    userEmail: Yup.string().required("required"),
 });
 const certificateSchema = Yup.object().shape({
-    certEmri: Yup.string().required('required'),
-    certPershkrim: Yup.string().required('required'),
+    certEmri: Yup.string().required("required"),
+    certPershkrim: Yup.string().required("required"),
 });
 const skillSchema = Yup.object().shape({
-    llojiAftesise: Yup.string().required('required'),
+    llojiAftesise: Yup.string().required("required"),
 });
 const workSchema = Yup.object().shape({
-    ppemri: Yup.string().required('required'),
+    ppemri: Yup.string().required("required"),
 });
 const educationSchema = Yup.object().shape({
-    eduName: Yup.string().required('required'),
+    eduName: Yup.string().required("required"),
 });
 const userEducationSchema = Yup.object().shape({
-    mesatarja: Yup.string().required('required'),
-    dataFillim: Yup.string().required('required'),
-    dataMbarim: Yup.string().required('required'),
-    llojiMaster: Yup.string().required('required'),
+    mesatarja: Yup.string().required("required"),
+    dataFillim: Yup.string().required("required"),
+    dataMbarim: Yup.string().required("required"),
+    llojiMaster: Yup.string().required("required"),
 });
 const userCertificateSchema = Yup.object().shape({
-    dataFituar: Yup.string().required('required'),
-    dataSkadence: Yup.string().required('required'),
+    dataFituar: Yup.string().required("required"),
+    dataSkadence: Yup.string().required("required"),
 });
 const userSkillSchema = Yup.object().shape({
-    dataPerfitimit: Yup.string().required('required'),
+    dataPerfitimit: Yup.string().required("required"),
 });
 const userWorkEsperienceSchema = Yup.object().shape({
-    dataFillim: Yup.string().required('required'),
-    dataMbarim: Yup.string().required('required'),
-    pppozicion: Yup.string().required('required'),
-    konfidencialiteti: Yup.string().required('required'),
-    pershkrimiPunes: Yup.string().required('required'),
+    dataFillim: Yup.string().required("required"),
+    dataMbarim: Yup.string().required("required"),
+    pppozicion: Yup.string().required("required"),
+    konfidencialiteti: Yup.string().required("required"),
+    pershkrimiPunes: Yup.string().required("required"),
 });
 
 export default function Profile() {
@@ -107,45 +96,45 @@ export default function Profile() {
         openDrawer({
             formRef: formikRef,
             initialValues: {
-                certEmri: '',
-                certPershkrim: '',
-                dataSkadence: '',
-                dataFituar: '',
+                certEmri: "",
+                certPershkrim: "",
+                dataSkadence: "",
+                dataFituar: "",
             },
             steps: [
                 {
                     fields: [
                         {
-                            name: 'certEmri',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "certEmri",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'certPershkrim',
-                            label: 'Pershkrimi',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "certPershkrim",
+                            label: "Pershkrimi",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: certificateSchema,
-                    title: 'Edito certifikate',
+                    title: "Edito certifikate",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -154,49 +143,49 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'dataSkadence',
-                            label: 'Data e skandences',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataSkadence",
+                            label: "Data e skandences",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataFituar',
-                            label: 'Data e fituar',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataFituar",
+                            label: "Data e fituar",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userCertificateSchema,
-                    title: 'Edito certifikaten tende',
+                    title: "Edito certifikaten tende",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -208,23 +197,21 @@ export default function Profile() {
                     certEmri: values.certEmri,
                     certPershkrim: values.certPershkrim,
                 };
-                const response1 =
-                    await certificatesController.createCertificate(payload1);
+                const response1 = await certificatesController.createCertificate(payload1);
                 const payload2 = {
                     dataSkadence: values.dataSkadence,
                     dataFituar: values.dataFituar,
                 };
-                const response2 =
-                    await certificatesController.addUserCertificate(
-                        response1.certId,
-                        userDetailsLoggedIn?.userId,
-                        payload2,
-                    );
+                const response2 = await certificatesController.addUserCertificate(
+                    response1.certId,
+                    userDetailsLoggedIn?.userId,
+                    payload2,
+                );
 
-                if (response1 && response2 === '') {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
+                if (response1 && response2 === "") {
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             onDataChange: (values: any) => {
@@ -237,8 +224,8 @@ export default function Profile() {
         openDrawer({
             formRef: formikRef,
             initialValues: {
-                llojiAftesise: '',
-                dataPerfitimit: '',
+                llojiAftesise: "",
+                dataPerfitimit: "",
             },
             onSave: async (values: any) => {
                 const payload1: ISkill = {
@@ -248,45 +235,41 @@ export default function Profile() {
                 const payload2 = {
                     dataPerfitimit: values.dataPerfitimit,
                 };
-                const response2 = await skillsController.addUserSkill(
-                    response1.aftesiId,
-                    userDetailsLoggedIn?.userId,
-                    payload2,
-                );
+                const response2 = await skillsController.addUserSkill(response1.aftesiId, userDetailsLoggedIn?.userId, payload2);
 
-                if (response1 && response2 === '') {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
+                if (response1 && response2 === "") {
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             steps: [
                 {
                     fields: [
                         {
-                            name: 'llojiAftesise',
-                            label: 'Lloji i aftesise',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "llojiAftesise",
+                            label: "Lloji i aftesise",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: skillSchema,
-                    title: 'Krijo aftesine',
+                    title: "Krijo aftesine",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -295,42 +278,42 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'dataPerfitimit',
-                            label: 'Data e perfitimit',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataPerfitimit",
+                            label: "Data e perfitimit",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userSkillSchema,
-                    title: 'Krijo aftesine tende',
+                    title: "Krijo aftesine tende",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -347,40 +330,40 @@ export default function Profile() {
         openDrawer({
             formRef: formikRef,
             initialValues: {
-                ppemri: '',
-                dataFillim: '',
-                dataMbarim: '',
-                pppozicion: '',
-                konfidencialiteti: '',
-                pershkrimiPunes: '',
+                ppemri: "",
+                dataFillim: "",
+                dataMbarim: "",
+                pppozicion: "",
+                konfidencialiteti: "",
+                pershkrimiPunes: "",
             },
             steps: [
                 {
                     fields: [
                         {
-                            name: 'ppemri',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "ppemri",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: workSchema,
-                    title: 'Edito pervojen e punes',
+                    title: "Edito pervojen e punes",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -389,70 +372,70 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'dataFillim',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataFillim",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataMbarim',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataMbarim",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'pppozicion',
-                            label: 'Pozicioni i punes',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "pppozicion",
+                            label: "Pozicioni i punes",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'konfidencialiteti',
-                            label: 'Konfidencialiteti',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "konfidencialiteti",
+                            label: "Konfidencialiteti",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'pershkrimiPunes',
-                            label: 'Pershkrimi i punes',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "pershkrimiPunes",
+                            label: "Pershkrimi i punes",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userWorkEsperienceSchema,
-                    title: 'Edito pervojen e punes tende',
+                    title: "Edito pervojen e punes tende",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -463,10 +446,7 @@ export default function Profile() {
                 const payload1: IWorkExperience = {
                     ppemri: values.ppemri,
                 };
-                const response1 =
-                    await workExperiencesController.createWorkExperience(
-                        payload1,
-                    );
+                const response1 = await workExperiencesController.createWorkExperience(payload1);
                 const payload2 = {
                     dataFillim: values.dataFillim,
                     dataMbarim: values.dataMbarim,
@@ -474,17 +454,16 @@ export default function Profile() {
                     konfidencialiteti: values.konfidencialiteti,
                     pershkrimiPunes: values.pershkrimiPunes,
                 };
-                const response2 =
-                    await workExperiencesController.addUserWorkExperience(
-                        response1.ppId,
-                        userDetailsLoggedIn?.userId,
-                        payload2,
-                    );
+                const response2 = await workExperiencesController.addUserWorkExperience(
+                    response1.ppId,
+                    userDetailsLoggedIn?.userId,
+                    payload2,
+                );
 
-                if (response1 && response2 === '') {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
+                if (response1 && response2 === "") {
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             onDataChange: (values: any) => {
@@ -497,39 +476,39 @@ export default function Profile() {
         openDrawer({
             formRef: formikRef,
             initialValues: {
-                eduName: '',
-                mesatarja: '',
-                dataFillim: '',
-                dataMbarim: '',
-                llojiMaster: '',
+                eduName: "",
+                mesatarja: "",
+                dataFillim: "",
+                dataMbarim: "",
+                llojiMaster: "",
             },
             steps: [
                 {
                     fields: [
                         {
-                            name: 'eduName',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "eduName",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: educationSchema,
-                    title: 'Edito edukimin',
+                    title: "Edito edukimin",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -538,63 +517,63 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'mesatarja',
-                            label: 'Mesatarja',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "mesatarja",
+                            label: "Mesatarja",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataFillim',
-                            label: 'Data e fillimit',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataFillim",
+                            label: "Data e fillimit",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataMbarim',
-                            label: 'Data e mbarimit',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataMbarim",
+                            label: "Data e mbarimit",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'llojiMaster',
-                            label: 'Lloji i masterit',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "llojiMaster",
+                            label: "Lloji i masterit",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userEducationSchema,
-                    title: 'Edito edukimin tend',
+                    title: "Edito edukimin tend",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -605,9 +584,7 @@ export default function Profile() {
                 const payload1: IEducation = {
                     eduName: values.eduName,
                 };
-                const response1 = await educationsController.createEducation(
-                    payload1,
-                );
+                const response1 = await educationsController.createEducation(payload1);
                 const payload2 = {
                     mesatarja: values.mesatarja,
                     dataFillim: values.dataFillim,
@@ -620,9 +597,9 @@ export default function Profile() {
                     payload2,
                 );
                 if (response1 && response2) {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             onDataChange: (values: any) => {
@@ -645,32 +622,32 @@ export default function Profile() {
             },
             fields: [
                 {
-                    name: 'userName',
-                    label: 'Username',
-                    variant: 'filled',
-                    type: 'text',
-                    sx: { gridColumn: 'span 2' },
+                    name: "userName",
+                    label: "Username",
+                    variant: "filled",
+                    type: "text",
+                    sx: { gridColumn: "span 2" },
                 },
                 {
-                    name: 'userFirstname',
-                    label: 'Emri',
-                    variant: 'filled',
-                    type: 'text',
-                    sx: { gridColumn: 'span 2' },
+                    name: "userFirstname",
+                    label: "Emri",
+                    variant: "filled",
+                    type: "text",
+                    sx: { gridColumn: "span 2" },
                 },
                 {
-                    name: 'userLastname',
-                    label: 'Mbiemri',
-                    variant: 'filled',
-                    type: 'text',
-                    sx: { gridColumn: 'span 2' },
+                    name: "userLastname",
+                    label: "Mbiemri",
+                    variant: "filled",
+                    type: "text",
+                    sx: { gridColumn: "span 2" },
                 },
                 {
-                    name: 'userEmail',
-                    label: 'Email',
-                    variant: 'filled',
-                    type: 'text',
-                    sx: { gridColumn: 'span 2' },
+                    name: "userEmail",
+                    label: "Email",
+                    variant: "filled",
+                    type: "text",
+                    sx: { gridColumn: "span 2" },
                 },
             ],
             validationSchema: userSchema,
@@ -684,46 +661,43 @@ export default function Profile() {
                     userLastname: values.userLastname,
                     userEmail: values.userEmail,
                 };
-                const response = await authenticationController.updateUser(
-                    values.userId,
-                    payload,
-                );
+                const response = await authenticationController.updateUser(values.userId, payload);
                 if (response) {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
                     setUserDetailsLoggedIn(response);
                     setUserProfile(response);
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
-            title: 'Edito perdoruesin',
+            title: "Edito perdoruesin",
             actions: [
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => {
                         handleResetFromParent();
                     },
-                    type: 'reset',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "reset",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Ruaj ndryshimet',
-                    type: 'submit',
-                    color: 'secondary',
-                    variant: 'contained',
+                    label: "Ruaj ndryshimet",
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
@@ -731,7 +705,7 @@ export default function Profile() {
             onDataChange: (values: any) => {
                 handleDataChange(values);
             },
-            subTitle: 'Plotesoni detajet e perdoruesit',
+            subTitle: "Plotesoni detajet e perdoruesit",
         });
     };
 
@@ -749,36 +723,36 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'certEmri',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "certEmri",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'certPershkrim',
-                            label: 'Pershkrimi',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "certPershkrim",
+                            label: "Pershkrimi",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: certificateSchema,
-                    title: 'Edito certifikate',
+                    title: "Edito certifikate",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -787,49 +761,49 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'dataSkadence',
-                            label: 'Data e skandences',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataSkadence",
+                            label: "Data e skandences",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataFituar',
-                            label: 'Data e fituar',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataFituar",
+                            label: "Data e fituar",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userCertificateSchema,
-                    title: 'Edito certifikaten tende',
+                    title: "Edito certifikaten tende",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -841,26 +815,20 @@ export default function Profile() {
                     certEmri: values.certEmri,
                     certPershkrim: values.certPershkrim,
                 };
-                const response1 = await certificatesController.editCertificate(
-                    values.certId,
-                    payload1,
-                );
+                const response1 = await certificatesController.editCertificate(values.certId, payload1);
                 const payload2 = {
                     dataFituar: values.dataFituar,
                     dataSkadence: values.dataSkadence,
                 };
-                const response2 =
-                    await certificatesController.editUserCertificate(
-                        values.certId,
-                        userDetailsLoggedIn?.userId,
-                        payload2,
-                    );
+                const response2 = await certificatesController.editUserCertificate(
+                    values.certId,
+                    userDetailsLoggedIn?.userId,
+                    payload2,
+                );
 
                 if (response1 && response2) {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
-                    const user = await usersController.getUser(
-                        userDetailsLoggedIn?.userId,
-                    );
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                     setUserDetailsLoggedIn(user);
                     setUserProfile(user);
                 }
@@ -883,29 +851,29 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'llojiAftesise',
-                            label: 'Lloji i aftesise',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "llojiAftesise",
+                            label: "Lloji i aftesise",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: skillSchema,
-                    title: 'Edito aftesine',
+                    title: "Edito aftesine",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -914,42 +882,42 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'dataPerfitimit',
-                            label: 'Data e perfitimit',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataPerfitimit",
+                            label: "Data e perfitimit",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userSkillSchema,
-                    title: 'Edito aftesine tende',
+                    title: "Edito aftesine tende",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -960,27 +928,18 @@ export default function Profile() {
                 const payload1: ISkill = {
                     llojiAftesise: values.llojiAftesise,
                 };
-                const response1 = await skillsController.editSkill(
-                    values.aftesiId,
-                    payload1,
-                );
+                const response1 = await skillsController.editSkill(values.aftesiId, payload1);
                 const payload2 = {
                     dataPerfitimit: values.dataPerfitimit,
                 };
-                const response2 = await skillsController.editUserSkill(
-                    values.aftesiId,
-                    userDetailsLoggedIn?.userId,
-                    payload2,
-                );
+                const response2 = await skillsController.editUserSkill(values.aftesiId, userDetailsLoggedIn?.userId, payload2);
                 if (response1 && response2) {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
-                    const user = await usersController.getUser(
-                        userDetailsLoggedIn?.userId,
-                    );
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                     setUserDetailsLoggedIn(user);
                     setUserProfile(user);
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             onDataChange: (values: any) => {
@@ -1005,29 +964,29 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'ppemri',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "ppemri",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: workSchema,
-                    title: 'Edito pervojen e punes',
+                    title: "Edito pervojen e punes",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -1036,70 +995,70 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'dataFillim',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataFillim",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataMbarim',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataMbarim",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'pppozicion',
-                            label: 'Pozicioni i punes',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "pppozicion",
+                            label: "Pozicioni i punes",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'konfidencialiteti',
-                            label: 'Konfidencialiteti',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "konfidencialiteti",
+                            label: "Konfidencialiteti",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'pershkrimiPunes',
-                            label: 'Pershkrimi i punes',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "pershkrimiPunes",
+                            label: "Pershkrimi i punes",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userWorkEsperienceSchema,
-                    title: 'Edito pervojen e punes tende',
+                    title: "Edito pervojen e punes tende",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -1110,11 +1069,7 @@ export default function Profile() {
                 const payload1: IWorkExperience = {
                     ppemri: values.ppemri,
                 };
-                const response1 =
-                    await workExperiencesController.editWorkExperience(
-                        values.ppId,
-                        payload1,
-                    );
+                const response1 = await workExperiencesController.editWorkExperience(values.ppId, payload1);
                 const payload2 = {
                     ppemri: values.ppemri,
                     dataFillim: values.dataFillim,
@@ -1123,21 +1078,18 @@ export default function Profile() {
                     konfidencialiteti: values.konfidencialiteti,
                     pershkrimiPunes: values.pershkrimiPunes,
                 };
-                const response2 =
-                    await workExperiencesController.editUserWorkExperience(
-                        values.ppId,
-                        userDetailsLoggedIn?.userId,
-                        payload2,
-                    );
+                const response2 = await workExperiencesController.editUserWorkExperience(
+                    values.ppId,
+                    userDetailsLoggedIn?.userId,
+                    payload2,
+                );
                 if (response1 && response2) {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
-                    const user = await usersController.getUser(
-                        userDetailsLoggedIn?.userId,
-                    );
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                     setUserDetailsLoggedIn(user);
                     setUserProfile(user);
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             onDataChange: (values: any) => {
@@ -1161,29 +1113,29 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'eduName',
-                            label: 'Emri',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "eduName",
+                            label: "Emri",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: educationSchema,
-                    title: 'Edito edukimin',
+                    title: "Edito edukimin",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
@@ -1192,63 +1144,63 @@ export default function Profile() {
                 {
                     fields: [
                         {
-                            name: 'mesatarja',
-                            label: 'Mesatarja',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "mesatarja",
+                            label: "Mesatarja",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataFillim',
-                            label: 'Data e fillimit',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataFillim",
+                            label: "Data e fillimit",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'dataMbarim',
-                            label: 'Data e mbarimit',
-                            variant: 'filled',
-                            type: 'date',
-                            sx: { gridColumn: 'span 2' },
+                            name: "dataMbarim",
+                            label: "Data e mbarimit",
+                            variant: "filled",
+                            type: "date",
+                            sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: 'llojiMaster',
-                            label: 'Lloji i masterit',
-                            variant: 'filled',
-                            type: 'text',
-                            sx: { gridColumn: 'span 2' },
+                            name: "llojiMaster",
+                            label: "Lloji i masterit",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
                         },
                     ],
                     validationSchema: userEducationSchema,
-                    title: 'Edito edukimin tend',
+                    title: "Edito edukimin tend",
                     actions: [
                         {
-                            label: 'Anullo',
+                            label: "Anullo",
                             onClick: () => {
                                 handleResetFromParent();
                             },
-                            type: 'reset',
-                            color: 'secondary',
-                            variant: 'contained',
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#ff5252',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: 'Ruaj ndryshimet',
-                            type: 'submit',
-                            color: 'secondary',
-                            variant: 'contained',
+                            label: "Ruaj ndryshimet",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
                             sx: {
-                                border: '1px solid #000',
-                                bgcolor: '#30969f',
-                                fontSize: '15px',
-                                fontWeight: '700',
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
                             },
                             icon: <SaveAsIcon />,
                         },
@@ -1259,10 +1211,7 @@ export default function Profile() {
                 const payload1: IEducation = {
                     eduName: values.eduName,
                 };
-                const response1 = await educationsController.editEducation(
-                    values.eduId,
-                    payload1,
-                );
+                const response1 = await educationsController.editEducation(values.eduId, payload1);
                 const payload2 = {
                     eduName: values.eduName,
                     mesatarja: values.mesatarja,
@@ -1277,14 +1226,12 @@ export default function Profile() {
                 );
 
                 if (response1 && response2) {
-                    toast.success('Ruajtja e ndryshimeve me sukses !');
-                    const user = await usersController.getUser(
-                        userDetailsLoggedIn?.userId,
-                    );
+                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                     setUserDetailsLoggedIn(user);
                     setUserProfile(user);
                 } else {
-                    toast.error('Rujtja nuk e realizua !');
+                    toast.error("Rujtja nuk e realizua !");
                 }
             },
             onDataChange: (values: any) => {
@@ -1297,24 +1244,24 @@ export default function Profile() {
         openModal({
             formRef: formikRef,
             onClose: () => setOpen(false),
-            title: 'Eleminimi i Edukimit',
+            title: "Eleminimi i Edukimit",
             actions: [
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => handleClose(),
-                    type: 'reset',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "reset",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Elemino',
+                    label: "Elemino",
                     // onClick: async () => {
                     //     const response2 =
                     //         await educationsController.deleteUserEducation(
@@ -1330,19 +1277,19 @@ export default function Profile() {
                     //         handleClose();
                     //     }
                     // },
-                    type: 'submit',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
             ],
-            subTitle: 'Deshironi ta eleminoni ?',
+            subTitle: "Deshironi ta eleminoni ?",
         });
     };
 
@@ -1350,25 +1297,25 @@ export default function Profile() {
         openModal({
             formRef: formikRef,
             onClose: () => setOpen(false),
-            title: 'Eleminimi i Certifikates',
+            title: "Eleminimi i Certifikates",
             actions: [
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => handleClose(),
-                    type: 'close',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "close",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Elemino',
-                    type: 'delete',
+                    label: "Elemino",
+                    type: "delete",
                     // onClick: async () => {
                     //     const response2 =
                     //         await certificatesController.deleteUserCertificate(
@@ -1384,18 +1331,18 @@ export default function Profile() {
                     //         handleClose();
                     //     }
                     // },
-                    color: 'secondary',
-                    variant: 'contained',
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
             ],
-            subTitle: 'Deshironi ta eleminoni ?',
+            subTitle: "Deshironi ta eleminoni ?",
         });
     };
 
@@ -1403,25 +1350,25 @@ export default function Profile() {
         openModal({
             formRef: formikRef,
             onClose: () => setOpen(false),
-            title: 'Eleminimi i punes',
+            title: "Eleminimi i punes",
             actions: [
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => handleClose(),
-                    type: 'close',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "close",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Elemino',
-                    type: 'delete',
+                    label: "Elemino",
+                    type: "delete",
                     // onClick: async () => {
                     //     const response =
                     //         await workExperiencesController.deleteUserWorkExperience(
@@ -1433,18 +1380,18 @@ export default function Profile() {
                     //         handleClose();
                     //     }
                     // },
-                    color: 'secondary',
-                    variant: 'contained',
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
             ],
-            subTitle: 'Deshironi ta eleminoni ?',
+            subTitle: "Deshironi ta eleminoni ?",
         });
     };
 
@@ -1452,25 +1399,25 @@ export default function Profile() {
         openModal({
             formRef: formikRef,
             onClose: () => setOpen(false),
-            title: 'Eleminimi i Aftesise',
+            title: "Eleminimi i Aftesise",
             actions: [
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => handleClose(),
-                    type: 'close',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "close",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Elemino',
-                    type: 'delete',
+                    label: "Elemino",
+                    type: "delete",
                     // onClick: async () => {
                     //     const response1 =
                     //         await skillsController.deleteUserSkill(
@@ -1485,18 +1432,18 @@ export default function Profile() {
                     //         handleClose();
                     //     }
                     // },
-                    color: 'secondary',
-                    variant: 'contained',
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
             ],
-            subTitle: 'Deshironi ta eleminoni ?',
+            subTitle: "Deshironi ta eleminoni ?",
         });
     };
 
@@ -1504,12 +1451,10 @@ export default function Profile() {
         if (location.state?.userId) {
             async function fetchUserDetails() {
                 try {
-                    const user = await usersController.getUser(
-                        location.state?.userId,
-                    );
+                    const user = await usersController.getUser(location.state?.userId);
                     setUserProfile(user);
                 } catch (error) {
-                    console.error('Failed to fetch user:', error);
+                    console.error("Failed to fetch user:", error);
                 }
             }
             fetchUserDetails();
@@ -1521,46 +1466,26 @@ export default function Profile() {
     return (
         <>
             <Box padding={3}>
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    gap={1}
-                    justifyContent={'center'}
-                >
+                <Box display="flex" alignItems="center" gap={1} justifyContent={"center"}>
                     <Button
                         color="secondary"
                         variant="contained"
                         onClick={() => {
-                            navigate('/dashboard');
+                            navigate("/dashboard");
                         }}
                     >
                         <ArrowBackIcon color="action" />
                     </Button>
-                    <Box
-                        flexGrow={1}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                    >
+                    <Box flexGrow={1} display="flex" alignItems="center" justifyContent="center">
                         <Box>
-                            <AccountCircleIcon
-                                style={{ fontSize: 60, marginRight: 15 }}
-                            />
+                            <AccountCircleIcon style={{ fontSize: 60, marginRight: 15 }} />
                         </Box>
                         <Box>
-                            <Box
-                                display={'flex'}
-                                flexDirection={'row'}
-                                gap={'25px'}
-                            >
+                            <Box display={"flex"} flexDirection={"row"} gap={"25px"}>
                                 <Typography variant="h5" gutterBottom>
                                     {userProfile?.userName}
                                 </Typography>
-                                <Box
-                                    display={'flex'}
-                                    flexDirection={'row'}
-                                    gap={'5px'}
-                                >
+                                <Box display={"flex"} flexDirection={"row"} gap={"5px"}>
                                     <Typography variant="h5" gutterBottom>
                                         {userProfile?.userFirstname}
                                     </Typography>
@@ -1570,44 +1495,25 @@ export default function Profile() {
                                 </Box>
                             </Box>
                             <Box display="flex" alignItems="center" gap={3}>
-                                <Typography
-                                    variant="body1"
-                                    color="textSecondary"
-                                >
-                                    Certifikatat:{' '}
-                                    {userProfile?.userCertifikates!.length}
+                                <Typography variant="body1" color="textSecondary">
+                                    Certifikatat: {userProfile?.userCertifikates!.length}
                                 </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="textSecondary"
-                                >
-                                    Punet e meparshme:{' '}
-                                    {userProfile?.userPervojePunes!.length}
+                                <Typography variant="body1" color="textSecondary">
+                                    Punet e meparshme: {userProfile?.userPervojePunes!.length}
                                 </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="textSecondary"
-                                >
+                                <Typography variant="body1" color="textSecondary">
                                     Edukimi: {userProfile?.userEdukims!.length}
                                 </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="textSecondary"
-                                >
-                                    Projektet:{' '}
-                                    {userProfile?.userProjekts!.length}
+                                <Typography variant="body1" color="textSecondary">
+                                    Projektet: {userProfile?.userProjekts!.length}
                                 </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="textSecondary"
-                                >
+                                <Typography variant="body1" color="textSecondary">
                                     Aftesite: {userProfile?.userAftesis!.length}
                                 </Typography>
                             </Box>
                         </Box>
                     </Box>
-                    {userProfile?.userName ===
-                        userDetailsLoggedIn?.userName && (
+                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                         <Button
                             variant="contained"
                             startIcon={<EditIcon />}
@@ -1631,30 +1537,14 @@ export default function Profile() {
                     // sx={{ borderRight: 3, borderColor: 'divider' }}
                     orientation="horizontal"
                 >
-                    <Tab
-                        label="Certifikatat"
-                        style={{ backgroundColor: '#ff8888' }}
-                    />
-                    <Tab
-                        label="Edukimet"
-                        style={{ backgroundColor: '#ff8888' }}
-                    />
-                    <Tab
-                        label="Projektet"
-                        style={{ backgroundColor: '#ff8888' }}
-                    />
-                    <Tab
-                        label="Aftesite"
-                        style={{ backgroundColor: '#ff8888' }}
-                    />
-                    <Tab
-                        label="Pervoja e punes"
-                        style={{ backgroundColor: '#ff8888' }}
-                    />
+                    <Tab label="Certifikatat" style={{ backgroundColor: "#ff8888" }} />
+                    <Tab label="Edukimet" style={{ backgroundColor: "#ff8888" }} />
+                    <Tab label="Projektet" style={{ backgroundColor: "#ff8888" }} />
+                    <Tab label="Aftesite" style={{ backgroundColor: "#ff8888" }} />
+                    <Tab label="Pervoja e punes" style={{ backgroundColor: "#ff8888" }} />
                 </Tabs>
                 <TabPanel value={value} index={0}>
-                    {userProfile?.userName ===
-                        userDetailsLoggedIn?.userName && (
+                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                         <Box>
                             <Button
                                 variant="contained"
@@ -1668,7 +1558,7 @@ export default function Profile() {
                             </Button>
                         </Box>
                     )}
-                    <Grid container spacing={4} mt={'5px'}>
+                    <Grid container spacing={4} mt={"5px"}>
                         {userProfile?.userCertifikates!.map((el, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
                                 <Card elevation={4}>
@@ -1676,30 +1566,23 @@ export default function Profile() {
                                         <Typography variant="h6" gutterBottom>
                                             Emri: {el.cert!.certEmri!}
                                         </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="textSecondary"
-                                            gutterBottom
-                                        >
+                                        <Typography variant="body2" color="textSecondary" gutterBottom>
                                             Pershkrim: {el.cert.certPershkrim}
                                         </Typography>
                                     </CardContent>
-                                    {userProfile?.userName ===
-                                        userDetailsLoggedIn?.userName && (
+                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                                         <CardActions
                                             sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                gap: '30px',
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                gap: "30px",
                                             }}
                                         >
                                             <Button
                                                 variant="contained"
                                                 startIcon={<EditIcon />}
                                                 color="secondary"
-                                                onClick={() =>
-                                                    handleEditCertificate(el)
-                                                }
+                                                onClick={() => handleEditCertificate(el)}
                                             >
                                                 Edito
                                             </Button>
@@ -1707,9 +1590,7 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
-                                                onClick={() =>
-                                                    handleDeleteCertificate(el)
-                                                }
+                                                onClick={() => handleDeleteCertificate(el)}
                                             >
                                                 Elemino
                                             </Button>
@@ -1721,8 +1602,7 @@ export default function Profile() {
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    {userProfile?.userName ===
-                        userDetailsLoggedIn?.userName && (
+                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                         <Box>
                             <Button
                                 variant="contained"
@@ -1736,7 +1616,7 @@ export default function Profile() {
                             </Button>
                         </Box>
                     )}
-                    <Grid container spacing={4} mt={'5px'}>
+                    <Grid container spacing={4} mt={"5px"}>
                         {userProfile?.userEdukims!.map((el, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
                                 <Card elevation={4}>
@@ -1745,22 +1625,19 @@ export default function Profile() {
                                             Emri: {el.edu.eduName}
                                         </Typography>
                                     </CardContent>
-                                    {userProfile?.userName ===
-                                        userDetailsLoggedIn?.userName && (
+                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                                         <CardActions
                                             sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                gap: '30px',
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                gap: "30px",
                                             }}
                                         >
                                             <Button
                                                 variant="contained"
                                                 startIcon={<EditIcon />}
                                                 color="secondary"
-                                                onClick={() =>
-                                                    handleEditEducation(el)
-                                                }
+                                                onClick={() => handleEditEducation(el)}
                                             >
                                                 Edito
                                             </Button>
@@ -1768,9 +1645,7 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
-                                                onClick={() =>
-                                                    handleDeleteEducation(el)
-                                                }
+                                                onClick={() => handleDeleteEducation(el)}
                                             >
                                                 Elemino
                                             </Button>
@@ -1782,7 +1657,7 @@ export default function Profile() {
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <Grid container spacing={4} mt={'5px'}>
+                    <Grid container spacing={4} mt={"5px"}>
                         {userProfile?.userProjekts!.map((el, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
                                 <Card elevation={4}>
@@ -1790,13 +1665,8 @@ export default function Profile() {
                                         <Typography variant="h6" gutterBottom>
                                             Emri: {el.projekt.emriProjekt}
                                         </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="textSecondary"
-                                            gutterBottom
-                                        >
-                                            Pershkrimi:{' '}
-                                            {el.projekt.pershkrimProjekt}
+                                        <Typography variant="body2" color="textSecondary" gutterBottom>
+                                            Pershkrimi: {el.projekt.pershkrimProjekt}
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -1805,8 +1675,7 @@ export default function Profile() {
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                    {userProfile?.userName ===
-                        userDetailsLoggedIn?.userName && (
+                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                         <Box>
                             <Button
                                 variant="contained"
@@ -1820,7 +1689,7 @@ export default function Profile() {
                             </Button>
                         </Box>
                     )}
-                    <Grid container spacing={4} mt={'5px'}>
+                    <Grid container spacing={4} mt={"5px"}>
                         {userProfile?.userAftesis!.map((el, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
                                 <Card elevation={4}>
@@ -1829,22 +1698,19 @@ export default function Profile() {
                                             Emri: {el.aftesi.llojiAftesise}
                                         </Typography>
                                     </CardContent>
-                                    {userProfile?.userName ===
-                                        userDetailsLoggedIn?.userName && (
+                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                                         <CardActions
                                             sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                gap: '30px',
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                gap: "30px",
                                             }}
                                         >
                                             <Button
                                                 variant="contained"
                                                 startIcon={<EditIcon />}
                                                 color="secondary"
-                                                onClick={() =>
-                                                    handleEditSkill(el)
-                                                }
+                                                onClick={() => handleEditSkill(el)}
                                             >
                                                 Edito
                                             </Button>
@@ -1852,9 +1718,7 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
-                                                onClick={() =>
-                                                    handleDeleteSkill(el)
-                                                }
+                                                onClick={() => handleDeleteSkill(el)}
                                             >
                                                 Elemino
                                             </Button>
@@ -1866,8 +1730,7 @@ export default function Profile() {
                     </Grid>
                 </TabPanel>
                 <TabPanel value={value} index={4}>
-                    {userProfile?.userName ===
-                        userDetailsLoggedIn?.userName && (
+                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                         <Box>
                             <Button
                                 variant="contained"
@@ -1881,7 +1744,7 @@ export default function Profile() {
                             </Button>
                         </Box>
                     )}
-                    <Grid container spacing={4} mt={'5px'}>
+                    <Grid container spacing={4} mt={"5px"}>
                         {userProfile?.userPervojePunes!.map((el, index) => (
                             <Grid item xs={12} sm={6} md={3} key={index}>
                                 <Card elevation={4}>
@@ -1890,22 +1753,19 @@ export default function Profile() {
                                             Emri: {el.pp.ppemri}
                                         </Typography>
                                     </CardContent>
-                                    {userProfile?.userName ===
-                                        userDetailsLoggedIn?.userName && (
+                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
                                         <CardActions
                                             sx={{
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                gap: '30px',
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                gap: "30px",
                                             }}
                                         >
                                             <Button
                                                 variant="contained"
                                                 startIcon={<EditIcon />}
                                                 color="secondary"
-                                                onClick={() =>
-                                                    handleEditWork(el)
-                                                }
+                                                onClick={() => handleEditWork(el)}
                                             >
                                                 Edito
                                             </Button>
@@ -1913,9 +1773,7 @@ export default function Profile() {
                                                 size="small"
                                                 startIcon={<EditIcon />}
                                                 color="error"
-                                                onClick={() =>
-                                                    handleDeleteWork(el)
-                                                }
+                                                onClick={() => handleDeleteWork(el)}
                                             >
                                                 Elemino
                                             </Button>

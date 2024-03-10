@@ -1,37 +1,34 @@
-import * as React from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { useMode, ColorModeContext } from '~/utils/theme';
-import Sidebar from '~/components/global/Sidebar';
-import Topbar from '~/components/global/Topbar';
-import PrivateRoutes from '~/utils/PrivateRoutes';
-import { DrawerProvider } from '~/components/drawer/drawerContext';
-import { ModalProvider } from '~/components/modal/modalContext';
-import { useStore } from '~/store/zustand/store';
-import { useEffect } from 'react';
-import IUser from '~/interfaces/IUser';
-import usersController from '~/services/users';
+import * as React from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { useMode, ColorModeContext } from "~/utils/theme";
+import Sidebar from "~/components/global/Sidebar";
+import Topbar from "~/components/global/Topbar";
+import PrivateRoutes from "~/utils/PrivateRoutes";
+import { DrawerProvider } from "~/components/drawer/drawerContext";
+import { ModalProvider } from "~/components/modal/modalContext";
+import { useStore } from "~/store/zustand/store";
+import { useEffect } from "react";
+import IUser from "~/interfaces/IUser";
+import usersController from "~/services/users";
 
-const Dashboard = React.lazy(() => import('~/pages/dashboard'));
-const Permissions = React.lazy(() => import('~/pages/permissions'));
-const Users = React.lazy(() => import('~/pages/users'));
-const Login = React.lazy(() => import('~/pages/login'));
-const Projects = React.lazy(() => import('~/pages/projects'));
-const PermissionReservation = React.lazy(
-    () => import('~/pages/permissionReservation'),
-);
-const Error = React.lazy(() => import('~/pages/error'));
-const Project = React.lazy(() => import('~/pages/project'));
-const User = React.lazy(() => import('~/pages/user'));
-const CreateUser = React.lazy(() => import('~/pages/createUser'));
-const CreateProject = React.lazy(() => import('~/pages/createProject'));
-const Profile = React.lazy(() => import('~/pages/profile'));
-const ChangePassword = React.lazy(() => import('~/pages/changePassword'));
+const Dashboard = React.lazy(() => import("~/pages/dashboard"));
+const Permissions = React.lazy(() => import("~/pages/permissions"));
+const Users = React.lazy(() => import("~/pages/users"));
+const Login = React.lazy(() => import("~/pages/login"));
+const Projects = React.lazy(() => import("~/pages/projects"));
+const PermissionReservation = React.lazy(() => import("~/pages/permissionReservation"));
+const Error = React.lazy(() => import("~/pages/error"));
+const Project = React.lazy(() => import("~/pages/project"));
+const User = React.lazy(() => import("~/pages/user"));
+const CreateUser = React.lazy(() => import("~/pages/createUser"));
+const CreateProject = React.lazy(() => import("~/pages/createProject"));
+const Profile = React.lazy(() => import("~/pages/profile"));
+const ChangePassword = React.lazy(() => import("~/pages/changePassword"));
 
 function App() {
     const [theme, colorMode] = useMode();
     const { loadUserFromLocalStorage, user } = useStore();
-    const navigate = useNavigate();
     const { setUserDetailsLoggedIn } = useStore();
 
     useEffect(() => {
@@ -42,14 +39,12 @@ function App() {
         const fetchUser = async () => {
             if (user) {
                 try {
-                    const response: IUser = await usersController.getUser(
-                        user.userId,
-                    );
+                    const response: IUser = await usersController.getUser(user.userId);
                     if (response) {
                         setUserDetailsLoggedIn(response);
                     }
                 } catch (error) {
-                    console.error('Failed to fetch user:', error);
+                    console.error("Failed to fetch user:", error);
                 }
             }
         };
@@ -64,10 +59,7 @@ function App() {
                     <ModalProvider>
                         <div className="app">
                             <Routes>
-                                <Route
-                                    index
-                                    element={<Navigate replace to="/login" />}
-                                />
+                                <Route index element={<Navigate replace to="/login" />} />
                                 <Route
                                     path="*"
                                     element={

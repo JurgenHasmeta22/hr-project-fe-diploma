@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
-import { Link } from 'react-router-dom';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined';
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import { tokens } from '~/utils/theme';
-import { useStore } from '~/store/zustand/store';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useState } from "react";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { tokens } from "~/utils/theme";
+import { useStore } from "~/store/zustand/store";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Item = ({ title, to, icon, selected, setSelected }: any) => {
     const theme = useTheme();
@@ -34,9 +34,7 @@ const SubMenuItem = ({ label, selected, setSelected }: any) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { userDetailsLoggedIn } = useStore();
-    const isEmployee = userDetailsLoggedIn?.userRolis?.some(
-        (el) => el.roli.roliEmri === 'Employee',
-    );
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
     return (
         <SubMenu
@@ -70,7 +68,7 @@ const SidebarWrapper = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState('Dashboard');
+    const [selected, setSelected] = useState("Dashboard");
     const [visible, setVisible] = useState(true);
     const { userDetailsLoggedIn } = useStore();
 
@@ -78,14 +76,14 @@ const SidebarWrapper = () => {
         <Sidebar
             collapsed={isCollapsed}
             rootStyles={{
-                '& .ps-sidebar-container': {
+                "& .ps-sidebar-container": {
                     background: `${colors.primary[400]} !important`,
                 },
-                '& .ps-menuitem-root:hover': {
-                    color: '#2b15ed !important',
+                "& .ps-menuitem-root:hover": {
+                    color: "#2b15ed !important",
                 },
-                '& .ps-active': {
-                    color: '#6870fa !important',
+                "& .ps-active": {
+                    color: "#6870fa !important",
                 },
             }}
         >
@@ -93,19 +91,17 @@ const SidebarWrapper = () => {
                 <Box
                     onClick={() => setIsCollapsed(!isCollapsed)}
                     sx={{
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginTop: '15px',
-                        marginBottom: '15px',
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: "15px",
+                        marginBottom: "15px",
                     }}
                 >
                     {!isCollapsed ? (
                         <Box position="absolute" top={4} right={5}>
-                            <IconButton onClick={() => setVisible(false)}>
-                                X
-                            </IconButton>
+                            <IconButton onClick={() => setVisible(false)}>X</IconButton>
                         </Box>
                     ) : (
                         <MenuOutlinedIcon />
@@ -115,27 +111,16 @@ const SidebarWrapper = () => {
                     <Box mb="35px">
                         <Box textAlign="center">
                             <AccountCircleIcon style={{ fontSize: 100 }} />
-                            <Typography
-                                variant="h2"
-                                color={colors.grey[100]}
-                                fontWeight="bold"
-                                sx={{ m: '20px 0 0 0' }}
-                            >
+                            <Typography variant="h2" color={colors.grey[100]} fontWeight="bold" sx={{ m: "20px 0 0 0" }}>
                                 {userDetailsLoggedIn?.userName}
                             </Typography>
-                            <Typography
-                                variant="h5"
-                                color={colors.greenAccent[500]}
-                            >
-                                {
-                                    userDetailsLoggedIn?.userRolis![0].roli
-                                        .roliEmri
-                                }
+                            <Typography variant="h5" color={colors.greenAccent[500]}>
+                                {userDetailsLoggedIn?.userRolis![0].roli.roliEmri}
                             </Typography>
                         </Box>
                     </Box>
                 )}
-                <Box paddingLeft={isCollapsed ? undefined : '10%'}>
+                <Box paddingLeft={isCollapsed ? undefined : "10%"}>
                     <Item
                         title="Dashboard"
                         to="/dashboard"
@@ -150,11 +135,7 @@ const SidebarWrapper = () => {
                         selected={selected}
                         setSelected={setSelected}
                     />
-                    <SubMenuItem
-                        label="Lejet"
-                        selected={selected}
-                        setSelected={setSelected}
-                    />
+                    <SubMenuItem label="Lejet" selected={selected} setSelected={setSelected} />
                     <Item
                         title="Projektet"
                         to="/projects"
