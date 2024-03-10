@@ -1,15 +1,15 @@
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import Login from './index';
-import authenticationController from '~/services/authentication';
-import { useNavigate } from 'react-router-dom';
+import { render, fireEvent, waitFor } from "@testing-library/react";
+import Login from "./index";
+import authenticationController from "~/services/authentication";
+import { useNavigate } from "react-router-dom";
 
-jest.mock('~/services/authentication');
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
+jest.mock("~/services/authentication");
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
     useNavigate: jest.fn(),
 }));
 
-test('renders login form', () => {
+test("renders login form", () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     expect(getByLabelText(/username/i)).toBeInTheDocument();
@@ -17,41 +17,41 @@ test('renders login form', () => {
     expect(getByText(/logohu/i)).toBeInTheDocument();
 });
 
-test('submits form', () => {
+test("submits form", () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 });
 
-test('validates form fields', async () => {
+test("validates form fields", async () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.click(getByText(/logohu/i));
-    expect(await getByText('required')).toBeInTheDocument();
+    expect(await getByText("required")).toBeInTheDocument();
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 });
 
-test('submits form and handles authentication response', async () => {
+test("submits form and handles authentication response", async () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 
@@ -60,21 +60,21 @@ test('submits form and handles authentication response', async () => {
 
     await waitFor(() => {
         expect(authenticationController.onLogin).toHaveBeenCalledWith({
-            userName: 'testuser',
-            password: 'testpassword',
+            userName: "testuser",
+            password: "testpassword",
         });
-        expect(getByText('Ju jeni loguar me sukses')).toBeInTheDocument();
+        expect(getByText("Ju jeni loguar me sukses")).toBeInTheDocument();
     });
 });
 
-test('submits form and handles authentication error', async () => {
+test("submits form and handles authentication error", async () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 
@@ -83,21 +83,21 @@ test('submits form and handles authentication error', async () => {
 
     await waitFor(() => {
         expect(authenticationController.onLogin).toHaveBeenCalledWith({
-            userName: 'testuser',
-            password: 'testpassword',
+            userName: "testuser",
+            password: "testpassword",
         });
-        expect(getByText('Authentication failed')).toBeInTheDocument();
+        expect(getByText("Authentication failed")).toBeInTheDocument();
     });
 });
 4;
-test('navigates to dashboard after successful authentication', async () => {
+test("navigates to dashboard after successful authentication", async () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 
@@ -105,30 +105,30 @@ test('navigates to dashboard after successful authentication', async () => {
     // authenticationController.onLogin.mockResolvedValue(mockResponse);
 
     await waitFor(() => {
-        expect(useNavigate).toHaveBeenCalledWith('/dashboard');
+        expect(useNavigate).toHaveBeenCalledWith("/dashboard");
     });
 });
 
-test('displays loading state while form submission is in progress', async () => {
+test("displays loading state while form submission is in progress", async () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 });
 
-test('resets form after form submission is canceled', async () => {
+test("resets form after form submission is canceled", async () => {
     const { getByLabelText, getByText } = render(<Login />);
 
     fireEvent.change(getByLabelText(/username/i), {
-        target: { value: 'testuser' },
+        target: { value: "testuser" },
     });
     fireEvent.change(getByLabelText(/password/i), {
-        target: { value: 'testpassword' },
+        target: { value: "testpassword" },
     });
     fireEvent.click(getByText(/logohu/i));
 });

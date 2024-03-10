@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import {
     Button,
     Dialog,
@@ -13,9 +13,9 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { Formik, Form, Field, FormikProps } from 'formik';
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Formik, Form, Field, FormikProps } from "formik";
 
 type FieldConfig = {
     name: string;
@@ -42,16 +42,8 @@ type ActionConfig = {
     label: string;
     onClick: () => void;
     type?: string;
-    color?:
-        | 'inherit'
-        | 'primary'
-        | 'secondary'
-        | 'success'
-        | 'error'
-        | 'info'
-        | 'warning'
-        | 'default';
-    variant?: 'text' | 'outlined' | 'contained';
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
+    variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
 };
@@ -70,25 +62,18 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
-            <DialogTitle fontSize={'26px'}>
+            <DialogTitle fontSize={"26px"}>
                 {title}
-                <IconButton
-                    style={{ position: 'absolute', right: 0, top: 0 }}
-                    onClick={onClose ? onClose : () => {}}
-                >
+                <IconButton style={{ position: "absolute", right: 0, top: 0 }} onClick={onClose ? onClose : () => {}}>
                     <CloseIcon color="action" />
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <DialogContentText fontSize={'18px'}>
-                    {subTitle}
-                </DialogContentText>
+                <DialogContentText fontSize={"18px"}>{subTitle}</DialogContentText>
                 {validationSchema && initialValues && onDataChange ? (
                     <Formik
                         initialValues={initialValues ? initialValues : {}}
-                        validationSchema={
-                            validationSchema ? validationSchema : {}
-                        }
+                        validationSchema={validationSchema ? validationSchema : {}}
                         onSubmit={(values) => {
                             onSave ? onSave(values) : () => {};
                             onClose ? onClose() : () => {};
@@ -104,55 +89,24 @@ const Modal: React.FC<ModalProps> = ({
 
                             return (
                                 <Form>
-                                    <Grid container spacing={4} mt={'10px'}>
+                                    <Grid container spacing={4} mt={"10px"}>
                                         {fields &&
                                             fields!.map((field) => (
-                                                <Grid
-                                                    item
-                                                    xs={6}
-                                                    key={field.name}
-                                                >
-                                                    {field.type === 'select' ? (
-                                                        <FormControl
-                                                            fullWidth
-                                                            size="medium"
-                                                        >
-                                                            <InputLabel
-                                                                id={`${field.name}-label`}
-                                                            >
-                                                                {field.label}
-                                                            </InputLabel>
+                                                <Grid item xs={6} key={field.name}>
+                                                    {field.type === "select" ? (
+                                                        <FormControl fullWidth size="medium">
+                                                            <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                                                             <Field
-                                                                name={
-                                                                    field.name
-                                                                }
-                                                                value={
-                                                                    values[
-                                                                        field
-                                                                            .name
-                                                                    ]
-                                                                }
+                                                                name={field.name}
+                                                                value={values[field.name]}
                                                                 labelId={`${field.name}-label`}
                                                                 as={Select}
                                                             >
-                                                                {field.options?.map(
-                                                                    (
-                                                                        option,
-                                                                    ) => (
-                                                                        <MenuItem
-                                                                            key={
-                                                                                option.value
-                                                                            }
-                                                                            value={
-                                                                                option.value
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                option.label
-                                                                            }
-                                                                        </MenuItem>
-                                                                    ),
-                                                                )}
+                                                                {field.options?.map((option) => (
+                                                                    <MenuItem key={option.value} value={option.value}>
+                                                                        {option.label}
+                                                                    </MenuItem>
+                                                                ))}
                                                             </Field>
                                                         </FormControl>
                                                     ) : (
@@ -161,35 +115,13 @@ const Modal: React.FC<ModalProps> = ({
                                                             name={field.name}
                                                             label={field.label}
                                                             fullWidth
-                                                            value={
-                                                                values[
-                                                                    field.name
-                                                                ]
-                                                            }
+                                                            value={values[field.name]}
                                                             size="medium"
-                                                            type={
-                                                                field.type ||
-                                                                'text'
-                                                            }
-                                                            helperText={
-                                                                touched[
-                                                                    field.name
-                                                                ] &&
-                                                                errors[
-                                                                    field.name
-                                                                ]
-                                                            }
-                                                            error={
-                                                                touched[
-                                                                    field.name
-                                                                ] &&
-                                                                !!errors[
-                                                                    field.name
-                                                                ]
-                                                            }
+                                                            type={field.type || "text"}
+                                                            helperText={touched[field.name] && errors[field.name]}
+                                                            error={touched[field.name] && !!errors[field.name]}
                                                             InputLabelProps={
-                                                                field.type ===
-                                                                'date'
+                                                                field.type === "date"
                                                                     ? {
                                                                           shrink: true,
                                                                       }
@@ -200,9 +132,7 @@ const Modal: React.FC<ModalProps> = ({
                                                 </Grid>
                                             ))}
                                     </Grid>
-                                    <DialogActions
-                                        style={{ marginTop: '15px' }}
-                                    >
+                                    <DialogActions style={{ marginTop: "15px" }}>
                                         {actions!.map((action, index) => (
                                             <Button
                                                 key={index}
@@ -210,19 +140,17 @@ const Modal: React.FC<ModalProps> = ({
                                                 //@ts-ignore
                                                 color={
                                                     action.color as
-                                                        | 'inherit'
-                                                        | 'primary'
-                                                        | 'secondary'
-                                                        | 'success'
-                                                        | 'error'
-                                                        | 'info'
-                                                        | 'warning'
-                                                        | 'default'
+                                                        | "inherit"
+                                                        | "primary"
+                                                        | "secondary"
+                                                        | "success"
+                                                        | "error"
+                                                        | "info"
+                                                        | "warning"
+                                                        | "default"
                                                         | undefined
                                                 }
-                                                variant={
-                                                    action.variant || 'text'
-                                                }
+                                                variant={action.variant || "text"}
                                                 sx={action.sx}
                                                 type={action.type}
                                                 endIcon={action.icon}
@@ -236,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({
                         }}
                     </Formik>
                 ) : (
-                    <DialogActions style={{ marginTop: '15px' }}>
+                    <DialogActions style={{ marginTop: "15px" }}>
                         {actions!.map((action, index) => (
                             <Button
                                 key={index}
@@ -244,17 +172,17 @@ const Modal: React.FC<ModalProps> = ({
                                 //@ts-ignore
                                 color={
                                     action.color as
-                                        | 'inherit'
-                                        | 'primary'
-                                        | 'secondary'
-                                        | 'success'
-                                        | 'error'
-                                        | 'info'
-                                        | 'warning'
-                                        | 'default'
+                                        | "inherit"
+                                        | "primary"
+                                        | "secondary"
+                                        | "success"
+                                        | "error"
+                                        | "info"
+                                        | "warning"
+                                        | "default"
                                         | undefined
                                 }
-                                variant={action.variant || 'text'}
+                                variant={action.variant || "text"}
                                 sx={action.sx}
                                 type={action.type}
                                 endIcon={action.icon}

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Typography, Button, Container } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Box, Typography, Button, Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Error: React.FC = () => {
     const navigate = useNavigate();
@@ -21,11 +21,7 @@ const Error: React.FC = () => {
                 <Typography variant="h4" gutterBottom>
                     Page Not Found
                 </Typography>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => navigate('/dashboard')}
-                >
+                <Button variant="contained" color="secondary" onClick={() => navigate("/dashboard")}>
                     Go to Home
                 </Button>
             </Box>

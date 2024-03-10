@@ -1,9 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Error from './index';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen, fireEvent } from "@testing-library/react";
+import Error from "./index";
+import { MemoryRouter } from "react-router-dom";
 // import renderer from 'react-test-renderer';
 
-test('renders error page', () => {
+test("renders error page", () => {
     render(
         <MemoryRouter>
             <Error />

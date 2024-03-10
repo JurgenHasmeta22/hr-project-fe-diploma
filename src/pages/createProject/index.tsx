@@ -1,18 +1,18 @@
-import { Box, useMediaQuery } from '@mui/material';
-import Header from '~/components/dashboard/Header';
-import { useNavigate } from 'react-router';
-import projectsController from '~/services/projects';
-import { FormikProps } from 'formik';
-import * as yup from 'yup';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import { toast } from 'react-toastify';
-import FormAdvanced from '~/components/form';
-import { useState, useRef } from 'react';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
+import { Box, useMediaQuery } from "@mui/material";
+import Header from "~/components/dashboard/Header";
+import { useNavigate } from "react-router";
+import projectsController from "~/services/projects";
+import { FormikProps } from "formik";
+import * as yup from "yup";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { toast } from "react-toastify";
+import FormAdvanced from "~/components/form";
+import { useState, useRef } from "react";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 const projectSchema = yup.object().shape({
-    emriProjekt: yup.string().required('required'),
-    pershkrimProjekt: yup.string().required('required'),
+    emriProjekt: yup.string().required("required"),
+    pershkrimProjekt: yup.string().required("required"),
 });
 
 const CreateProject = () => {
@@ -37,10 +37,10 @@ const CreateProject = () => {
         const response = await projectsController.addProject(payload);
 
         if (response) {
-            toast.success('Ruajtja e ndryshimeve me sukses !');
-            navigate('/projects');
+            toast.success("Ruajtja e ndryshimeve me sukses !");
+            navigate("/projects");
         } else {
-            toast.error('Ruajtja nuk e realizua !');
+            toast.error("Ruajtja nuk e realizua !");
         }
     };
 
@@ -49,24 +49,24 @@ const CreateProject = () => {
             <Header title="Shto projekt" subtitle="Krijo nje projekt te ri" />
             <FormAdvanced
                 initialValues={{
-                    userId: '',
-                    emriProjekt: '',
-                    pershkrimProjekt: '',
+                    userId: "",
+                    emriProjekt: "",
+                    pershkrimProjekt: "",
                 }}
                 fields={[
                     {
-                        name: 'emriProjekt',
-                        label: 'Emri',
-                        variant: 'filled',
-                        type: 'text',
-                        sx: { gridColumn: 'span 2' },
+                        name: "emriProjekt",
+                        label: "Emri",
+                        variant: "filled",
+                        type: "text",
+                        sx: { gridColumn: "span 2" },
                     },
                     {
-                        name: 'pershkrimProjekt',
-                        label: 'Pershkrim',
-                        variant: 'filled',
-                        type: 'text',
-                        sx: { gridColumn: 'span 2' },
+                        name: "pershkrimProjekt",
+                        label: "Pershkrim",
+                        variant: "filled",
+                        type: "text",
+                        sx: { gridColumn: "span 2" },
                     },
                 ]}
                 onDataChange={(values: any) => {
@@ -77,35 +77,33 @@ const CreateProject = () => {
                 formRef={formikRef}
                 actions={[
                     {
-                        label: 'Ruaj ndryshimet',
-                        type: 'submit',
-                        color: 'secondary',
-                        variant: 'contained',
+                        label: "Ruaj ndryshimet",
+                        type: "submit",
+                        color: "secondary",
+                        variant: "contained",
                         sx: {
-                            border: '1px solid #000',
-                            bgcolor: '#30969f',
-                            fontSize: '15px',
-                            fontWeight: '700',
+                            border: "1px solid #000",
+                            bgcolor: "#30969f",
+                            fontSize: "15px",
+                            fontWeight: "700",
                         },
-                        icon: <SaveAsIcon sx={{ ml: '10px' }} color="action" />,
+                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
                     },
                     {
-                        label: 'Anullo',
-                        type: 'reset',
+                        label: "Anullo",
+                        type: "reset",
                         onClick: () => {
                             handleResetFromParent();
                         },
-                        color: 'secondary',
-                        variant: 'contained',
+                        color: "secondary",
+                        variant: "contained",
                         sx: {
-                            border: '1px solid #000',
-                            bgcolor: '#ff5252',
-                            fontSize: '15px',
-                            fontWeight: '700',
+                            border: "1px solid #000",
+                            bgcolor: "#ff5252",
+                            fontSize: "15px",
+                            fontWeight: "700",
                         },
-                        icon: (
-                            <ClearAllIcon color="action" sx={{ ml: '10px' }} />
-                        ),
+                        icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                     },
                 ]}
             />

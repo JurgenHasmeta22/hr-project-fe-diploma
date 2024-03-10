@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import RightPanel from '.';
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import RightPanel from ".";
 
 type DrawerContextType = {
     drawerProps: any;
@@ -7,18 +7,20 @@ type DrawerContextType = {
     closeDrawer: () => void;
 };
 
+type DrawerProviderProps = {
+    children: ReactNode;
+};
+
 const DrawerContext = createContext<DrawerContextType | undefined>(undefined);
 
 export const useDrawer = () => {
     const context = useContext(DrawerContext);
-    if (!context) {
-        throw new Error('useDrawer must be used within a DrawerProvider');
-    }
-    return context;
-};
 
-type DrawerProviderProps = {
-    children: ReactNode;
+    if (!context) {
+        throw new Error("useDrawer must be used within a DrawerProvider");
+    }
+
+    return context;
 };
 
 export const DrawerProvider: React.FC<DrawerProviderProps> = ({ children }) => {
@@ -33,13 +35,9 @@ export const DrawerProvider: React.FC<DrawerProviderProps> = ({ children }) => {
     };
 
     return (
-        <DrawerContext.Provider
-            value={{ drawerProps, openDrawer, closeDrawer }}
-        >
+        <DrawerContext.Provider value={{ drawerProps, openDrawer, closeDrawer }}>
             {children}
-            {drawerProps && (
-                <RightPanel {...drawerProps} onClose={closeDrawer} />
-            )}
+            {drawerProps && <RightPanel {...drawerProps} onClose={closeDrawer} />}
         </DrawerContext.Provider>
     );
 };

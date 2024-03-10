@@ -1,23 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
-import { FormikProps } from 'formik';
-import * as Yup from 'yup';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import listPlugin from '@fullcalendar/list';
-import { tokens } from '~/utils/theme';
-import Header from '~/components/dashboard/Header';
-import permissionsController from '~/services/permissions';
-import { useModal } from '~/components/modal/modalContext';
-import IPermission from '~/interfaces/IPermission';
-import { useStore } from '~/store/zustand/store';
-import ClearAllIcon from '@mui/icons-material/ClearAll';
-import SaveAsIcon from '@mui/icons-material/SaveAs';
-import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import { useEffect, useRef, useState } from "react";
+import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
+import { FormikProps } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
+import { tokens } from "~/utils/theme";
+import Header from "~/components/dashboard/Header";
+import permissionsController from "~/services/permissions";
+import { useModal } from "~/components/modal/modalContext";
+import IPermission from "~/interfaces/IPermission";
+import { useStore } from "~/store/zustand/store";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 const permissionReservation = () => {
     const theme = useTheme();
@@ -36,11 +36,9 @@ const permissionReservation = () => {
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
-
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -48,38 +46,32 @@ const permissionReservation = () => {
     function formatDate(date: any) {
         const d = new Date(date);
         const year = d.getFullYear();
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     }
 
     const handleSave = async () => {
-        const response = await permissionsController.askPermission(
-            formData,
-            user?.userId,
-        );
+        const response = await permissionsController.askPermission(formData, user?.userId);
 
-        if (response === '') {
-            toast.success('Rezervimi i lejes u krijua me sukses !');
-            navigate('/users');
+        if (response === "") {
+            toast.success("Rezervimi i lejes u krijua me sukses !");
+            navigate("/users");
         } else {
-            toast.error('Rezervimi i lejes nuk u realizua !');
+            toast.error("Rezervimi i lejes nuk u realizua !");
         }
 
         handleClose();
     };
 
     const handleUpdate = async (lejeId: any) => {
-        const response = await permissionsController.updatePermission(
-            lejeId,
-            formData,
-        );
+        const response = await permissionsController.updatePermission(lejeId, formData);
 
         if (response) {
-            toast.success('Rezervimi i lejes u ndryshua me sukses !');
-            navigate('/users');
+            toast.success("Rezervimi i lejes u ndryshua me sukses !");
+            navigate("/users");
         } else {
-            toast.error('Rezervimi i lejes nuk u azhornua !');
+            toast.error("Rezervimi i lejes nuk u azhornua !");
         }
 
         handleClose();
@@ -92,57 +84,57 @@ const permissionReservation = () => {
             initialValues: {
                 dataFillim: selected.startStr,
                 dataMbarim: selected.endStr,
-                tipiLeje: '',
+                tipiLeje: "",
             },
             fields: [
-                { name: 'dataFillim', label: 'Data e fillimit', type: 'date' },
-                { name: 'dataMbarim', label: 'Data e mbarimit', type: 'date' },
+                { name: "dataFillim", label: "Data e fillimit", type: "date" },
+                { name: "dataMbarim", label: "Data e mbarimit", type: "date" },
                 {
-                    name: 'tipiLeje',
-                    label: 'Pershkrimi i lejes',
-                    type: 'text',
+                    name: "tipiLeje",
+                    label: "Pershkrimi i lejes",
+                    type: "text",
                 },
             ],
             validationSchema: Yup.object({
-                dataFillim: Yup.string().required('Required'),
-                dataMbarim: Yup.string().required('Required'),
-                tipiLeje: Yup.string().required('Required'),
+                dataFillim: Yup.string().required("Required"),
+                dataMbarim: Yup.string().required("Required"),
+                tipiLeje: Yup.string().required("Required"),
             }),
             onSave: () => {
                 handleSave();
             },
-            title: 'Rezervo leje',
+            title: "Rezervo leje",
             actions: [
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => handleResetFromParent(),
-                    type: 'reset',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "reset",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Ruaj ndryshimet',
-                    type: 'submit',
-                    color: 'secondary',
-                    variant: 'contained',
+                    label: "Ruaj ndryshimet",
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
             ],
             onDataChange: (values: any) => handleDataChange(values),
-            subTitle: 'Plotesoni detajet e lejes',
+            subTitle: "Plotesoni detajet e lejes",
         });
 
         const calendarApi = selected.view.calendar;
@@ -159,120 +151,111 @@ const permissionReservation = () => {
                 tipiLeje: selected.event.title,
             },
             fields: [
-                { name: 'dataFillim', label: 'Data e fillimit', type: 'date' },
-                { name: 'dataMbarim', label: 'Data e mbarimit', type: 'date' },
+                { name: "dataFillim", label: "Data e fillimit", type: "date" },
+                { name: "dataMbarim", label: "Data e mbarimit", type: "date" },
                 {
-                    name: 'tipiLeje',
-                    label: 'Pershkrimi i lejes',
-                    type: 'text',
+                    name: "tipiLeje",
+                    label: "Pershkrimi i lejes",
+                    type: "text",
                 },
             ],
             validationSchema: Yup.object({
-                dataFillim: Yup.string().required('Required'),
-                dataMbarim: Yup.string().required('Required'),
-                tipiLeje: Yup.string().required('Required'),
+                dataFillim: Yup.string().required("Required"),
+                dataMbarim: Yup.string().required("Required"),
+                tipiLeje: Yup.string().required("Required"),
             }),
             onSave: (values: any) => {
                 handleSave();
             },
-            title: 'Detajet e lejes',
+            title: "Detajet e lejes",
             actions: [
                 {
-                    label: 'Elemino',
+                    label: "Elemino",
                     onClick: async () => {
                         openModal({
                             onClose: () => setOpen(false),
-                            title: 'Elemino',
+                            title: "Elemino",
                             actions: [
                                 {
-                                    label: 'Po',
+                                    label: "Po",
                                     onClick: async () => {
-                                        const response =
-                                            await permissionsController.deletePermission(
-                                                selected.event.id,
-                                            );
-                                        if (response === '') {
-                                            toast.success(
-                                                'Elemini u krye me sukses !',
-                                            );
-                                            navigate('/projects');
+                                        const response = await permissionsController.deletePermission(selected.event.id);
+                                        if (response === "") {
+                                            toast.success("Elemini u krye me sukses !");
+                                            navigate("/projects");
                                         } else {
-                                            toast.error(
-                                                'Eleminimi nuk u realizua !',
-                                            );
+                                            toast.error("Eleminimi nuk u realizua !");
                                         }
                                     },
-                                    color: 'secondary',
-                                    variant: 'contained',
+                                    color: "secondary",
+                                    variant: "contained",
                                     sx: {
-                                        border: '1px solid #000',
-                                        bgcolor: '#30969f',
-                                        fontSize: '15px',
-                                        fontWeight: '700',
+                                        border: "1px solid #000",
+                                        bgcolor: "#30969f",
+                                        fontSize: "15px",
+                                        fontWeight: "700",
                                     },
                                 },
                                 {
-                                    label: 'Jo',
+                                    label: "Jo",
                                     onClick: () => setOpen(false),
-                                    type: 'reset',
-                                    color: 'secondary',
-                                    variant: 'contained',
+                                    type: "reset",
+                                    color: "secondary",
+                                    variant: "contained",
                                     sx: {
-                                        border: '1px solid #000',
-                                        bgcolor: '#ff5252',
-                                        fontSize: '15px',
-                                        fontWeight: '700',
+                                        border: "1px solid #000",
+                                        bgcolor: "#ff5252",
+                                        fontSize: "15px",
+                                        fontWeight: "700",
                                     },
                                 },
                             ],
-                            subTitle: 'Deshironi ta fshini ?',
+                            subTitle: "Deshironi ta fshini ?",
                         });
                     },
-                    color: 'secondary',
-                    variant: 'contained',
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                    icon: (
-                        <ClearOutlinedIcon color="action" sx={{ ml: '10px' }} />
-                    ),
+                    icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
                 },
                 {
-                    label: 'Anullo',
+                    label: "Anullo",
                     onClick: () => handleResetFromParent(),
-                    type: 'reset',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "reset",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#ff5252',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: 'Ruaj ndryshimet',
+                    label: "Ruaj ndryshimet",
                     onClick: () => {
                         handleUpdate(selected.event.id);
                     },
-                    type: 'submit',
-                    color: 'secondary',
-                    variant: 'contained',
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
                     sx: {
-                        border: '1px solid #000',
-                        bgcolor: '#30969f',
-                        fontSize: '15px',
-                        fontWeight: '700',
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
                     icon: <SaveAsIcon />,
                 },
             ],
             onDataChange: (values: any) => handleDataChange(values),
-            subTitle: 'Ndryshoni detajet e lejes',
+            subTitle: "Ndryshoni detajet e lejes",
         });
 
         const calendarApi = selected.view.calendar;
@@ -280,11 +263,8 @@ const permissionReservation = () => {
     };
 
     async function getPermissions(): Promise<void> {
-        const response: IPermission[] =
-            await permissionsController.getAllPermissions();
-        const filteredPermissions = response.filter(
-            (permission) => permission.aprovuar === 1,
-        );
+        const response: IPermission[] = await permissionsController.getAllPermissions();
+        const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
         const convertedEvents = filteredPermissions.map((permission) => ({
             id: permission.lejeId?.toString(),
             title: permission.tipiLeje,
@@ -292,6 +272,7 @@ const permissionReservation = () => {
             end: permission.dataMbarim,
             allDay: true,
         }));
+
         setCalendarEvents(convertedEvents);
         setPermissions(response);
     }
@@ -305,36 +286,23 @@ const permissionReservation = () => {
         fetchData();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <CircularProgress />;
 
     return (
         <Box m="20px">
-            <Header
-                title="Rezervimi i lejeve"
-                subtitle="Marrja e lejeve per punonjesit"
-            />
+            <Header title="Rezervimi i lejeve" subtitle="Marrja e lejeve per punonjesit" />
             <Box display="flex" justifyContent="space-between">
-                <Box
-                    flex="1 1 15%"
-                    sx={{ backgroundColor: colors.primary[400] }}
-                    p="15px"
-                    borderRadius="4px"
-                >
+                <Box flex="1 1 15%" sx={{ backgroundColor: colors.primary[400] }} p="15px" borderRadius="4px">
                     <Typography variant="h5">Legjenda</Typography>
                 </Box>
                 <Box flex="1 1 100%" ml="15px">
                     <FullCalendar
                         height="75vh"
-                        plugins={[
-                            dayGridPlugin,
-                            timeGridPlugin,
-                            interactionPlugin,
-                            listPlugin,
-                        ]}
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
                         headerToolbar={{
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth',
+                            left: "prev,next today",
+                            center: "title",
+                            right: "dayGridMonth",
                         }}
                         initialView="dayGridMonth"
                         editable={true}
@@ -344,9 +312,7 @@ const permissionReservation = () => {
                         weekends={true}
                         select={handleDateClick}
                         eventClick={handleEventClick}
-                        eventsSet={(events: any) =>
-                            setCurrentPermissions(events)
-                        }
+                        eventsSet={(events: any) => setCurrentPermissions(events)}
                         events={calendarEvents}
                         allDaySlot={true}
                     />

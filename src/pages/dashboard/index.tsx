@@ -1,17 +1,17 @@
-import { Box, useTheme } from '@mui/material';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { tokens } from '~/utils/theme';
-import StatBox from '~/components/dashboard/StatBox';
-import Header from '~/components/dashboard/Header';
-import { useEffect, useState } from 'react';
-import IUser from '~/interfaces/IUser';
-import usersController from '~/services/users';
-import IProject from '~/interfaces/IProject';
-import projectsController from '~/services/projects';
-import IPermission from '~/interfaces/IPermission';
-import permissionsController from '~/services/permissions';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import { Box, useTheme } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { tokens } from "~/utils/theme";
+import StatBox from "~/components/dashboard/StatBox";
+import Header from "~/components/dashboard/Header";
+import { useEffect, useState } from "react";
+import IUser from "~/interfaces/IUser";
+import usersController from "~/services/users";
+import IProject from "~/interfaces/IProject";
+import projectsController from "~/services/projects";
+import IPermission from "~/interfaces/IPermission";
+import permissionsController from "~/services/permissions";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -31,11 +31,8 @@ const Dashboard = () => {
     }
 
     async function getPermissions(): Promise<void> {
-        const response: IPermission[] =
-            await permissionsController.getAllPermissions();
-        const filteredPermissions = response.filter(
-            (permission) => permission.aprovuar === 1,
-        );
+        const response: IPermission[] = await permissionsController.getAllPermissions();
+        const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
         setPermissions(filteredPermissions);
     }
 
@@ -47,22 +44,10 @@ const Dashboard = () => {
 
     return (
         <Box m="20px">
-            <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-            >
-                <Header
-                    title="Dashboard"
-                    subtitle="Miresevini ne dashboardin tuaj"
-                />
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Header title="Dashboard" subtitle="Miresevini ne dashboardin tuaj" />
             </Box>
-            <Box
-                display="grid"
-                gridTemplateColumns="repeat(9, 1fr)"
-                gridAutoRows="250px"
-                gap="30px"
-            >
+            <Box display="grid" gridTemplateColumns="repeat(9, 1fr)" gridAutoRows="250px" gap="30px">
                 <Box
                     sx={{ backgroundColor: colors.primary[400] }}
                     gridColumn="span 3"
@@ -79,7 +64,7 @@ const Dashboard = () => {
                             <AccountTreeIcon
                                 sx={{
                                     color: colors.greenAccent[600],
-                                    fontSize: '26px',
+                                    fontSize: "26px",
                                 }}
                             />
                         }
@@ -101,7 +86,7 @@ const Dashboard = () => {
                             <PersonAddIcon
                                 sx={{
                                     color: colors.greenAccent[600],
-                                    fontSize: '26px',
+                                    fontSize: "26px",
                                 }}
                             />
                         }
@@ -123,7 +108,7 @@ const Dashboard = () => {
                             <EventNoteIcon
                                 sx={{
                                     color: colors.greenAccent[600],
-                                    fontSize: '26px',
+                                    fontSize: "26px",
                                 }}
                             />
                         }

@@ -1,15 +1,7 @@
-import React, { useEffect } from 'react';
-import {
-    Box,
-    TextField,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Button,
-} from '@mui/material';
-import { Formik, FormikProps, Form, Field } from 'formik';
-import * as yup from 'yup';
+import React, { useEffect } from "react";
+import { Box, TextField, Select, MenuItem, FormControl, InputLabel, Button } from "@mui/material";
+import { Formik, FormikProps, Form, Field } from "formik";
+import * as yup from "yup";
 
 type FieldOption = {
     label: string;
@@ -19,20 +11,16 @@ type FieldOption = {
 type FieldConfig = {
     name: string;
     label: string;
-    type: 'text' | 'select' | 'multiselect' | 'date';
+    type: "text" | "select" | "multiselect" | "date";
     options?: FieldOption[];
     disabled?: boolean;
     span?: number;
     helperText?: React.ReactNode;
     error?: boolean | undefined;
-    variant?: 'filled' | undefined;
+    variant?: "filled" | undefined;
     sx?: any;
-    onBlur?:
-        | React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
-        | undefined;
-    onChange?:
-        | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
-        | undefined;
+    onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
+    onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
 };
 
 type FormProps = {
@@ -51,16 +39,8 @@ type ActionConfig = {
     label: string;
     onClick?: () => void;
     type?: string;
-    color?:
-        | 'inherit'
-        | 'primary'
-        | 'secondary'
-        | 'success'
-        | 'error'
-        | 'info'
-        | 'warning'
-        | 'default';
-    variant?: 'text' | 'outlined' | 'contained';
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
+    variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
 };
@@ -82,37 +62,19 @@ const FormAdvanced: React.FC<FormProps> = ({
             onSubmit={onSubmit}
             enableReinitialize
         >
-            {({
-                values,
-                errors,
-                touched,
-                handleBlur,
-                handleChange,
-                handleSubmit,
-            }) => {
+            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
                 useEffect(() => {
                     onDataChange(values);
                 }, [values]);
                 return (
                     <Form onSubmit={handleSubmit}>
-                        <Box
-                            display="grid"
-                            gap="20px"
-                            gridTemplateColumns="repeat(4, minmax(0, 0.25fr))"
-                        >
+                        <Box display="grid" gap="20px" gridTemplateColumns="repeat(4, minmax(0, 0.25fr))">
                             {fields.map((field: FieldConfig) => {
                                 switch (field.type) {
-                                    case 'select':
+                                    case "select":
                                         return (
-                                            <FormControl
-                                                fullWidth
-                                                size="medium"
-                                            >
-                                                <InputLabel
-                                                    id={`${field.name}-label`}
-                                                >
-                                                    {field.label}
-                                                </InputLabel>
+                                            <FormControl fullWidth size="medium">
+                                                <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                                                 <Field
                                                     name={field.name}
                                                     fullWidth
@@ -124,34 +86,18 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                     sx={field.sx}
                                                     variant={field.variant}
                                                 >
-                                                    {field.options?.map(
-                                                        (option) => (
-                                                            <MenuItem
-                                                                key={
-                                                                    option.value
-                                                                }
-                                                                value={
-                                                                    option.value
-                                                                }
-                                                            >
-                                                                {option.label}
-                                                            </MenuItem>
-                                                        ),
-                                                    )}
+                                                    {field.options?.map((option) => (
+                                                        <MenuItem key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </MenuItem>
+                                                    ))}
                                                 </Field>
                                             </FormControl>
                                         );
-                                    case 'multiselect':
+                                    case "multiselect":
                                         return (
-                                            <FormControl
-                                                fullWidth
-                                                size="medium"
-                                            >
-                                                <InputLabel
-                                                    id={`${field.name}-label`}
-                                                >
-                                                    {field.label}
-                                                </InputLabel>
+                                            <FormControl fullWidth size="medium">
+                                                <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                                                 <Field
                                                     name={field.name}
                                                     fullWidth
@@ -164,24 +110,15 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                     sx={field.sx}
                                                     variant={field.variant}
                                                 >
-                                                    {field.options?.map(
-                                                        (option) => (
-                                                            <MenuItem
-                                                                key={
-                                                                    option.value
-                                                                }
-                                                                value={
-                                                                    option.value
-                                                                }
-                                                            >
-                                                                {option.label}
-                                                            </MenuItem>
-                                                        ),
-                                                    )}
+                                                    {field.options?.map((option) => (
+                                                        <MenuItem key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </MenuItem>
+                                                    ))}
                                                 </Field>
                                             </FormControl>
                                         );
-                                    case 'date':
+                                    case "date":
                                         return (
                                             <Field
                                                 as={TextField}
@@ -194,20 +131,10 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 onChange={handleChange}
                                                 sx={field.sx}
                                                 value={values[field.name]}
-                                                type={field.type || 'text'}
-                                                helperText={
-                                                    touched[field.name] &&
-                                                    errors[field.name]
-                                                }
-                                                error={
-                                                    touched[field.name] &&
-                                                    !!errors[field.name]
-                                                }
-                                                InputLabelProps={
-                                                    field.type === 'date'
-                                                        ? { shrink: true }
-                                                        : undefined
-                                                }
+                                                type={field.type || "text"}
+                                                helperText={touched[field.name] && errors[field.name]}
+                                                error={touched[field.name] && !!errors[field.name]}
+                                                InputLabelProps={field.type === "date" ? { shrink: true } : undefined}
                                             />
                                         );
                                     default:
@@ -224,33 +151,22 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 disabled={field.disabled}
                                                 size="medium"
                                                 sx={field.sx}
-                                                type={field.type || 'text'}
-                                                helperText={
-                                                    touched[field.name] &&
-                                                    errors[field.name]
-                                                }
-                                                error={
-                                                    touched[field.name] &&
-                                                    !!errors[field.name]
-                                                }
+                                                type={field.type || "text"}
+                                                helperText={touched[field.name] && errors[field.name]}
+                                                error={touched[field.name] && !!errors[field.name]}
                                             />
                                         );
                                 }
                             })}
                         </Box>
-                        <Box
-                            display="flex"
-                            justifyContent="end"
-                            mt="30px"
-                            gap="30px"
-                        >
+                        <Box display="flex" justifyContent="end" mt="30px" gap="30px">
                             {actions!.map((action, index) => (
                                 <Button
                                     key={index}
                                     onClick={action.onClick}
                                     // @ts-ignore
-                                    color={action.color || 'default'}
-                                    variant={action.variant || 'text'}
+                                    color={action.color || "default"}
+                                    variant={action.variant || "text"}
                                     sx={action.sx}
                                     type={action.type}
                                     endIcon={action.icon}
