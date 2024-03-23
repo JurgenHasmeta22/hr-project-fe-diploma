@@ -1,26 +1,27 @@
-import { Box, Button, IconButton, ListItemIcon, MenuItem, Tooltip, Typography, useTheme } from "@mui/material";
-import { MaterialReactTable, useMaterialReactTable, type MRT_ColumnDef } from "material-react-table";
-import { tokens } from "~/utils/theme";
+import { Box, Button, ListItemIcon, MenuItem, useTheme } from "@mui/material";
+import {
+    MaterialReactTable,
+    useMaterialReactTable,
+    type MRT_ColumnDef,
+    MRT_GlobalFilterTextField,
+    MRT_ToggleFiltersButton,
+} from "material-react-table";
 import Header from "~/components/dashboard/Header";
 import { useState, useEffect, useMemo } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useStore } from "~/store/zustand/store";
-import { Edit, Delete, AccountCircle, Send } from "@mui/icons-material";
+import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
     const { userDetailsLoggedIn } = useStore();
+    const navigate = useNavigate();
 
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
@@ -86,75 +87,13 @@ const Users = () => {
                 header: "Balanca e lejeve",
                 size: 50,
             },
-            {
-                header: "Veprimet",
-                enableSorting: false,
-                enableColumnFilter: false,
-                size: 50,
-                Cell: ({ row }) => (
-                    <>
-                        {!isEmployee && (
-                            <Button
-                                onClick={() => {
-                                    navigate(`/editUser`, {
-                                        state: {
-                                            userId: row.original.userId,
-                                            from: "Perdoruesit",
-                                        },
-                                    });
-                                }}
-                            >
-                                <EditOutlinedIcon
-                                    sx={{
-                                        color: "green",
-                                    }}
-                                />
-                            </Button>
-                        )}
-                        <Button
-                            onClick={() => {
-                                navigate(`/profile`, {
-                                    state: {
-                                        userId: row.original.userId,
-                                        from: "Perdoruesit",
-                                    },
-                                });
-                            }}
-                        >
-                            <VisibilityIcon
-                                sx={{
-                                    color: "blue",
-                                }}
-                            />
-                        </Button>
-                        {!isEmployee && (
-                            <Button
-                                onClick={async () => {
-                                    const response = await usersController.updateUser(row.original, {
-                                        ...row.original,
-                                        userIsActive: false,
-                                    });
-                                    if (response) {
-                                        toast.success("Fshirja u krye me sukses !");
-                                        getUsers();
-                                    } else {
-                                        toast.error("Fshirja nuk u realizua !");
-                                    }
-                                }}
-                            >
-                                <ClearOutlinedIcon
-                                    sx={{
-                                        color: "red",
-                                    }}
-                                />
-                            </Button>
-                        )}
-                    </>
-                ),
-            },
         ],
         [],
     );
+
+    function handleAddUser() {
+        navigate("/addUser");
+    }
 
     async function getUsers(): Promise<void> {
         const response: IUser[] = await usersController.getAllUsers();
@@ -174,18 +113,28 @@ const Users = () => {
         enableRowActions: true,
         enablePinning: true,
         enableSortingRemoval: true,
+        enableColumnFilterModes: true,
+        initialState: {
+            showColumnFilters: false,
+            showGlobalFilter: false,
+            columnPinning: {
+                left: ["mrt-row-expand", "mrt-row-select"],
+                right: ["mrt-row-actions"],
+            },
+        },
         onRowSelectionChange: setRowSelection,
         state: { rowSelection },
         paginationDisplayMode: "pages",
         positionToolbarAlertBanner: "bottom",
         muiSearchTextFieldProps: {
-            size: "small",
+            size: "medium",
             variant: "outlined",
         },
         muiPaginationProps: {
             color: "secondary",
-            rowsPerPageOptions: [10, 20, 30],
+            rowsPerPageOptions: [5, 10, 15, 20, 25, 30],
             shape: "rounded",
+            size: "medium",
             variant: "outlined",
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [
@@ -202,6 +151,7 @@ const Users = () => {
                     closeMenu();
                 }}
                 sx={{ m: 0 }}
+                disabled={!isEmployee ? false : true}
             >
                 <ListItemIcon>
                     <AccountCircle />
@@ -221,55 +171,78 @@ const Users = () => {
                     closeMenu();
                 }}
                 sx={{ m: 0 }}
+                disabled={!isEmployee ? false : true}
             >
                 <ListItemIcon>
                     <Edit />
                 </ListItemIcon>
                 Edito
             </MenuItem>,
+            <MenuItem
+                key={1}
+                onClick={async () => {
+                    const response = await usersController.updateUser(row.original, {
+                        ...row.original,
+                        userIsActive: false,
+                    });
+
+                    if (response) {
+                        toast.success("Fshirja u krye me sukses !");
+                        getUsers();
+                    } else {
+                        toast.error("Fshirja nuk u realizua !");
+                    }
+
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+                disabled={!isEmployee ? false : true}
+            >
+                <ListItemIcon>
+                    <Delete />
+                </ListItemIcon>
+                Elemino
+            </MenuItem>,
         ],
+        renderTopToolbar: ({ table }) => {
+            return (
+                <Box
+                    sx={() => ({
+                        display: "flex",
+                        gap: "1rem",
+                        p: "10px",
+                        justifyContent: "space-between",
+                    })}
+                >
+                    <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                        <MRT_GlobalFilterTextField table={table} />
+                        <MRT_ToggleFiltersButton table={table} />
+                    </Box>
+                    <Box>
+                        <Box sx={{ display: "flex", gap: "1rem" }}>
+                            <Button color="success" disabled={isEmployee} onClick={handleAddUser} variant="contained">
+                                <Add />
+                                Shto
+                            </Button>
+                            <Button
+                                color="error"
+                                disabled={!table.getIsSomeRowsSelected() && isEmployee}
+                                // onClick={handleDeleteUser}
+                                variant="contained"
+                            >
+                                <Delete />
+                                Elemino
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
+            );
+        },
     });
 
     return (
         <Box m="20px">
             <Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
-            {!isEmployee && (
-                <Box display="flex" gap={"30px"}>
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        sx={{
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        }}
-                        onClick={() => {
-                            navigate("/addUser");
-                        }}
-                    >
-                        Shto
-                        <AddOutlinedIcon />
-                    </Button>
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        sx={{
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        }}
-                        onClick={() => {
-                            // handleDeleteRow();
-                        }}
-                    >
-                        Elemino
-                        <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />
-                    </Button>
-                </Box>
-            )}
-
             <MaterialReactTable table={table} />
         </Box>
     );
