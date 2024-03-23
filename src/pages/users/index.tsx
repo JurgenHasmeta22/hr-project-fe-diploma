@@ -1,4 +1,4 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, ListItemIcon, MenuItem, Tooltip, Typography, useTheme } from "@mui/material";
 import { MaterialReactTable, useMaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/dashboard/Header";
@@ -12,38 +12,45 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useStore } from "~/store/zustand/store";
+import { Edit, Delete, AccountCircle, Send } from "@mui/icons-material";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
-    const [selectedRows, setSelectedRows] = useState<any[]>([]);
+    const [rowSelection, setRowSelection] = useState<any>({});
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
     const { userDetailsLoggedIn } = useStore();
+
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
     const columns = useMemo<MRT_ColumnDef<IUser>[]>(
         () => [
-            { accessorKey: "userId", header: "Id", enableHiding: true },
+            { accessorKey: "userId", header: "Id", enableHiding: true, size: 50 },
             {
                 header: "Username",
                 accessorKey: "userName",
+                size: 80,
             },
             {
                 accessorKey: "userFirstname",
                 header: "Emri",
+                size: 80,
             },
             {
                 header: "Mbiemri",
                 accessorKey: "userLastname",
+                size: 80,
             },
             {
                 header: "Email",
                 accessorKey: "userEmail",
+                size: 100,
             },
             {
                 accessorKey: "userIsActive",
                 header: "Statusi",
+                size: 50,
                 Cell: ({ cell }) => {
                     if (cell.getValue() === true) {
                         return (
@@ -75,13 +82,15 @@ const Users = () => {
                 },
             },
             {
-                header: "balancaLeje",
-                accessorKey: "Balanca e lejeve",
+                accessorKey: "balancaLeje",
+                header: "Balanca e lejeve",
+                size: 50,
             },
             {
                 header: "Veprimet",
                 enableSorting: false,
                 enableColumnFilter: false,
+                size: 50,
                 Cell: ({ row }) => (
                     <>
                         {!isEmployee && (
@@ -152,35 +161,73 @@ const Users = () => {
         setUsers(response);
     }
 
-    const handleDeleteRow = async () => {
-        if (selectedRows.length !== 0) {
-            let response;
-
-            for (const element of selectedRows) {
-                response = await usersController.updateUser(element.userId, {
-                    ...element,
-                    userIsActive: false,
-                });
-            }
-
-            if (response) {
-                toast.success("Fshirja me sukses !");
-            } else {
-                toast.error("Fshirja nuk u realizua !");
-            }
-
-            getUsers();
-        }
-    };
-
     useEffect(() => {
         getUsers();
     }, []);
 
     const table = useMaterialReactTable({
-        // @ts-ignore
         columns,
-        users,
+        data: users,
+        enableColumnOrdering: true,
+        enableRowSelection: true,
+        enablePagination: true,
+        enableRowActions: true,
+        enablePinning: true,
+        enableSortingRemoval: true,
+        onRowSelectionChange: setRowSelection,
+        state: { rowSelection },
+        paginationDisplayMode: "pages",
+        positionToolbarAlertBanner: "bottom",
+        muiSearchTextFieldProps: {
+            size: "small",
+            variant: "outlined",
+        },
+        muiPaginationProps: {
+            color: "secondary",
+            rowsPerPageOptions: [10, 20, 30],
+            shape: "rounded",
+            variant: "outlined",
+        },
+        renderRowActionMenuItems: ({ closeMenu, row }) => [
+            <MenuItem
+                key={0}
+                onClick={() => {
+                    navigate(`/profile`, {
+                        state: {
+                            userId: row.original.userId,
+                            from: "Perdoruesit",
+                        },
+                    });
+
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <AccountCircle />
+                </ListItemIcon>
+                Shiko
+            </MenuItem>,
+            <MenuItem
+                key={1}
+                onClick={() => {
+                    navigate(`/editUser`, {
+                        state: {
+                            userId: row.original.userId,
+                            from: "Perdoruesit",
+                        },
+                    });
+
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+            >
+                <ListItemIcon>
+                    <Edit />
+                </ListItemIcon>
+                Edito
+            </MenuItem>,
+        ],
     });
 
     return (
@@ -214,7 +261,7 @@ const Users = () => {
                             fontWeight: "700",
                         }}
                         onClick={() => {
-                            handleDeleteRow();
+                            // handleDeleteRow();
                         }}
                     >
                         Elemino
@@ -222,48 +269,8 @@ const Users = () => {
                     </Button>
                 </Box>
             )}
-            <Box
-                m="40px 0 0 0"
-                height="75vh"
-                sx={{
-                    "& .MuiDataGrid-root": {
-                        border: "none",
-                    },
-                    "& .MuiDataGrid-cell": {
-                        borderBottom: "none",
-                    },
-                    "& .name-column--cell": {
-                        color: colors.greenAccent[300],
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.primary[400],
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[700],
-                    },
-                    "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
-                    },
-                }}
-            >
-                <MaterialReactTable table={table} />
-                {/* <DataGrid
-                    checkboxSelection={!isEmployee ? true : false}
-                    rows={users}
-                    getRowId={(row) => String(row.userId)}
-                    columns={columns}
-                    onRowSelectionModelChange={(ids) => {
-                        const clonedUsers = [...users];
-                        const selectedRowsData = ids.map((id) => clonedUsers.find((row) => row.userId === id));
-                        setSelectedRows(selectedRowsData);
-                    }}
-                /> */}
-            </Box>
+
+            <MaterialReactTable table={table} />
         </Box>
     );
 };
