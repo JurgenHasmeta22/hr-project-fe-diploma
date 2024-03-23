@@ -25,24 +25,24 @@ type FieldConfig = {
 
 type FormProps = {
     initialValues: any;
-    onDataChange: (values: any) => void;
-    onSubmit: (values: any) => void;
     validationSchema: yup.ObjectSchema<any>;
-    onFormChange?: (values: any, formikHelpers: any) => void;
     resetTrigger?: boolean;
     fields: FieldConfig[];
     formRef: React.RefObject<FormikProps<any>>;
     actions?: ActionConfig[];
+    onDataChange: (values: any) => void;
+    onSubmit: (values: any) => void;
+    onFormChange?: (values: any, formikHelpers: any) => void;
 };
 
 type ActionConfig = {
     label: string;
-    onClick?: () => void;
     type?: string;
     color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
+    onClick?: () => void;
 };
 
 const FormAdvanced: React.FC<FormProps> = ({
@@ -66,6 +66,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                 useEffect(() => {
                     onDataChange(values);
                 }, [values]);
+                
                 return (
                     <Form onSubmit={handleSubmit}>
                         <Box display="grid" gap="20px" gridTemplateColumns="repeat(4, minmax(0, 0.25fr))">
