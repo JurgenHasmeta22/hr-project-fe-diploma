@@ -1,9 +1,9 @@
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { MaterialReactTable, useMaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/dashboard/Header";
 import IProject from "~/interfaces/IProject";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import projectsController from "~/services/projects";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
@@ -271,7 +271,7 @@ const Projects = () => {
                     },
                 }}
             >
-                <DataGrid
+                {/* <DataGrid
                     checkboxSelection={!isEmployee ? true : false}
                     rows={projects}
                     columns={columns}
@@ -281,7 +281,7 @@ const Projects = () => {
                         const selectedRowsData = ids.map((id) => clonedProjectd.find((row) => row.projektId === id));
                         setSelectedRows(selectedRowsData);
                     }}
-                />
+                /> */}
             </Box>
         </Box>
     );
