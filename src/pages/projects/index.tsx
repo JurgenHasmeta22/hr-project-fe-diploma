@@ -233,7 +233,6 @@ const Projects = () => {
 
             return actionMenuItems;
         },
-
         renderTopToolbar: ({ table }) => {
             return (
                 <Box
@@ -271,7 +270,7 @@ const Projects = () => {
     });
 
     return (
-        <Box m="20px">
+        <Box display={"flex"} justifyContent={"center"}>
             <Header title="Projektet" subtitle="Lista e projekteve" />
             <MaterialReactTable table={table} />
         </Box>
