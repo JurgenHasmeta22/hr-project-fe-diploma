@@ -129,12 +129,12 @@ function App() {
                                         path="/users"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Box sx={{display: "grid", gridTemplateColumns: "250px 0.9fr", gap: '20px'}}>
+                                                <Box sx={{display: "grid", gridTemplateColumns: "250px auto", gap: '20px'}}>
                                                     <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                    <main className="content">
+                                                    <Box>
                                                         <Header />
                                                         <Users />
-                                                    </main>
+                                                    </Box>
                                                 </Box>
                                             </React.Suspense>
                                         }
