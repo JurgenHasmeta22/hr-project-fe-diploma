@@ -115,7 +115,7 @@ const Users = () => {
         initialState: {
             columnVisibility: { userId: false },
             showColumnFilters: false,
-            showGlobalFilter: false,
+            showGlobalFilter: true,
             columnPinning: {
                 left: ["mrt-row-expand", "mrt-row-select"],
                 right: ["mrt-row-actions"],
