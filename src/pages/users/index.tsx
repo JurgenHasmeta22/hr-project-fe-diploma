@@ -1,4 +1,4 @@
-import { Box, Button, ListItemIcon, MenuItem } from "@mui/material";
+import { Box, Button, Container, ListItemIcon, MenuItem, Typography } from "@mui/material";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -25,65 +25,37 @@ const Users = () => {
 
     const columns = useMemo<MRT_ColumnDef<IUser>[]>(
         () => [
-            { accessorKey: "userId", header: "Id", enableHiding: true, size: 30 },
+            { accessorKey: "userId", header: "Id", enableHiding: true },
             {
                 header: "Username",
                 accessorKey: "userName",
-                size: 100,
             },
             {
                 accessorKey: "userFirstname",
                 header: "Emri",
-                size: 100,
             },
             {
                 header: "Mbiemri",
                 accessorKey: "userLastname",
-                size: 100,
             },
             {
                 header: "Email",
                 accessorKey: "userEmail",
-                size: 150,
             },
             {
                 accessorKey: "userIsActive",
                 header: "Statusi",
-                size: 50,
                 Cell: ({ cell }) => {
                     if (cell.getValue() === true) {
-                        return (
-                            <div
-                                style={{
-                                    backgroundColor: "#28a745",
-                                    color: "#fff",
-                                    padding: "5px 10px",
-                                    borderRadius: "5px",
-                                }}
-                            >
-                                Aktiv
-                            </div>
-                        );
+                        return <Typography>Aktiv</Typography>;
                     } else if (cell.getValue() === false) {
-                        return (
-                            <div
-                                style={{
-                                    backgroundColor: "#ffcc00",
-                                    color: "#fff",
-                                    padding: "5px 10px",
-                                    borderRadius: "5px",
-                                }}
-                            >
-                                Jo aktiv
-                            </div>
-                        );
+                        return <Typography>Jo aktiv</Typography>;
                     }
                 },
             },
             {
                 accessorKey: "balancaLeje",
                 header: "Balanca e lejeve",
-                size: 30,
             },
         ],
         [],
@@ -121,6 +93,8 @@ const Users = () => {
                 right: ["mrt-row-actions"],
             },
         },
+        enableStickyHeader: true,
+        enableStickyFooter: true,
         onRowSelectionChange: setRowSelection,
         state: { rowSelection },
         paginationDisplayMode: "pages",
