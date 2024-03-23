@@ -26,16 +26,16 @@ type FieldConfig = {
 
 type ModalProps = {
     open: boolean;
-    onClose?: () => void;
     initialValues?: any;
     fields?: FieldConfig[];
     validationSchema?: any;
-    onSave?: (values: any) => void;
     title: string;
     actions?: ActionConfig[];
     formRef?: React.Ref<FormikProps<any>>;
-    onDataChange?: (values: any) => void;
     subTitle?: string;
+    onClose?: () => void;
+    onDataChange?: (values: any) => void;
+    onSave?: (values: any) => void;
 };
 
 type ActionConfig = {
