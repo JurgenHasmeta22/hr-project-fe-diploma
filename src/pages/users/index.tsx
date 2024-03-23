@@ -1,4 +1,4 @@
-import { Box, Button, ListItemIcon, MenuItem, useTheme } from "@mui/material";
+import { Box, Button, ListItemIcon, MenuItem } from "@mui/material";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -10,8 +10,6 @@ import Header from "~/components/dashboard/Header";
 import { useState, useEffect, useMemo } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/zustand/store";
@@ -27,26 +25,26 @@ const Users = () => {
 
     const columns = useMemo<MRT_ColumnDef<IUser>[]>(
         () => [
-            { accessorKey: "userId", header: "Id", enableHiding: true, size: 50 },
+            { accessorKey: "userId", header: "Id", enableHiding: true, size: 30 },
             {
                 header: "Username",
                 accessorKey: "userName",
-                size: 80,
+                size: 100,
             },
             {
                 accessorKey: "userFirstname",
                 header: "Emri",
-                size: 80,
+                size: 100,
             },
             {
                 header: "Mbiemri",
                 accessorKey: "userLastname",
-                size: 80,
+                size: 100,
             },
             {
                 header: "Email",
                 accessorKey: "userEmail",
-                size: 100,
+                size: 150,
             },
             {
                 accessorKey: "userIsActive",
@@ -85,7 +83,7 @@ const Users = () => {
             {
                 accessorKey: "balancaLeje",
                 header: "Balanca e lejeve",
-                size: 50,
+                size: 30,
             },
         ],
         [],
@@ -115,6 +113,7 @@ const Users = () => {
         enableSortingRemoval: true,
         enableColumnFilterModes: true,
         initialState: {
+            columnVisibility: { userId: false },
             showColumnFilters: false,
             showGlobalFilter: false,
             columnPinning: {
