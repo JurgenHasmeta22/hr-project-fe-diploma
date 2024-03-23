@@ -103,6 +103,12 @@ const Users = () => {
             size: "medium",
             variant: "outlined",
         },
+        muiTableContainerProps: {
+            // sx: { maxWidth: "800px", width: "800px" },
+        },
+        muiTablePaperProps: {
+            sx: { maxWidth: "950px", width: "950px" },
+        },
         muiPaginationProps: {
             color: "secondary",
             rowsPerPageOptions: [5, 10, 15, 20, 25, 30],
