@@ -1,8 +1,8 @@
+import { useState, useEffect, useMemo } from "react";
 import { Box, Button, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { MaterialReactTable, useMaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/dashboard/Header";
-import { useState, useEffect } from "react";
 import IPermission from "~/interfaces/IPermission";
 import permissionsController from "~/services/permissions";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -164,7 +164,7 @@ const Permissions = () => {
                     },
                 }}
             >
-                <DataGrid rows={permissions} columns={columns} getRowId={(row) => String(row.lejeId)} />
+                {/* <DataGrid rows={permissions} columns={columns} getRowId={(row) => String(row.lejeId)} /> */}
             </Box>
         </Box>
     );
