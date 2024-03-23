@@ -7,7 +7,7 @@ import { tokens, ColorModeContext } from "~/utils/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 
-const Topbar = () => {
+const Header = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
@@ -19,13 +19,16 @@ const Topbar = () => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const handleLogout = () => {
         unsetUser();
         navigate("/login");
     };
+    
     const handleRedirectToProfile = () => {
         navigate("/profile", {
             state: {
@@ -75,4 +78,4 @@ const Topbar = () => {
     );
 };
 
-export default Topbar;
+export default Header;

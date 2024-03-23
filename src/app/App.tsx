@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
-import Topbar from "~/components/global/Topbar";
+import Header from "~/components/header";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import { DrawerProvider } from "~/components/drawer/drawerContext";
 import { ModalProvider } from "~/components/modal/modalContext";
@@ -115,11 +115,13 @@ function App() {
                                         path="/dashboard"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
-                                                    <Topbar />
-                                                    <Dashboard />
-                                                </main>
+                                                <Box>
+                                                    <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
+                                                    <main className="content">
+                                                        <Header />
+                                                        <Dashboard />
+                                                    </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
@@ -127,11 +129,13 @@ function App() {
                                         path="/users"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
-                                                    <Topbar />
-                                                    <Users />
-                                                </main>
+                                                <Box sx={{display: "grid", gridTemplateColumns: "250px 0.9fr", gap: '20px'}}>
+                                                    <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
+                                                    <main className="content">
+                                                        <Header />
+                                                        <Users />
+                                                    </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
@@ -141,7 +145,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <Permissions />
                                                 </main>
                                             </React.Suspense>
@@ -153,7 +157,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <Projects />
                                                 </main>
                                             </React.Suspense>
@@ -165,7 +169,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <Project />
                                                 </main>
                                             </React.Suspense>
@@ -177,7 +181,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <User />
                                                 </main>
                                             </React.Suspense>
@@ -189,7 +193,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <CreateUser />
                                                 </main>
                                             </React.Suspense>
@@ -201,7 +205,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <CreateProject />
                                                 </main>
                                             </React.Suspense>
@@ -213,7 +217,7 @@ function App() {
                                             <React.Suspense fallback={<>...</>}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <PermissionReservation />
                                                 </main>
                                             </React.Suspense>
@@ -224,7 +228,7 @@ function App() {
                                         element={
                                             <React.Suspense fallback={<>...</>}>
                                                 <main className="content">
-                                                    <Topbar />
+                                                    <Header />
                                                     <Profile />
                                                 </main>
                                             </React.Suspense>
