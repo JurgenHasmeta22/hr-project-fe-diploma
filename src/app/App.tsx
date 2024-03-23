@@ -2,7 +2,6 @@ import * as React from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
-import Sidebar from "~/components/global/Sidebar";
 import Topbar from "~/components/global/Topbar";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import { DrawerProvider } from "~/components/drawer/drawerContext";
@@ -11,6 +10,11 @@ import { useStore } from "~/store/zustand/store";
 import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import RightPanel from "~/components/drawer";
 
 const Dashboard = React.lazy(() => import("~/pages/dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions"));
@@ -31,6 +35,34 @@ function App() {
     const { loadUserFromLocalStorage, user } = useStore();
     const { setUserDetailsLoggedIn } = useStore();
 
+    const sidebarItems = [
+        {
+            label: "Dashboard",
+            to: "/dashboard",
+            icon: <HomeOutlinedIcon />,
+        },
+        {
+            label: "Perdoruesit",
+            to: "/users",
+            icon: <PeopleOutlinedIcon />,
+        },
+        {
+            label: "Lista e lejeve",
+            to: "/permissions",
+            icon: <ReceiptOutlinedIcon />,
+        },
+        {
+            label: "Rezervimi i lejeve",
+            to: "/permissionReservation",
+            icon: <ReceiptOutlinedIcon />,
+        },
+        {
+            label: "Projektet",
+            to: "/projects",
+            icon: <PersonOutlinedIcon />,
+        },
+    ];
+
     useEffect(() => {
         loadUserFromLocalStorage();
     }, []);
@@ -40,6 +72,7 @@ function App() {
             if (user) {
                 try {
                     const response: IUser = await usersController.getUser(user.userId);
+
                     if (response) {
                         setUserDetailsLoggedIn(response);
                     }
@@ -48,6 +81,7 @@ function App() {
                 }
             }
         };
+
         fetchUser();
     }, [user]);
 
@@ -81,7 +115,7 @@ function App() {
                                         path="/dashboard"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <Dashboard />
@@ -93,7 +127,7 @@ function App() {
                                         path="/users"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <Users />
@@ -105,7 +139,7 @@ function App() {
                                         path="/permissions"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <Permissions />
@@ -117,7 +151,7 @@ function App() {
                                         path="/projects"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <Projects />
@@ -129,7 +163,7 @@ function App() {
                                         path="/editProject"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <Project />
@@ -141,7 +175,7 @@ function App() {
                                         path="/editUser"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <User />
@@ -153,7 +187,7 @@ function App() {
                                         path="/addUser"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <CreateUser />
@@ -165,7 +199,7 @@ function App() {
                                         path="/addProject"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <CreateProject />
@@ -177,7 +211,7 @@ function App() {
                                         path="/permissionReservation"
                                         element={
                                             <React.Suspense fallback={<>...</>}>
-                                                <Sidebar />
+                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                 <main className="content">
                                                     <Topbar />
                                                     <PermissionReservation />
