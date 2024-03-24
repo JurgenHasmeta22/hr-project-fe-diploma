@@ -38,12 +38,12 @@ const Sidebar = ({ sidebarItems }: any) => {
     const handleItemClick = (title: string, to: string) => {
         setSelected(title);
         navigate(to);
-        onClose();
+        // onClose();
     };
 
     const onClose = () => {
         setOpenSidebar(false);
-        handleCloseSubMenu();
+        // handleCloseSubMenu();
     };
 
     const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
@@ -76,13 +76,15 @@ const Sidebar = ({ sidebarItems }: any) => {
                     <List>
                         {sidebarItems?.map((item: any, index: number) => (
                             <React.Fragment key={item.name}>
-                                <ListItem
-                                    value={item.label}
-                                    onClick={() => handleItemClick(item.label, item.to)}
-                                    onContextMenu={handleOpenSubMenu}
-                                    // sx={{ "&.Mui-selected": { backgroundColor: "#fff" } }}
-                                >
-                                    <ListItemButton selected={true} onClick={(event) => handleListItemClick(event, index)}>
+                                <ListItem value={item.label} onContextMenu={handleOpenSubMenu}>
+                                    <ListItemButton
+                                        sx={{ "&.Mui-selected": { backgroundColor: "#c5bddb" } }}
+                                        selected={selectedIndex === index}
+                                        onClick={(event) => {
+                                            handleListItemClick(event, index);
+                                            handleItemClick(item.label, item.to);
+                                        }}
+                                    >
                                         <ListItemIcon>{item.icon}</ListItemIcon>
                                         <ListItemText primary={item.label} />
                                     </ListItemButton>
