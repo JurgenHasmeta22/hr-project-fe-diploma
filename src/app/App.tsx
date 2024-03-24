@@ -71,7 +71,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                             </Grid>
                             <Grid item xs={12} md={9}>
                                 <Header />
-                                <Box>
+                                <Box sx={{ margin: "0 auto" }}>
                                     <React.Suspense
                                         fallback={
                                             <Box
@@ -82,7 +82,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                                                     height: "100vh",
                                                 }}
                                             >
-                                                <CircularProgress />
+                                                <CircularProgress size={80} thickness={4} />
                                             </Box>
                                         }
                                     >
@@ -181,7 +181,24 @@ const ProfilePage = () => {
 };
 
 const ChangePasswordPage = () => {
-    return <ChangePassword />;
+    return (
+        <React.Suspense
+            fallback={
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                    }}
+                >
+                    <CircularProgress size={80} thickness={4} />
+                </Box>
+            }
+        >
+            <ChangePassword />
+        </React.Suspense>
+    );
 };
 
 const EditProjectPage = () => {
@@ -202,8 +219,7 @@ const EditUserPage = () => {
 
 function App() {
     const [theme, colorMode] = useMode();
-    const { loadUserFromLocalStorage, user } = useStore();
-    const { setUserDetailsLoggedIn } = useStore();
+    const { loadUserFromLocalStorage, user, setUserDetailsLoggedIn } = useStore();
 
     useEffect(() => {
         loadUserFromLocalStorage();
@@ -237,8 +253,10 @@ function App() {
                     <Route element={<PrivateRoutes />}>
                         <Route path="/dashboard" element={<DashboardPage />} />
                         <Route path="/users" element={<UsersPage />} />
+                        <Route path="/user" element={<UserPage />} />
                         <Route path="/permissions" element={<PermissionsPage />} />
                         <Route path="/projects" element={<ProjectsPage />} />
+                        <Route path="/project" element={<ProjectPage />} />
                         <Route path="/permissionReservation" element={<PermissionReservationPage />} />
                         <Route path="/editProject" element={<EditProjectPage />} />
                         <Route path="/editUser" element={<EditUserPage />} />
