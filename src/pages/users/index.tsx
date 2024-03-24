@@ -1,4 +1,4 @@
-import { Box, Button, Container, ListItemIcon, MenuItem, Typography } from "@mui/material";
+import { Box, Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -6,8 +6,6 @@ import {
     MRT_GlobalFilterTextField,
     MRT_ToggleFiltersButton,
     MRT_ShowHideColumnsButton,
-    MRT_ColumnActionMenu,
-    MRT_CopyButton,
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import Header from "~/components/dashboard/Header";

@@ -6,15 +6,14 @@ import {
     type MRT_ColumnDef,
     MRT_GlobalFilterTextField,
     MRT_ToggleFiltersButton,
+    MRT_ShowHideColumnsButton,
+    MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/dashboard/Header";
 import IPermission from "~/interfaces/IPermission";
 import permissionsController from "~/services/permissions";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import { AccountCircle, Edit, Delete, Add, Approval } from "@mui/icons-material";
-import usersController from "~/services/users";
+import { Delete, Add, Approval } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 
@@ -25,9 +24,7 @@ const Permissions = () => {
     const [rowSelection, setRowSelection] = useState<any>({});
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
-
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
-
     const columns: MRT_ColumnDef<IPermission>[] = useMemo(
         () => [
             { accessorKey: "lejeId", header: "Id", enableHiding: true, size: 30 },
@@ -179,6 +176,8 @@ const Permissions = () => {
                     <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
+                        <MRT_ShowHideColumnsButton table={table} />
+                        <MRT_ToggleDensePaddingButton  table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
