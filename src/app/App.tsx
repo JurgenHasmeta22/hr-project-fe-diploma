@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Box, CircularProgress, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
 import Header from "~/components/header";
@@ -10,11 +10,11 @@ import { useStore } from "~/store/zustand/store";
 import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
+import RightPanel from "~/components/drawer";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import RightPanel from "~/components/drawer";
 
 const Dashboard = React.lazy(() => import("~/pages/dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions"));
@@ -30,38 +30,180 @@ const CreateProject = React.lazy(() => import("~/pages/createProject"));
 const Profile = React.lazy(() => import("~/pages/profile"));
 const ChangePassword = React.lazy(() => import("~/pages/changePassword"));
 
+const sidebarItems = [
+    {
+        label: "Dashboard",
+        to: "/dashboard",
+        icon: <HomeOutlinedIcon />,
+    },
+    {
+        label: "Perdoruesit",
+        to: "/users",
+        icon: <PeopleOutlinedIcon />,
+    },
+    {
+        label: "Lista e lejeve",
+        to: "/permissions",
+        icon: <ReceiptOutlinedIcon />,
+    },
+    {
+        label: "Rezervimi i lejeve",
+        to: "/permissionReservation",
+        icon: <ReceiptOutlinedIcon />,
+    },
+    {
+        label: "Projektet",
+        to: "/projects",
+        icon: <PersonOutlinedIcon />,
+    },
+];
+
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <React.Fragment>
+            <CssBaseline />
+            <DrawerProvider>
+                <ModalProvider>
+                    <div className="app">
+                        <Grid container>
+                            <Grid item xs={12} md={3}>
+                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
+                            </Grid>
+                            <Grid item xs={12} md={9}>
+                                <Header />
+                                <Box>
+                                    <React.Suspense
+                                        fallback={
+                                            <Box
+                                                sx={{
+                                                    display: "flex",
+                                                    justifyContent: "center",
+                                                    alignItems: "center",
+                                                    height: "100vh",
+                                                }}
+                                            >
+                                                <CircularProgress />
+                                            </Box>
+                                        }
+                                    >
+                                        {children}
+                                    </React.Suspense>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </div>
+                </ModalProvider>
+            </DrawerProvider>
+        </React.Fragment>
+    );
+};
+
+const DashboardPage = () => {
+    return (
+        <MainLayout>
+            <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
+            <Dashboard />
+        </MainLayout>
+    );
+};
+
+const UsersPage = () => {
+    return (
+        <MainLayout>
+            <Users />
+        </MainLayout>
+    );
+};
+
+const PermissionsPage = () => {
+    return (
+        <MainLayout>
+            <Permissions />
+        </MainLayout>
+    );
+};
+
+const ProjectsPage = () => {
+    return (
+        <MainLayout>
+            <Projects />
+        </MainLayout>
+    );
+};
+
+const PermissionReservationPage = () => {
+    return (
+        <MainLayout>
+            <PermissionReservation />
+        </MainLayout>
+    );
+};
+
+const ProjectPage = () => {
+    return (
+        <MainLayout>
+            <Project />
+        </MainLayout>
+    );
+};
+
+const UserPage = () => {
+    return (
+        <MainLayout>
+            <User />
+        </MainLayout>
+    );
+};
+
+const CreateUserPage = () => {
+    return (
+        <MainLayout>
+            <CreateUser />
+        </MainLayout>
+    );
+};
+
+const CreateProjectPage = () => {
+    return (
+        <MainLayout>
+            <CreateProject />
+        </MainLayout>
+    );
+};
+
+const ProfilePage = () => {
+    return (
+        <MainLayout>
+            <Header />
+            <Profile />
+        </MainLayout>
+    );
+};
+
+const ChangePasswordPage = () => {
+    return <ChangePassword />;
+};
+
+const EditProjectPage = () => {
+    return (
+        <MainLayout>
+            <Project />
+        </MainLayout>
+    );
+};
+
+const EditUserPage = () => {
+    return (
+        <MainLayout>
+            <User />
+        </MainLayout>
+    );
+};
+
 function App() {
     const [theme, colorMode] = useMode();
     const { loadUserFromLocalStorage, user } = useStore();
     const { setUserDetailsLoggedIn } = useStore();
-
-    const sidebarItems = [
-        {
-            label: "Dashboard",
-            to: "/dashboard",
-            icon: <HomeOutlinedIcon />,
-        },
-        {
-            label: "Perdoruesit",
-            to: "/users",
-            icon: <PeopleOutlinedIcon />,
-        },
-        {
-            label: "Lista e lejeve",
-            to: "/permissions",
-            icon: <ReceiptOutlinedIcon />,
-        },
-        {
-            label: "Rezervimi i lejeve",
-            to: "/permissionReservation",
-            icon: <ReceiptOutlinedIcon />,
-        },
-        {
-            label: "Projektet",
-            to: "/projects",
-            icon: <PersonOutlinedIcon />,
-        },
-    ];
 
     useEffect(() => {
         loadUserFromLocalStorage();
@@ -88,165 +230,24 @@ function App() {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <DrawerProvider>
-                    <ModalProvider>
-                        <div className="app">
-                            <Routes>
-                                <Route index element={<Navigate replace to="/login" />} />
-                                <Route
-                                    path="*"
-                                    element={
-                                        <React.Suspense fallback={<CircularProgress />}>
-                                            <Error />
-                                        </React.Suspense>
-                                    }
-                                />
-                                <Route
-                                    path="/login"
-                                    element={
-                                        <React.Suspense fallback={<CircularProgress />}>
-                                            <Login />
-                                        </React.Suspense>
-                                    }
-                                />
-                                <Route element={<PrivateRoutes />}>
-                                    <Route
-                                        path="/dashboard"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <Box>
-                                                    <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                    <Box>
-                                                        <Header />
-                                                        <Dashboard />
-                                                    </Box>
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/users"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <Box sx={{ display: "grid", gridTemplateColumns: "250px auto", gap: "20px" }}>
-                                                    <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                    <Box>
-                                                        <Header />
-                                                        <Users />
-                                                    </Box>
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/permissions"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <Permissions />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/projects"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <Projects />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/editProject"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <Project />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/editUser"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <User />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/addUser"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <CreateUser />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/addProject"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <CreateProject />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/permissionReservation"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <Box>
-                                                    <Header />
-                                                    <PermissionReservation />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/profile"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <Box>
-                                                    <Header />
-                                                    <Profile />
-                                                </Box>
-                                            </React.Suspense>
-                                        }
-                                    />
-                                    <Route
-                                        path="/changePassword"
-                                        element={
-                                            <React.Suspense fallback={<CircularProgress />}>
-                                                <ChangePassword />
-                                            </React.Suspense>
-                                        }
-                                    />
-                                </Route>
-                            </Routes>
-                        </div>
-                    </ModalProvider>
-                </DrawerProvider>
+                <Routes>
+                    <Route index element={<Navigate replace to="/login" />} />
+                    <Route path="*" element={<Error />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route element={<PrivateRoutes />}>
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/users" element={<UsersPage />} />
+                        <Route path="/permissions" element={<PermissionsPage />} />
+                        <Route path="/projects" element={<ProjectsPage />} />
+                        <Route path="/permissionReservation" element={<PermissionReservationPage />} />
+                        <Route path="/editProject" element={<EditProjectPage />} />
+                        <Route path="/editUser" element={<EditUserPage />} />
+                        <Route path="/addUser" element={<CreateUserPage />} />
+                        <Route path="/addProject" element={<CreateProjectPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/changePassword" element={<ChangePasswordPage />} />
+                    </Route>
+                </Routes>
             </ThemeProvider>
         </ColorModeContext.Provider>
     );

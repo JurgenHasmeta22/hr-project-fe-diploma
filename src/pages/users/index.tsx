@@ -110,12 +110,12 @@ const Users = () => {
             size: "medium",
             variant: "outlined",
         },
-        muiTableContainerProps: {
-            // sx: { maxWidth: "800px", width: "800px" },
-        },
-        muiTablePaperProps: {
-            sx: { maxWidth: "950px", width: "950px" },
-        },
+        // muiTableContainerProps: {
+        //     // sx: { maxWidth: "800px", width: "800px" },
+        // },
+        // muiTablePaperProps: {
+        //     sx: { maxWidth: "950px", width: "950px" },
+        // },
         muiPaginationProps: {
             color: "secondary",
             rowsPerPageOptions: [5, 10, 15, 20, 25, 30],
@@ -204,7 +204,7 @@ const Users = () => {
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
                         <MRT_ShowHideColumnsButton table={table} />
-                        <MRT_ToggleDensePaddingButton  table={table} />
+                        <MRT_ToggleDensePaddingButton table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
