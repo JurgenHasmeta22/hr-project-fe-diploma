@@ -19,7 +19,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/store/zustand/store";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
-const NestedSidebarItem = ({ item, selectedIndex, handleItemClick }: any) => {
+const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
     const { openSubMenu, setOpenSubMenu } = useStore();
 
     const handleClick = () => {
@@ -39,7 +39,7 @@ const NestedSidebarItem = ({ item, selectedIndex, handleItemClick }: any) => {
                     {openSubMenu ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
             </ListItem>
-            <Collapse in={openSubMenu} timeout="auto" unmountOnExit>
+            <Collapse in={openSubMenu}>
                 <List component="div" disablePadding sx={{ paddingLeft: "20px" }}>
                     {item.submenu.map((subItem: any, index: number) => (
                         <ListItem key={index} value={subItem.label}>
@@ -62,9 +62,9 @@ const NestedSidebarItem = ({ item, selectedIndex, handleItemClick }: any) => {
                                         },
                                     },
                                 }}
-                                selected={selectedIndex === index}
+                                selected={selectedLabel === subItem.label}
                                 onClick={() => {
-                                    handleItemClick(subItem.label, subItem.to, index, { label: subItem.label, index });
+                                    handleItemClick(subItem.label, subItem.to, { label: subItem.label, index });
                                 }}
                             >
                                 <ListItemIcon>{subItem.icon}</ListItemIcon>
@@ -82,19 +82,10 @@ const Sidebar = ({ sidebarItems }: any) => {
     const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
-    let pathname = location.pathname;
-    const state = location.state;
+    const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
 
-    if (pathname.startsWith("/")) {
-        pathname = pathname.substring(1);
-    }
-
-    const [selected, setSelected] = useState(pathname);
-    const [selectedIndex, setSelectedIndex] = useState(location.state ? location.state.index : 0);
-
-    const handleItemClick = (title: string, to: string, index: number, state: any) => {
-        setSelected(title);
-        setSelectedIndex(index);
+    const handleItemClick = (title: string, to: string, state: any) => {
+        setSelectedLabel(title);
         navigate(to, { state });
     };
 
@@ -136,7 +127,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                                 <NestedSidebarItem
                                     key={item.label}
                                     item={item}
-                                    selectedIndex={selectedIndex}
+                                    selectedLabel={selectedLabel}
                                     handleItemClick={handleItemClick}
                                 />
                             ) : (
@@ -161,9 +152,9 @@ const Sidebar = ({ sidebarItems }: any) => {
                                                     },
                                                 },
                                             }}
-                                            selected={selectedIndex === index}
+                                            selected={selectedLabel === item.label}
                                             onClick={() => {
-                                                handleItemClick(item.label, item.to, index, { label: item.label, index });
+                                                handleItemClick(item.label, item.to, { label: item.label, index });
                                             }}
                                         >
                                             <ListItemIcon>{item.icon}</ListItemIcon>
