@@ -39,9 +39,9 @@ const Header = () => {
     };
 
     return (
-        <Box display="flex" justifyContent="space-between" p={1}>
+        <Box display="flex" justifyContent="space-between" p={2}>
             <Box display="flex" component="div"></Box>
-            <Box display="flex" gap={"30px"}>
+            <Box display="flex" gap={"20px"} mr={"20px"}>
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>

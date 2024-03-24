@@ -20,8 +20,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/store/zustand/store";
 
 const Sidebar = ({ sidebarItems }: any) => {
-    const [openSidebar, setOpenSidebar] = useState(true);
-    const { userDetailsLoggedIn } = useStore();
+    const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
     let pathname = location.pathname;
