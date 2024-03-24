@@ -16,38 +16,32 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/store/zustand/store";
 
 const Sidebar = ({ sidebarItems }: any) => {
-    const [selected, setSelected] = useState("");
-    const [selectedIndex, setSelectedIndex] = useState(0);
     const [openSidebar, setOpenSidebar] = useState(true);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
+    const location = useLocation();
+    let pathname = location.pathname;
+    const state = location.state;
 
-    const handleOpenSubMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+    if (pathname.startsWith("/")) {
+        pathname = pathname.substring(1);
+    }
 
-    const handleCloseSubMenu = () => {
-        setAnchorEl(null);
-    };
+    const [selected, setSelected] = useState(pathname);
+    const [selectedIndex, setSelectedIndex] = useState(location.state ? location.state.index : 0);
 
-    const handleItemClick = (title: string, to: string) => {
+    const handleItemClick = (title: string, to: string, index: number, state: any) => {
         setSelected(title);
-        navigate(to);
-        // onClose();
+        setSelectedIndex(index);
+        navigate(to, { state });
     };
 
     const onClose = () => {
         setOpenSidebar(false);
-        // handleCloseSubMenu();
-    };
-
-    const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
-        setSelectedIndex(index);
     };
 
     return (
@@ -75,38 +69,36 @@ const Sidebar = ({ sidebarItems }: any) => {
                     </Box>
                     <List>
                         {sidebarItems?.map((item: any, index: number) => (
-                            <React.Fragment key={item.name}>
-                                <ListItem value={item.label} onContextMenu={handleOpenSubMenu}>
+                            <React.Fragment key={index}>
+                                <ListItem value={item.label}>
                                     <ListItemButton
-                                        sx={{ "&.Mui-selected": { backgroundColor: "#c5bddb" } }}
+                                        sx={{
+                                            "&.Mui-selected": {
+                                                backgroundColor: "#c5bddb",
+                                                color: "#ffffff",
+                                                "&:hover": {
+                                                    backgroundColor: "#b5acd2",
+                                                },
+                                            },
+                                            "&:hover": {
+                                                backgroundColor: "#f0f0f0",
+                                                "& .MuiListItemIcon-root": {
+                                                    color: "#3f51b5",
+                                                },
+                                                "& .MuiListItemText-primary": {
+                                                    color: "#3f51b5",
+                                                },
+                                            },
+                                        }}
                                         selected={selectedIndex === index}
-                                        onClick={(event) => {
-                                            handleListItemClick(event, index);
-                                            handleItemClick(item.label, item.to);
+                                        onClick={() => {
+                                            handleItemClick(item.label, item.to, index, { label: item.label, index });
                                         }}
                                     >
                                         <ListItemIcon>{item.icon}</ListItemIcon>
                                         <ListItemText primary={item.label} />
                                     </ListItemButton>
                                 </ListItem>
-                                {/* {item.submenu && (
-                                    <Menu
-                                        anchorEl={anchorEl}
-                                        open={Boolean(anchorEl) && selected === item.label}
-                                        onClose={handleCloseSubMenu}
-                                        onClick={handleCloseSubMenu}
-                                        autoFocus={false}
-                                    >
-                                        {item.submenu.map((subItem: any) => (
-                                            <MenuItem
-                                                key={subItem.label}
-                                                onClick={() => handleItemClick(subItem.label, subItem.to)}
-                                            >
-                                                {subItem.label}
-                                            </MenuItem>
-                                        ))}
-                                    </Menu>
-                                )} */}
                             </React.Fragment>
                         ))}
                     </List>
@@ -123,7 +115,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                         }}
                         onClick={() => setOpenSidebar(true)}
                     >
-                        <ArrowForwardIcon />
+                        <ArrowForwardIcon fontSize="large" />
                     </IconButton>
                 </Box>
             )}
