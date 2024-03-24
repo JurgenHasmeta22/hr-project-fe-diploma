@@ -81,9 +81,11 @@ export default function Profile() {
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
     };
+
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
+    
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };

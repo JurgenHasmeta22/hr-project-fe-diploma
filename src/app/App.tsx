@@ -10,7 +10,7 @@ import { useStore } from "~/store/zustand/store";
 import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
-import RightPanel from "~/components/drawer";
+import Sidebar from "~/components/sidebar";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
@@ -67,7 +67,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="app">
                         <Grid container>
                             <Grid item xs={12} md={3}>
-                                <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
+                                <Sidebar sidebarItems={sidebarItems} />
                             </Grid>
                             <Grid item xs={12} md={9}>
                                 <TopBar />
@@ -101,7 +101,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 const DashboardPage = () => {
     return (
         <MainLayout>
-            <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
             <Dashboard />
         </MainLayout>
     );
