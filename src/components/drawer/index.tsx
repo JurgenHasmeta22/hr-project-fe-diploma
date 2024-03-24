@@ -104,13 +104,13 @@ const RightPanel: React.FC<DrawerProps> = ({
                 }}
             >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                    {title && <Typography variant="h6">{title}</Typography>}
+                    {title && <Typography variant="h3">{title}</Typography>}
                     <IconButton onClick={() => onClose && onClose()}>
                         <CloseIcon color="action" />
                     </IconButton>
                 </Box>
                 {subTitle && (
-                    <Typography variant="subtitle1" color="textSecondary" mb={3}>
+                    <Typography variant="subtitle1" color="textSecondary" mb={4}>
                         {subTitle}
                     </Typography>
                 )}
@@ -192,7 +192,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                                     ))}
                                 </Box>
                                 {steps && (
-                                    <Box mt={3} display="flex" justifyContent="space-between">
+                                    <Box mt={12} display="flex" justifyContent="space-between">
                                         <Button
                                             disabled={activeStep === 0}
                                             onClick={handleBack}

@@ -108,7 +108,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                     <IconButton
                         sx={{
                             position: "fixed",
-                            top: "50%",
+                            top: "10%",
                             left: 0,
                             transform: "translateY(-50%)",
                         }}
