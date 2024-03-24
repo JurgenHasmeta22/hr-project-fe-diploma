@@ -5,6 +5,10 @@ import {
     type MRT_ColumnDef,
     MRT_GlobalFilterTextField,
     MRT_ToggleFiltersButton,
+    MRT_ShowHideColumnsButton,
+    MRT_ColumnActionMenu,
+    MRT_CopyButton,
+    MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import Header from "~/components/dashboard/Header";
 import { useState, useEffect, useMemo } from "react";
@@ -84,17 +88,22 @@ const Users = () => {
         enablePinning: true,
         enableSortingRemoval: true,
         enableColumnFilterModes: true,
+        enableColumnActions: true,
+        enableColumnFilters: true,
+        enableClickToCopy: true,
+        enableStickyHeader: true,
+        enableStickyFooter: true,
         initialState: {
             columnVisibility: { userId: false },
-            showColumnFilters: false,
+            showColumnFilters: true,
             showGlobalFilter: true,
+            showLoadingOverlay: false,
+            showAlertBanner: false,
             columnPinning: {
                 left: ["mrt-row-expand", "mrt-row-select"],
                 right: ["mrt-row-actions"],
             },
         },
-        enableStickyHeader: true,
-        enableStickyFooter: true,
         onRowSelectionChange: setRowSelection,
         state: { rowSelection },
         paginationDisplayMode: "pages",
@@ -193,9 +202,11 @@ const Users = () => {
                         justifyContent: "space-between",
                     })}
                 >
-                    <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
+                        <MRT_ShowHideColumnsButton table={table} />
+                        <MRT_ToggleDensePaddingButton  table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
