@@ -64,6 +64,8 @@ const sidebarItems = [
 ];
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
+    const { openSidebar } = useStore();
+
     return (
         <React.Fragment>
             <CssBaseline />
@@ -71,10 +73,10 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 <ModalProvider>
                     <div className="app">
                         <Grid container>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={openSidebar ? 3 : 0}>
                                 <Sidebar sidebarItems={sidebarItems} />
                             </Grid>
-                            <Grid item xs={12} md={9}>
+                            <Grid item xs={12} md={openSidebar ? 9 : 12} ml={!openSidebar ? "30px" : 0}>
                                 <TopBar />
                                 <Box sx={{ margin: "0 auto" }}>
                                     <React.Suspense
