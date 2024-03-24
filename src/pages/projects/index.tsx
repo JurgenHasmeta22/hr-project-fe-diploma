@@ -249,7 +249,7 @@ const Projects = () => {
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
                         <MRT_ShowHideColumnsButton table={table} />
-                        <MRT_ToggleDensePaddingButton  table={table} />
+                        <MRT_ToggleDensePaddingButton table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
@@ -274,7 +274,7 @@ const Projects = () => {
     });
 
     return (
-        <Box display={"flex"} justifyContent={"center"}>
+        <Box m="20px">
             <Header title="Projektet" subtitle="Lista e projekteve" />
             <MaterialReactTable table={table} />
         </Box>
