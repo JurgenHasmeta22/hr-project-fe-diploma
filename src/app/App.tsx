@@ -174,7 +174,6 @@ const CreateProjectPage = () => {
 const ProfilePage = () => {
     return (
         <MainLayout>
-            <Header />
             <Profile />
         </MainLayout>
     );

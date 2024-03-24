@@ -43,13 +43,10 @@ export default function Login() {
     };
 
     return (
-        <Container component="div" maxWidth="sm">
+        <Container component="div" maxWidth="sm" sx={{ mt: 15 }}>
             <Box
                 sx={{
                     borderRadius: 2,
-                    px: 4,
-                    py: 6,
-                    marginTop: 8,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -57,12 +54,17 @@ export default function Login() {
                     boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
             >
-                <Typography component="h1" variant="h1">
-                    Logohu
+                <Typography variant="h3" component="h3" sx={{ mt: 4 }} gutterBottom color={"secondary"}>
+                    Login
                 </Typography>
                 <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={loginSchema}>
                     {({ values, errors, touched, handleBlur, handleChange, handleSubmit }: any) => (
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                        <Box
+                            component="form"
+                            onSubmit={handleSubmit}
+                            noValidate
+                            sx={{ mt: 1, display: "flex", flexDirection: "column", alignItems: "center" }}
+                        >
                             <TextField
                                 fullWidth
                                 margin="normal"
@@ -102,7 +104,26 @@ export default function Login() {
                                     },
                                 }}
                             />
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <Button
+                                fullWidth
+                                type="submit"
+                                variant="contained"
+                                color="secondary"
+                                size="large"
+                                sx={{
+                                    mt: 2,
+                                    mb: 8,
+                                    "&:hover": {
+                                        backgroundColor: "#3f51b5",
+                                    },
+                                    "&:active": {
+                                        backgroundColor: "#303f9f",
+                                    },
+                                    "& .MuiButton-label": {
+                                        justifyContent: "center",
+                                    },
+                                }}
+                            >
                                 Logohu
                             </Button>
                         </Box>
