@@ -76,7 +76,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                             <Grid item xs={12} md={openSidebar ? 3 : 0}>
                                 <Sidebar sidebarItems={sidebarItems} />
                             </Grid>
-                            <Grid item xs={12} md={openSidebar ? 9 : 12} ml={!openSidebar ? "30px" : 0}>
+                            <Grid item xs={12} md={openSidebar ? 9 : 12}>
                                 <TopBar />
                                 <Box sx={{ margin: "0 auto" }}>
                                     <React.Suspense

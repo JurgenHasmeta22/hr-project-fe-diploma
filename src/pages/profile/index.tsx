@@ -122,7 +122,7 @@ export default function Profile() {
                         },
                     ],
                     validationSchema: certificateSchema,
-                    title: "Edito certifikate",
+                    title: "Shto certifikate",
                     actions: [
                         {
                             label: "Anullo",
@@ -160,7 +160,7 @@ export default function Profile() {
                         },
                     ],
                     validationSchema: userCertificateSchema,
-                    title: "Edito certifikaten tende",
+                    title: "Shto certifikaten tende",
                     actions: [
                         {
                             label: "Anullo",
@@ -351,7 +351,7 @@ export default function Profile() {
                         },
                     ],
                     validationSchema: workSchema,
-                    title: "Edito pervojen e punes",
+                    title: "Shto pervojen e punes",
                     actions: [
                         {
                             label: "Anullo",
@@ -410,7 +410,7 @@ export default function Profile() {
                         },
                     ],
                     validationSchema: userWorkEsperienceSchema,
-                    title: "Edito pervojen e punes tende",
+                    title: "Shto pervojen e punes tende",
                     actions: [
                         {
                             label: "Anullo",
@@ -496,7 +496,7 @@ export default function Profile() {
                         },
                     ],
                     validationSchema: educationSchema,
-                    title: "Edito edukimin",
+                    title: "Shto edukimin",
                     actions: [
                         {
                             label: "Anullo",
@@ -548,7 +548,7 @@ export default function Profile() {
                         },
                     ],
                     validationSchema: userEducationSchema,
-                    title: "Edito edukimin tend",
+                    title: "Shto edukimin tend",
                     actions: [
                         {
                             label: "Anullo",
