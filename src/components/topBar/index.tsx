@@ -28,7 +28,7 @@ const Header = () => {
         unsetUser();
         navigate("/login");
     };
-    
+
     const handleRedirectToProfile = () => {
         navigate("/profile", {
             state: {
@@ -39,9 +39,9 @@ const Header = () => {
     };
 
     return (
-        <Box display="flex" justifyContent="space-between" p={2}>
-            <Box display="flex" sx={{ backgroundColor: colors.primary[400] }} borderRadius="3px" component="div"></Box>
-            <Box display="flex" gap={"10px"}>
+        <Box display="flex" justifyContent="space-between" p={1}>
+            <Box display="flex" component="div"></Box>
+            <Box display="flex" gap={"30px"}>
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
@@ -51,9 +51,9 @@ const Header = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
-                    sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
+                    sx={{ display: "flex", flexDirection: "row", gap: "15px" }}
                 >
-                    <PersonOutlinedIcon color="action" />
+                    <PersonOutlinedIcon color="action" fontSize="medium" />
                     {user?.username}
                 </IconButton>
                 <Menu

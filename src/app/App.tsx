@@ -35,26 +35,31 @@ const sidebarItems = [
         label: "Dashboard",
         to: "/dashboard",
         icon: <HomeOutlinedIcon />,
+        index: 0,
     },
     {
         label: "Perdoruesit",
         to: "/users",
         icon: <PeopleOutlinedIcon />,
+        index: 1,
     },
     {
         label: "Lista e lejeve",
         to: "/permissions",
         icon: <ReceiptOutlinedIcon />,
+        index: 2,
     },
     {
         label: "Rezervimi i lejeve",
         to: "/permissionReservation",
         icon: <ReceiptOutlinedIcon />,
+        index: 3,
     },
     {
         label: "Projektet",
         to: "/projects",
         icon: <PersonOutlinedIcon />,
+        index: 4,
     },
 ];
 
