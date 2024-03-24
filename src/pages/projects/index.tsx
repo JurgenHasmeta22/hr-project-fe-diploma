@@ -9,7 +9,7 @@ import {
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import IProject from "~/interfaces/IProject";
 import { useEffect, useState, useMemo } from "react";
 import projectsController from "~/services/projects";

@@ -8,7 +8,7 @@ import {
     MRT_ShowHideColumnsButton,
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useState, useEffect, useMemo } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";

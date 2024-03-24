@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
