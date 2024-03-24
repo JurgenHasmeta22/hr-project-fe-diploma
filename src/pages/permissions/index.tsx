@@ -10,7 +10,7 @@ import {
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import IPermission from "~/interfaces/IPermission";
 import permissionsController from "~/services/permissions";
 import { Delete, Add, Approval } from "@mui/icons-material";

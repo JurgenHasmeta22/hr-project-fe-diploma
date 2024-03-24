@@ -1,5 +1,5 @@
 import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/material";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 import IProject from "~/interfaces/IProject";

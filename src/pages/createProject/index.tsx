@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useNavigate } from "react-router";
 import projectsController from "~/services/projects";
 import { FormikProps } from "formik";

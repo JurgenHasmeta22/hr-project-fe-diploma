@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
     Button,
-    IconButton,
     Grid,
     TextField,
     Select,
@@ -21,11 +20,13 @@ import {
     ListItemText,
     ListItemButton,
     useTheme,
+    Avatar,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
 import { useNavigate } from "react-router";
 import { tokens } from "~/utils/theme";
+import { useStore } from "~/store/zustand/store";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 type FieldConfig = {
     name: string;
@@ -93,6 +94,7 @@ const RightPanel: React.FC<DrawerProps> = ({
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { userDetailsLoggedIn } = useStore();
 
     const handleItemClick = (title: string, to: string) => {
         setSelected(title);
@@ -129,12 +131,25 @@ const RightPanel: React.FC<DrawerProps> = ({
                     height: "100%",
                 }}
             >
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Box display="flex" alignItems="center" mb={3} ml={3}>
+                    <Avatar>
+                        <AccountCircleIcon />
+                    </Avatar>
+                    <Box ml={2}>
+                        <Typography variant="subtitle1">
+                            {userDetailsLoggedIn && `${userDetailsLoggedIn?.userFirstname} ${userDetailsLoggedIn?.userLastname}`}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            {userDetailsLoggedIn && `@${userDetailsLoggedIn?.userName}`}
+                        </Typography>
+                    </Box>
+                </Box>
+                {/* <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                     {title && <Typography variant="h6">{title}</Typography>}
                     <IconButton onClick={() => (!isSidebar ? onClose && onClose() : setOpenSidebar(false))}>
                         <CloseIcon color="action" />
                     </IconButton>
-                </Box>
+                </Box> */}
                 {subTitle && (
                     <Typography variant="subtitle1" color="textSecondary" mb={3}>
                         {subTitle}

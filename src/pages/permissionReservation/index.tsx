@@ -10,7 +10,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import permissionsController from "~/services/permissions";
 import { useModal } from "~/components/modal/modalContext";
 import IPermission from "~/interfaces/IPermission";

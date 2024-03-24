@@ -2,7 +2,7 @@ import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Box, CircularProgress, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
-import Header from "~/components/header";
+import TopBar from "~/components/topBar";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import { DrawerProvider } from "~/components/drawer/drawerContext";
 import { ModalProvider } from "~/components/modal/modalContext";
@@ -70,7 +70,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                             </Grid>
                             <Grid item xs={12} md={9}>
-                                <Header />
+                                <TopBar />
                                 <Box sx={{ margin: "0 auto" }}>
                                     <React.Suspense
                                         fallback={
