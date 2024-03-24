@@ -7,6 +7,9 @@ import {
     MRT_ToggleFiltersButton,
     MRT_ShowHideColumnsButton,
     MRT_ToggleDensePaddingButton,
+    MRT_ColumnFiltersState,
+    MRT_PaginationState,
+    MRT_SortingState,
 } from "material-react-table";
 import Header from "~/components/header";
 import { useState, useEffect, useMemo } from "react";
@@ -19,9 +22,22 @@ import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
-    const [rowSelection, setRowSelection] = useState<any>({});
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
+
+    const [rowSelection, setRowSelection] = useState<any>({});
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefetching, setIsRefetching] = useState(false);
+    const [rowCount, setRowCount] = useState(0);
+
+    const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
+    const [globalFilter, setGlobalFilter] = useState("");
+    const [sorting, setSorting] = useState<MRT_SortingState>([]);
+    const [pagination, setPagination] = useState<MRT_PaginationState>({
+        pageIndex: 0,
+        pageSize: 5,
+    });
 
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
@@ -68,17 +84,42 @@ const Users = () => {
     }
 
     async function getUsers(): Promise<void> {
-        const response: IUser[] = await usersController.getAllUsers();
-        setUsers(response);
+        if (!users.length) {
+            setIsLoading(true);
+        } else {
+            setIsRefetching(true);
+        }
+
+        const url = new URL("http://127.0.0.1:5173/users/");
+        url.searchParams.set("page", `${pagination.pageIndex * pagination.pageSize}`);
+        url.searchParams.set("pageSize", `${pagination.pageSize}`);
+        url.searchParams.set("filters", JSON.stringify(columnFilters ?? []));
+        url.searchParams.set("globalFilter", globalFilter ?? "");
+        url.searchParams.set("sorting", JSON.stringify(sorting ?? []));
+
+        try {
+            const response: IUser[] = await usersController.getAllUsers();
+            setUsers(response);
+            // setRowCount(response.totalRowCount);
+        } catch (error) {
+            setIsError(true);
+            console.error(error);
+            return;
+        }
+
+        setIsError(false);
+        setIsLoading(false);
+        setIsRefetching(false);
     }
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [columnFilters, globalFilter, pagination.pageIndex, pagination.pageSize, sorting]);
 
     const table = useMaterialReactTable({
         columns,
         data: users,
+        // getRowId: (row) => row.userId,
         enableColumnOrdering: true,
         enableRowSelection: true,
         enablePagination: true,
@@ -91,17 +132,36 @@ const Users = () => {
         enableClickToCopy: true,
         enableStickyHeader: true,
         enableStickyFooter: true,
+        manualFiltering: true,
+        manualPagination: true,
+        manualSorting: true,
+        muiToolbarAlertBannerProps: isError
+            ? {
+                  color: "error",
+                  children: "Error loading data",
+              }
+            : undefined,
         initialState: {
             columnVisibility: { userId: false },
             showColumnFilters: true,
             showGlobalFilter: true,
             showLoadingOverlay: false,
-            showAlertBanner: false,
             columnPinning: {
                 left: ["mrt-row-expand", "mrt-row-select"],
                 right: ["mrt-row-actions"],
             },
+            columnFilters,
+            globalFilter,
+            isLoading,
+            pagination,
+            showAlertBanner: isError,
+            showProgressBars: isRefetching,
+            sorting,
         },
+        onColumnFiltersChange: setColumnFilters,
+        onGlobalFilterChange: setGlobalFilter,
+        onPaginationChange: setPagination,
+        onSortingChange: setSorting,
         onRowSelectionChange: setRowSelection,
         state: { rowSelection },
         paginationDisplayMode: "pages",
