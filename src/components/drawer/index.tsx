@@ -88,6 +88,7 @@ const RightPanel: React.FC<DrawerProps> = ({
     sidebarItems,
 }) => {
     const [activeStep, setActiveStep] = useState(0);
+    const [openSidebar, setOpenSidebar] = useState(true);
     const [selected, setSelected] = useState(isSidebar ? "Dashboard" : null);
     const navigate = useNavigate();
     const theme = useTheme();
@@ -117,12 +118,12 @@ const RightPanel: React.FC<DrawerProps> = ({
         <Drawer
             variant={isSidebar ? "permanent" : "temporary"}
             anchor={isSidebar ? "left" : "right"}
-            open={true}
+            open={isSidebar ? openSidebar : true}
             onClose={onClose}
         >
             <Box
                 sx={{
-                    width: isSidebar ? 250 : 600,
+                    width: isSidebar ? 250 : 500,
                     p: 3,
                     backgroundColor: isSidebar ? `${colors.primary[400]} !important` : "",
                     height: "100%",
@@ -130,7 +131,7 @@ const RightPanel: React.FC<DrawerProps> = ({
             >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                     {title && <Typography variant="h6">{title}</Typography>}
-                    <IconButton onClick={onClose}>
+                    <IconButton onClick={() => (!isSidebar ? onClose && onClose() : setOpenSidebar(false))}>
                         <CloseIcon color="action" />
                     </IconButton>
                 </Box>
@@ -179,6 +180,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                             useEffect(() => {
                                 onDataChange && onDataChange(values);
                             }, [values]);
+
                             return (
                                 <Form>
                                     <Grid container spacing={3} mt={3}>
