@@ -10,14 +10,73 @@ import {
     Avatar,
     Drawer,
     IconButton,
-    Menu,
-    MenuItem,
+    Collapse,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/store/zustand/store";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+
+const NestedSidebarItem = ({ item, selectedIndex, handleItemClick }: any) => {
+    const { openSubMenu, setOpenSubMenu } = useStore();
+
+    const handleClick = () => {
+        setOpenSubMenu(!openSubMenu);
+    };
+
+    return (
+        <React.Fragment key={item.label}>
+            <ListItem>
+                <ListItemButton
+                    onClick={() => {
+                        handleClick();
+                    }}
+                >
+                    <ListItemIcon>{item.icon}</ListItemIcon>
+                    <ListItemText primary={item.label} />
+                    {openSubMenu ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+            </ListItem>
+            <Collapse in={openSubMenu} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding sx={{ paddingLeft: "20px" }}>
+                    {item.submenu.map((subItem: any, index: number) => (
+                        <ListItem key={index} value={subItem.label}>
+                            <ListItemButton
+                                sx={{
+                                    "&.Mui-selected": {
+                                        backgroundColor: "#c5bddb",
+                                        color: "#ffffff",
+                                        "&:hover": {
+                                            backgroundColor: "#b5acd2",
+                                        },
+                                    },
+                                    "&:hover": {
+                                        backgroundColor: "#f0f0f0",
+                                        "& .MuiListItemIcon-root": {
+                                            color: "#3f51b5",
+                                        },
+                                        "& .MuiListItemText-primary": {
+                                            color: "#3f51b5",
+                                        },
+                                    },
+                                }}
+                                selected={selectedIndex === index}
+                                onClick={() => {
+                                    handleItemClick(subItem.label, subItem.to, index, { label: subItem.label, index });
+                                }}
+                            >
+                                <ListItemIcon>{subItem.icon}</ListItemIcon>
+                                <ListItemText primary={subItem.label} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+            </Collapse>
+        </React.Fragment>
+    );
+};
 
 const Sidebar = ({ sidebarItems }: any) => {
     const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
@@ -46,7 +105,12 @@ const Sidebar = ({ sidebarItems }: any) => {
     return (
         <>
             <Drawer variant={"persistent"} anchor={"left"} open={openSidebar} onClose={onClose}>
-                <Box mt={3}>
+                <Box
+                    mt={3}
+                    sx={{
+                        width: 250,
+                    }}
+                >
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                         <IconButton onClick={onClose}>
                             <CloseIcon color="action" />
@@ -67,39 +131,48 @@ const Sidebar = ({ sidebarItems }: any) => {
                         </Box>
                     </Box>
                     <List>
-                        {sidebarItems?.map((item: any, index: number) => (
-                            <React.Fragment key={index}>
-                                <ListItem value={item.label}>
-                                    <ListItemButton
-                                        sx={{
-                                            "&.Mui-selected": {
-                                                backgroundColor: "#c5bddb",
-                                                color: "#ffffff",
+                        {sidebarItems?.map((item: any, index: number) =>
+                            item.submenu && item.submenu.length > 0 ? (
+                                <NestedSidebarItem
+                                    key={item.label}
+                                    item={item}
+                                    selectedIndex={selectedIndex}
+                                    handleItemClick={handleItemClick}
+                                />
+                            ) : (
+                                <React.Fragment key={index}>
+                                    <ListItem value={item.label}>
+                                        <ListItemButton
+                                            sx={{
+                                                "&.Mui-selected": {
+                                                    backgroundColor: "#c5bddb",
+                                                    color: "#ffffff",
+                                                    "&:hover": {
+                                                        backgroundColor: "#b5acd2",
+                                                    },
+                                                },
                                                 "&:hover": {
-                                                    backgroundColor: "#b5acd2",
+                                                    backgroundColor: "#f0f0f0",
+                                                    "& .MuiListItemIcon-root": {
+                                                        color: "#3f51b5",
+                                                    },
+                                                    "& .MuiListItemText-primary": {
+                                                        color: "#3f51b5",
+                                                    },
                                                 },
-                                            },
-                                            "&:hover": {
-                                                backgroundColor: "#f0f0f0",
-                                                "& .MuiListItemIcon-root": {
-                                                    color: "#3f51b5",
-                                                },
-                                                "& .MuiListItemText-primary": {
-                                                    color: "#3f51b5",
-                                                },
-                                            },
-                                        }}
-                                        selected={selectedIndex === index}
-                                        onClick={() => {
-                                            handleItemClick(item.label, item.to, index, { label: item.label, index });
-                                        }}
-                                    >
-                                        <ListItemIcon>{item.icon}</ListItemIcon>
-                                        <ListItemText primary={item.label} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </React.Fragment>
-                        ))}
+                                            }}
+                                            selected={selectedIndex === index}
+                                            onClick={() => {
+                                                handleItemClick(item.label, item.to, index, { label: item.label, index });
+                                            }}
+                                        >
+                                            <ListItemIcon>{item.icon}</ListItemIcon>
+                                            <ListItemText primary={item.label} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </React.Fragment>
+                            ),
+                        )}
                     </List>
                 </Box>
             </Drawer>
