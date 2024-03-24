@@ -44,22 +44,29 @@ const sidebarItems = [
         index: 1,
     },
     {
-        label: "Lista e lejeve",
-        to: "/permissions",
+        label: "Lejet",
         icon: <ReceiptOutlinedIcon />,
         index: 2,
-    },
-    {
-        label: "Rezervimi i lejeve",
-        to: "/permissionReservation",
-        icon: <ReceiptOutlinedIcon />,
-        index: 3,
+        submenu: [
+            {
+                label: "Lista e lejeve",
+                to: "/permissions",
+                icon: <ReceiptOutlinedIcon />,
+                index: 3,
+            },
+            {
+                label: "Rezervimi i lejeve",
+                to: "/permissionReservation",
+                icon: <ReceiptOutlinedIcon />,
+                index: 4,
+            },
+        ],
     },
     {
         label: "Projektet",
         to: "/projects",
         icon: <PersonOutlinedIcon />,
-        index: 4,
+        index: 5,
     },
 ];
 

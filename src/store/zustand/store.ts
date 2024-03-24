@@ -6,6 +6,10 @@ export const useStore = create<AppStoreState>(
         user: null,
         userDetailsLoggedIn: null,
         openSidebar: true,
+        openSubMenu: false,
+        setOpenSubMenu: (value) => {
+            set({ openSubMenu: value });
+        },
         setOpenSidebar: (value) => {
             set({ openSidebar: value });
         },
