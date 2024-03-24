@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { Box, CssBaseline, Grid, ThemeProvider } from "@mui/material";
+import { Box, CircularProgress, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
 import Header from "~/components/header";
 import PrivateRoutes from "~/utils/PrivateRoutes";
@@ -97,7 +97,7 @@ function App() {
                                 <Route
                                     path="*"
                                     element={
-                                        <React.Suspense fallback={<>...</>}>
+                                        <React.Suspense fallback={<CircularProgress />}>
                                             <Error />
                                         </React.Suspense>
                                     }
@@ -105,7 +105,7 @@ function App() {
                                 <Route
                                     path="/login"
                                     element={
-                                        <React.Suspense fallback={<>...</>}>
+                                        <React.Suspense fallback={<CircularProgress />}>
                                             <Login />
                                         </React.Suspense>
                                     }
@@ -114,13 +114,13 @@ function App() {
                                     <Route
                                         path="/dashboard"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <Box>
                                                     <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                    <main className="content">
+                                                    <Box>
                                                         <Header />
                                                         <Dashboard />
-                                                    </main>
+                                                    </Box>
                                                 </Box>
                                             </React.Suspense>
                                         }
@@ -128,8 +128,8 @@ function App() {
                                     <Route
                                         path="/users"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
-                                                <Box sx={{display: "grid", gridTemplateColumns: "250px auto", gap: '20px'}}>
+                                            <React.Suspense fallback={<CircularProgress />}>
+                                                <Box sx={{ display: "grid", gridTemplateColumns: "250px auto", gap: "20px" }}>
                                                     <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
                                                     <Box>
                                                         <Header />
@@ -142,102 +142,102 @@ function App() {
                                     <Route
                                         path="/permissions"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <Permissions />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/projects"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <Projects />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/editProject"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <Project />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/editUser"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <User />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/addUser"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <CreateUser />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/addProject"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <CreateProject />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/permissionReservation"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <RightPanel isSidebar={true} sidebarItems={sidebarItems} />
-                                                <main className="content">
+                                                <Box>
                                                     <Header />
                                                     <PermissionReservation />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/profile"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
-                                                <main className="content">
+                                            <React.Suspense fallback={<CircularProgress />}>
+                                                <Box>
                                                     <Header />
                                                     <Profile />
-                                                </main>
+                                                </Box>
                                             </React.Suspense>
                                         }
                                     />
                                     <Route
                                         path="/changePassword"
                                         element={
-                                            <React.Suspense fallback={<>...</>}>
+                                            <React.Suspense fallback={<CircularProgress />}>
                                                 <ChangePassword />
                                             </React.Suspense>
                                         }

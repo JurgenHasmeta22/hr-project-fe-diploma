@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import TabPanel from "~/components/tabPanel";
+import TabPanel from "~/components/tab";
 import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";

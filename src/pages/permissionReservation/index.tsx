@@ -36,9 +36,11 @@ const permissionReservation = () => {
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
+
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -48,6 +50,7 @@ const permissionReservation = () => {
         const year = d.getFullYear();
         const month = String(d.getMonth() + 1).padStart(2, "0");
         const day = String(d.getDate()).padStart(2, "0");
+        
         return `${year}-${month}-${day}`;
     }
 

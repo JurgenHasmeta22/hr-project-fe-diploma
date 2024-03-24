@@ -5,6 +5,8 @@ import {
     type MRT_ColumnDef,
     MRT_GlobalFilterTextField,
     MRT_ToggleFiltersButton,
+    MRT_ShowHideColumnsButton,
+    MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/dashboard/Header";
@@ -246,6 +248,8 @@ const Projects = () => {
                     <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
+                        <MRT_ShowHideColumnsButton table={table} />
+                        <MRT_ToggleDensePaddingButton  table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
