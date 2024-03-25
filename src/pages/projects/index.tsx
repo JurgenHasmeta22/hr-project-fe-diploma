@@ -13,8 +13,6 @@ import Header from "~/components/header";
 import IProject from "~/interfaces/IProject";
 import { useEffect, useState, useMemo } from "react";
 import projectsController from "~/services/projects";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
@@ -27,13 +25,17 @@ const Projects = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [currentTime, setCurrentTime] = useState("");
+
     const { user } = useStore();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
     const { userDetailsLoggedIn } = useStore();
-    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
     const { setUserDetailsLoggedIn } = useStore();
+
+    const theme = useTheme();
+    const navigate = useNavigate();
+
+    const colors = tokens(theme.palette.mode);
+
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
     const checkIsUserInProject = (projektId: any): boolean => {
         if (!userDetailsLoggedIn?.userProjekts) {

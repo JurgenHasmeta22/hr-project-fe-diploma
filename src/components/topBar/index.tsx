@@ -8,13 +8,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 
 const Header = () => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+    const { user, unsetUser } = useStore();
+
+    const colorMode = useContext(ColorModeContext);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
+
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const open = Boolean(anchorEl);
-    const { user, unsetUser } = useStore();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);

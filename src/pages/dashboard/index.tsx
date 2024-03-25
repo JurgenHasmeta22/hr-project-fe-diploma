@@ -61,26 +61,38 @@ const StatBox = ({ title, subtitle, icon, progress, increase }: any) => {
 };
 
 const Dashboard = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const [users, setUsers] = useState<IUser[]>([]);
     const [projects, setProjects] = useState<IProject[]>([]);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
 
+    const theme = useTheme();
+
+    const colors = tokens(theme.palette.mode);
+
     async function getUsers(): Promise<void> {
         const response: IUser[] = await usersController.getAllUsers();
-        setUsers(response);
+
+        if (response) {
+            setUsers(response);
+        }
     }
 
     async function getProjects(): Promise<void> {
         const response: IProject[] = await projectsController.getAllProjects();
-        setProjects(response);
+
+        if (response) {
+            setProjects(response);
+        }
     }
 
     async function getPermissions(): Promise<void> {
         const response: IPermission[] = await permissionsController.getAllPermissions();
-        const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
-        setPermissions(filteredPermissions);
+        
+        if (response) {
+            const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
+            setPermissions(filteredPermissions);
+        }
+        
     }
 
     useEffect(() => {

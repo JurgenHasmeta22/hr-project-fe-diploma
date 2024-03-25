@@ -80,8 +80,10 @@ const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
 
 const Sidebar = ({ sidebarItems }: any) => {
     const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
+    
     const navigate = useNavigate();
     const location = useLocation();
+    
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
 
     const handleItemClick = (title: string, to: string, state: any) => {

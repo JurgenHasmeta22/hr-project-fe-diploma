@@ -18,13 +18,17 @@ import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 
 const Permissions = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
+
+    const theme = useTheme();
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
+
+    const colors = tokens(theme.palette.mode);
+
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
+
     const columns: MRT_ColumnDef<IPermission>[] = useMemo(
         () => [
             { accessorKey: "lejeId", header: "Id", enableHiding: true, size: 30 },
@@ -81,18 +85,27 @@ const Permissions = () => {
 
     async function handleApprovePermission(permissionId: any): Promise<void> {
         const response: IPermission[] = await permissionsController.approvePermission(permissionId);
-        getPermissions();
+
+        if (response) {
+            getPermissions();
+        }
     }
 
     async function handleDisapprovePermission(permissionId: any): Promise<void> {
         const response: IPermission[] = await permissionsController.disapprovePermission(permissionId);
-        getPermissions();
+
+        if (response) {
+            getPermissions();
+        }
     }
 
     async function getPermissions(): Promise<void> {
         const response: IPermission[] = await permissionsController.getAllPermissions();
         const filteredPermissions = response.filter((permission) => permission.aprovuar === 2);
-        setPermissions(filteredPermissions);
+
+        if (response) {
+            setPermissions(filteredPermissions);
+        }
     }
 
     useEffect(() => {
@@ -177,7 +190,7 @@ const Permissions = () => {
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
                         <MRT_ShowHideColumnsButton table={table} />
-                        <MRT_ToggleDensePaddingButton  table={table} />
+                        <MRT_ToggleDensePaddingButton table={table} />
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
