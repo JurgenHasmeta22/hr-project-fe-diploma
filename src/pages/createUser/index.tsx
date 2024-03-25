@@ -20,8 +20,10 @@ const userSchema = yup.object().shape({
 });
 
 const CreateUser = () => {
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+
+    const navigate = useNavigate();
+    
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {

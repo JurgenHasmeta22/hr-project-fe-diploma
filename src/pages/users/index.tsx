@@ -22,15 +22,11 @@ import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
-    const { userDetailsLoggedIn } = useStore();
-    const navigate = useNavigate();
-
     const [rowSelection, setRowSelection] = useState<any>({});
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isRefetching, setIsRefetching] = useState(false);
     const [rowCount, setRowCount] = useState(0);
-
     const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState<MRT_SortingState>([]);
@@ -38,6 +34,9 @@ const Users = () => {
         pageIndex: 0,
         pageSize: 5,
     });
+    
+    const { userDetailsLoggedIn } = useStore();
+    const navigate = useNavigate();
 
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 

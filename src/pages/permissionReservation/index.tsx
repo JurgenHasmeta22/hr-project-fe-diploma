@@ -20,18 +20,20 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 const permissionReservation = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const [permissions, setPermissions] = useState<IPermission[]>([]);
-    const [currentPermissions, setCurrentPermissions] = useState([]);
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({});
-    const formikRef = useRef<FormikProps<any>>(null);
     const [calendarEvents, setCalendarEvents] = useState<any>([]);
+    const [loading, setLoading] = useState(true);
+    const [permissions, setPermissions] = useState<IPermission[]>([]);
+    const [currentPermissions, setCurrentPermissions] = useState([]);
+
+    const theme = useTheme();
+    const formikRef = useRef<FormikProps<any>>(null);
     const navigate = useNavigate();
     const { openModal } = useModal();
-    const [loading, setLoading] = useState(true);
     const { user } = useStore();
+
+    const colors = tokens(theme.palette.mode);
 
     const handleDataChange = (values: any) => {
         setFormData(values);

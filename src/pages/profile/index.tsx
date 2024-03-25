@@ -32,32 +32,40 @@ const userSchema = Yup.object().shape({
     userLastname: Yup.string().required("required"),
     userEmail: Yup.string().required("required"),
 });
+
 const certificateSchema = Yup.object().shape({
     certEmri: Yup.string().required("required"),
     certPershkrim: Yup.string().required("required"),
 });
+
 const skillSchema = Yup.object().shape({
     llojiAftesise: Yup.string().required("required"),
 });
+
 const workSchema = Yup.object().shape({
     ppemri: Yup.string().required("required"),
 });
+
 const educationSchema = Yup.object().shape({
     eduName: Yup.string().required("required"),
 });
+
 const userEducationSchema = Yup.object().shape({
     mesatarja: Yup.string().required("required"),
     dataFillim: Yup.string().required("required"),
     dataMbarim: Yup.string().required("required"),
     llojiMaster: Yup.string().required("required"),
 });
+
 const userCertificateSchema = Yup.object().shape({
     dataFituar: Yup.string().required("required"),
     dataSkadence: Yup.string().required("required"),
 });
+
 const userSkillSchema = Yup.object().shape({
     dataPerfitimit: Yup.string().required("required"),
 });
+
 const userWorkEsperienceSchema = Yup.object().shape({
     dataFillim: Yup.string().required("required"),
     dataMbarim: Yup.string().required("required"),
@@ -71,10 +79,13 @@ export default function Profile() {
     const [userProfile, setUserProfile] = useState<IUser | null>(null);
     const [formData, setFormData] = useState({});
     const [open, setOpen] = useState(false);
-    const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
+
     const navigate = useNavigate();
     const location = useLocation();
+
+    const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
     const formikRef = useRef<FormikProps<any>>(null);
+
     const { openDrawer } = useDrawer();
     const { openModal } = useModal();
 
@@ -1454,11 +1465,15 @@ export default function Profile() {
             async function fetchUserDetails() {
                 try {
                     const user = await usersController.getUser(location.state?.userId);
-                    setUserProfile(user);
+                    
+                    if (user) {
+                        setUserProfile(user);
+                    }
                 } catch (error) {
                     console.error("Failed to fetch user:", error);
                 }
             }
+
             fetchUserDetails();
         } else {
             setUserProfile(userDetailsLoggedIn);
@@ -1536,7 +1551,6 @@ export default function Profile() {
                     onChange={handleChange}
                     variant="fullWidth"
                     textColor="primary"
-                    // sx={{ borderRight: 3, borderColor: 'divider' }}
                     orientation="horizontal"
                 >
                     <Tab label="Certifikatat" style={{ backgroundColor: "#ff8888" }} />
