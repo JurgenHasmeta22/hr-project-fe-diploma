@@ -10,5 +10,4 @@ export default interface AppStoreState {
     setUserDetailsLoggedIn: (data: any) => void;
     setUser: (data: any) => void;
     unsetUser: () => void;
-    loadUserFromLocalStorage: () => void;
 }

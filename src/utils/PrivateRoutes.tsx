@@ -1,15 +1,14 @@
 import { Outlet, Navigate } from "react-router-dom";
+import useLocalStorage from "~/hooks/useLocalStorage";
+
+interface UserData {
+    token: string;
+}
 
 const PrivateRoutes = () => {
-    let currentUser;
+    const [userData] = useLocalStorage<UserData>("user");
 
-    try {
-        currentUser = JSON.parse(localStorage.getItem("user")!);
-    } catch (error) {
-        console.error("Error parsing user data from localStorage:", error);
-    }
-
-    return currentUser && currentUser.token ? <Outlet /> : <Navigate to="/login" />;
+    return userData && userData.token ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoutes;
