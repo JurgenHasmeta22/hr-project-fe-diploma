@@ -1,5 +1,5 @@
 import { Box, Breadcrumbs, Button, CircularProgress, Typography, useMediaQuery } from "@mui/material";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 import usersController from "~/services/users";
@@ -34,8 +34,11 @@ const User = () => {
     const [balancaLeje, setBalancaLeje] = useState<number>(0);
     const [userIsActive, setUserIsActive] = useState<number>(0);
     const [loading, setLoading] = useState(true);
+    const [formData, setFormData] = useState({});
+
     const navigate = useNavigate();
     const location = useLocation();
+
     const breadcrumbs = [
         <Link key="1" to={"/users"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
@@ -45,12 +48,12 @@ const User = () => {
         </Typography>,
     ];
 
-    const [formData, setFormData] = useState({});
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
+    
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };

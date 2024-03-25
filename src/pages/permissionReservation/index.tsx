@@ -10,7 +10,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import permissionsController from "~/services/permissions";
 import { useModal } from "~/components/modal/modalContext";
 import IPermission from "~/interfaces/IPermission";
@@ -20,25 +20,29 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 const permissionReservation = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const [permissions, setPermissions] = useState<IPermission[]>([]);
-    const [currentPermissions, setCurrentPermissions] = useState([]);
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({});
-    const formikRef = useRef<FormikProps<any>>(null);
     const [calendarEvents, setCalendarEvents] = useState<any>([]);
+    const [loading, setLoading] = useState(true);
+    const [permissions, setPermissions] = useState<IPermission[]>([]);
+    const [currentPermissions, setCurrentPermissions] = useState([]);
+
+    const theme = useTheme();
+    const formikRef = useRef<FormikProps<any>>(null);
     const navigate = useNavigate();
     const { openModal } = useModal();
-    const [loading, setLoading] = useState(true);
     const { user } = useStore();
+
+    const colors = tokens(theme.palette.mode);
 
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
+
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -48,6 +52,7 @@ const permissionReservation = () => {
         const year = d.getFullYear();
         const month = String(d.getMonth() + 1).padStart(2, "0");
         const day = String(d.getDate()).padStart(2, "0");
+        
         return `${year}-${month}-${day}`;
     }
 

@@ -1,266 +1,296 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "~/utils/theme";
-import Header from "~/components/dashboard/Header";
-import { useState, useEffect } from "react";
+import { Box, Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
+import {
+    MaterialReactTable,
+    useMaterialReactTable,
+    type MRT_ColumnDef,
+    MRT_GlobalFilterTextField,
+    MRT_ToggleFiltersButton,
+    MRT_ShowHideColumnsButton,
+    MRT_ToggleDensePaddingButton,
+    MRT_ColumnFiltersState,
+    MRT_PaginationState,
+    MRT_SortingState,
+} from "material-react-table";
+import Header from "~/components/header";
+import { useState, useEffect, useMemo } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useStore } from "~/store/zustand/store";
+import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
-    const [selectedRows, setSelectedRows] = useState<any[]>([]);
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
+    const [rowSelection, setRowSelection] = useState<any>({});
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isRefetching, setIsRefetching] = useState(false);
+    const [rowCount, setRowCount] = useState(0);
+    const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
+    const [globalFilter, setGlobalFilter] = useState("");
+    const [sorting, setSorting] = useState<MRT_SortingState>([]);
+    const [pagination, setPagination] = useState<MRT_PaginationState>({
+        pageIndex: 0,
+        pageSize: 5,
+    });
+    
     const { userDetailsLoggedIn } = useStore();
+    const navigate = useNavigate();
+
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
-    const columns: any = [
-        { field: "userId", headerName: "Id", hide: true },
-        {
-            field: "userName",
-            headerName: "userName",
-            flex: 1,
-        },
-        {
-            field: "userFirstname",
-            headerName: "Emri",
-            flex: 1,
-        },
-        {
-            field: "userLastname",
-            headerName: "Mbiemri",
-            flex: 1,
-        },
-        {
-            field: "userEmail",
-            headerName: "Email",
-            flex: 1,
-        },
-        {
-            field: "userIsActive",
-            headerName: "Statusi",
-            flex: 1,
-            renderCell: (params: any) => {
-                if (params.value === true) {
-                    return (
-                        <div
-                            style={{
-                                backgroundColor: "#28a745",
-                                color: "#fff",
-                                padding: "5px 10px",
-                                borderRadius: "5px",
-                            }}
-                        >
-                            Aktiv
-                        </div>
-                    );
-                } else if (params.value === false) {
-                    return (
-                        <div
-                            style={{
-                                backgroundColor: "#ffcc00",
-                                color: "#fff",
-                                padding: "5px 10px",
-                                borderRadius: "5px",
-                            }}
-                        >
-                            Jo aktiv
-                        </div>
-                    );
-                }
+    const columns = useMemo<MRT_ColumnDef<IUser>[]>(
+        () => [
+            { accessorKey: "userId", header: "Id", enableHiding: true },
+            {
+                header: "Username",
+                accessorKey: "userName",
             },
-        },
-        {
-            field: "balancaLeje",
-            headerName: "Balanca e lejeve",
-            flex: 1,
-        },
-        {
-            field: "",
-            headerName: "Veprimet",
-            sortable: false,
-            disableClickEventBubbling: true,
-            filterable: false,
-            description: "Mund te editosh, shikosh dhe te fshish rekordin specifik",
-            flex: !isEmployee ? 2 : 0.5,
-            renderCell: (params: any) => (
-                <>
-                    {!isEmployee && (
-                        <Button
-                            onClick={() => {
-                                navigate(`/editUser`, {
-                                    state: {
-                                        userId: params.row.userId,
-                                        from: "Perdoruesit",
-                                    },
-                                });
-                            }}
-                        >
-                            <EditOutlinedIcon
-                                sx={{
-                                    color: "green",
-                                }}
-                            />
-                        </Button>
-                    )}
-                    <Button
-                        onClick={() => {
-                            navigate(`/profile`, {
-                                state: {
-                                    userId: params.row.userId,
-                                    from: "Perdoruesit",
-                                },
-                            });
-                        }}
-                    >
-                        <VisibilityIcon
-                            sx={{
-                                color: "blue",
-                            }}
-                        />
-                    </Button>
-                    {!isEmployee && (
-                        <Button
-                            onClick={async () => {
-                                const response = await usersController.updateUser(params.row.userId, {
-                                    ...params.row,
-                                    userIsActive: false,
-                                });
-                                if (response) {
-                                    toast.success("Fshirja u krye me sukses !");
-                                    getUsers();
-                                } else {
-                                    toast.error("Fshirja nuk u realizua !");
-                                }
-                            }}
-                        >
-                            <ClearOutlinedIcon
-                                sx={{
-                                    color: "red",
-                                }}
-                            />
-                        </Button>
-                    )}
-                </>
-            ),
-        },
-    ];
+            {
+                accessorKey: "userFirstname",
+                header: "Emri",
+            },
+            {
+                header: "Mbiemri",
+                accessorKey: "userLastname",
+            },
+            {
+                header: "Email",
+                accessorKey: "userEmail",
+            },
+            {
+                accessorKey: "userIsActive",
+                header: "Statusi",
+                Cell: ({ cell }) => {
+                    if (cell.getValue() === true) {
+                        return <Typography>Aktiv</Typography>;
+                    } else if (cell.getValue() === false) {
+                        return <Typography>Jo aktiv</Typography>;
+                    }
+                },
+            },
+            {
+                accessorKey: "balancaLeje",
+                header: "Balanca e lejeve",
+            },
+        ],
+        [],
+    );
 
-    async function getUsers(): Promise<void> {
-        const response: IUser[] = await usersController.getAllUsers();
-        setUsers(response);
+    function handleAddUser() {
+        navigate("/addUser");
     }
 
-    const handleDeleteRow = async () => {
-        if (selectedRows.length !== 0) {
-            let response;
-            for (const element of selectedRows) {
-                response = await usersController.updateUser(element.userId, {
-                    ...element,
-                    userIsActive: false,
-                });
-            }
-            if (response) {
-                toast.success("Fshirja me sukses !");
-            } else {
-                toast.error("Fshirja nuk u realizua !");
-            }
-            getUsers();
+    async function getUsers(): Promise<void> {
+        if (!users.length) {
+            setIsLoading(true);
+        } else {
+            setIsRefetching(true);
         }
-    };
+
+        const url = new URL("http://127.0.0.1:5173/users/");
+        url.searchParams.set("page", `${pagination.pageIndex * pagination.pageSize}`);
+        url.searchParams.set("pageSize", `${pagination.pageSize}`);
+        url.searchParams.set("filters", JSON.stringify(columnFilters ?? []));
+        url.searchParams.set("globalFilter", globalFilter ?? "");
+        url.searchParams.set("sorting", JSON.stringify(sorting ?? []));
+
+        try {
+            const response: IUser[] = await usersController.getAllUsers();
+            setUsers(response);
+            // setRowCount(response.totalRowCount);
+        } catch (error) {
+            setIsError(true);
+            console.error(error);
+            return;
+        }
+
+        setIsError(false);
+        setIsLoading(false);
+        setIsRefetching(false);
+    }
 
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [columnFilters, globalFilter, pagination.pageIndex, pagination.pageSize, sorting]);
+
+    const table = useMaterialReactTable({
+        columns,
+        data: users,
+        // getRowId: (row) => row.userId,
+        enableColumnOrdering: true,
+        enableRowSelection: true,
+        enablePagination: true,
+        enableRowActions: true,
+        enablePinning: true,
+        enableSortingRemoval: true,
+        enableColumnFilterModes: true,
+        enableColumnActions: true,
+        enableColumnFilters: true,
+        enableClickToCopy: true,
+        enableStickyHeader: true,
+        enableStickyFooter: true,
+        manualFiltering: true,
+        manualPagination: true,
+        manualSorting: true,
+        muiToolbarAlertBannerProps: isError
+            ? {
+                  color: "error",
+                  children: "Error loading data",
+              }
+            : undefined,
+        initialState: {
+            columnVisibility: { userId: false },
+            showColumnFilters: true,
+            showGlobalFilter: true,
+            showLoadingOverlay: false,
+            columnPinning: {
+                left: ["mrt-row-expand", "mrt-row-select"],
+                right: ["mrt-row-actions"],
+            },
+            columnFilters,
+            globalFilter,
+            isLoading,
+            pagination,
+            showAlertBanner: isError,
+            showProgressBars: isRefetching,
+            sorting,
+        },
+        onColumnFiltersChange: setColumnFilters,
+        onGlobalFilterChange: setGlobalFilter,
+        onPaginationChange: setPagination,
+        onSortingChange: setSorting,
+        onRowSelectionChange: setRowSelection,
+        state: { rowSelection },
+        paginationDisplayMode: "pages",
+        positionToolbarAlertBanner: "bottom",
+        muiSearchTextFieldProps: {
+            size: "medium",
+            variant: "outlined",
+        },
+        // muiTableContainerProps: {
+        //     // sx: { maxWidth: "800px", width: "800px" },
+        // },
+        // muiTablePaperProps: {
+        //     sx: { maxWidth: "950px", width: "950px" },
+        // },
+        muiPaginationProps: {
+            color: "secondary",
+            rowsPerPageOptions: [5, 10, 15, 20, 25, 30],
+            shape: "rounded",
+            size: "medium",
+            variant: "outlined",
+        },
+        renderRowActionMenuItems: ({ closeMenu, row }) => [
+            <MenuItem
+                key={0}
+                onClick={() => {
+                    navigate(`/profile`, {
+                        state: {
+                            userId: row.original.userId,
+                            from: "Perdoruesit",
+                        },
+                    });
+
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+                disabled={!isEmployee ? false : true}
+            >
+                <ListItemIcon>
+                    <AccountCircle />
+                </ListItemIcon>
+                Shiko
+            </MenuItem>,
+            <MenuItem
+                key={1}
+                onClick={() => {
+                    navigate(`/editUser`, {
+                        state: {
+                            userId: row.original.userId,
+                            from: "Perdoruesit",
+                        },
+                    });
+
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+                disabled={!isEmployee ? false : true}
+            >
+                <ListItemIcon>
+                    <Edit />
+                </ListItemIcon>
+                Edito
+            </MenuItem>,
+            <MenuItem
+                key={1}
+                onClick={async () => {
+                    const response = await usersController.updateUser(row.original, {
+                        ...row.original,
+                        userIsActive: false,
+                    });
+
+                    if (response) {
+                        toast.success("Fshirja u krye me sukses !");
+                        getUsers();
+                    } else {
+                        toast.error("Fshirja nuk u realizua !");
+                    }
+
+                    closeMenu();
+                }}
+                sx={{ m: 0 }}
+                disabled={!isEmployee ? false : true}
+            >
+                <ListItemIcon>
+                    <Delete />
+                </ListItemIcon>
+                Elemino
+            </MenuItem>,
+        ],
+        renderTopToolbar: ({ table }) => {
+            return (
+                <Box
+                    sx={() => ({
+                        display: "flex",
+                        gap: "1rem",
+                        p: "10px",
+                        justifyContent: "space-between",
+                    })}
+                >
+                    <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                        <MRT_GlobalFilterTextField table={table} />
+                        <MRT_ToggleFiltersButton table={table} />
+                        <MRT_ShowHideColumnsButton table={table} />
+                        <MRT_ToggleDensePaddingButton table={table} />
+                    </Box>
+                    <Box>
+                        <Box sx={{ display: "flex", gap: "1rem" }}>
+                            <Button color="success" disabled={isEmployee} onClick={handleAddUser} variant="contained">
+                                <Add />
+                                Shto
+                            </Button>
+                            <Button
+                                color="error"
+                                disabled={!table.getIsSomeRowsSelected() && isEmployee}
+                                // onClick={handleDeleteUser}
+                                variant="contained"
+                            >
+                                <Delete />
+                                Elemino
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
+            );
+        },
+    });
 
     return (
         <Box m="20px">
             <Header title="Perdoruesit" subtitle="Lista e perdoruesve" />
-            {!isEmployee && (
-                <Box display="flex" gap={"30px"}>
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        sx={{
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        }}
-                        onClick={() => {
-                            navigate("/addUser");
-                        }}
-                    >
-                        Shto
-                        <AddOutlinedIcon />
-                    </Button>
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        sx={{
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        }}
-                        onClick={() => {
-                            handleDeleteRow();
-                        }}
-                    >
-                        Elemino
-                        <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />
-                    </Button>
-                </Box>
-            )}
-            <Box
-                m="40px 0 0 0"
-                height="75vh"
-                sx={{
-                    "& .MuiDataGrid-root": {
-                        border: "none",
-                    },
-                    "& .MuiDataGrid-cell": {
-                        borderBottom: "none",
-                    },
-                    "& .name-column--cell": {
-                        color: colors.greenAccent[300],
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: colors.blueAccent[700],
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: colors.primary[400],
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        borderTop: "none",
-                        backgroundColor: colors.blueAccent[700],
-                    },
-                    "& .MuiCheckbox-root": {
-                        color: `${colors.greenAccent[200]} !important`,
-                    },
-                }}
-            >
-                <DataGrid
-                    checkboxSelection={!isEmployee ? true : false}
-                    rows={users}
-                    getRowId={(row) => String(row.userId)}
-                    columns={columns}
-                    onRowSelectionModelChange={(ids) => {
-                        const clonedUsers = [...users];
-                        const selectedRowsData = ids.map((id) => clonedUsers.find((row) => row.userId === id));
-                        setSelectedRows(selectedRowsData);
-                    }}
-                />
-            </Box>
+            <MaterialReactTable table={table} />
         </Box>
     );
 };

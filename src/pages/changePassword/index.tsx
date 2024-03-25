@@ -1,11 +1,14 @@
-import React from "react";
-import { Button, TextField, Box, Typography, Container } from "@mui/material";
-import { Formik, Form, Field } from "formik";
+import React, { useRef, useState } from "react";
+import { Box, Typography, Container } from "@mui/material";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import authenticationController from "~/services/authentication";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/zustand/store";
+import FormAdvanced from "~/components/form";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
+import { FormikProps } from "formik";
 
 const validationSchema = yup.object({
     oldPassword: yup.string().required("Passwordi aktual eshte i kerkuar"),
@@ -17,13 +20,20 @@ const validationSchema = yup.object({
 });
 
 const ChangePassword: React.FC = () => {
+    const [formData, setFormData] = useState({});
+
     const navigate = useNavigate();
+
     const { user, setUser } = useStore();
 
-    const initialValues = {
-        oldPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
+    const formikRef = useRef<FormikProps<any>>(null);
+
+    const handleDataChange = (values: any) => {
+        setFormData(values);
+    };
+
+    const handleResetFromParent = () => {
+        formikRef.current?.resetForm();
     };
 
     const handleFormSubmit = async (values: any) => {
@@ -59,66 +69,73 @@ const ChangePassword: React.FC = () => {
                 <Typography variant="h5" gutterBottom align="center">
                     Ndrysho passwordin
                 </Typography>
-                <Formik initialValues={initialValues} onSubmit={handleFormSubmit} validationSchema={validationSchema}>
-                    {({ errors, touched, isValid }) => (
-                        <Form>
-                            <Box mb={2}>
-                                <Field
-                                    name="oldPassword"
-                                    as={TextField}
-                                    fullWidth
-                                    label="Passwordi aktual"
-                                    type="password"
-                                    error={touched.oldPassword && !!errors.oldPassword}
-                                    helperText={touched.oldPassword && errors.oldPassword}
-                                    sx={{
-                                        "& .MuiInputLabel-outlined": {
-                                            color: "#fff",
-                                        },
-                                        "& .MuiInputLabel-outlined.Mui-focused": { color: "#fff" },
-                                    }}
-                                />
-                            </Box>
-                            <Box mb={2}>
-                                <Field
-                                    name="newPassword"
-                                    as={TextField}
-                                    fullWidth
-                                    label="Passwordi i ri"
-                                    type="password"
-                                    error={touched.newPassword && !!errors.newPassword}
-                                    helperText={touched.newPassword && errors.newPassword}
-                                    sx={{
-                                        "& .MuiInputLabel-outlined": {
-                                            color: "#fff",
-                                        },
-                                        "& .MuiInputLabel-outlined.Mui-focused": { color: "#fff" },
-                                    }}
-                                />
-                            </Box>
-                            <Box mb={2}>
-                                <Field
-                                    name="confirmNewPassword"
-                                    as={TextField}
-                                    fullWidth
-                                    label="Konfirmo passwordin"
-                                    type="password"
-                                    error={touched.confirmNewPassword && !!errors.confirmNewPassword}
-                                    helperText={touched.confirmNewPassword && errors.confirmNewPassword}
-                                    sx={{
-                                        "& .MuiInputLabel-outlined": {
-                                            color: "#fff",
-                                        },
-                                        "& .MuiInputLabel-outlined.Mui-focused": { color: "#fff" },
-                                    }}
-                                />
-                            </Box>
-                            <Button variant="contained" color="primary" type="submit" disabled={!isValid} fullWidth>
-                                Ndrysho passwordin
-                            </Button>
-                        </Form>
-                    )}
-                </Formik>
+                <FormAdvanced
+                    initialValues={{
+                        oldPassword: "",
+                        newPassword: "",
+                        confirmNewPassword: "",
+                    }}
+                    fields={[
+                        {
+                            name: "oldPassword",
+                            label: "Passwordi aktual",
+                            variant: "filled",
+                            type: "password",
+                            sx: { gridColumn: "span 2" },
+                        },
+                        {
+                            name: "newPassword",
+                            label: "Passwordi i ri",
+                            variant: "filled",
+                            type: "password",
+                            sx: { gridColumn: "span 2" },
+                        },
+                        {
+                            name: "confirmNewPassword",
+                            label: "Konfirmo passwordin",
+                            variant: "filled",
+                            type: "password",
+                            sx: { gridColumn: "span 2" },
+                        },
+                    ]}
+                    onDataChange={(values: any) => {
+                        handleDataChange(values);
+                    }}
+                    formRef={formikRef}
+                    onSubmit={handleFormSubmit}
+                    validationSchema={validationSchema}
+                    actions={[
+                        {
+                            label: "Ndrysho passwordin",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
+                            sx: {
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
+                            },
+                            icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                        },
+                        {
+                            label: "Anullo",
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
+                            onClick: () => {
+                                handleResetFromParent();
+                            },
+                            sx: {
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
+                            },
+                            icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                        },
+                    ]}
+                />
             </Box>
         </Container>
     );

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
     Button,
-    IconButton,
     Grid,
     TextField,
     Select,
@@ -15,9 +14,12 @@ import {
     StepLabel,
     Stepper,
     StepButton,
+    useTheme,
+    IconButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
+import { tokens } from "~/utils/theme";
+import CloseIcon from "@mui/icons-material/Close";
 
 type FieldConfig = {
     name: string;
@@ -32,22 +34,22 @@ type FieldConfig = {
 };
 
 type DrawerProps = {
-    onClose: () => void;
-    initialValues: any;
-    fields: FieldConfig[];
-    validationSchema: any;
-    onSave: (values: any) => void;
-    title: string;
+    onClose?: () => void;
+    onSave?: (values: any) => void;
+    onDataChange?: (values: any) => void;
+    initialValues?: any;
+    fields?: FieldConfig[];
+    validationSchema?: any;
+    title?: string;
     actions?: ActionConfig[];
     formRef?: React.Ref<FormikProps<any>>;
-    onDataChange: (values: any) => void;
     subTitle?: string;
     steps?: StepConfig[];
 };
 
 type ActionConfig = {
-    label: string;
     onClick: () => void;
+    label: string;
     type?: string;
     color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
     variant?: "text" | "outlined" | "contained";
@@ -68,17 +70,19 @@ const RightPanel: React.FC<DrawerProps> = ({
     fields,
     validationSchema,
     onSave,
-    title,
     actions,
     formRef,
     onDataChange,
     subTitle,
     steps,
+    title,
 }) => {
     const [activeStep, setActiveStep] = useState(0);
+    
+    const theme = useTheme();
 
     const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);
-    
+
     const handleNext = () => {
         setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
     };
@@ -86,22 +90,28 @@ const RightPanel: React.FC<DrawerProps> = ({
     const handleBack = () => {
         setActiveStep((prevActiveStep: any) => prevActiveStep - 1);
     };
-    
+
     const handleStep = (step: any) => () => {
         setActiveStep(step);
     };
 
     return (
-        <Drawer anchor="right" open={true} onClose={onClose}>
-            <Box sx={{ width: 600, p: 3 }}>
+        <Drawer variant={"temporary"} anchor={"right"} open={true} onClose={onClose}>
+            <Box
+                sx={{
+                    width: 500,
+                    p: 3,
+                    height: "100%",
+                }}
+            >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                    {title && <Typography variant="h6">{title}</Typography>}
-                    <IconButton onClick={onClose}>
+                    {title && <Typography variant="h3">{title}</Typography>}
+                    <IconButton onClick={() => onClose && onClose()}>
                         <CloseIcon color="action" />
                     </IconButton>
                 </Box>
                 {subTitle && (
-                    <Typography variant="subtitle1" color="textSecondary" mb={3}>
+                    <Typography variant="subtitle1" color="textSecondary" mb={4}>
                         {subTitle}
                     </Typography>
                 )}
@@ -121,8 +131,8 @@ const RightPanel: React.FC<DrawerProps> = ({
                     validationSchema={steps ? steps[activeStep].validationSchema : validationSchema}
                     onSubmit={(values: any) => {
                         if (isLastStep()) {
-                            onSave(values);
-                            onClose();
+                            onSave && onSave(values);
+                            onClose && onClose();
                         } else {
                             handleNext();
                         }
@@ -131,12 +141,13 @@ const RightPanel: React.FC<DrawerProps> = ({
                 >
                     {({ errors, touched, values }: any) => {
                         useEffect(() => {
-                            onDataChange(values);
+                            onDataChange && onDataChange(values);
                         }, [values]);
+
                         return (
                             <Form>
                                 <Grid container spacing={3} mt={3}>
-                                    {(steps ? steps[activeStep].fields : fields).map((field) => (
+                                    {(steps! ? steps[activeStep].fields : fields!).map((field) => (
                                         <Grid item xs={6} key={field.name}>
                                             {field.type === "select" ? (
                                                 <FormControl fullWidth size="medium">
@@ -182,7 +193,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                                     ))}
                                 </Box>
                                 {steps && (
-                                    <Box mt={3} display="flex" justifyContent="space-between">
+                                    <Box mt={12} display="flex" justifyContent="space-between">
                                         <Button
                                             disabled={activeStep === 0}
                                             onClick={handleBack}

@@ -11,7 +11,7 @@ type FieldOption = {
 type FieldConfig = {
     name: string;
     label: string;
-    type: "text" | "select" | "multiselect" | "date";
+    type: "text" | "select" | "multiselect" | "date" | "password";
     options?: FieldOption[];
     disabled?: boolean;
     span?: number;
@@ -66,7 +66,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                 useEffect(() => {
                     onDataChange(values);
                 }, [values]);
-                
+
                 return (
                     <Form onSubmit={handleSubmit}>
                         <Box display="grid" gap="20px" gridTemplateColumns="repeat(4, minmax(0, 0.25fr))">
@@ -136,6 +136,25 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 helperText={touched[field.name] && errors[field.name]}
                                                 error={touched[field.name] && !!errors[field.name]}
                                                 InputLabelProps={field.type === "date" ? { shrink: true } : undefined}
+                                            />
+                                        );
+                                    case "password":
+                                        return (
+                                            <Field
+                                                as={TextField}
+                                                name={field.name}
+                                                label={field.label}
+                                                fullWidth
+                                                size="medium"
+                                                variant={field.variant}
+                                                onBlur={handleBlur}
+                                                onChange={handleChange}
+                                                sx={field.sx}
+                                                value={values[field.name]}
+                                                type={field.type || "text"}
+                                                helperText={touched[field.name] && errors[field.name]}
+                                                error={touched[field.name] && !!errors[field.name]}
+                                                InputLabelProps={field.type === "password" ? { shrink: true } : undefined}
                                             />
                                         );
                                     default:

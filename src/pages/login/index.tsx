@@ -3,18 +3,17 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Formik } from "formik";
+import { Formik, FormikProps } from "formik";
 import * as yup from "yup";
 import authenticationController from "~/services/authentication";
 import ILoginReq from "~/interfaces/ILoginReq";
 import { useNavigate } from "react-router";
 import { useStore } from "~/store/zustand/store";
 import { toast } from "react-toastify";
-
-const initialValues = {
-    userName: "",
-    password: "",
-};
+import { useState, useRef } from "react";
+import FormAdvanced from "~/components/form";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 const loginSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -22,8 +21,21 @@ const loginSchema = yup.object().shape({
 });
 
 export default function Login() {
-    const navigate = useNavigate();
+    const [formData, setFormData] = useState({});
+
     const { setUser } = useStore();
+
+    const navigate = useNavigate();
+
+    const formikRef = useRef<FormikProps<any>>(null);
+
+    const handleDataChange = (values: any) => {
+        setFormData(values);
+    };
+
+    const handleResetFromParent = () => {
+        formikRef.current?.resetForm();
+    };
 
     const handleFormSubmit = async (values: any) => {
         const payload: ILoginReq = {
@@ -43,13 +55,10 @@ export default function Login() {
     };
 
     return (
-        <Container component="div" maxWidth="sm">
+        <Container component="div" maxWidth="sm" sx={{ mt: 15 }}>
             <Box
                 sx={{
                     borderRadius: 2,
-                    px: 4,
-                    py: 6,
-                    marginTop: 8,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -57,57 +66,68 @@ export default function Login() {
                     boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
             >
-                <Typography component="h1" variant="h1">
-                    Logohu
+                <Typography variant="h3" component="h3" sx={{ mt: 4 }} gutterBottom color={"secondary"}>
+                    Login
                 </Typography>
-                <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={loginSchema}>
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }: any) => (
-                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                            <TextField
-                                fullWidth
-                                margin="normal"
-                                label="Username"
-                                name="userName"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.userName}
-                                error={!!touched.userName && !!errors.userName}
-                                helperText={touched.userName && errors.userName}
-                                sx={{
-                                    "& .MuiInputLabel-outlined": {
-                                        color: "#fff",
-                                    },
-                                    "& .MuiInputLabel-outlined.Mui-focused": {
-                                        color: "#fff",
-                                    },
-                                }}
-                            />
-                            <TextField
-                                fullWidth
-                                margin="normal"
-                                name="password"
-                                label="Password"
-                                type="password"
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                value={values.password}
-                                error={!!touched.password && !!errors.password}
-                                helperText={touched.password && errors.password}
-                                sx={{
-                                    "& .MuiInputLabel-outlined": {
-                                        color: "#fff",
-                                    },
-                                    "& .MuiInputLabel-outlined.Mui-focused": {
-                                        color: "#fff",
-                                    },
-                                }}
-                            />
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                Logohu
-                            </Button>
-                        </Box>
-                    )}
-                </Formik>
+                <FormAdvanced
+                    initialValues={{
+                        userName: "",
+                        password: "",
+                    }}
+                    fields={[
+                        {
+                            name: "userName",
+                            label: "Username",
+                            variant: "filled",
+                            type: "text",
+                            sx: { gridColumn: "span 2" },
+                        },
+                        {
+                            name: "password",
+                            label: "Passwordi",
+                            variant: "filled",
+                            type: "password",
+                            sx: { gridColumn: "span 2" },
+                        },
+                    ]}
+                    onDataChange={(values: any) => {
+                        handleDataChange(values);
+                    }}
+                    formRef={formikRef}
+                    onSubmit={handleFormSubmit}
+                    validationSchema={loginSchema}
+                    actions={[
+                        {
+                            label: "Logohu",
+                            type: "submit",
+                            color: "secondary",
+                            variant: "contained",
+                            sx: {
+                                border: "1px solid #000",
+                                bgcolor: "#30969f",
+                                fontSize: "15px",
+                                fontWeight: "700",
+                            },
+                            icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                        },
+                        {
+                            label: "Anullo",
+                            type: "reset",
+                            color: "secondary",
+                            variant: "contained",
+                            onClick: () => {
+                                handleResetFromParent();
+                            },
+                            sx: {
+                                border: "1px solid #000",
+                                bgcolor: "#ff5252",
+                                fontSize: "15px",
+                                fontWeight: "700",
+                            },
+                            icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                        },
+                    ]}
+                />
             </Box>
         </Container>
     );
