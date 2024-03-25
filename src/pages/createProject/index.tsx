@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useNavigate } from "react-router";
 import projectsController from "~/services/projects";
 import { FormikProps } from "formik";
@@ -16,8 +16,10 @@ const projectSchema = yup.object().shape({
 });
 
 const CreateProject = () => {
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({});
+
+    const navigate = useNavigate();
+    
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {

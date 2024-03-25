@@ -1,8 +1,7 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { tokens } from "~/utils/theme";
-import StatBox from "~/components/dashboard/StatBox";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useEffect, useState } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/users";
@@ -13,27 +12,87 @@ import permissionsController from "~/services/permissions";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
-const Dashboard = () => {
+const ProgressCircle = ({ progress = "0.75", size = "40" }: any) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const angle = progress * 360;
+
+    return (
+        <Box
+            sx={{
+                background: `radial-gradient(${colors.primary[400]} 55%, transparent 56%),
+            conic-gradient(transparent 0deg ${angle}deg, ${colors.blueAccent[500]} ${angle}deg 360deg),
+            ${colors.greenAccent[500]}`,
+                borderRadius: "50%",
+                width: `${size}px`,
+                height: `${size}px`,
+            }}
+        />
+    );
+};
+
+const StatBox = ({ title, subtitle, icon, progress, increase }: any) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+    return (
+        <Box width="100%" m="0 30px">
+            <Box display="flex" justifyContent="space-between">
+                <Box>
+                    {icon}
+                    <Typography variant="h4" fontWeight="bold" sx={{ color: colors.grey[100] }}>
+                        {title}
+                    </Typography>
+                </Box>
+                <Box>
+                    <ProgressCircle progress={progress} />
+                </Box>
+            </Box>
+            <Box display="flex" justifyContent="space-between" mt="2px">
+                <Typography variant="h5" sx={{ color: colors.greenAccent[500] }}>
+                    {subtitle}
+                </Typography>
+                <Typography variant="h5" fontStyle="italic" sx={{ color: colors.greenAccent[600] }}>
+                    {increase}
+                </Typography>
+            </Box>
+        </Box>
+    );
+};
+
+const Dashboard = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [projects, setProjects] = useState<IProject[]>([]);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
 
+    const theme = useTheme();
+
+    const colors = tokens(theme.palette.mode);
+
     async function getUsers(): Promise<void> {
         const response: IUser[] = await usersController.getAllUsers();
-        setUsers(response);
+
+        if (response) {
+            setUsers(response);
+        }
     }
 
     async function getProjects(): Promise<void> {
         const response: IProject[] = await projectsController.getAllProjects();
-        setProjects(response);
+
+        if (response) {
+            setProjects(response);
+        }
     }
 
     async function getPermissions(): Promise<void> {
         const response: IPermission[] = await permissionsController.getAllPermissions();
-        const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
-        setPermissions(filteredPermissions);
+        
+        if (response) {
+            const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
+            setPermissions(filteredPermissions);
+        }
+        
     }
 
     useEffect(() => {

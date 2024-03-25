@@ -7,25 +7,33 @@ import { tokens, ColorModeContext } from "~/utils/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 
-const Topbar = () => {
+const Header = () => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+    const { user, unsetUser } = useStore();
+
+    const colorMode = useContext(ColorModeContext);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const colorMode = useContext(ColorModeContext);
+
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const open = Boolean(anchorEl);
-    const { user, unsetUser } = useStore();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const handleLogout = () => {
         unsetUser();
         navigate("/login");
     };
+
     const handleRedirectToProfile = () => {
         navigate("/profile", {
             state: {
@@ -37,8 +45,8 @@ const Topbar = () => {
 
     return (
         <Box display="flex" justifyContent="space-between" p={2}>
-            <Box display="flex" sx={{ backgroundColor: colors.primary[400] }} borderRadius="3px" component="div"></Box>
-            <Box display="flex" gap={"10px"}>
+            <Box display="flex" component="div"></Box>
+            <Box display="flex" gap={"20px"} mr={"20px"}>
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
@@ -48,9 +56,9 @@ const Topbar = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
-                    sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
+                    sx={{ display: "flex", flexDirection: "row", gap: "15px" }}
                 >
-                    <PersonOutlinedIcon color="action" />
+                    <PersonOutlinedIcon color="action" fontSize="medium" />
                     {user?.username}
                 </IconButton>
                 <Menu
@@ -75,4 +83,4 @@ const Topbar = () => {
     );
 };
 
-export default Topbar;
+export default Header;

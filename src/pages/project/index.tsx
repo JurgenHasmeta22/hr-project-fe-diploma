@@ -1,5 +1,5 @@
 import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/material";
-import Header from "~/components/dashboard/Header";
+import Header from "~/components/header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
 import IProject from "~/interfaces/IProject";
@@ -29,9 +29,15 @@ const Project = () => {
     const [emriProjekt, setEmriProjekt] = useState<string>("");
     const [pershkrimProjekt, setPershkrimProjekt] = useState<string>("");
     const [loading, setLoading] = useState(true);
+    const [formData, setFormData] = useState({});
+
     const { user } = useStore();
+
     const navigate = useNavigate();
     const location = useLocation();
+
+    const formikRef = useRef<FormikProps<any>>(null);
+
     const breadcrumbs = [
         <Link key="1" to={"/projects"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
@@ -40,12 +46,11 @@ const Project = () => {
             Detajet e projektit
         </Typography>,
     ];
-    const [formData, setFormData] = useState({});
-    const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
+
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };
@@ -55,6 +60,7 @@ const Project = () => {
             emriProjekt: values.emriProjekt,
             pershkrimProjekt: values.pershkrimProjekt,
         };
+        
         const response = await projectsController.updateProject(project?.projektId, payload);
 
         if (response === "") {
