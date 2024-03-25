@@ -24,12 +24,5 @@ export const useStore = create<AppStoreState>(
         setUserDetailsLoggedIn: (userData) => {
             set({ userDetailsLoggedIn: userData });
         },
-        loadUserFromLocalStorage: () => {
-            const storedUser = localStorage.getItem("user");
-
-            if (storedUser) {
-                set({ user: JSON.parse(storedUser) });
-            }
-        },
     }),
 );

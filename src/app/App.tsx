@@ -15,6 +15,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import useLocalStorage from "~/hooks/useLocalStorage";
 
 const Dashboard = React.lazy(() => import("~/pages/dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions"));
@@ -229,12 +230,21 @@ const EditUserPage = () => {
     );
 };
 
+interface UserData {
+    token: string;
+}
+
 function App() {
     const [theme, colorMode] = useMode();
-    const { loadUserFromLocalStorage, user, setUserDetailsLoggedIn } = useStore();
+
+    const { user, setUserDetailsLoggedIn, setUser } = useStore();
+
+    const [userData] = useLocalStorage<UserData>("user");
 
     useEffect(() => {
-        loadUserFromLocalStorage();
+        if (userData) {
+            setUser(userData);
+        }
     }, []);
 
     useEffect(() => {
