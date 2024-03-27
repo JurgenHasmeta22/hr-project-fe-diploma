@@ -29,10 +29,8 @@ const Projects = () => {
     const { userDetailsLoggedIn } = useStore();
     const { setUserDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
     const checkIsUserInProject = (projektId: any): boolean => {
@@ -100,6 +98,7 @@ const Projects = () => {
         getProjects();
     }, []);
 
+    // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
         data: projects,
@@ -272,6 +271,7 @@ const Projects = () => {
             );
         },
     });
+    // #endregion
 
     return (
         <Box m="20px">

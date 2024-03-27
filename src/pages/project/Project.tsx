@@ -34,7 +34,6 @@ const Project = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const formikRef = useRef<FormikProps<any>>(null);
-
     const breadcrumbs = [
         <Link key="1" to={"/projects"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
