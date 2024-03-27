@@ -22,8 +22,8 @@ const CreateUser = React.lazy(() => import("~/pages/createUser/CreateUser"));
 const CreateProject = React.lazy(() => import("~/pages/createProject/CreateProject"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const ChangePassword = React.lazy(() => import("~/pages/changePassword/ChangePassword"));
-export const Error = React.lazy(() => import("~/pages/error/Error"));
-export const Login = React.lazy(() => import("~/pages/login/Login"));
+const Error = React.lazy(() => import("~/pages/error/Error"));
+const Login = React.lazy(() => import("~/pages/login/Login"));
 import AppRoutes from "~/utils/Routes";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
@@ -68,122 +68,69 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export const DashboardPage = () => {
-    return (
-        <MainLayout>
-            <Dashboard />
-        </MainLayout>
-    );
-};
-
-export const UsersPage = () => {
-    return (
-        <MainLayout>
-            <Users />
-        </MainLayout>
-    );
-};
-
-export const PermissionsPage = () => {
-    return (
-        <MainLayout>
-            <Permissions />
-        </MainLayout>
-    );
-};
-
-export const ProjectsPage = () => {
-    return (
-        <MainLayout>
-            <Projects />
-        </MainLayout>
-    );
-};
-
-export const PermissionReservationPage = () => {
-    return (
-        <MainLayout>
-            <PermissionReservation />
-        </MainLayout>
-    );
-};
-
-export const ProjectPage = () => {
-    return (
-        <MainLayout>
-            <Project />
-        </MainLayout>
-    );
-};
-
-export const UserPage = () => {
-    return (
-        <MainLayout>
-            <User />
-        </MainLayout>
-    );
-};
-
-export const CreateUserPage = () => {
-    return (
-        <MainLayout>
-            <CreateUser />
-        </MainLayout>
-    );
-};
-
-export const CreateProjectPage = () => {
-    return (
-        <MainLayout>
-            <CreateProject />
-        </MainLayout>
-    );
-};
-
-export const ProfilePage = () => {
-    return (
-        <MainLayout>
-            <Profile />
-        </MainLayout>
-    );
-};
-
-export const ChangePasswordPage = () => {
-    return (
-        <React.Suspense
-            fallback={
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100vh",
-                    }}
+const withMainLayout = (Component: React.ComponentType) => {
+    return (props: any) => {
+        return (
+            <MainLayout>
+                <React.Suspense
+                    fallback={
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100vh",
+                            }}
+                        >
+                            <CircularProgress size={80} thickness={4} />
+                        </Box>
+                    }
                 >
-                    <CircularProgress size={80} thickness={4} />
-                </Box>
-            }
-        >
-            <ChangePassword />
-        </React.Suspense>
-    );
+                    <Component {...props} />
+                </React.Suspense>
+            </MainLayout>
+        );
+    };
 };
 
-export const EditProjectPage = () => {
-    return (
-        <MainLayout>
-            <Project />
-        </MainLayout>
-    );
+const withSuspenseWithoutMainLayout = (Component: React.ComponentType) => {
+    return (props: any) => {
+        return (
+            <React.Suspense
+                fallback={
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "100vh",
+                        }}
+                    >
+                        <CircularProgress size={80} thickness={4} />
+                    </Box>
+                }
+            >
+                <Component {...props} />
+            </React.Suspense>
+        );
+    };
 };
 
-export const EditUserPage = () => {
-    return (
-        <MainLayout>
-            <User />
-        </MainLayout>
-    );
-};
+export const DashboardPage = withMainLayout(Dashboard);
+export const UsersPage = withMainLayout(Users);
+export const PermissionsPage = withMainLayout(Permissions);
+export const ProjectsPage = withMainLayout(Projects);
+export const PermissionReservationPage = withMainLayout(PermissionReservation);
+export const ProjectPage = withMainLayout(Project);
+export const UserPage = withMainLayout(User);
+export const CreateUserPage = withMainLayout(CreateUser);
+export const CreateProjectPage = withMainLayout(CreateProject);
+export const ProfilePage = withMainLayout(Profile);
+export const EditProjectPage = withMainLayout(Project);
+export const EditUserPage = withMainLayout(User);
+export const LoginPage = withSuspenseWithoutMainLayout(Login);
+export const ChangePasswordPage = withSuspenseWithoutMainLayout(ChangePassword);
+export const ErrorPage = withSuspenseWithoutMainLayout(Error);
 
 interface UserData {
     token: string;
