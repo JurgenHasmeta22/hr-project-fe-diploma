@@ -20,8 +20,8 @@ import skillsController from "~/services/api/skills";
 import certificatesController from "~/services/api/certificates";
 import authenticationController from "~/services/api/authentication";
 import { useModal } from "~/services/providers/ModalContext";
-import { ProfileHeader } from "~/components/profileHeader/ProfileHeader";
-import { TabsPanels } from "~/components/TabsPanels/TabsPanels";
+import { ProfileTabsPanels } from "./ProfileTabsPanels";
+import { ProfileHeader } from "./ProfileHeader";
 
 // #region Schemas for validation
 const userSchema = Yup.object().shape({
@@ -1518,7 +1518,7 @@ export default function Profile() {
                         disableFocusRipple={true}
                     />
                 </Tabs>
-                <TabsPanels
+                <ProfileTabsPanels
                     value={value}
                     userProfile={userProfile}
                     handleCreateCertificate={handleCreateCertificate}
