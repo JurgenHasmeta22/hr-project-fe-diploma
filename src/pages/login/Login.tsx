@@ -10,8 +10,9 @@ import { useStore } from "~/store/zustand/store";
 import { toast } from "react-toastify";
 import { useState, useRef } from "react";
 import FormAdvanced from "~/components/form/Form";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Link } from "react-router-dom";
 
 const loginSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -53,7 +54,8 @@ export default function Login() {
         <Container component="div" maxWidth="sm" sx={{ mt: 15 }}>
             <Box
                 sx={{
-                    borderRadius: 2,
+                    borderRadius: 5,
+                    padding: "50px 50px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -61,7 +63,7 @@ export default function Login() {
                     boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
                 }}
             >
-                <Typography variant="h3" component="h3" sx={{ mt: 4 }} gutterBottom color={"secondary"}>
+                <Typography variant="h3" component="h3" sx={{ mb: 2 }} gutterBottom color={"secondary"}>
                     Login
                 </Typography>
                 <FormAdvanced
@@ -75,14 +77,14 @@ export default function Login() {
                             label: "Username",
                             variant: "filled",
                             type: "text",
-                            sx: { gridColumn: "span 2" },
+                            sx: { gridColumn: "span 8" },
                         },
                         {
                             name: "password",
                             label: "Passwordi",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 2" },
+                            sx: { gridColumn: "span 8" },
                         },
                     ]}
                     onDataChange={(values: any) => {
@@ -98,12 +100,11 @@ export default function Login() {
                             color: "secondary",
                             variant: "contained",
                             sx: {
-                                border: "1px solid #000",
                                 bgcolor: "#30969f",
-                                fontSize: "15px",
-                                fontWeight: "700",
+                                fontSize: "16px",
+                                fontWeight: "500",
                             },
-                            icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                            icon: <LockOutlinedIcon sx={{ ml: "10px" }} color="action" />,
                         },
                         {
                             label: "Anullo",
@@ -114,15 +115,17 @@ export default function Login() {
                                 handleResetFromParent();
                             },
                             sx: {
-                                border: "1px solid #000",
                                 bgcolor: "#ff5252",
-                                fontSize: "15px",
-                                fontWeight: "700",
+                                fontSize: "16px",
+                                fontWeight: "500",
                             },
                             icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                         },
                     ]}
                 />
+                <Link to="/changePassword" style={{ color: "#fff", marginTop: "20px", textDecoration: "none", fontSize: "14px" }}>
+                    Keni harruar passwordin ?
+                </Link>
             </Box>
         </Container>
     );

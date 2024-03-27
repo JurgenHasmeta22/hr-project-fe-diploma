@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
 import { Box, Typography, Container } from "@mui/material";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authenticationController from "~/services/api/authentication";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/zustand/store";
 import FormAdvanced from "~/components/form/Form";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { FormikProps } from "formik";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const validationSchema = yup.object({
     oldPassword: yup.string().required("Passwordi aktual eshte i kerkuar"),
@@ -53,17 +53,19 @@ const ChangePassword: React.FC = () => {
     };
 
     return (
-        <Container component="main" maxWidth="xs" style={{ display: "flex", alignItems: "center", height: "100vh" }}>
+        <Container component="div" maxWidth="sm" sx={{ mt: 10 }}>
             <Box
-                width={400}
-                mx="auto"
-                p={4}
-                borderRadius={3}
-                bgcolor="background.paper"
-                sx={{ display: "flex", flexDirection: "column", gap: "30px" }}
-                boxShadow="0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)"
+                sx={{
+                    borderRadius: 5,
+                    padding: "50px 50px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    bgcolor: "background.paper",
+                    boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
+                }}
             >
-                <Typography variant="h5" gutterBottom align="center">
+                <Typography variant="h3" gutterBottom align="center" color={"secondary"} mb={2}>
                     Ndrysho passwordin
                 </Typography>
                 <FormAdvanced
@@ -78,21 +80,21 @@ const ChangePassword: React.FC = () => {
                             label: "Passwordi aktual",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 2" },
+                            sx: { gridColumn: "span 8" },
                         },
                         {
                             name: "newPassword",
                             label: "Passwordi i ri",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 2" },
+                            sx: { gridColumn: "span 8" },
                         },
                         {
                             name: "confirmNewPassword",
                             label: "Konfirmo passwordin",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 2" },
+                            sx: { gridColumn: "span 8" },
                         },
                     ]}
                     onDataChange={(values: any) => {
@@ -103,17 +105,16 @@ const ChangePassword: React.FC = () => {
                     validationSchema={validationSchema}
                     actions={[
                         {
-                            label: "Ndrysho passwordin",
+                            label: "Ndrysho",
                             type: "submit",
                             color: "secondary",
                             variant: "contained",
                             sx: {
-                                border: "1px solid #000",
                                 bgcolor: "#30969f",
-                                fontSize: "15px",
-                                fontWeight: "700",
+                                fontSize: "16px",
+                                fontWeight: "500",
                             },
-                            icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                            icon: <LockOutlinedIcon sx={{ ml: "10px" }} color="action" />,
                         },
                         {
                             label: "Anullo",
@@ -126,13 +127,16 @@ const ChangePassword: React.FC = () => {
                             sx: {
                                 border: "1px solid #000",
                                 bgcolor: "#ff5252",
-                                fontSize: "15px",
-                                fontWeight: "700",
+                                fontSize: "16px",
+                                fontWeight: "500",
                             },
                             icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                         },
                     ]}
                 />
+                <Link to="/login" style={{ color: "#fff", marginTop: "20px", textDecoration: "none", fontSize: "14px" }}>
+                    Shkoni tek login
+                </Link>
             </Box>
         </Container>
     );
