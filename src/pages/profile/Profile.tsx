@@ -1,9 +1,6 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import TabPanel from "~/components/tab/Tab";
-import EditIcon from "@mui/icons-material/Edit";
 import { useLocation, useNavigate } from "react-router-dom";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
@@ -24,6 +21,7 @@ import certificatesController from "~/services/api/certificates";
 import authenticationController from "~/services/api/authentication";
 import { useModal } from "~/services/providers/ModalContext";
 import { ProfileHeader } from "~/components/profileHeader/ProfileHeader";
+import { TabsPanels } from "~/components/TabsPanels/TabsPanels";
 
 // #region Schemas for validation
 const userSchema = Yup.object().shape({
@@ -1520,247 +1518,22 @@ export default function Profile() {
                         disableFocusRipple={true}
                     />
                 </Tabs>
-                <TabPanel value={value} index={0}>
-                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                        <Box>
-                            <Button
-                                variant="contained"
-                                startIcon={<AddOutlinedIcon />}
-                                color="error"
-                                onClick={() => {
-                                    handleCreateCertificate();
-                                }}
-                            >
-                                Shto
-                            </Button>
-                        </Box>
-                    )}
-                    <Grid container spacing={4} mt={"5px"}>
-                        {userProfile?.userCertifikates!.map((el, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <Card elevation={4}>
-                                    <CardContent>
-                                        <Typography variant="h6" gutterBottom>
-                                            Emri: {el.cert!.certEmri!}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" gutterBottom>
-                                            Pershkrim: {el.cert.certPershkrim}
-                                        </Typography>
-                                    </CardContent>
-                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                                        <CardActions
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                gap: "30px",
-                                            }}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<EditIcon />}
-                                                color="secondary"
-                                                onClick={() => handleEditCertificate(el)}
-                                            >
-                                                Edito
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                startIcon={<EditIcon />}
-                                                color="error"
-                                                onClick={() => handleDeleteCertificate(el)}
-                                            >
-                                                Elemino
-                                            </Button>
-                                        </CardActions>
-                                    )}
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                        <Box>
-                            <Button
-                                variant="contained"
-                                startIcon={<AddOutlinedIcon />}
-                                color="error"
-                                onClick={() => {
-                                    handleCreateEducation();
-                                }}
-                            >
-                                Shto
-                            </Button>
-                        </Box>
-                    )}
-                    <Grid container spacing={4} mt={"5px"}>
-                        {userProfile?.userEdukims!.map((el, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <Card elevation={4}>
-                                    <CardContent>
-                                        <Typography variant="h6" gutterBottom>
-                                            Emri: {el.edu.eduName}
-                                        </Typography>
-                                    </CardContent>
-                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                                        <CardActions
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                gap: "30px",
-                                            }}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<EditIcon />}
-                                                color="secondary"
-                                                onClick={() => handleEditEducation(el)}
-                                            >
-                                                Edito
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                startIcon={<EditIcon />}
-                                                color="error"
-                                                onClick={() => handleDeleteEducation(el)}
-                                            >
-                                                Elemino
-                                            </Button>
-                                        </CardActions>
-                                    )}
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Grid container spacing={4} mt={"5px"}>
-                        {userProfile?.userProjekts!.map((el, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <Card elevation={4}>
-                                    <CardContent>
-                                        <Typography variant="h6" gutterBottom>
-                                            Emri: {el.projekt.emriProjekt}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" gutterBottom>
-                                            Pershkrimi: {el.projekt.pershkrimProjekt}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                        <Box>
-                            <Button
-                                variant="contained"
-                                startIcon={<AddOutlinedIcon />}
-                                color="error"
-                                onClick={() => {
-                                    handleCreateSkill();
-                                }}
-                            >
-                                Shto
-                            </Button>
-                        </Box>
-                    )}
-                    <Grid container spacing={4} mt={"5px"}>
-                        {userProfile?.userAftesis!.map((el, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <Card elevation={4}>
-                                    <CardContent>
-                                        <Typography variant="h6" gutterBottom>
-                                            Emri: {el.aftesi.llojiAftesise}
-                                        </Typography>
-                                    </CardContent>
-                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                                        <CardActions
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                gap: "30px",
-                                            }}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<EditIcon />}
-                                                color="secondary"
-                                                onClick={() => handleEditSkill(el)}
-                                            >
-                                                Edito
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                startIcon={<EditIcon />}
-                                                color="error"
-                                                onClick={() => handleDeleteSkill(el)}
-                                            >
-                                                Elemino
-                                            </Button>
-                                        </CardActions>
-                                    )}
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </TabPanel>
-                <TabPanel value={value} index={4}>
-                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                        <Box>
-                            <Button
-                                variant="contained"
-                                startIcon={<AddOutlinedIcon />}
-                                color="error"
-                                onClick={() => {
-                                    handleCreateWork();
-                                }}
-                            >
-                                Shto
-                            </Button>
-                        </Box>
-                    )}
-                    <Grid container spacing={4} mt={"5px"}>
-                        {userProfile?.userPervojePunes!.map((el, index) => (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <Card elevation={4}>
-                                    <CardContent>
-                                        <Typography variant="h6" gutterBottom>
-                                            Emri: {el.pp.ppemri}
-                                        </Typography>
-                                    </CardContent>
-                                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                                        <CardActions
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                gap: "30px",
-                                            }}
-                                        >
-                                            <Button
-                                                variant="contained"
-                                                startIcon={<EditIcon />}
-                                                color="secondary"
-                                                onClick={() => handleEditWork(el)}
-                                            >
-                                                Edito
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                startIcon={<EditIcon />}
-                                                color="error"
-                                                onClick={() => handleDeleteWork(el)}
-                                            >
-                                                Elemino
-                                            </Button>
-                                        </CardActions>
-                                    )}
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </TabPanel>
+                <TabsPanels
+                    value={value}
+                    userProfile={userProfile}
+                    handleCreateCertificate={handleCreateCertificate}
+                    handleEditCertificate={handleEditCertificate}
+                    handleDeleteCertificate={handleDeleteCertificate}
+                    handleCreateSkill={handleCreateSkill}
+                    handleEditSkill={handleEditSkill}
+                    handleDeleteSkill={handleDeleteSkill}
+                    handleCreateWork={handleCreateWork}
+                    handleEditWork={handleEditWork}
+                    handleDeleteWork={handleDeleteWork}
+                    handleCreateEducation={handleCreateEducation}
+                    handleEditEducation={handleCreateEducation}
+                    handleDeleteEducation={handleCreateEducation}
+                />
             </Box>
         </>
     );
