@@ -22,12 +22,9 @@ const Permissions = () => {
     const [rowSelection, setRowSelection] = useState<any>({});
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
-
     const columns: MRT_ColumnDef<IPermission>[] = useMemo(
         () => [
             { accessorKey: "lejeId", header: "Id", enableHiding: true, size: 30 },
@@ -111,6 +108,7 @@ const Permissions = () => {
         getPermissions();
     }, []);
 
+    // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
         data: permissions,
@@ -212,6 +210,7 @@ const Permissions = () => {
             );
         },
     });
+    // #endregion
 
     return (
         <Box m="20px">

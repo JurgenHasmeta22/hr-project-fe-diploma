@@ -114,6 +114,7 @@ const Users = () => {
         getUsers();
     }, [columnFilters, globalFilter, pagination.pageIndex, pagination.pageSize, sorting]);
 
+    // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
         data: users,
@@ -285,6 +286,7 @@ const Users = () => {
             );
         },
     });
+    // #endregion
 
     return (
         <Box m="20px">

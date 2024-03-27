@@ -2,7 +2,6 @@ import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Tab, Tabs, 
 import { useEffect, useRef, useState } from "react";
 import TabPanel from "~/components/tab/Tab";
 import EditIcon from "@mui/icons-material/Edit";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { FormikProps } from "formik";
@@ -17,7 +16,6 @@ import ICertification from "~/interfaces/ICertification";
 import IEducation from "~/interfaces/IEducation";
 import ISkill from "~/interfaces/ISkill";
 import IWorkExperience from "~/interfaces/IWorkExperience";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { toast } from "react-toastify";
 import educationsController from "~/services/api/educations";
 import workExperiencesController from "~/services/api/workExperiences";
@@ -25,7 +23,9 @@ import skillsController from "~/services/api/skills";
 import certificatesController from "~/services/api/certificates";
 import authenticationController from "~/services/api/authentication";
 import { useModal } from "~/services/providers/ModalContext";
+import { ProfileHeader } from "~/components/profileHeader/ProfileHeader";
 
+// #region Schemas for validation
 const userSchema = Yup.object().shape({
     userName: Yup.string().required("required"),
     userFirstname: Yup.string().required("required"),
@@ -73,6 +73,7 @@ const userWorkEsperienceSchema = Yup.object().shape({
     konfidencialiteti: Yup.string().required("required"),
     pershkrimiPunes: Yup.string().required("required"),
 });
+// #endregion
 
 export default function Profile() {
     const [value, setValue] = useState(0);
@@ -83,7 +84,6 @@ export default function Profile() {
     const location = useLocation();
     const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
     const formikRef = useRef<FormikProps<any>>(null);
-
     const { openRightPanel } = useRightPanel();
     const { openModal } = useModal();
 
@@ -103,6 +103,7 @@ export default function Profile() {
         setOpen(false);
     };
 
+    // #region HandleCreate
     const handleCreateCertificate = () => {
         openRightPanel({
             formRef: formikRef,
@@ -618,7 +619,9 @@ export default function Profile() {
             },
         });
     };
+    // #endregion
 
+    // #region HandleEdit
     const handleEditProfile = (user: IUser) => {
         openRightPanel({
             formRef: formikRef,
@@ -1250,7 +1253,9 @@ export default function Profile() {
             },
         });
     };
+    // #endregion
 
+    // #region HandleDelete
     const handleDeleteEducation = (education: any) => {
         openModal({
             formRef: formikRef,
@@ -1457,6 +1462,7 @@ export default function Profile() {
             subTitle: "Deshironi ta eleminoni ?",
         });
     };
+    // #endregion
 
     useEffect(() => {
         if (location.state?.userId) {
@@ -1480,69 +1486,7 @@ export default function Profile() {
 
     return (
         <>
-            <Box padding={3}>
-                <Box display="flex" alignItems="center" gap={1} justifyContent={"center"}>
-                    <Button
-                        color="secondary"
-                        variant="contained"
-                        onClick={() => {
-                            navigate("/dashboard");
-                        }}
-                    >
-                        <ArrowBackIcon color="action" />
-                    </Button>
-                    <Box flexGrow={1} display="flex" alignItems="center" justifyContent="center">
-                        <Box>
-                            <AccountCircleIcon style={{ fontSize: 60, marginRight: 15 }} />
-                        </Box>
-                        <Box>
-                            <Box display={"flex"} flexDirection={"row"} gap={"25px"}>
-                                <Typography variant="h5" gutterBottom>
-                                    {userProfile?.userName}
-                                </Typography>
-                                <Box display={"flex"} flexDirection={"row"} gap={"5px"}>
-                                    <Typography variant="h5" gutterBottom>
-                                        {userProfile?.userFirstname}
-                                    </Typography>
-                                    <Typography variant="h5" gutterBottom>
-                                        {userProfile?.userLastname}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                            <Box display="flex" alignItems="center" gap={3}>
-                                <Typography variant="body1" color="textSecondary">
-                                    Certifikatat: {userProfile?.userCertifikates!.length}
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    Punet e meparshme: {userProfile?.userPervojePunes!.length}
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    Edukimi: {userProfile?.userEdukims!.length}
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    Projektet: {userProfile?.userProjekts!.length}
-                                </Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    Aftesite: {userProfile?.userAftesis!.length}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                    {userProfile?.userName === userDetailsLoggedIn?.userName && (
-                        <Button
-                            variant="contained"
-                            startIcon={<EditIcon />}
-                            color="secondary"
-                            onClick={() => {
-                                handleEditProfile(userDetailsLoggedIn!);
-                            }}
-                        >
-                            Edito profilin
-                        </Button>
-                    )}
-                </Box>
-                <Divider sx={{ my: 2 }} />
-            </Box>
+            <ProfileHeader userProfile={userProfile} handleEditProfile={handleEditProfile} />
             <Box>
                 <Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary" orientation="horizontal">
                     <Tab

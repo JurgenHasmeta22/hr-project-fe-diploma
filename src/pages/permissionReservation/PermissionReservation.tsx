@@ -26,13 +26,11 @@ const permissionReservation = () => {
     const [loading, setLoading] = useState(true);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
     const [currentPermissions, setCurrentPermissions] = useState([]);
-
     const theme = useTheme();
     const formikRef = useRef<FormikProps<any>>(null);
     const navigate = useNavigate();
     const { openModal } = useModal();
     const { user } = useStore();
-
     const colors = tokens(theme.palette.mode);
 
     const handleDataChange = (values: any) => {

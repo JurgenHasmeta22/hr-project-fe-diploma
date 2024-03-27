@@ -19,7 +19,7 @@ export const tokens = (mode: any) => ({
                   1200: "#e7e7e8",
                   1300: "#90979f",
                   1400: "#eef0ef",
-                  1500: "#9ba2a9"
+                  1500: "#9ba2a9",
               },
               primary: {
                   100: "#d0d1d5",
