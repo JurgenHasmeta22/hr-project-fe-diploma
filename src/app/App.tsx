@@ -270,6 +270,7 @@ function App() {
                     <Route index element={<Navigate replace to="/login" />} />
                     <Route path="*" element={<Error />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/changePassword" element={<ChangePasswordPage />} />
                     <Route element={<PrivateRoutes />}>
                         <Route path="/dashboard" element={<DashboardPage />} />
                         <Route path="/users" element={<UsersPage />} />
@@ -283,7 +284,6 @@ function App() {
                         <Route path="/addUser" element={<CreateUserPage />} />
                         <Route path="/addProject" element={<CreateProjectPage />} />
                         <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/changePassword" element={<ChangePasswordPage />} />
                     </Route>
                 </Routes>
             </ThemeProvider>

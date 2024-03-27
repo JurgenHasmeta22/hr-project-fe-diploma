@@ -6,10 +6,10 @@ function useLocalStorage<T>(key: string): [T, SetValue<T>, () => void] {
     const [storedValue, setStoredValue] = useState<T>(() => {
         try {
             const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : generateRandomValue();
+            return item ? JSON.parse(item) : null;
         } catch (error) {
             console.error("Error retrieving data from localStorage:", error);
-            return generateRandomValue();
+            return null;
         }
     });
 
@@ -17,7 +17,7 @@ function useLocalStorage<T>(key: string): [T, SetValue<T>, () => void] {
         try {
             const handleStorageChange = (event: StorageEvent) => {
                 if (event.key === key) {
-                    setStoredValue(event.newValue ? JSON.parse(event.newValue) : generateRandomValue());
+                    setStoredValue(event.newValue ? JSON.parse(event.newValue) : null);
                 }
             };
 
@@ -44,14 +44,10 @@ function useLocalStorage<T>(key: string): [T, SetValue<T>, () => void] {
     const removeValue = () => {
         try {
             window.localStorage.removeItem(key);
-            setStoredValue(generateRandomValue());
+            // setStoredValue(generateRandomValue());
         } catch (error) {
             console.error("Error removing data from localStorage:", error);
         }
-    };
-
-    const generateRandomValue = () => {
-        return Math.floor(Math.random() * 10000) as unknown as T;
     };
 
     return [storedValue, setValue, removeValue];

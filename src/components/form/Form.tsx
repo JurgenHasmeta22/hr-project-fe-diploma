@@ -152,6 +152,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 sx={field.sx}
                                                 value={values[field.name]}
                                                 type={field.type || "text"}
+                                                PA
                                                 helperText={touched[field.name] && errors[field.name]}
                                                 error={touched[field.name] && !!errors[field.name]}
                                                 InputLabelProps={field.type === "password" ? { shrink: true } : undefined}
