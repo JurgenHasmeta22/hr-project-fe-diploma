@@ -13,8 +13,8 @@ import {
     ProjectsPage,
     UserPage,
     UsersPage,
-    Error as ErrorPage,
-    Login as LoginPage,
+    ErrorPage,
+    LoginPage,
 } from "~/app/App";
 
 const AppRoutes = () => {
