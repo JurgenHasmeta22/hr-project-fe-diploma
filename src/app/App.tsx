@@ -11,11 +11,8 @@ import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/api/users";
 import Sidebar from "~/components/sidebar/Sidebar";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import useLocalStorage from "~/hooks/useLocalStorage";
+import { sidebarItems } from "~/utils/sidebarItems";
 
 const Dashboard = React.lazy(() => import("~/pages/dashboard/Dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions/Permissions"));
@@ -30,46 +27,6 @@ const CreateUser = React.lazy(() => import("~/pages/createUser/CreateUser"));
 const CreateProject = React.lazy(() => import("~/pages/createProject/CreateProject"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const ChangePassword = React.lazy(() => import("~/pages/changePassword/ChangePassword"));
-
-const sidebarItems = [
-    {
-        label: "Dashboard",
-        to: "/dashboard",
-        icon: <HomeOutlinedIcon />,
-        index: 0,
-    },
-    {
-        label: "Perdoruesit",
-        to: "/users",
-        icon: <PeopleOutlinedIcon />,
-        index: 1,
-    },
-    {
-        label: "Lejet",
-        icon: <ReceiptOutlinedIcon />,
-        index: 2,
-        submenu: [
-            {
-                label: "Lista e lejeve",
-                to: "/permissions",
-                icon: <ReceiptOutlinedIcon />,
-                index: 3,
-            },
-            {
-                label: "Rezervimi i lejeve",
-                to: "/permissionReservation",
-                icon: <ReceiptOutlinedIcon />,
-                index: 4,
-            },
-        ],
-    },
-    {
-        label: "Projektet",
-        to: "/projects",
-        icon: <PersonOutlinedIcon />,
-        index: 5,
-    },
-];
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const { openSidebar } = useStore();
