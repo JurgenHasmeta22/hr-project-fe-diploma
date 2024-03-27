@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import authenticationController from "~/services/api/authentication";
 import { toast } from "react-toastify";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import FormAdvanced from "~/components/form/Form";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { FormikProps } from "formik";

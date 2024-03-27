@@ -16,7 +16,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {

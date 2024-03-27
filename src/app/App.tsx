@@ -6,7 +6,7 @@ import TopBar from "~/components/topBar/TopBar";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/api/users";

@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { useRightPanel } from "~/services/providers/RightPanelContext";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import usersController from "~/services/api/users";
 import IUser from "~/interfaces/IUser";
 import ICertification from "~/interfaces/ICertification";

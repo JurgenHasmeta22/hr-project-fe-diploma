@@ -15,7 +15,7 @@ import IPermission from "~/interfaces/IPermission";
 import permissionsController from "~/services/api/permissions";
 import { Delete, Add, Approval } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 
 const Permissions = () => {
     const [permissions, setPermissions] = useState<IPermission[]>([]);

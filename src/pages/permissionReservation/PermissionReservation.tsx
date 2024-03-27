@@ -14,7 +14,7 @@ import Header from "~/components/header/Header";
 import permissionsController from "~/services/api/permissions";
 import { useModal } from "~/services/providers/ModalContext";
 import IPermission from "~/interfaces/IPermission";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
