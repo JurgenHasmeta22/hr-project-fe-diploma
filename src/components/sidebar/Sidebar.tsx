@@ -30,6 +30,7 @@ const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
         <React.Fragment key={item.label}>
             <ListItem>
                 <ListItemButton
+                    disableRipple={true}
                     onClick={() => {
                         handleClick();
                     }}
@@ -40,20 +41,21 @@ const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
                 </ListItemButton>
             </ListItem>
             <Collapse in={openSubMenu}>
-                <List component="div" disablePadding sx={{ paddingLeft: "20px" }}>
+                <List component="div" disablePadding sx={{ paddingLeft: "50px" }}>
                     {item.submenu.map((subItem: any, index: number) => (
                         <ListItem key={index} value={subItem.label}>
                             <ListItemButton
+                                disableRipple={true}
                                 sx={{
                                     "&.Mui-selected": {
-                                        backgroundColor: "#c5bddb",
+                                        backgroundColor: "#3a3a3a",
                                         color: "#ffffff",
                                         "&:hover": {
-                                            backgroundColor: "#b5acd2",
+                                            backgroundColor: "#2a2a2a",
                                         },
                                     },
                                     "&:hover": {
-                                        backgroundColor: "#f0f0f0",
+                                        backgroundColor: "#2a2a2a",
                                         "& .MuiListItemIcon-root": {
                                             color: "#3f51b5",
                                         },
@@ -67,7 +69,6 @@ const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
                                     handleItemClick(subItem.label, subItem.to, { label: subItem.label, index });
                                 }}
                             >
-                                <ListItemIcon>{subItem.icon}</ListItemIcon>
                                 <ListItemText primary={subItem.label} />
                             </ListItemButton>
                         </ListItem>
@@ -80,10 +81,8 @@ const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
 
 const Sidebar = ({ sidebarItems }: any) => {
     const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
-
     const navigate = useNavigate();
     const location = useLocation();
-
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
 
     const handleItemClick = (title: string, to: string, state: any) => {
@@ -98,12 +97,7 @@ const Sidebar = ({ sidebarItems }: any) => {
     return (
         <>
             <Drawer variant={"persistent"} anchor={"left"} open={openSidebar} onClose={onClose}>
-                <Box
-                    mt={3}
-                    sx={{
-                        width: 250,
-                    }}
-                >
+                <Box mt={3} sx={{ width: 250 }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                         <IconButton onClick={onClose}>
                             <CloseIcon color="action" />
@@ -136,16 +130,17 @@ const Sidebar = ({ sidebarItems }: any) => {
                                 <React.Fragment key={index}>
                                     <ListItem value={item.label}>
                                         <ListItemButton
+                                            disableRipple={true}
                                             sx={{
                                                 "&.Mui-selected": {
-                                                    backgroundColor: "#c5bddb",
+                                                    backgroundColor: "#3a3a3a",
                                                     color: "#ffffff",
                                                     "&:hover": {
-                                                        backgroundColor: "#b5acd2",
+                                                        backgroundColor: "#2a2a2a",
                                                     },
                                                 },
                                                 "&:hover": {
-                                                    backgroundColor: "#f0f0f0",
+                                                    backgroundColor: "#2a2a2a",
                                                     "& .MuiListItemIcon-root": {
                                                         color: "#3f51b5",
                                                     },

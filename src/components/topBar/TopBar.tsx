@@ -9,15 +9,12 @@ import { useStore } from "~/store/zustand/store";
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
     const { user, unsetUser } = useStore();
+    const navigate = useNavigate();
 
     const colorMode = useContext(ColorModeContext);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
-    const navigate = useNavigate();
 
     const open = Boolean(anchorEl);
 
@@ -57,6 +54,7 @@ const Header = () => {
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
                     sx={{ display: "flex", flexDirection: "row", gap: "15px" }}
+                    disableRipple={true}
                 >
                     <PersonOutlinedIcon color="action" fontSize="medium" />
                     {user?.username}
