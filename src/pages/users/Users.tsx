@@ -17,7 +17,7 @@ import IUser from "~/interfaces/IUser";
 import usersController from "~/services/api/users";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
 
 const Users = () => {

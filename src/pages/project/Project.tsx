@@ -15,7 +15,7 @@ import FormAdvanced from "~/components/form/Form";
 import * as yup from "yup";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),

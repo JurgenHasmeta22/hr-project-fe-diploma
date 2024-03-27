@@ -6,7 +6,7 @@ import * as yup from "yup";
 import authenticationController from "~/services/api/authentication";
 import ILoginReq from "~/interfaces/ILoginReq";
 import { useNavigate } from "react-router";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/services/store/store";
 import { toast } from "react-toastify";
 import { useState, useRef } from "react";
 import FormAdvanced from "~/components/form/Form";
