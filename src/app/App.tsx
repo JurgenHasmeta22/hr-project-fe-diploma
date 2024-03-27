@@ -2,34 +2,34 @@ import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Box, CircularProgress, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
-import TopBar from "~/components/topBar";
+import TopBar from "~/components/topBar/TopBar";
 import PrivateRoutes from "~/utils/PrivateRoutes";
-import { DrawerProvider } from "~/components/drawer/drawerContext";
-import { ModalProvider } from "~/components/modal/modalContext";
+import { RightPanelProvider } from "~/services/providers/RightPanelContext";
+import { ModalProvider } from "~/services/providers/ModalContext";
 import { useStore } from "~/store/zustand/store";
 import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
-import usersController from "~/services/users";
-import Sidebar from "~/components/sidebar";
+import usersController from "~/services/api/users";
+import Sidebar from "~/components/sidebar/Sidebar";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import useLocalStorage from "~/hooks/useLocalStorage";
 
-const Dashboard = React.lazy(() => import("~/pages/dashboard"));
-const Permissions = React.lazy(() => import("~/pages/permissions"));
-const Users = React.lazy(() => import("~/pages/users"));
-const Login = React.lazy(() => import("~/pages/login"));
-const Projects = React.lazy(() => import("~/pages/projects"));
-const PermissionReservation = React.lazy(() => import("~/pages/permissionReservation"));
-const Error = React.lazy(() => import("~/pages/error"));
-const Project = React.lazy(() => import("~/pages/project"));
-const User = React.lazy(() => import("~/pages/user"));
-const CreateUser = React.lazy(() => import("~/pages/createUser"));
-const CreateProject = React.lazy(() => import("~/pages/createProject"));
-const Profile = React.lazy(() => import("~/pages/profile"));
-const ChangePassword = React.lazy(() => import("~/pages/changePassword"));
+const Dashboard = React.lazy(() => import("~/pages/dashboard/Dashboard"));
+const Permissions = React.lazy(() => import("~/pages/permissions/Permissions"));
+const Users = React.lazy(() => import("~/pages/users/Users"));
+const Login = React.lazy(() => import("~/pages/login/Login"));
+const Projects = React.lazy(() => import("~/pages/projects/Projects"));
+const PermissionReservation = React.lazy(() => import("~/pages/permissionReservation/PermissionReservation"));
+const Error = React.lazy(() => import("~/pages/error/Error"));
+const Project = React.lazy(() => import("~/pages/project/Project"));
+const User = React.lazy(() => import("~/pages/user/User"));
+const CreateUser = React.lazy(() => import("~/pages/createUser/CreateUser"));
+const CreateProject = React.lazy(() => import("~/pages/createProject/CreateProject"));
+const Profile = React.lazy(() => import("~/pages/profile/Profile"));
+const ChangePassword = React.lazy(() => import("~/pages/changePassword/ChangePassword"));
 
 const sidebarItems = [
     {
@@ -77,7 +77,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <React.Fragment>
             <CssBaseline />
-            <DrawerProvider>
+            <RightPanelProvider>
                 <ModalProvider>
                     <div className="app">
                         <Grid container>
@@ -108,7 +108,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                         </Grid>
                     </div>
                 </ModalProvider>
-            </DrawerProvider>
+            </RightPanelProvider>
         </React.Fragment>
     );
 };
@@ -236,9 +236,7 @@ interface UserData {
 
 function App() {
     const [theme, colorMode] = useMode();
-
     const { user, setUserDetailsLoggedIn, setUser } = useStore();
-
     const [userData] = useLocalStorage<UserData>("user");
 
     useEffect(() => {

@@ -78,7 +78,7 @@ const RightPanel: React.FC<DrawerProps> = ({
     title,
 }) => {
     const [activeStep, setActiveStep] = useState(0);
-    
+
     const theme = useTheme();
 
     const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);

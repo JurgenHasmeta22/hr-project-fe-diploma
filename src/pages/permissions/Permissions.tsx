@@ -10,9 +10,9 @@ import {
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/header";
+import Header from "~/components/header/Header";
 import IPermission from "~/interfaces/IPermission";
-import permissionsController from "~/services/permissions";
+import permissionsController from "~/services/api/permissions";
 import { Delete, Add, Approval } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
@@ -20,11 +20,10 @@ import { useStore } from "~/store/zustand/store";
 const Permissions = () => {
     const [permissions, setPermissions] = useState<IPermission[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
-
-    const theme = useTheme();
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
 
+    const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");

@@ -1,14 +1,14 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/header";
+import Header from "~/components/header/Header";
 import { useEffect, useState } from "react";
 import IUser from "~/interfaces/IUser";
-import usersController from "~/services/users";
+import usersController from "~/services/api/users";
 import IProject from "~/interfaces/IProject";
-import projectsController from "~/services/projects";
+import projectsController from "~/services/api/projects";
 import IPermission from "~/interfaces/IPermission";
-import permissionsController from "~/services/permissions";
+import permissionsController from "~/services/api/permissions";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 
@@ -66,7 +66,6 @@ const Dashboard = () => {
     const [permissions, setPermissions] = useState<IPermission[]>([]);
 
     const theme = useTheme();
-
     const colors = tokens(theme.palette.mode);
 
     async function getUsers(): Promise<void> {
@@ -87,12 +86,11 @@ const Dashboard = () => {
 
     async function getPermissions(): Promise<void> {
         const response: IPermission[] = await permissionsController.getAllPermissions();
-        
+
         if (response) {
             const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
             setPermissions(filteredPermissions);
         }
-        
     }
 
     useEffect(() => {

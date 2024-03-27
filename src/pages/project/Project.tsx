@@ -1,102 +1,91 @@
-import { Box, Breadcrumbs, Button, CircularProgress, Typography, useMediaQuery } from "@mui/material";
-import Header from "~/components/header";
+import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/material";
+import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
-import usersController from "~/services/users";
+import IProject from "~/interfaces/IProject";
+import projectsController from "~/services/api/projects";
 import { FormikProps } from "formik";
-import * as yup from "yup";
-import IUser from "~/interfaces/IUser";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import { toast } from "react-toastify";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
-import FormAdvanced from "~/components/form";
-import { toast } from "react-toastify";
+import FormAdvanced from "~/components/form/Form";
+import * as yup from "yup";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import { useStore } from "~/store/zustand/store";
 
-const userSchema = yup.object().shape({
-    userName: yup.string().required("required"),
-    userFirstname: yup.string().required("required"),
-    userLastname: yup.string().required("required"),
-    userEmail: yup.string().required("required"),
-    balancaLeje: yup.string().required("required"),
-    userIsActive: yup.string().required("required"),
+const projectSchema = yup.object().shape({
+    emriProjekt: yup.string().required("required"),
+    pershkrimProjekt: yup.string().required("required"),
 });
 
-const User = () => {
-    const [user, setUser] = useState<IUser | null>(null);
-    const [userId, setUserId] = useState<number | undefined>(0);
-    const [userName, setUserName] = useState<string>("");
-    const [userFirstname, setUserFirstname] = useState<string>("");
-    const [userLastname, setUserLastname] = useState<string>("");
-    const [userEmail, setUserEmail] = useState<string>("");
-    const [balancaLeje, setBalancaLeje] = useState<number>(0);
-    const [userIsActive, setUserIsActive] = useState<number>(0);
+const Project = () => {
+    const [project, setProject] = useState<IProject | null>(null);
+    const [currentTime, setCurrentTime] = useState("");
+    const [projektId, setProjektId] = useState<string | undefined>("");
+    const [emriProjekt, setEmriProjekt] = useState<string>("");
+    const [pershkrimProjekt, setPershkrimProjekt] = useState<string>("");
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({});
-
+    const { user } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
+    const formikRef = useRef<FormikProps<any>>(null);
 
     const breadcrumbs = [
-        <Link key="1" to={"/users"} style={{ textDecoration: "none" }}>
+        <Link key="1" to={"/projects"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
         </Link>,
         <Typography key="2" color="text.primary">
-            Detajet e perdoruesit
+            Detajet e projektit
         </Typography>,
     ];
-
-    const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
-    
+
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };
 
     const handleFormSubmit = async (values: any) => {
         const payload = {
-            userName: values.userName,
-            userFirstname: values.userFirstname,
-            userLastname: values.userLastname,
-            userEmail: values.userEmail,
-            balancaLeje: values.balancaLeje,
-            userIsActive: values.userIsActive,
+            emriProjekt: values.emriProjekt,
+            pershkrimProjekt: values.pershkrimProjekt,
         };
 
-        const response = await usersController.updateUser(user?.userId, payload);
-        if (response) {
-            toast.success("Modifikimi u krye me sukses !");
-            getUser();
+        const response = await projectsController.updateProject(project?.projektId, payload);
+
+        if (response === "") {
+            toast.success("Ruajtja e ndryshimeve me sukses !");
+            getProject();
         } else {
-            toast.error("Modifikimi nuk u krye me sukses !");
+            toast.error("Rujtja nuk e realizua !");
         }
     };
 
-    async function getUser(): Promise<void> {
-        const response: IUser = await usersController.getUser(location.state?.userId!);
+    async function getProject(): Promise<void> {
+        const response: IProject = await projectsController.getProject(location.state?.projectId!);
 
-        setUser(response);
-        setUserId(response.userId!);
-        setUserName(response.userName);
-        setUserFirstname(response.userFirstname);
-        setUserLastname(response.userLastname);
-        setUserEmail(response.userEmail);
-        setBalancaLeje(response.balancaLeje);
-        setUserIsActive(response.userIsActive);
+        setProject(response);
+        setProjektId(response.projektId);
+        setEmriProjekt(response.emriProjekt);
+        setPershkrimProjekt(response.pershkrimProjekt);
     }
 
     useEffect(() => {
         async function fetchData() {
-            await getUser();
+            await getProject();
             setLoading(false);
         }
 
         fetchData();
+        const now = new Date().toISOString();
+        setCurrentTime(now);
     }, []);
 
     if (loading) return <CircularProgress />;
@@ -108,7 +97,7 @@ const User = () => {
                     color="secondary"
                     variant="contained"
                     onClick={() => {
-                        navigate("/users");
+                        navigate("/projects");
                     }}
                 >
                     <ArrowBackIcon color="action" />
@@ -117,65 +106,32 @@ const User = () => {
                     {breadcrumbs}
                 </Breadcrumbs>
             </Box>
-            <Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
+            <Header title="Detajet e projektit" subtitle="Vizualizo dhe edito projektin" />
             <FormAdvanced
                 initialValues={{
-                    userId,
-                    userName,
-                    userFirstname,
-                    userLastname,
-                    userEmail,
-                    balancaLeje,
-                    userIsActive,
+                    projektId,
+                    emriProjekt,
+                    pershkrimProjekt,
                 }}
                 fields={[
                     {
-                        name: "userId",
-                        label: "Id e perdoruesit",
+                        name: "projektId",
+                        label: "Id",
                         disabled: true,
                         variant: "filled",
                         type: "text",
                         sx: { gridColumn: "span 2" },
                     },
                     {
-                        name: "userName",
-                        label: "Username",
-                        variant: "filled",
-                        type: "text",
-                        sx: { gridColumn: "span 2" },
-                    },
-                    {
-                        name: "userFirstname",
+                        name: "emriProjekt",
                         label: "Emri",
                         variant: "filled",
                         type: "text",
                         sx: { gridColumn: "span 2" },
                     },
                     {
-                        name: "userLastname",
-                        label: "Mbiemri",
-                        variant: "filled",
-                        type: "text",
-                        sx: { gridColumn: "span 2" },
-                    },
-                    {
-                        name: "userEmail",
-                        label: "Email",
-                        variant: "filled",
-                        type: "text",
-                        sx: { gridColumn: "span 2" },
-                    },
-                    {
-                        name: "balancaLeje",
-                        label: "Balanca e lejeve",
-                        variant: "filled",
-                        disabled: true,
-                        type: "text",
-                        sx: { gridColumn: "span 2" },
-                    },
-                    {
-                        name: "userIsActive",
-                        label: "Statusi",
+                        name: "pershkrimProjekt",
+                        label: "Pershkrim",
                         variant: "filled",
                         type: "text",
                         sx: { gridColumn: "span 2" },
@@ -185,7 +141,7 @@ const User = () => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
-                validationSchema={userSchema}
+                validationSchema={projectSchema}
                 formRef={formikRef}
                 actions={[
                     {
@@ -204,15 +160,12 @@ const User = () => {
                     {
                         label: "Elemino",
                         onClick: async () => {
-                            const response = await usersController.updateUser(userId, {
-                                ...user,
-                                userIsActive: false,
-                            });
-                            if (response) {
-                                toast.success("Fshirja u krye me sukses !");
-                                navigate("/users");
+                            const response = await projectsController.deleteProject(projektId);
+                            if (response === "") {
+                                toast.success("Elemini u krye me sukses !");
+                                navigate("/projects");
                             } else {
-                                toast.error("Fshirja nuk u realizua !");
+                                toast.error("Eleminimi nuk u realizua !");
                             }
                         },
                         color: "secondary",
@@ -241,10 +194,34 @@ const User = () => {
                         },
                         icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                     },
+                    {
+                        label: "Bashkangjitu projektit",
+                        onClick: async () => {
+                            const response = await projectsController.assignProjectToUser(user?.userId, projektId, {
+                                dataFillim: currentTime,
+                                dataMbarim: null,
+                            });
+                            if (response === "") {
+                                toast.success("Futja ne projekt u krye me sukses !");
+                                navigate("/users");
+                            } else {
+                                toast.error("Futja ne projekt nuk u realizua !");
+                            }
+                        },
+                        color: "secondary",
+                        variant: "contained",
+                        sx: {
+                            border: "1px solid #000",
+                            bgcolor: "#3377FF",
+                            fontSize: "15px",
+                            fontWeight: "700",
+                        },
+                        icon: <MeetingRoomIcon color="action" sx={{ ml: "10px" }} />,
+                    },
                 ]}
             />
         </Box>
     );
 };
 
-export default User;
+export default Project;
