@@ -1,9 +1,7 @@
 import * as React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
 import { Box, CircularProgress, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
 import TopBar from "~/components/topBar/TopBar";
-import PrivateRoutes from "~/utils/PrivateRoutes";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
 import { useStore } from "~/services/store/store";
@@ -13,20 +11,20 @@ import usersController from "~/services/api/users";
 import Sidebar from "~/components/sidebar/Sidebar";
 import useLocalStorage from "~/hooks/useLocalStorage";
 import { sidebarItems } from "~/utils/sidebarItems";
-
 const Dashboard = React.lazy(() => import("~/pages/dashboard/Dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions/Permissions"));
 const Users = React.lazy(() => import("~/pages/users/Users"));
-const Login = React.lazy(() => import("~/pages/login/Login"));
 const Projects = React.lazy(() => import("~/pages/projects/Projects"));
 const PermissionReservation = React.lazy(() => import("~/pages/permissionReservation/PermissionReservation"));
-const Error = React.lazy(() => import("~/pages/error/Error"));
 const Project = React.lazy(() => import("~/pages/project/Project"));
 const User = React.lazy(() => import("~/pages/user/User"));
 const CreateUser = React.lazy(() => import("~/pages/createUser/CreateUser"));
 const CreateProject = React.lazy(() => import("~/pages/createProject/CreateProject"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const ChangePassword = React.lazy(() => import("~/pages/changePassword/ChangePassword"));
+export const Error = React.lazy(() => import("~/pages/error/Error"));
+export const Login = React.lazy(() => import("~/pages/login/Login"));
+import AppRoutes from "~/utils/Routes";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const { openSidebar } = useStore();
@@ -70,7 +68,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-const DashboardPage = () => {
+export const DashboardPage = () => {
     return (
         <MainLayout>
             <Dashboard />
@@ -78,7 +76,7 @@ const DashboardPage = () => {
     );
 };
 
-const UsersPage = () => {
+export const UsersPage = () => {
     return (
         <MainLayout>
             <Users />
@@ -86,7 +84,7 @@ const UsersPage = () => {
     );
 };
 
-const PermissionsPage = () => {
+export const PermissionsPage = () => {
     return (
         <MainLayout>
             <Permissions />
@@ -94,7 +92,7 @@ const PermissionsPage = () => {
     );
 };
 
-const ProjectsPage = () => {
+export const ProjectsPage = () => {
     return (
         <MainLayout>
             <Projects />
@@ -102,7 +100,7 @@ const ProjectsPage = () => {
     );
 };
 
-const PermissionReservationPage = () => {
+export const PermissionReservationPage = () => {
     return (
         <MainLayout>
             <PermissionReservation />
@@ -110,7 +108,7 @@ const PermissionReservationPage = () => {
     );
 };
 
-const ProjectPage = () => {
+export const ProjectPage = () => {
     return (
         <MainLayout>
             <Project />
@@ -118,7 +116,7 @@ const ProjectPage = () => {
     );
 };
 
-const UserPage = () => {
+export const UserPage = () => {
     return (
         <MainLayout>
             <User />
@@ -126,7 +124,7 @@ const UserPage = () => {
     );
 };
 
-const CreateUserPage = () => {
+export const CreateUserPage = () => {
     return (
         <MainLayout>
             <CreateUser />
@@ -134,7 +132,7 @@ const CreateUserPage = () => {
     );
 };
 
-const CreateProjectPage = () => {
+export const CreateProjectPage = () => {
     return (
         <MainLayout>
             <CreateProject />
@@ -142,7 +140,7 @@ const CreateProjectPage = () => {
     );
 };
 
-const ProfilePage = () => {
+export const ProfilePage = () => {
     return (
         <MainLayout>
             <Profile />
@@ -150,7 +148,7 @@ const ProfilePage = () => {
     );
 };
 
-const ChangePasswordPage = () => {
+export const ChangePasswordPage = () => {
     return (
         <React.Suspense
             fallback={
@@ -171,7 +169,7 @@ const ChangePasswordPage = () => {
     );
 };
 
-const EditProjectPage = () => {
+export const EditProjectPage = () => {
     return (
         <MainLayout>
             <Project />
@@ -179,7 +177,7 @@ const EditProjectPage = () => {
     );
 };
 
-const EditUserPage = () => {
+export const EditUserPage = () => {
     return (
         <MainLayout>
             <User />
@@ -223,26 +221,7 @@ function App() {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
-                <Routes>
-                    <Route index element={<Navigate replace to="/login" />} />
-                    <Route path="*" element={<Error />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/changePassword" element={<ChangePasswordPage />} />
-                    <Route element={<PrivateRoutes />}>
-                        <Route path="/dashboard" element={<DashboardPage />} />
-                        <Route path="/users" element={<UsersPage />} />
-                        <Route path="/user" element={<UserPage />} />
-                        <Route path="/permissions" element={<PermissionsPage />} />
-                        <Route path="/projects" element={<ProjectsPage />} />
-                        <Route path="/project" element={<ProjectPage />} />
-                        <Route path="/permissionReservation" element={<PermissionReservationPage />} />
-                        <Route path="/editProject" element={<EditProjectPage />} />
-                        <Route path="/editUser" element={<EditUserPage />} />
-                        <Route path="/addUser" element={<CreateUserPage />} />
-                        <Route path="/addProject" element={<CreateProjectPage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                    </Route>
-                </Routes>
+                <AppRoutes />
             </ThemeProvider>
         </ColorModeContext.Provider>
     );
