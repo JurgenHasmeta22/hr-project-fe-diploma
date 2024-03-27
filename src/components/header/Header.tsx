@@ -3,7 +3,6 @@ import { tokens } from "~/utils/theme";
 
 const Header = ({ title, subtitle }: any) => {
     const theme = useTheme();
-
     const colors = tokens(theme.palette.mode);
 
     return (
