@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Box, List, Typography, Avatar, Drawer, IconButton, useTheme } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/services/store/store";
 import { tokens } from "~/utils/theme";
 import { NestedSidebarItem } from "../nestedSidebarItem/NestedSidebarItem";
 import { SidebarItem } from "../sidebarItem/SidebarItem";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Sidebar = ({ sidebarItems }: any) => {
     const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
@@ -82,12 +82,12 @@ const Sidebar = ({ sidebarItems }: any) => {
                         sx={{
                             position: "fixed",
                             top: "10%",
-                            left: 0,
+                            left: 10,
                             transform: "translateY(-50%)",
                         }}
                         onClick={() => setOpenSidebar(true)}
                     >
-                        <ArrowForwardIcon fontSize="large" />
+                        <MenuIcon fontSize="large" />
                     </IconButton>
                 </Box>
             )}

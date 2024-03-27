@@ -1545,11 +1545,36 @@ export default function Profile() {
             </Box>
             <Box>
                 <Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary" orientation="horizontal">
-                    <Tab label="Certifikatat" style={{ backgroundColor: "#ff8888" }} />
-                    <Tab label="Edukimet" style={{ backgroundColor: "#ff8888" }} />
-                    <Tab label="Projektet" style={{ backgroundColor: "#ff8888" }} />
-                    <Tab label="Aftesite" style={{ backgroundColor: "#ff8888" }} />
-                    <Tab label="Pervoja e punes" style={{ backgroundColor: "#ff8888" }} />
+                    <Tab
+                        label="Certifikatat"
+                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
+                    <Tab
+                        label="Edukimet"
+                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
+                    <Tab
+                        label="Projektet"
+                        style={{ backgroundColor: "#2c75ff" }}
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
+                    <Tab
+                        label="Aftesite"
+                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
+                    <Tab
+                        label="Pervoja e punes"
+                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
                 </Tabs>
                 <TabPanel value={value} index={0}>
                     {userProfile?.userName === userDetailsLoggedIn?.userName && (
