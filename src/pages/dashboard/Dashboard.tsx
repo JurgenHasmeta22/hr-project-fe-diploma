@@ -11,7 +11,7 @@ import IPermission from "~/interfaces/IPermission";
 import permissionsController from "~/services/api/permissions";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import { StatBox } from "~/components/statBox/StatBox";
+import { DashboardStatBox } from "./DashboardStatBox";
 
 const Dashboard = () => {
     const [users, setUsers] = useState<IUser[]>([]);
@@ -65,7 +65,7 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
+                    <DashboardStatBox
                         title={projects?.length}
                         subtitle="Nr i projekteve"
                         progress="0.75"
@@ -87,7 +87,7 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
+                    <DashboardStatBox
                         title={users?.length}
                         subtitle="Nr i punonjeseve"
                         progress="0.50"
@@ -109,7 +109,7 @@ const Dashboard = () => {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <StatBox
+                    <DashboardStatBox
                         title={permissions?.length}
                         subtitle="Nr i lejeve"
                         progress="0.30"
