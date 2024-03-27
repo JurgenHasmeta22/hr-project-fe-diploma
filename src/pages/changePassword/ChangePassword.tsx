@@ -1,32 +1,28 @@
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { Formik, FormikProps } from "formik";
+import React, { useRef, useState } from "react";
+import { Box, Typography, Container } from "@mui/material";
 import * as yup from "yup";
-import authenticationController from "~/services/authentication";
-import ILoginReq from "~/interfaces/ILoginReq";
-import { useNavigate } from "react-router";
-import { useStore } from "~/store/zustand/store";
+import { useNavigate } from "react-router-dom";
+import authenticationController from "~/services/api/authentication";
 import { toast } from "react-toastify";
-import { useState, useRef } from "react";
-import FormAdvanced from "~/components/form";
+import { useStore } from "~/store/zustand/store";
+import FormAdvanced from "~/components/form/Form";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
+import { FormikProps } from "formik";
 
-const loginSchema = yup.object().shape({
-    userName: yup.string().required("required"),
-    password: yup.string().required("required"),
+const validationSchema = yup.object({
+    oldPassword: yup.string().required("Passwordi aktual eshte i kerkuar"),
+    newPassword: yup.string().required("Passwordi i ri eshte i kerkuar").min(8, "Passwordi duhet te jete minimum 8 karaktere"),
+    confirmNewPassword: yup
+        .string()
+        .oneOf([yup.ref("newPassword")], "Passwordet nuk perputhen")
+        .required("Duhet konfirmimi i passwordit"),
 });
 
-export default function Login() {
+const ChangePassword: React.FC = () => {
     const [formData, setFormData] = useState({});
-
-    const { setUser } = useStore();
-
     const navigate = useNavigate();
-
+    const { user, setUser } = useStore();
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {
@@ -38,53 +34,62 @@ export default function Login() {
     };
 
     const handleFormSubmit = async (values: any) => {
-        const payload: ILoginReq = {
-            userName: values.userName,
-            password: values.password,
+        const payload = {
+            userId: user?.userId,
+            oldPassword: values.oldPassword,
+            newPassword: values.newPassword,
+            confirmNewPassword: values.confirmNewPassword,
         };
 
         const response = await authenticationController.onLogin(payload);
 
-        if (response && response?.status !== 401) {
-            toast.success("Ju jeni loguar me sukses");
+        if (response) {
+            toast.success("Ju keni ndryshuar passwordin me sukses");
             setUser(response);
             navigate("/dashboard");
         } else {
-            toast.error("Fjalekalimi ose username eshte gabim");
+            toast.error("Passwordi nuk eshte ndryshuar me sukses");
         }
     };
 
     return (
-        <Container component="div" maxWidth="sm" sx={{ mt: 15 }}>
+        <Container component="main" maxWidth="xs" style={{ display: "flex", alignItems: "center", height: "100vh" }}>
             <Box
-                sx={{
-                    borderRadius: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    bgcolor: "background.paper",
-                    boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
-                }}
+                width={400}
+                mx="auto"
+                p={4}
+                borderRadius={3}
+                bgcolor="background.paper"
+                sx={{ display: "flex", flexDirection: "column", gap: "30px" }}
+                boxShadow="0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)"
             >
-                <Typography variant="h3" component="h3" sx={{ mt: 4 }} gutterBottom color={"secondary"}>
-                    Login
+                <Typography variant="h5" gutterBottom align="center">
+                    Ndrysho passwordin
                 </Typography>
                 <FormAdvanced
                     initialValues={{
-                        userName: "",
-                        password: "",
+                        oldPassword: "",
+                        newPassword: "",
+                        confirmNewPassword: "",
                     }}
                     fields={[
                         {
-                            name: "userName",
-                            label: "Username",
+                            name: "oldPassword",
+                            label: "Passwordi aktual",
                             variant: "filled",
-                            type: "text",
+                            type: "password",
                             sx: { gridColumn: "span 2" },
                         },
                         {
-                            name: "password",
-                            label: "Passwordi",
+                            name: "newPassword",
+                            label: "Passwordi i ri",
+                            variant: "filled",
+                            type: "password",
+                            sx: { gridColumn: "span 2" },
+                        },
+                        {
+                            name: "confirmNewPassword",
+                            label: "Konfirmo passwordin",
                             variant: "filled",
                             type: "password",
                             sx: { gridColumn: "span 2" },
@@ -95,10 +100,10 @@ export default function Login() {
                     }}
                     formRef={formikRef}
                     onSubmit={handleFormSubmit}
-                    validationSchema={loginSchema}
+                    validationSchema={validationSchema}
                     actions={[
                         {
-                            label: "Logohu",
+                            label: "Ndrysho passwordin",
                             type: "submit",
                             color: "secondary",
                             variant: "contained",
@@ -131,4 +136,6 @@ export default function Login() {
             </Box>
         </Container>
     );
-}
+};
+
+export default ChangePassword;

@@ -10,9 +10,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/header";
-import permissionsController from "~/services/permissions";
-import { useModal } from "~/components/modal/modalContext";
+import Header from "~/components/header/Header";
+import permissionsController from "~/services/api/permissions";
+import { useModal } from "~/services/providers/ModalContext";
 import IPermission from "~/interfaces/IPermission";
 import { useStore } from "~/store/zustand/store";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
@@ -52,7 +52,7 @@ const permissionReservation = () => {
         const year = d.getFullYear();
         const month = String(d.getMonth() + 1).padStart(2, "0");
         const day = String(d.getDate()).padStart(2, "0");
-        
+
         return `${year}-${month}-${day}`;
     }
 

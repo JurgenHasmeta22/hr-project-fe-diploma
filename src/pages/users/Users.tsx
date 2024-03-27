@@ -11,10 +11,10 @@ import {
     MRT_PaginationState,
     MRT_SortingState,
 } from "material-react-table";
-import Header from "~/components/header";
+import Header from "~/components/header/Header";
 import { useState, useEffect, useMemo } from "react";
 import IUser from "~/interfaces/IUser";
-import usersController from "~/services/users";
+import usersController from "~/services/api/users";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/zustand/store";
@@ -26,7 +26,7 @@ const Users = () => {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isRefetching, setIsRefetching] = useState(false);
-    const [rowCount, setRowCount] = useState(0);
+    // const [rowCount, setRowCount] = useState(0);
     const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState<MRT_SortingState>([]);
@@ -34,7 +34,6 @@ const Users = () => {
         pageIndex: 0,
         pageSize: 5,
     });
-    
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
 

@@ -9,30 +9,28 @@ import {
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
-import Header from "~/components/header";
+import Header from "~/components/header/Header";
 import IProject from "~/interfaces/IProject";
 import { useEffect, useState, useMemo } from "react";
-import projectsController from "~/services/projects";
+import projectsController from "~/services/api/projects";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { useStore } from "~/store/zustand/store";
 import LogoutIcon from "@mui/icons-material/Logout";
-import usersController from "~/services/users";
+import usersController from "~/services/api/users";
 import { Edit, Delete, Add } from "@mui/icons-material";
 
 const Projects = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [currentTime, setCurrentTime] = useState("");
-
     const { user } = useStore();
     const { userDetailsLoggedIn } = useStore();
     const { setUserDetailsLoggedIn } = useStore();
-
-    const theme = useTheme();
     const navigate = useNavigate();
 
+    const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");

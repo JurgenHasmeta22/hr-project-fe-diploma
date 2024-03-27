@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Tab, Tabs, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import TabPanel from "~/components/tab";
+import TabPanel from "~/components/tab/Tab";
 import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,9 +9,9 @@ import { FormikProps } from "formik";
 import * as Yup from "yup";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import { useDrawer } from "~/components/drawer/drawerContext";
+import { useRightPanel } from "~/services/providers/RightPanelContext";
 import { useStore } from "~/store/zustand/store";
-import usersController from "~/services/users";
+import usersController from "~/services/api/users";
 import IUser from "~/interfaces/IUser";
 import ICertification from "~/interfaces/ICertification";
 import IEducation from "~/interfaces/IEducation";
@@ -19,12 +19,12 @@ import ISkill from "~/interfaces/ISkill";
 import IWorkExperience from "~/interfaces/IWorkExperience";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { toast } from "react-toastify";
-import educationsController from "~/services/educations";
-import workExperiencesController from "~/services/workExperiences";
-import skillsController from "~/services/skills";
-import certificatesController from "~/services/certificates";
-import authenticationController from "~/services/authentication";
-import { useModal } from "~/components/modal/modalContext";
+import educationsController from "~/services/api/educations";
+import workExperiencesController from "~/services/api/workExperiences";
+import skillsController from "~/services/api/skills";
+import certificatesController from "~/services/api/certificates";
+import authenticationController from "~/services/api/authentication";
+import { useModal } from "~/services/providers/ModalContext";
 
 const userSchema = Yup.object().shape({
     userName: Yup.string().required("required"),
@@ -79,14 +79,12 @@ export default function Profile() {
     const [userProfile, setUserProfile] = useState<IUser | null>(null);
     const [formData, setFormData] = useState({});
     const [open, setOpen] = useState(false);
-
     const navigate = useNavigate();
     const location = useLocation();
-
     const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
     const formikRef = useRef<FormikProps<any>>(null);
 
-    const { openDrawer } = useDrawer();
+    const { openRightPanel } = useRightPanel();
     const { openModal } = useModal();
 
     const handleChange = (event: any, newValue: any) => {
@@ -96,7 +94,7 @@ export default function Profile() {
     const handleDataChange = (values: any) => {
         setFormData(values);
     };
-    
+
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
     };
@@ -106,7 +104,7 @@ export default function Profile() {
     };
 
     const handleCreateCertificate = () => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 certEmri: "",
@@ -234,7 +232,7 @@ export default function Profile() {
     };
 
     const handleCreateSkill = () => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 llojiAftesise: "",
@@ -340,7 +338,7 @@ export default function Profile() {
     };
 
     const handleCreateWork = () => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 ppemri: "",
@@ -486,7 +484,7 @@ export default function Profile() {
     };
 
     const handleCreateEducation = () => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 eduName: "",
@@ -622,7 +620,7 @@ export default function Profile() {
     };
 
     const handleEditProfile = (user: IUser) => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 userId: user.userId,
@@ -723,7 +721,7 @@ export default function Profile() {
     };
 
     const handleEditCertificate = (certificate: any) => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 certId: certificate.cert.certId,
@@ -853,7 +851,7 @@ export default function Profile() {
     };
 
     const handleEditSkill = (skill: any) => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 aftesiId: skill.aftesi.aftesiId,
@@ -962,7 +960,7 @@ export default function Profile() {
     };
 
     const handleEditWork = (work: any) => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 ppId: work.pp.ppId,
@@ -1112,7 +1110,7 @@ export default function Profile() {
     };
 
     const handleEditEducation = (education: any) => {
-        openDrawer({
+        openRightPanel({
             formRef: formikRef,
             initialValues: {
                 eduId: education.edu.eduId,
@@ -1465,7 +1463,7 @@ export default function Profile() {
             async function fetchUserDetails() {
                 try {
                     const user = await usersController.getUser(location.state?.userId);
-                    
+
                     if (user) {
                         setUserProfile(user);
                     }
@@ -1546,13 +1544,7 @@ export default function Profile() {
                 <Divider sx={{ my: 2 }} />
             </Box>
             <Box>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="fullWidth"
-                    textColor="primary"
-                    orientation="horizontal"
-                >
+                <Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary" orientation="horizontal">
                     <Tab label="Certifikatat" style={{ backgroundColor: "#ff8888" }} />
                     <Tab label="Edukimet" style={{ backgroundColor: "#ff8888" }} />
                     <Tab label="Projektet" style={{ backgroundColor: "#ff8888" }} />

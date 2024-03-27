@@ -1,10 +1,10 @@
 import { Box, useMediaQuery } from "@mui/material";
-import Header from "~/components/header";
+import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import authenticationController from "~/services/authentication";
-import FormAdvanced from "~/components/form";
+import authenticationController from "~/services/api/authentication";
+import FormAdvanced from "~/components/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
@@ -21,9 +21,7 @@ const userSchema = yup.object().shape({
 
 const CreateUser = () => {
     const [formData, setFormData] = useState({});
-
     const navigate = useNavigate();
-    
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {

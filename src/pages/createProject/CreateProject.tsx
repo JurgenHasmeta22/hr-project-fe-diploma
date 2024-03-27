@@ -1,12 +1,12 @@
 import { Box, useMediaQuery } from "@mui/material";
-import Header from "~/components/header";
+import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
-import projectsController from "~/services/projects";
+import projectsController from "~/services/api/projects";
 import { FormikProps } from "formik";
 import * as yup from "yup";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { toast } from "react-toastify";
-import FormAdvanced from "~/components/form";
+import FormAdvanced from "~/components/form/Form";
 import { useState, useRef } from "react";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 
@@ -17,9 +17,7 @@ const projectSchema = yup.object().shape({
 
 const CreateProject = () => {
     const [formData, setFormData] = useState({});
-
     const navigate = useNavigate();
-    
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {
