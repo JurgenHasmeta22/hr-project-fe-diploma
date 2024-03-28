@@ -2,7 +2,7 @@ import { ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from "
 import React from "react";
 import { tokens } from "~/utils/theme";
 
-export const SidebarItem = ({ index, item, selectedLabel, handleItemClick }: any) => {
+export const SidebarItem = ({ index, item, selectedLabel, handleItemClick, isEmployee }: any) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -11,6 +11,7 @@ export const SidebarItem = ({ index, item, selectedLabel, handleItemClick }: any
             <ListItem value={item.label}>
                 <ListItemButton
                     disableRipple={true}
+                    disabled={isEmployee && item.label === "Perdoruesit"}
                     sx={{
                         color: colors.grey[1500],
                         "&.Mui-selected": {
