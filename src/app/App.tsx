@@ -5,7 +5,7 @@ import TopBar from "~/components/topBar/TopBar";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
 import { useStore } from "~/services/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/api/users";
 import Sidebar from "~/components/sidebar/Sidebar";
@@ -147,8 +147,9 @@ export interface UserData {
 
 function App() {
     const [theme, colorMode] = useMode();
-    const { user, setUserDetailsLoggedIn, setUser } = useStore();
+    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore();
     const { value } = useLocalStorage("user");
+    const [isPageShrunk, setIsPageShrunk] = useState(false);
 
     useEffect(() => {
         if (value) {
@@ -173,6 +174,26 @@ function App() {
 
         fetchUser();
     }, [user]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsPageShrunk(window.innerWidth < 991);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (isPageShrunk) {
+            setOpenSidebar(false);
+        } else {
+            setOpenSidebar(true);
+        }
+    }, [isPageShrunk]);
 
     return (
         <ColorModeContext.Provider value={colorMode}>
