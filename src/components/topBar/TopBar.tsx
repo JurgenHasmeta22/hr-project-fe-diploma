@@ -13,12 +13,11 @@ const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const { user, unsetUser } = useStore();
     const navigate = useNavigate();
-
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const open = Boolean(anchorEl);
+    const { removeItem } = useLocalStorage("user");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -29,7 +28,7 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        useLocalStorage<UserData | null>("user")[1](null);
+        removeItem();
         unsetUser();
         navigate("/login");
     };
@@ -71,13 +70,17 @@ const Header = () => {
                         "aria-labelledby": "buttonProfile",
                     }}
                 >
-                    <MenuItem onClick={handleRedirectToProfile}>Profili im</MenuItem>
+                    <MenuItem onClick={handleRedirectToProfile} style={{ color: colors.primary[100] }}>
+                        Profili im
+                    </MenuItem>
                     <MenuItem>
-                        <Link to="/changePassword" style={{ color: "#fff", textDecoration: "none" }}>
+                        <Link to="/changePassword" style={{ color: colors.primary[100], textDecoration: "none" }}>
                             Ndrysho passwordin
                         </Link>
                     </MenuItem>
-                    <MenuItem onClick={handleLogout}>Logohu jasht</MenuItem>
+                    <MenuItem onClick={handleLogout} style={{ color: colors.primary[100] }}>
+                        Logohu jasht
+                    </MenuItem>
                 </Menu>
             </Box>
         </Box>
