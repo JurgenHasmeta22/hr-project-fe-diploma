@@ -172,65 +172,71 @@ const Projects = () => {
                     Elemino
                 </MenuItem>,
             ];
+            // {
+            //     projects.map((project) =>
+            //         !checkIsUserInProject(project.projektId)
+            //             ? actionMenuItems.push(
+            //                   <MenuItem
+            //                       key={2}
+            //                       sx={{ m: 0 }}
+            //                       disabled={!isEmployee}
+            //                       onClick={async () => {
+            //                           const response = await projectsController.assignProjectToUser(
+            //                               user?.userId,
+            //                               project.projektId,
+            //                               {
+            //                                   dataFillim: currentTime,
+            //                                   dataMbarim: null,
+            //                               },
+            //                           );
 
-            projects.forEach((project) => {
-                if (!checkIsUserInProject(project.projektId)) {
-                    actionMenuItems.push(
-                        <MenuItem
-                            key={2}
-                            sx={{ m: 0 }}
-                            disabled={!isEmployee}
-                            onClick={async () => {
-                                const response = await projectsController.assignProjectToUser(user?.userId, project.projektId, {
-                                    dataFillim: currentTime,
-                                    dataMbarim: null,
-                                });
+            //                           if (response === "") {
+            //                               toast.success("Futja ne projekt u krye me sukses !");
+            //                               const response = await usersController.getUser(user.userId);
 
-                                if (response === "") {
-                                    toast.success("Futja ne projekt u krye me sukses !");
-                                    const response = await usersController.getUser(user.userId);
+            //                               if (response) {
+            //                                   setUserDetailsLoggedIn(response);
+            //                               }
 
-                                    if (response) {
-                                        setUserDetailsLoggedIn(response);
-                                    }
+            //                               setUserDetailsLoggedIn(response);
+            //                           } else {
+            //                               toast.error("Futja ne projekt nuk u realizua !");
+            //                           }
+            //                       }}
+            //                   >
+            //                       <MeetingRoomIcon sx={{ color: "blue" }} />
+            //                       Futu
+            //                   </MenuItem>,
+            //               )
+            //             : actionMenuItems.push(
+            //                   <MenuItem
+            //                       key={3}
+            //                       sx={{ m: 0 }}
+            //                       disabled={!isEmployee}
+            //                       onClick={async () => {
+            //                           const response = await projectsController.deleteProjectToUser(
+            //                               user?.userId,
+            //                               project.projektId,
+            //                           );
 
-                                    setUserDetailsLoggedIn(response);
-                                } else {
-                                    toast.error("Futja ne projekt nuk u realizua !");
-                                }
-                            }}
-                        >
-                            <MeetingRoomIcon sx={{ color: "blue" }} />
-                            Futu
-                        </MenuItem>,
-                    );
-                } else {
-                    actionMenuItems.push(
-                        <MenuItem
-                            key={3}
-                            sx={{ m: 0 }}
-                            disabled={!isEmployee}
-                            onClick={async () => {
-                                const response = await projectsController.deleteProjectToUser(user?.userId, project.projektId);
+            //                           if (response === "") {
+            //                               toast.success("Ikja nga projekti u krye me sukses !");
+            //                               const response = await usersController.getUser(user.userId);
 
-                                if (response === "") {
-                                    toast.success("Ikja nga projekti u krye me sukses !");
-                                    const response = await usersController.getUser(user.userId);
-
-                                    if (response) {
-                                        setUserDetailsLoggedIn(response);
-                                    }
-                                } else {
-                                    toast.error("Ikja nga projekti nuk u realizua !");
-                                }
-                            }}
-                        >
-                            <LogoutIcon sx={{ color: "red" }} />
-                            Dil
-                        </MenuItem>,
-                    );
-                }
-            });
+            //                               if (response) {
+            //                                   setUserDetailsLoggedIn(response);
+            //                               }
+            //                           } else {
+            //                               toast.error("Ikja nga projekti nuk u realizua !");
+            //                           }
+            //                       }}
+            //                   >
+            //                       <LogoutIcon sx={{ color: "red" }} />
+            //                       Dil
+            //                   </MenuItem>,
+            //               ),
+            //     );
+            // }
 
             return actionMenuItems;
         },
