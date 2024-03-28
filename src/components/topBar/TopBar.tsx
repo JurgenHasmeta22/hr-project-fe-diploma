@@ -6,6 +6,8 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens, ColorModeContext } from "~/utils/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "~/services/store/store";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
+import { UserData } from "~/app/App";
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -27,6 +29,7 @@ const Header = () => {
     };
 
     const handleLogout = () => {
+        useLocalStorage<UserData | null>("user")[1](null);
         unsetUser();
         navigate("/login");
     };

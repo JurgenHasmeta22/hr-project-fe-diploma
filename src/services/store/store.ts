@@ -15,11 +15,9 @@ export const useStore = create<AppStoreState>(
         },
         setUser: (userData) => {
             set({ user: userData });
-            localStorage.setItem("user", JSON.stringify(userData));
         },
         unsetUser: () => {
             set({ user: null });
-            localStorage.removeItem("user");
         },
         setUserDetailsLoggedIn: (userData) => {
             set({ userDetailsLoggedIn: userData });

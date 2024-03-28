@@ -9,8 +9,11 @@ import { useEffect } from "react";
 import IUser from "~/interfaces/IUser";
 import usersController from "~/services/api/users";
 import Sidebar from "~/components/sidebar/Sidebar";
-import useLocalStorage from "~/hooks/useLocalStorage";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { sidebarItems } from "~/utils/sidebarItems";
+import AppRoutes from "~/utils/Routes";
+
+// #region Lazy Imports pages
 const Dashboard = React.lazy(() => import("~/pages/dashboard/Dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions/Permissions"));
 const Users = React.lazy(() => import("~/pages/users/Users"));
@@ -24,8 +27,9 @@ const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const ChangePassword = React.lazy(() => import("~/pages/changePassword/ChangePassword"));
 const Error = React.lazy(() => import("~/pages/error/Error"));
 const Login = React.lazy(() => import("~/pages/login/Login"));
-import AppRoutes from "~/utils/Routes";
+// #endregion
 
+// #region Main Layout
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const { openSidebar } = useStore();
 
@@ -67,7 +71,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         </React.Fragment>
     );
 };
+// #endregion
 
+// #region HOC components for layour wrapping
 const withMainLayout = (Component: React.ComponentType) => {
     return (props: any) => {
         return (
@@ -115,7 +121,9 @@ const withSuspenseWithoutMainLayout = (Component: React.ComponentType) => {
         );
     };
 };
+// #endregion
 
+// #region Using HOC to wrap or not wrap the pages
 export const DashboardPage = withMainLayout(Dashboard);
 export const UsersPage = withMainLayout(Users);
 export const PermissionsPage = withMainLayout(Permissions);
@@ -131,19 +139,20 @@ export const EditUserPage = withMainLayout(User);
 export const LoginPage = withSuspenseWithoutMainLayout(Login);
 export const ChangePasswordPage = withSuspenseWithoutMainLayout(ChangePassword);
 export const ErrorPage = withSuspenseWithoutMainLayout(Error);
+// #endregion
 
-interface UserData {
+export interface UserData {
     token: string;
 }
 
 function App() {
     const [theme, colorMode] = useMode();
     const { user, setUserDetailsLoggedIn, setUser } = useStore();
-    const [userData] = useLocalStorage<UserData>("user");
+    const { value } = useLocalStorage("user");
 
     useEffect(() => {
-        if (userData) {
-            setUser(userData);
+        if (value) {
+            setUser(value);
         }
     }, []);
 
