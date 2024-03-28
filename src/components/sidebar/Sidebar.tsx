@@ -35,8 +35,8 @@ const Sidebar = ({ sidebarItems }: any) => {
                 onClose={onClose}
                 PaperProps={{ sx: { backgroundColor: colors.grey[1000] } }}
             >
-                <Box mt={3} sx={{ width: 250 }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Box mt={3}>
+                    <Box display="flex" justifyContent="end" alignItems="center" mb={2}>
                         <IconButton onClick={onClose}>
                             <CloseIcon color="action" />
                         </IconButton>
@@ -55,7 +55,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                             </Typography>
                         </Box>
                     </Box>
-                    <List>
+                    <List disablePadding>
                         {sidebarItems?.map((item: any, index: number) =>
                             item.submenu && item.submenu.length > 0 ? (
                                 <NestedSidebarItem
@@ -80,7 +80,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                 <Box display="flex" justifyContent="center" mt={2}>
                     <IconButton
                         sx={{
-                            position: "fixed",
+                            position: "absolute",
                             top: "10%",
                             left: 10,
                             transform: "translateY(-50%)",

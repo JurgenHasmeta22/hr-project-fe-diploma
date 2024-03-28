@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, useTheme } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormikProps } from "formik";
@@ -22,6 +22,7 @@ import authenticationController from "~/services/api/authentication";
 import { useModal } from "~/services/providers/ModalContext";
 import { ProfileTabsPanels } from "./ProfileTabsPanels";
 import { ProfileHeader } from "./ProfileHeader";
+import { tokens } from "~/utils/theme";
 
 // #region Schemas for validation
 const userSchema = Yup.object().shape({
@@ -84,6 +85,8 @@ export default function Profile() {
     const formikRef = useRef<FormikProps<any>>(null);
     const { openRightPanel } = useRightPanel();
     const { openModal } = useModal();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
@@ -1520,31 +1523,31 @@ export default function Profile() {
                 <Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary" orientation="horizontal">
                     <Tab
                         label="Certifikatat"
-                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Edukimet"
-                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Projektet"
-                        style={{ backgroundColor: "#2c75ff" }}
+                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Aftesite"
-                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Pervoja e punes"
-                        style={{ backgroundColor: "#2c75ff", color: "#fff" }}
+                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />

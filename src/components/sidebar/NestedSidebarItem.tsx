@@ -31,7 +31,7 @@ export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any)
                 </ListItemButton>
             </ListItem>
             <Collapse in={openSubMenu}>
-                <List component="div" disablePadding sx={{ paddingLeft: "50px" }}>
+                <List disablePadding sx={{ paddingLeft: "50px", paddingTop: "0px", paddingBottom: "0px" }}>
                     {item.submenu.map((subItem: any, index: number) => (
                         <ListItem key={index} value={subItem.label}>
                             <ListItemButton

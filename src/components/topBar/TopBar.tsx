@@ -7,7 +7,6 @@ import { tokens, ColorModeContext } from "~/utils/theme";
 import { Link, useNavigate } from "react-router-dom";
 import { useStore } from "~/services/store/store";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import { UserData } from "~/app/App";
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -43,9 +42,8 @@ const Header = () => {
     };
 
     return (
-        <Box display="flex" justifyContent="space-between" p={2}>
-            <Box display="flex" component="div"></Box>
-            <Box display="flex" gap={"20px"} mr={"20px"}>
+        <Box display="flex" justifyContent="end">
+            <Box display="flex" gap={"10px"} mr={"20px"} mt={"10px"}>
                 <IconButton onClick={colorMode.toggleColorMode}>
                     {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                 </IconButton>
@@ -55,7 +53,7 @@ const Header = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
-                    sx={{ display: "flex", flexDirection: "row", gap: "15px" }}
+                    sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
                     disableRipple={true}
                 >
                     <PersonOutlinedIcon color="action" fontSize="medium" />

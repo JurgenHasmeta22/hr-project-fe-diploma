@@ -57,11 +57,11 @@ const permissionReservation = () => {
     const handleSave = async () => {
         const response = await permissionsController.askPermission(formData, user?.userId);
 
-        if (response === "") {
+        if (response) {
             toast.success("Rezervimi i lejes u krijua me sukses !");
             navigate("/users");
         } else {
-            toast.error("Rezervimi i lejes nuk u realizua !");
+            toast.error("Rezervimi i lejes nuk u krijua !");
         }
 
         handleClose();
@@ -74,7 +74,7 @@ const permissionReservation = () => {
             toast.success("Rezervimi i lejes u ndryshua me sukses !");
             navigate("/users");
         } else {
-            toast.error("Rezervimi i lejes nuk u azhornua !");
+            toast.error("Rezervimi i lejes nuk u ndryshua !");
         }
 
         handleClose();
