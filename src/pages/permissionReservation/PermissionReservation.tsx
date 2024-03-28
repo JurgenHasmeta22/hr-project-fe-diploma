@@ -21,7 +21,7 @@ import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 const permissionReservation = () => {
     const [open, setOpen] = useState(false);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<any>({});
     const [calendarEvents, setCalendarEvents] = useState<any>([]);
     const [loading, setLoading] = useState(true);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
@@ -50,34 +50,61 @@ const permissionReservation = () => {
         const year = d.getFullYear();
         const month = String(d.getMonth() + 1).padStart(2, "0");
         const day = String(d.getDate()).padStart(2, "0");
-
         return `${year}-${month}-${day}`;
     }
 
-    const handleSave = async () => {
-        const response = await permissionsController.askPermission(formData, user?.userId);
+    const handleSave = async (selected: any) => {
+        try {
+            const response = await permissionsController.askPermission(formData, user?.userId);
 
-        if (response) {
-            toast.success("Rezervimi i lejes u krijua me sukses !");
-            navigate("/users");
-        } else {
-            toast.error("Rezervimi i lejes nuk u krijua !");
+            if (response) {
+                toast.success("Rezervimi i lejes u krijua me sukses !");
+
+                let calendarApi = selected.view.calendar;
+                calendarApi.unselect();
+                calendarApi.updateEvent({
+                    id: formData.lejeId,
+                    title: formData.title,
+                    start: selected.startStr,
+                    end: selected.endStr,
+                    allDay: selected.allDay,
+                });
+            } else {
+                toast.error("Rezervimi i lejes nuk u krijua !");
+            }
+
+            handleClose();
+        } catch (error) {
+            console.error("An error occurred:", error);
+            toast.error("An error occurred while asking for permission.");
         }
-
-        handleClose();
     };
 
-    const handleUpdate = async (lejeId: any) => {
-        const response = await permissionsController.updatePermission(lejeId, formData);
+    const handleUpdate = async (lejeId: any, selected: any) => {
+        try {
+            const response = await permissionsController.updatePermission(lejeId, formData);
 
-        if (response) {
-            toast.success("Rezervimi i lejes u ndryshua me sukses !");
-            navigate("/users");
-        } else {
-            toast.error("Rezervimi i lejes nuk u ndryshua !");
+            if (response === true) {
+                toast.success("Rezervimi i lejes u ndryshua me sukses !");
+
+                let calendarApi = selected.view.calendar;
+                calendarApi.unselect();
+                calendarApi.updateEvent({
+                    id: formData.lejeId,
+                    title: formData.title,
+                    start: selected.startStr,
+                    end: selected.endStr,
+                    allDay: selected.allDay,
+                });
+            } else {
+                toast.error("Rezervimi i lejes nuk u ndryshua !");
+            }
+
+            handleClose();
+        } catch (error) {
+            console.error("An error occurred:", error);
+            toast.error("An error occurred while updating the permission.");
         }
-
-        handleClose();
     };
 
     const handleDateClick = (selected: any) => {
@@ -103,9 +130,6 @@ const permissionReservation = () => {
                 dataMbarim: Yup.string().required("Required"),
                 tipiLeje: Yup.string().required("Required"),
             }),
-            onSave: () => {
-                handleSave();
-            },
             title: "Rezervo leje",
             actions: [
                 {
@@ -124,6 +148,7 @@ const permissionReservation = () => {
                 },
                 {
                     label: "Ruaj ndryshimet",
+                    onClick: () => handleSave(selected),
                     type: "submit",
                     color: "secondary",
                     variant: "contained",
@@ -142,6 +167,16 @@ const permissionReservation = () => {
 
         const calendarApi = selected.view.calendar;
         calendarApi.unselect();
+
+        // if (formData.title) {
+        //     calendarApi.addEvent({
+        //         id: formData.id,
+        //         title: formData.title,
+        //         start: selected.startStr,
+        //         end: selected.endStr,
+        //         allDay: selected.allDay,
+        //     });
+        // }
     };
 
     const handleEventClick = (selected: any) => {
@@ -167,9 +202,6 @@ const permissionReservation = () => {
                 dataMbarim: Yup.string().required("Required"),
                 tipiLeje: Yup.string().required("Required"),
             }),
-            onSave: (values: any) => {
-                handleSave();
-            },
             title: "Detajet e lejes",
             actions: [
                 {
@@ -183,11 +215,18 @@ const permissionReservation = () => {
                                     label: "Po",
                                     onClick: async () => {
                                         const response = await permissionsController.deletePermission(selected.event.id);
-                                        if (response === "") {
-                                            toast.success("Elemini u krye me sukses !");
-                                            navigate("/projects");
-                                        } else {
-                                            toast.error("Eleminimi nuk u realizua !");
+
+                                        try {
+                                            if (response === "") {
+                                                toast.success("Elemini u krye me sukses !");
+                                                selected.event.remove();
+                                                handleClose();
+                                            } else {
+                                                toast.error("Eleminimi nuk u realizua !");
+                                            }
+                                        } catch (error) {
+                                            console.error("An error occurred:", error);
+                                            toast.error("An error occurred while deleting the permission.");
                                         }
                                     },
                                     color: "secondary",
@@ -243,7 +282,7 @@ const permissionReservation = () => {
                 {
                     label: "Ruaj ndryshimet",
                     onClick: () => {
-                        handleUpdate(selected.event.id);
+                        handleUpdate(selected.event.id, selected);
                     },
                     type: "submit",
                     color: "secondary",

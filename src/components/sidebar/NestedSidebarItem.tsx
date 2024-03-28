@@ -4,7 +4,7 @@ import React from "react";
 import { useStore } from "~/services/store/store";
 import { tokens } from "~/utils/theme";
 
-export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any) => {
+export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick, isEmployee }: any) => {
     const { openSubMenu, setOpenSubMenu } = useStore();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -31,11 +31,12 @@ export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick }: any)
                 </ListItemButton>
             </ListItem>
             <Collapse in={openSubMenu}>
-                <List disablePadding sx={{ paddingLeft: "50px", paddingTop: "0px", paddingBottom: "0px" }}>
+                <List disablePadding sx={{ paddingLeft: "50px" }}>
                     {item.submenu.map((subItem: any, index: number) => (
                         <ListItem key={index} value={subItem.label}>
                             <ListItemButton
                                 disableRipple={true}
+                                disabled={isEmployee && subItem.label === "Lista e lejeve"}
                                 sx={{
                                     color: colors.grey[1500],
                                     "&.Mui-selected": {

@@ -16,6 +16,7 @@ const Sidebar = ({ sidebarItems }: any) => {
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
 
     const handleItemClick = (title: string, to: string, state: any) => {
         setSelectedLabel(title);
@@ -63,13 +64,16 @@ const Sidebar = ({ sidebarItems }: any) => {
                                     item={item}
                                     selectedLabel={selectedLabel}
                                     handleItemClick={handleItemClick}
+                                    isEmployee={isEmployee}
                                 />
                             ) : (
                                 <SidebarItem
+                                    ket={item.label}
                                     item={item}
                                     index={index}
                                     selectedLabel={selectedLabel}
                                     handleItemClick={handleItemClick}
+                                    isEmployee={isEmployee}
                                 />
                             ),
                         )}
