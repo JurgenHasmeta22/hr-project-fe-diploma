@@ -77,17 +77,17 @@ const Sidebar = ({ sidebarItems }: any) => {
                 </Box>
             </Drawer>
             {!openSidebar && (
-                <Box display="flex" justifyContent="center" mt={2}>
+                <Box>
                     <IconButton
                         sx={{
                             position: "absolute",
-                            top: "10%",
+                            top: "5%",
                             left: 10,
                             transform: "translateY(-50%)",
                         }}
                         onClick={() => setOpenSidebar(true)}
                     >
-                        <MenuIcon fontSize="large" />
+                        <MenuIcon fontSize="medium" />
                     </IconButton>
                 </Box>
             )}

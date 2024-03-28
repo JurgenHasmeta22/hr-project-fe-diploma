@@ -5,6 +5,8 @@ export default interface AppStoreState {
     userDetailsLoggedIn: IUser | null;
     openSidebar: boolean;
     openSubMenu: boolean;
+    openTopBarList: boolean;
+    setOpenTopBarList: (value: boolean) => void;
     setOpenSubMenu: (value: boolean) => void;
     setOpenSidebar: (value: boolean) => void;
     setUserDetailsLoggedIn: (data: any) => void;

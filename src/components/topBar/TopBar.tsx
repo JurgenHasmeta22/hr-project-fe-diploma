@@ -10,7 +10,7 @@ import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 const Header = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const { user, unsetUser } = useStore();
+    const { user, unsetUser, openTopBarList } = useStore();
     const navigate = useNavigate();
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
@@ -81,6 +81,7 @@ const Header = () => {
                     </MenuItem>
                 </Menu>
             </Box>
+            {openTopBarList && <></>}
         </Box>
     );
 };
