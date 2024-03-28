@@ -147,7 +147,7 @@ export interface UserData {
 
 function App() {
     const [theme, colorMode] = useMode();
-    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore();
+    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar, setOpenTopBarList } = useStore();
     const { value } = useLocalStorage("user");
     const [isPageShrunk, setIsPageShrunk] = useState(false);
 
@@ -190,8 +190,10 @@ function App() {
     useEffect(() => {
         if (isPageShrunk) {
             setOpenSidebar(false);
+            setOpenTopBarList(true);
         } else {
             setOpenSidebar(true);
+            setOpenTopBarList(false);
         }
     }, [isPageShrunk]);
 
