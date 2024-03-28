@@ -40,12 +40,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 <ModalProvider>
                     <div className="app">
                         <Grid container>
-                            <Grid item xs={12} md={openSidebar ? 3 : 0}>
+                            <Grid item xs={12} md={openSidebar ? 2 : 0}>
                                 <Sidebar sidebarItems={sidebarItems} />
                             </Grid>
-                            <Grid item xs={12} md={openSidebar ? 9 : 12}>
+                            <Grid item xs={12} md={openSidebar ? 9.8 : 12} ml={openSidebar ? 2.5 : 0}>
                                 <TopBar />
-                                <Box sx={{ margin: "0 auto" }}>
+                                <Box>
                                     <React.Suspense
                                         fallback={
                                             <Box
@@ -177,7 +177,7 @@ function App() {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsPageShrunk(window.innerWidth < 991);
+            setIsPageShrunk(window.innerWidth < 1280);
         };
 
         window.addEventListener("resize", handleResize);
