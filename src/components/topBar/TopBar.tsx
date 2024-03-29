@@ -9,7 +9,7 @@ import { useStore } from "~/services/store/store";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import MenuIcon from "@mui/icons-material/Menu";
 
-const Header = () => {
+const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const { user, unsetUser, openSidebar, setOpenSidebar } = useStore();
     const navigate = useNavigate();
@@ -95,4 +95,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default TopBar;
