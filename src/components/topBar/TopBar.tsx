@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const { user, unsetUser, openSidebar, setOpenSidebar } = useStore();
+    const { user, unsetUser, openSidebar, setOpenSidebar, openTopBarList } = useStore();
     const navigate = useNavigate();
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
@@ -47,7 +47,13 @@ const TopBar = () => {
             <Toolbar sx={{ display: "flex", justifyContent: "space-between", backgroundColor: colors.primary[900] }}>
                 <Box display={"flex"} justifyContent={"start"}>
                     {!openSidebar && (
-                        <IconButton onClick={() => setOpenSidebar(true)}>
+                        <IconButton
+                            onClick={() => {
+                                if (!openTopBarList) {
+                                    setOpenSidebar(true);
+                                }
+                            }}
+                        >
                             <MenuIcon fontSize="medium" />
                         </IconButton>
                     )}

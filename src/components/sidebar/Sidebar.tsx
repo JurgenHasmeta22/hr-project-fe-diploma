@@ -9,7 +9,7 @@ import { NestedSidebarItem } from "./NestedSidebarItem";
 import { SidebarItem } from "./SidebarItem";
 
 const Sidebar = ({ sidebarItems }: any) => {
-    const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
+    const { userDetailsLoggedIn, openSidebar, setOpenSidebar, openTopBarList, setOpenTopBarList } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
@@ -24,24 +24,25 @@ const Sidebar = ({ sidebarItems }: any) => {
 
     const onClose = () => {
         setOpenSidebar(false);
+        setOpenTopBarList(false);
     };
 
     return (
         <>
             <Drawer
                 variant={"persistent"}
-                anchor={"left"}
-                open={openSidebar}
+                anchor={`${!openTopBarList && openSidebar ? "left" : openTopBarList && !openSidebar ? "top" : "left"}`}
+                open={openSidebar || openTopBarList}
                 onClose={onClose}
                 PaperProps={{ sx: { backgroundColor: colors.grey[1000] } }}
             >
-                <Box mt={3}>
+                <Box mt={2}>
                     <Box display="flex" justifyContent="end" alignItems="center" mb={2}>
                         <IconButton onClick={onClose}>
                             <CloseIcon color="action" />
                         </IconButton>
                     </Box>
-                    <Box display="flex" alignItems="center" mb={3} ml={3}>
+                    <Box display="flex" alignItems="center" mb={2} ml={2}>
                         <Avatar>
                             <AccountCircleIcon />
                         </Avatar>
@@ -67,7 +68,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                                 />
                             ) : (
                                 <SidebarItem
-                                    ket={item.label}
+                                    key={item.label}
                                     item={item}
                                     index={index}
                                     selectedLabel={selectedLabel}

@@ -30,9 +30,9 @@ const Login = React.lazy(() => import("~/pages/login/Login"));
 const Test = React.lazy(() => import("~/pages/test/Test"));
 // #endregion
 
-// #region Main Layout
+// #region Creating Main Layout
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-    const { openSidebar } = useStore();
+    const { openSidebar, openTopBarList } = useStore();
 
     return (
         <React.Fragment>
@@ -42,11 +42,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="app">
                         <Grid container>
                             <Grid item xs={12} md={openSidebar ? 2 : 0}>
-                                {openSidebar && <Sidebar sidebarItems={sidebarItems} />}
+                                <Sidebar sidebarItems={sidebarItems} />
                             </Grid>
                             <Grid item xs={12} md={openSidebar ? 10 : 12}>
                                 <TopBar />
-                                <Box ml={3} mt={5} mr={3}>
+                                <Box ml={3} mt={openTopBarList ? 50 : 5} mr={3}>
                                     <React.Suspense
                                         fallback={
                                             <Box
@@ -73,7 +73,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 };
 // #endregion
 
-// #region HOC components for layour wrapping
+// #region Creating HOC components for layout wrapping
 const withMainLayout = (Component: React.ComponentType) => {
     return (props: any) => {
         return (
@@ -123,7 +123,7 @@ const withSuspenseWithoutMainLayout = (Component: React.ComponentType) => {
 };
 // #endregion
 
-// #region Using HOC to wrap or not wrap the pages
+// #region Using HOC components to wrap the pages
 export const DashboardPage = withMainLayout(Dashboard);
 export const UsersPage = withMainLayout(Users);
 export const PermissionsPage = withMainLayout(Permissions);
@@ -147,10 +147,10 @@ export interface UserData {
 }
 
 function App() {
-    const [theme, colorMode] = useMode();
-    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore();
-    const { value } = useLocalStorage("user");
     const [isPageShrunk, setIsPageShrunk] = useState(false);
+    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar, setOpenTopBarList } = useStore();
+    const { value } = useLocalStorage("user");
+    const [theme, colorMode] = useMode();
 
     useEffect(() => {
         if (value) {
@@ -178,7 +178,7 @@ function App() {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsPageShrunk(window.innerWidth < 1280);
+            setIsPageShrunk(window.innerWidth < 768);
         };
 
         window.addEventListener("resize", handleResize);
@@ -191,8 +191,10 @@ function App() {
     useEffect(() => {
         if (isPageShrunk) {
             setOpenSidebar(false);
+            setOpenTopBarList(true);
         } else {
             setOpenSidebar(true);
+            setOpenTopBarList(false);
         }
     }, [isPageShrunk]);
 
