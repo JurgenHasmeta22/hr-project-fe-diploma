@@ -27,6 +27,7 @@ const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const ChangePassword = React.lazy(() => import("~/pages/changePassword/ChangePassword"));
 const Error = React.lazy(() => import("~/pages/error/Error"));
 const Login = React.lazy(() => import("~/pages/login/Login"));
+const Test = React.lazy(() => import("~/pages/test/Test"));
 // #endregion
 
 // #region Main Layout
@@ -139,6 +140,7 @@ export const EditUserPage = withMainLayout(User);
 export const LoginPage = withSuspenseWithoutMainLayout(Login);
 export const ChangePasswordPage = withSuspenseWithoutMainLayout(ChangePassword);
 export const ErrorPage = withSuspenseWithoutMainLayout(Error);
+export const TestPage = withSuspenseWithoutMainLayout(Test);
 // #endregion
 
 export interface UserData {

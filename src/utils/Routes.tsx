@@ -15,6 +15,7 @@ import {
     UsersPage,
     ErrorPage,
     LoginPage,
+    TestPage,
 } from "~/app/App";
 import PrivateRoutes from "./PrivateRoutes";
 
@@ -25,6 +26,7 @@ const AppRoutes = () => {
             <Route path="*" element={<ErrorPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/changePassword" element={<ChangePasswordPage />} />
+            <Route path="/test" element={<TestPage />} />
             <Route element={<PrivateRoutes />}>
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/users" element={<UsersPage />} />
