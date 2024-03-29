@@ -42,18 +42,17 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                     <div className="app">
                         <Grid container>
                             <Grid item xs={12} md={openSidebar ? 2 : 0}>
-                                <Sidebar sidebarItems={sidebarItems} />
+                                {openSidebar && <Sidebar sidebarItems={sidebarItems} />}
                             </Grid>
-                            <Grid item xs={12} md={openSidebar ? 9.8 : 12} ml={openSidebar ? 2.5 : 0}>
+                            <Grid item xs={12} md={openSidebar ? 10 : 12}>
                                 <TopBar />
-                                <Box>
+                                <Box ml={3} mt={5} mr={3}>
                                     <React.Suspense
                                         fallback={
                                             <Box
                                                 sx={{
                                                     display: "flex",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
+                                                    placeItems: "center",
                                                     height: "100vh",
                                                 }}
                                             >
@@ -149,7 +148,7 @@ export interface UserData {
 
 function App() {
     const [theme, colorMode] = useMode();
-    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar, setOpenTopBarList } = useStore();
+    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore();
     const { value } = useLocalStorage("user");
     const [isPageShrunk, setIsPageShrunk] = useState(false);
 
@@ -192,10 +191,8 @@ function App() {
     useEffect(() => {
         if (isPageShrunk) {
             setOpenSidebar(false);
-            setOpenTopBarList(true);
         } else {
             setOpenSidebar(true);
-            setOpenTopBarList(false);
         }
     }, [isPageShrunk]);
 

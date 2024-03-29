@@ -77,6 +77,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             <FormControl fullWidth>
                                                 <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                                                 <Field
+                                                    key={field.name}
                                                     name={field.name}
                                                     fullWidth
                                                     onBlur={handleBlur}
@@ -100,6 +101,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             <FormControl fullWidth>
                                                 <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
                                                 <Field
+                                                    key={field.name}
                                                     name={field.name}
                                                     fullWidth
                                                     onBlur={handleBlur}
@@ -122,6 +124,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                     case "date":
                                         return (
                                             <Field
+                                                key={field.name}
                                                 as={TextField}
                                                 name={field.name}
                                                 label={field.label}
@@ -140,6 +143,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                     case "password":
                                         return (
                                             <Field
+                                                key={field.name}
                                                 as={TextField}
                                                 name={field.name}
                                                 label={field.label}
@@ -158,6 +162,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                     default:
                                         return (
                                             <Field
+                                                key={field.name}
                                                 as={TextField}
                                                 name={field.name}
                                                 label={field.label}

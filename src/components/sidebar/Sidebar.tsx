@@ -5,7 +5,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/services/store/store";
 import { tokens } from "~/utils/theme";
-import MenuIcon from "@mui/icons-material/Menu";
 import { NestedSidebarItem } from "./NestedSidebarItem";
 import { SidebarItem } from "./SidebarItem";
 
@@ -80,21 +79,6 @@ const Sidebar = ({ sidebarItems }: any) => {
                     </List>
                 </Box>
             </Drawer>
-            {!openSidebar && (
-                <Box>
-                    <IconButton
-                        sx={{
-                            position: "absolute",
-                            top: "5%",
-                            left: 10,
-                            transform: "translateY(-50%)",
-                        }}
-                        onClick={() => setOpenSidebar(true)}
-                    >
-                        <MenuIcon fontSize="medium" />
-                    </IconButton>
-                </Box>
-            )}
         </>
     );
 };
