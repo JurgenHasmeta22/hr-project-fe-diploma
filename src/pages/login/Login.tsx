@@ -10,12 +10,9 @@ import { useStore } from "~/services/store/store";
 import { toast } from "react-toastify";
 import { useState, useRef } from "react";
 import FormAdvanced from "~/components/form/Form";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "react-router-dom";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import { UserData } from "~/app/App";
-import IUser from "~/interfaces/IUser";
 
 const loginSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -31,10 +28,6 @@ export default function Login() {
 
     const handleDataChange = (values: any) => {
         setFormData(values);
-    };
-
-    const handleResetFromParent = () => {
-        formikRef.current?.resetForm();
     };
 
     const handleFormSubmit = async (values: any) => {
@@ -86,14 +79,14 @@ export default function Login() {
                             label: "Username",
                             variant: "filled",
                             type: "text",
-                            sx: { gridColumn: "span 8" },
+                            sx: { gridColumn: "span 15" },
                         },
                         {
                             name: "password",
                             label: "Passwordi",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 8" },
+                            sx: { gridColumn: "span 15" },
                         },
                     ]}
                     onDataChange={(values: any) => {
@@ -111,24 +104,9 @@ export default function Login() {
                             sx: {
                                 bgcolor: "#30969f",
                                 fontSize: "16px",
-                                fontWeight: "500",
+                                fontWeight: "600",
                             },
                             icon: <LockOutlinedIcon sx={{ ml: "10px" }} color="action" />,
-                        },
-                        {
-                            label: "Anullo",
-                            type: "reset",
-                            color: "secondary",
-                            variant: "contained",
-                            onClick: () => {
-                                handleResetFromParent();
-                            },
-                            sx: {
-                                bgcolor: "#ff5252",
-                                fontSize: "16px",
-                                fontWeight: "500",
-                            },
-                            icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                         },
                     ]}
                 />

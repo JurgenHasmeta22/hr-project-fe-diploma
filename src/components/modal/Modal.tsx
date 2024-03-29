@@ -62,14 +62,14 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
-            <DialogTitle fontSize={"26px"}>
+            <DialogTitle fontSize={"22px"}>
                 {title}
                 <IconButton style={{ position: "absolute", right: 0, top: 0 }} onClick={onClose ? onClose : () => {}}>
                     <CloseIcon color="action" />
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <DialogContentText fontSize={"18px"}>{subTitle}</DialogContentText>
+                <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
                 {validationSchema && initialValues && onDataChange ? (
                     <Formik
                         initialValues={initialValues ? initialValues : {}}
@@ -89,7 +89,7 @@ const Modal: React.FC<ModalProps> = ({
 
                             return (
                                 <Form>
-                                    <Grid container spacing={4} mt={"10px"}>
+                                    <Grid container spacing={4} mt={"15px"}>
                                         {fields &&
                                             fields!.map((field) => (
                                                 <Grid item xs={6} key={field.name}>
@@ -137,19 +137,8 @@ const Modal: React.FC<ModalProps> = ({
                                             <Button
                                                 key={index}
                                                 onClick={action.onClick}
-                                                //@ts-ignore
-                                                color={
-                                                    action.color as
-                                                        | "inherit"
-                                                        | "primary"
-                                                        | "secondary"
-                                                        | "success"
-                                                        | "error"
-                                                        | "info"
-                                                        | "warning"
-                                                        | "default"
-                                                        | undefined
-                                                }
+                                                // @ts-ignore
+                                                color={action.color || "secondary"}
                                                 variant={action.variant || "text"}
                                                 sx={action.sx}
                                                 type={action.type}
@@ -170,18 +159,7 @@ const Modal: React.FC<ModalProps> = ({
                                 key={index}
                                 onClick={action.onClick}
                                 //@ts-ignore
-                                color={
-                                    action.color as
-                                        | "inherit"
-                                        | "primary"
-                                        | "secondary"
-                                        | "success"
-                                        | "error"
-                                        | "info"
-                                        | "warning"
-                                        | "default"
-                                        | undefined
-                                }
+                                color={action.color || "secondary"}
                                 variant={action.variant || "text"}
                                 sx={action.sx}
                                 type={action.type}
