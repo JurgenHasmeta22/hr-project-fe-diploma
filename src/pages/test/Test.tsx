@@ -1,4 +1,4 @@
-import { Box, Container, Grid, List, ListItem, ListItemButton, Paper, useMediaQuery } from "@mui/material";
+import { Container, Grid, Paper, useMediaQuery } from "@mui/material";
 
 const Test = () => {
     const breakpoint = useMediaQuery("(max-width: 900px)");

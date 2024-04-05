@@ -14,10 +14,7 @@ import IProject from "~/interfaces/IProject";
 import { useEffect, useState, useMemo } from "react";
 import projectsController from "~/services/api/projects";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import { useStore } from "~/services/store/store";
-import LogoutIcon from "@mui/icons-material/Logout";
 import usersController from "~/services/api/users";
 import { Edit, Delete, Add } from "@mui/icons-material";
 

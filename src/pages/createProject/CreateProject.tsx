@@ -1,4 +1,4 @@
-import { Box, useMediaQuery } from "@mui/material";
+import { Box } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
 import projectsController from "~/services/api/projects";

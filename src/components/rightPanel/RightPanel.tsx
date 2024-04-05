@@ -18,7 +18,6 @@ import {
     IconButton,
 } from "@mui/material";
 import { Formik, Form, Field, FormikProps } from "formik";
-import { tokens } from "~/utils/theme";
 import CloseIcon from "@mui/icons-material/Close";
 
 type FieldConfig = {

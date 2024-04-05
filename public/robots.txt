@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /login
+Disallow: /changePassword
+Disallow: /test
+
+Allow: /dashboard
+Allow: /profile
+Allow: /projects
+Allow: /project
+Allow: /permissions
+Allow: /permissionReservation
+Allow: /users
+Allow: /user
+Allow: /editProject
+Allow: /editUser
+Allow: /addUser
+Allow: /addProject

@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button, CircularProgress, Typography, useMediaQuery } from "@mui/material";
+import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";

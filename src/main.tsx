@@ -4,7 +4,7 @@ import App from "./app/App";
 import { createRoot } from "react-dom/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./index.css";
+import "./main.css";
 
 const container = document.getElementById("root");
 
@@ -14,14 +14,11 @@ if (container) {
     root.render(
         <BrowserRouter>
             <ToastContainer
-                autoClose={2000}
+                autoClose={3000}
                 hideProgressBar={false}
-                newestOnTop={false}
+                newestOnTop={true}
                 closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
                 draggable
-                pauseOnHover
             />
             <App />
         </BrowserRouter>,

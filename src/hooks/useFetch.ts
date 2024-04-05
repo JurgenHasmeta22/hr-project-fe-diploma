@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 
 interface FetchState<T> {
