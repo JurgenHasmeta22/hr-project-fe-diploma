@@ -1,11 +1,39 @@
-import { Box, List, ListItem, ListItemButton, useMediaQuery } from "@mui/material";
+import { Box, Container, Grid, List, ListItem, ListItemButton, Paper, useMediaQuery } from "@mui/material";
 
 const Test = () => {
     const breakpoint = useMediaQuery("(max-width: 900px)");
 
     return (
         <>
-            <Box
+            <Container>
+                <Grid container columnSpacing={2}>
+                    <Grid container item md={12}>
+                        <Grid item md={3}>
+                            <Paper>subheader1</Paper>
+                        </Grid>
+                        <Grid item md={9}>
+                            <Paper>subheader2</Paper>
+                        </Grid>
+                    </Grid>
+                    <Grid container item md={3} direction={"column"} rowSpacing={1}>
+                        <Grid item md={3}>
+                            <Paper>sidebar1</Paper>
+                        </Grid>
+                        <Grid item md={3}>
+                            <Paper>sidebar2</Paper>
+                        </Grid>
+                    </Grid>
+                    <Grid container item md={9} direction="row" columnSpacing={1}>
+                        <Grid item md={6}>
+                            <Paper>content1</Paper>
+                        </Grid>
+                        <Grid item md={6}>
+                            <Paper>content2</Paper>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Container>
+            {/* <Box
                 sx={{
                     display: "grid",
                     gridTemplate: `
@@ -28,7 +56,7 @@ const Test = () => {
                 {!breakpoint && (
                     <Box gridArea={"sidebar"} sx={{ outline: "1px solid", display: "grid", gridAutoFlow: "row", gap: "20px" }}>
                         <Box>
-                            <List sx={{ outline: "1px solid" }}>
+                            <List >
                                 <ListItem>
                                     <ListItemButton>Item1</ListItemButton>
                                 </ListItem>
@@ -42,7 +70,7 @@ const Test = () => {
                         </Box>
                     </Box>
                 )}
-                <Box gridArea={"topbar"} sx={{ outline: "1px solid" }}>
+                <Box gridArea={"topbar"} >
                     <span>TopBar</span>
                 </Box>
                 <Box
@@ -54,14 +82,28 @@ const Test = () => {
                         gap: "20px",
                     }}
                 >
-                    <Box sx={{ outline: "1px solid" }}>
+                    <Box >
                         <span>Content1</span>
                     </Box>
-                    <Box sx={{ outline: "1px solid" }}>
+                    <Box >
                         <span>Content2</span>
                     </Box>
                 </Box>
-            </Box>
+            </Box> */}
+            {/* <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+                <Box gridColumn="span 8">
+                    <Item>xs=8</Item>
+                </Box>
+                <Box gridColumn="span 4">
+                    <Item>xs=4</Item>
+                </Box>
+                <Box gridColumn="span 4">
+                    <Item>xs=4</Item>
+                </Box>
+                <Box gridColumn="span 8">
+                    <Item>xs=8</Item>
+                </Box>
+            </Box> */}
         </>
     );
 };
