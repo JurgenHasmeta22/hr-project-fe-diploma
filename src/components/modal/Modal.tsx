@@ -1,21 +1,5 @@
 import React, { useEffect } from "react";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    IconButton,
-    Grid,
-    TextField,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { Formik, Form, Field, FormikProps } from "formik";
+import { Formik, FormikProps } from "formik";
 
 type FieldConfig = {
     name: string;
@@ -40,15 +24,16 @@ type ModalProps = {
 
 type ActionConfig = {
     label: string;
-    onClick: () => void;
-    type?: string;
+    type?: any;
     color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
+    onClick: () => void;
 };
 
 const Modal: React.FC<ModalProps> = ({
+    open,
     onClose,
     initialValues,
     fields,
@@ -61,117 +46,137 @@ const Modal: React.FC<ModalProps> = ({
     subTitle,
 }) => {
     return (
-        <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
-            <DialogTitle fontSize={"22px"}>
-                {title}
-                <IconButton style={{ position: "absolute", right: 0, top: 0 }} onClick={onClose ? onClose : () => {}}>
-                    <CloseIcon color="action" />
-                </IconButton>
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
-                {validationSchema && initialValues && onDataChange ? (
-                    <Formik
-                        initialValues={initialValues ? initialValues : {}}
-                        validationSchema={validationSchema ? validationSchema : {}}
-                        onSubmit={(values) => {
-                            onSave ? onSave(values) : () => {};
-                            onClose ? onClose() : () => {};
-                        }}
-                        innerRef={formRef ? formRef : null}
-                    >
-                        {({ errors, touched, values }) => {
-                            if (onDataChange) {
-                                useEffect(() => {
-                                    onDataChange(values);
-                                }, [values]);
-                            }
-
-                            return (
-                                <Form>
-                                    <Grid container spacing={4} mt={"15px"}>
-                                        {fields &&
-                                            fields!.map((field) => (
-                                                <Grid item xs={6} key={field.name}>
-                                                    {field.type === "select" ? (
-                                                        <FormControl fullWidth size="medium">
-                                                            <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
-                                                            <Field
-                                                                name={field.name}
-                                                                value={values[field.name]}
-                                                                labelId={`${field.name}-label`}
-                                                                as={Select}
-                                                            >
-                                                                {field.options?.map((option) => (
-                                                                    <MenuItem key={option.value} value={option.value}>
-                                                                        {option.label}
-                                                                    </MenuItem>
-                                                                ))}
-                                                            </Field>
-                                                        </FormControl>
-                                                    ) : (
-                                                        <Field
-                                                            as={TextField}
-                                                            name={field.name}
-                                                            label={field.label}
-                                                            fullWidth
-                                                            value={values[field.name]}
-                                                            size="medium"
-                                                            type={field.type || "text"}
-                                                            helperText={touched[field.name] && errors[field.name]}
-                                                            error={touched[field.name] && !!errors[field.name]}
-                                                            InputLabelProps={
-                                                                field.type === "date"
-                                                                    ? {
-                                                                          shrink: true,
-                                                                      }
-                                                                    : undefined
-                                                            }
-                                                        />
-                                                    )}
-                                                </Grid>
-                                            ))}
-                                    </Grid>
-                                    <DialogActions style={{ marginTop: "15px" }}>
-                                        {actions!.map((action, index) => (
-                                            <Button
-                                                key={index}
-                                                onClick={action.onClick}
-                                                // @ts-ignore
-                                                color={action.color || "secondary"}
-                                                variant={action.variant || "text"}
-                                                sx={action.sx}
-                                                type={action.type}
-                                                endIcon={action.icon}
-                                            >
-                                                {action.label}
-                                            </Button>
-                                        ))}
-                                    </DialogActions>
-                                </Form>
-                            );
-                        }}
-                    </Formik>
-                ) : (
-                    <DialogActions style={{ marginTop: "15px" }}>
-                        {actions!.map((action, index) => (
-                            <Button
-                                key={index}
-                                onClick={action.onClick}
-                                //@ts-ignore
-                                color={action.color || "secondary"}
-                                variant={action.variant || "text"}
-                                sx={action.sx}
-                                type={action.type}
-                                endIcon={action.icon}
+        <div className={`fixed z-10 inset-0 overflow-y-auto ${open ? "block" : "hidden"}`}>
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="bg-white w-full md:max-w-md mx-auto rounded shadow-lg">
+                    <div className="flex justify-between items-center px-4 py-2 border-b border-gray-200">
+                        <h2 className="text-lg font-semibold">{title}</h2>
+                        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div className="p-4">
+                        {subTitle && <p className="text-sm text-gray-600">{subTitle}</p>}
+                        {validationSchema && initialValues && onDataChange ? (
+                            <Formik
+                                initialValues={initialValues ? initialValues : {}}
+                                validationSchema={validationSchema ? validationSchema : {}}
+                                onSubmit={(values) => {
+                                    if (onSave) {
+                                        onSave(values);
+                                    }
+                                    if (onClose) {
+                                        onClose();
+                                    }
+                                }}
+                                innerRef={formRef ? formRef : null}
                             >
-                                {action.label}
-                            </Button>
-                        ))}
-                    </DialogActions>
-                )}
-            </DialogContent>
-        </Dialog>
+                                {({ errors, touched, values, handleSubmit, handleChange }) => {
+                                    if (onDataChange) {
+                                        useEffect(() => {
+                                            onDataChange(values);
+                                        }, [values]);
+                                    }
+
+                                    return (
+                                        <form onSubmit={handleSubmit}>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                                {fields &&
+                                                    fields!.map((field) => (
+                                                        <div key={field.name}>
+                                                            {field.type === "select" ? (
+                                                                <div>
+                                                                    <label
+                                                                        htmlFor={`${field.name}`}
+                                                                        className="block text-sm font-medium text-gray-700"
+                                                                    >
+                                                                        {field.label}
+                                                                    </label>
+                                                                    <select
+                                                                        id={`${field.name}`}
+                                                                        name={field.name}
+                                                                        value={values[field.name]}
+                                                                        onChange={handleChange}
+                                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                                                    >
+                                                                        {field.options?.map((option) => (
+                                                                            <option key={option.value} value={option.value}>
+                                                                                {option.label}
+                                                                            </option>
+                                                                        ))}
+                                                                    </select>
+                                                                </div>
+                                                            ) : (
+                                                                <div>
+                                                                    <label
+                                                                        htmlFor={`${field.name}`}
+                                                                        className="block text-sm font-medium text-gray-700"
+                                                                    >
+                                                                        {field.label}
+                                                                    </label>
+                                                                    <input
+                                                                        type={field.type || "text"}
+                                                                        id={`${field.name}`}
+                                                                        name={field.name}
+                                                                        value={values[field.name]}
+                                                                        onChange={handleChange}
+                                                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                                                    />
+                                                                    {touched[field.name] && errors[field.name] && (
+                                                                        <p className="mt-2 text-sm text-red-500" id="email-error">
+                                                                            {/* @ts-ignore */}
+                                                                            {errors[field.name]}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                            </div>
+                                            <div className="flex justify-end mt-4">
+                                                {actions!.map((action, index) => (
+                                                    <button
+                                                        key={index}
+                                                        onClick={action.onClick}
+                                                        className={`ml-2 px-4 py-2 text-sm font-medium rounded-md ${
+                                                            action.color === "primary"
+                                                                ? "text-white bg-blue-600 hover:bg-blue-700"
+                                                                : "text-gray-700 bg-gray-200 hover:bg-gray-300"
+                                                        }`}
+                                                        type={action.type}
+                                                    >
+                                                        {action.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </form>
+                                    );
+                                }}
+                            </Formik>
+                        ) : (
+                            <div className="flex justify-end mt-4">
+                                {actions!.map((action, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={action.onClick}
+                                        className={`ml-2 px-4 py-2 text-sm font-medium rounded-md ${
+                                            action.color === "primary"
+                                                ? "text-white bg-blue-600 hover:bg-blue-700"
+                                                : "text-gray-700 bg-gray-200 hover:bg-gray-300"
+                                        }`}
+                                        type={action.type}
+                                    >
+                                        {action.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

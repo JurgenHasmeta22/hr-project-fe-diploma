@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
+import { CircularProgress, useTheme } from "@mui/material";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -25,10 +24,9 @@ const permissionReservation = () => {
     const [calendarEvents, setCalendarEvents] = useState<any>([]);
     const [loading, setLoading] = useState(true);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
-    const [currentPermissions, setCurrentPermissions] = useState([]);
+    const [currentPermissions, setCurrentPermissions] = useState<any>([]);
     const theme = useTheme();
     const formikRef = useRef<FormikProps<any>>(null);
-    const navigate = useNavigate();
     const { openModal } = useModal();
     const { user } = useStore();
     const colors = tokens(theme.palette.mode);
@@ -110,6 +108,7 @@ const permissionReservation = () => {
     const handleDateClick = (selected: any) => {
         openModal({
             formRef: formikRef,
+            open: openModal,
             onClose: () => setOpen(false),
             initialValues: {
                 dataFillim: selected.startStr,
@@ -167,21 +166,12 @@ const permissionReservation = () => {
 
         const calendarApi = selected.view.calendar;
         calendarApi.unselect();
-
-        // if (formData.title) {
-        //     calendarApi.addEvent({
-        //         id: formData.id,
-        //         title: formData.title,
-        //         start: selected.startStr,
-        //         end: selected.endStr,
-        //         allDay: selected.allDay,
-        //     });
-        // }
     };
 
     const handleEventClick = (selected: any) => {
         openModal({
             formRef: formikRef,
+            open: openModal,
             onClose: () => setOpen(false),
             initialValues: {
                 dataFillim: formatDate(selected.event.startStr),
@@ -331,13 +321,13 @@ const permissionReservation = () => {
     if (loading) return <CircularProgress />;
 
     return (
-        <Box m="20px">
+        <div className="m-10">
             <Header title="Rezervimi i lejeve" subtitle="Marrja e lejeve per punonjesit" />
-            <Box display="flex" justifyContent="space-between">
-                <Box flex="1 1 15%" sx={{ backgroundColor: colors.primary[400] }} p="15px" borderRadius="4px">
-                    <Typography variant="h5">Legjenda</Typography>
-                </Box>
-                <Box flex="1 1 100%" ml="15px">
+            <div className="flex justify-start gap-10">
+                <div className="flex-1 flex-grow-0 flex-shrink-0 w-15 bg-primary-400 p-15 rounded-md">
+                    <h5 className="text-xl">Legjenda</h5>
+                </div>
+                <div className="flex-1 flex-grow">
                     <FullCalendar
                         height="75vh"
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
@@ -354,13 +344,13 @@ const permissionReservation = () => {
                         weekends={true}
                         select={handleDateClick}
                         eventClick={handleEventClick}
-                        eventsSet={(events: any) => setCurrentPermissions(events)}
+                        eventsSet={(events) => setCurrentPermissions(events)}
                         events={calendarEvents}
                         allDaySlot={true}
                     />
-                </Box>
-            </Box>
-        </Box>
+                </div>
+            </div>
+        </div>
     );
 };
 
