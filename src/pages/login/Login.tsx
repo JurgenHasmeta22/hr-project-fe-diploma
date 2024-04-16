@@ -1,6 +1,3 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { FormikProps } from "formik";
 import * as yup from "yup";
 import authenticationController from "~/services/api/authentication";
@@ -10,7 +7,6 @@ import { useStore } from "~/services/store/store";
 import { toast } from "react-toastify";
 import { useState, useRef } from "react";
 import FormAdvanced from "~/components/form/Form";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "react-router-dom";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 
@@ -53,21 +49,9 @@ export default function Login() {
     };
 
     return (
-        <Container component="div" maxWidth="sm" sx={{ mt: 15 }}>
-            <Box
-                sx={{
-                    borderRadius: 5,
-                    padding: "50px 50px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    bgcolor: "background.paper",
-                    boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
-                }}
-            >
-                <Typography variant="h3" component="h3" sx={{ mb: 2 }} gutterBottom color={"secondary"}>
-                    Login
-                </Typography>
+        <div className="h-full">
+            <div className="rounded-lg p-10 flex flex-col items-center bg-white shadow-md">
+                <h3 className="text-3xl mb-4 text-secondary">Login</h3>
                 <FormAdvanced
                     initialValues={{
                         userName: "",
@@ -77,19 +61,15 @@ export default function Login() {
                         {
                             name: "userName",
                             label: "Username",
-                            variant: "filled",
                             type: "text",
-                            sx: { gridColumn: "span 15" },
                         },
                         {
                             name: "password",
-                            label: "Passwordi",
-                            variant: "filled",
+                            label: "Password",
                             type: "password",
-                            sx: { gridColumn: "span 15" },
                         },
                     ]}
-                    onDataChange={(values: any) => {
+                    onDataChange={(values) => {
                         handleDataChange(values);
                     }}
                     formRef={formikRef}
@@ -97,23 +77,16 @@ export default function Login() {
                     validationSchema={loginSchema}
                     actions={[
                         {
-                            label: "Logohu",
-                            type: "submit",
+                            label: "Log in",
                             color: "secondary",
-                            variant: "contained",
-                            sx: {
-                                bgcolor: "#30969f",
-                                fontSize: "16px",
-                                fontWeight: "600",
-                            },
-                            icon: <LockOutlinedIcon sx={{ ml: "10px" }} color="action" />,
+                            type: "submit",
                         },
                     ]}
                 />
-                <Link to="/changePassword" style={{ color: "#fff", marginTop: "20px", textDecoration: "none", fontSize: "14px" }}>
-                    Keni harruar passwordin ?
+                <Link to="/changePassword" className="text-white mt-4 text-sm underline hover:no-underline">
+                    Forgot password?
                 </Link>
-            </Box>
-        </Container>
+            </div>
+        </div>
     );
 }

@@ -119,27 +119,32 @@ const RightPanel: React.FC<DrawerProps> = ({
                                     <div key={field.name}>
                                         {field.type === "select" ? (
                                             <div className="w-full">
-                                                <label className="block text-sm font-medium text-gray-100" htmlFor={field.name}>
+                                                <label
+                                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                    htmlFor={field.name}
+                                                >
                                                     {field.label}
                                                 </label>
-                                                <Field name={field.name} as="select" className="mt-1 block w-full">
+                                                <select
+                                                    name={field.name}
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                >
                                                     {field.options?.map((option) => (
                                                         <option key={option.value} value={option.value}>
                                                             {option.label}
                                                         </option>
                                                     ))}
-                                                </Field>
+                                                </select>
                                             </div>
                                         ) : (
                                             <div className="w-full">
                                                 <label className="block text-sm font-medium text-gray-700" htmlFor={field.name}>
                                                     {field.label}
                                                 </label>
-                                                <Field
-                                                    as="input"
+                                                <input
                                                     name={field.name}
                                                     type={field.type || "text"}
-                                                    className="mt-1 block w-full"
+                                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
                                                 />
                                                 {touched[field.name] && errors[field.name] && (
                                                     <p className="mt-2 text-sm text-red-500">{errors[field.name]}</p>

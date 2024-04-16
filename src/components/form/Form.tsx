@@ -28,6 +28,7 @@ type FormProps = {
 type ActionConfig = {
     label: string;
     color?: string;
+    type: any;
     onClick?: () => void;
 };
 
@@ -57,7 +58,7 @@ const FormAdvanced: React.FC<FormProps> = ({
             <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                 {fields.map((field: FieldConfig) => (
                     <div key={field.name}>
-                        <label htmlFor={field.name} className="block text-sm font-medium text-gray-100">
+                        <label htmlFor={field.name} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             {field.label}
                         </label>
                         {field.type === "select" || field.type === "multiselect" ? (
@@ -68,7 +69,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 multiple={field.type === "multiselect"}
-                                className="mt-1 block w-full text-gray-700 pl-3 focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                                 {field.options?.map((option) => (
                                     <option key={option.value} value={option.value}>
@@ -85,14 +86,14 @@ const FormAdvanced: React.FC<FormProps> = ({
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 disabled={field.disabled}
-                                className="mt-1 block w-full h-10 pl-3 text-gray-700 bg-stone-100 focus:ring-indigo-500 focus:border-indigo-500 rounded-md shadow-sm"
+                                className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                             />
                         )}
                         {formik.touched[field.name] && formik.errors[field.name] && (
-                            <p className="mt-2 text-sm text-red-500" id={`${field.name}-error`}>
+                            <span className="mt-2 text-sm text-red-500 h-3" id={`${field.name}-error`}>
                                 {/* @ts-ignore */}
                                 {formik.errors[field.name]}
-                            </p>
+                            </span>
                         )}
                     </div>
                 ))}
@@ -102,8 +103,8 @@ const FormAdvanced: React.FC<FormProps> = ({
                     {actions.map((action: ActionConfig, index: number) => (
                         <button
                             key={index}
-                            type="button"
-                            onClick={action.onClick}
+                            type={action.type}
+                            onClick={action.onClick && action.onClick}
                             className={`mr-2 px-4 py-2 text-sm font-medium rounded-md bg-cyan-500 ${
                                 action.color
                                     ? "text-white bg-" + action.color + "-600 hover:bg-" + action.color + "-700"
