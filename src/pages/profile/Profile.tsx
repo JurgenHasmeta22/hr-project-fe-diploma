@@ -1,4 +1,4 @@
-import { Box, Tab, Tabs, useTheme } from "@mui/material";
+import { Tab, Tabs, useTheme } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormikProps } from "formik";
@@ -1519,7 +1519,7 @@ export default function Profile() {
     return (
         <>
             <ProfileHeader userProfile={userProfile} handleEditProfile={handleEditProfile} />
-            <Box>
+            <div>
                 <Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary" orientation="horizontal">
                     <Tab
                         label="Certifikatat"
@@ -1568,7 +1568,7 @@ export default function Profile() {
                     handleEditEducation={handleEditEducation}
                     handleDeleteEducation={handleDeleteEducation}
                 />
-            </Box>
+            </div>
         </>
     );
 }

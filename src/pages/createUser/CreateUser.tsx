@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
@@ -7,8 +6,6 @@ import authenticationController from "~/services/api/authentication";
 import FormAdvanced from "~/components/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -53,7 +50,7 @@ const CreateUser = () => {
     };
 
     return (
-        <Box m="20px">
+        <div className="m-5">
             <Header title="Shto nje perdorues" subtitle="Krijo nje perdorues te ri" />
             <FormAdvanced
                 initialValues={{
@@ -67,37 +64,27 @@ const CreateUser = () => {
                     {
                         name: "userName",
                         label: "Username",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userFirstname",
                         label: "Emri",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userLastname",
                         label: "Mbiemri",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userEmail",
                         label: "Email",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "password",
                         label: "Password",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "roles",
@@ -117,14 +104,7 @@ const CreateUser = () => {
                         label: "Ruaj ndryshimet",
                         type: "submit",
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                        // icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
                     },
                     {
                         label: "Anullo",
@@ -133,14 +113,7 @@ const CreateUser = () => {
                             handleResetFromParent();
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                        // icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                     },
                 ]}
                 onDataChange={(values: any) => {
@@ -150,7 +123,7 @@ const CreateUser = () => {
                 validationSchema={userSchema}
                 formRef={formikRef}
             />
-        </Box>
+        </div>
     );
 };
 

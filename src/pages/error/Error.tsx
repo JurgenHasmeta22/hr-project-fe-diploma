@@ -1,31 +1,18 @@
 import React from "react";
-import { Box, Typography, Button, Container } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Error: React.FC = () => {
-    const navigate = useNavigate();
-
     return (
-        <Container maxWidth="sm">
-            <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="100vh"
-                textAlign="center"
+        <div className="min-h-screen flex flex-col justify-center items-center text-center">
+            <h1 className="text-6xl font-bold mb-4">404</h1>
+            <h4 className="text-4xl mb-4">Page Not Found</h4>
+            <Link
+                to="/dashboard"
+                className="text-white bg-secondary py-2 px-4 rounded-md hover:bg-secondary-dark transition-colors duration-300 ease-in-out"
             >
-                <Typography variant="h1" gutterBottom>
-                    404
-                </Typography>
-                <Typography variant="h4" gutterBottom>
-                    Page Not Found
-                </Typography>
-                <Button variant="contained" color="secondary" onClick={() => navigate("/dashboard")}>
-                    Go to Home
-                </Button>
-            </Box>
-        </Container>
+                Go to Home
+            </Link>
+        </div>
     );
 };
 

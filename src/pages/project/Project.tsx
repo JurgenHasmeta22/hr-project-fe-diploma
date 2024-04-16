@@ -90,21 +90,29 @@ const Project = () => {
     if (loading) return <CircularProgress />;
 
     return (
-        <Box m="20px">
-            <Box mb={"30px"} display={"flex"} flexDirection={"row"} alignItems={"center"} gap={"20px"}>
-                <Button
-                    color="secondary"
-                    variant="contained"
+        <div className="m-5">
+            <div className="mb-10 flex items-center gap-5">
+                <button
                     onClick={() => {
                         navigate("/projects");
                     }}
+                    className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-secondary-dark transition-colors duration-300"
                 >
-                    <ArrowBackIcon color="action" />
-                </Button>
-                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                    {breadcrumbs}
-                </Breadcrumbs>
-            </Box>
+                    <ArrowBackIcon className="text-white" />
+                </button>
+                <nav className="text-sm" aria-label="breadcrumb">
+                    <ol className="flex items-center space-x-2">
+                        {breadcrumbs.map((crumb, index) => (
+                            <li key={index} className="flex items-center">
+                                <span>{crumb}</span>
+                                {index !== breadcrumbs.length - 1 && (
+                                    <NavigateNextIcon className="text-gray-500" fontSize="small" />
+                                )}
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+            </div>
             <Header title="Detajet e projektit" subtitle="Vizualizo dhe edito projektin" />
             <FormAdvanced
                 initialValues={{
@@ -117,26 +125,20 @@ const Project = () => {
                         name: "projektId",
                         label: "Id",
                         disabled: true,
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "emriProjekt",
                         label: "Emri",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "pershkrimProjekt",
                         label: "Pershkrim",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                 ]}
-                onDataChange={(values: any) => {
+                onDataChange={(values) => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
@@ -147,14 +149,7 @@ const Project = () => {
                         label: "Ruaj ndryshimet",
                         type: "submit",
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                        // icon: <SaveAsIcon className="ml-2" color="action" />,
                     },
                     {
                         label: "Elemino",
@@ -168,14 +163,8 @@ const Project = () => {
                             }
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
+                        type: "buttton",
+                        // icon: <ClearOutlinedIcon className="ml-2" color="action" />,
                     },
                     {
                         label: "Anullo",
@@ -184,14 +173,7 @@ const Project = () => {
                             handleResetFromParent();
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                        // icon: <ClearAllIcon className="ml-2" color="action" />,
                     },
                     {
                         label: "Bashkangjitu projektit",
@@ -208,18 +190,12 @@ const Project = () => {
                             }
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#3377FF",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <MeetingRoomIcon color="action" sx={{ ml: "10px" }} />,
+                        type: "buttton",
+                        // icon: <MeetingRoomIcon className="ml-2" color="action" />,
                     },
                 ]}
             />
-        </Box>
+        </div>
     );
 };
 

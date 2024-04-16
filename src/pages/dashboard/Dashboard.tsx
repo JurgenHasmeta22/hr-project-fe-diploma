@@ -1,4 +1,4 @@
-import { Box, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
@@ -17,7 +17,6 @@ const Dashboard = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [projects, setProjects] = useState<IProject[]>([]);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -53,79 +52,40 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <Box m="20px">
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+        <div className="m-5">
+            <div className="flex justify-between items-center">
                 <Header title="Dashboard" subtitle="Miresevini ne dashboardin tuaj" />
-            </Box>
-            <Box display="grid" gridTemplateColumns="repeat(9, 1fr)" gridAutoRows="250px" gap="30px">
-                <Box
-                    sx={{ backgroundColor: colors.primary[400] }}
-                    gridColumn="span 3"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
+            </div>
+            <div className="grid grid-cols-3 md:grid-cols-3 grid-rows-1 gap-10">
+                <div className="bg-primary-400 rounded-lg flex items-center justify-center p-5">
                     <DashboardStatBox
                         title={projects?.length}
                         subtitle="Nr i projekteve"
                         progress="0.75"
                         increase="+14%"
-                        icon={
-                            <AccountTreeIcon
-                                sx={{
-                                    color: colors.greenAccent[600],
-                                    fontSize: "26px",
-                                }}
-                            />
-                        }
+                        icon={<AccountTreeIcon className="text-greenAccent-600" style={{ fontSize: "26px" }} />}
                     />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    sx={{ backgroundColor: colors.primary[400] }}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
+                </div>
+                <div className="bg-primary-400 rounded-lg flex items-center justify-center p-5">
                     <DashboardStatBox
                         title={users?.length}
                         subtitle="Nr i punonjeseve"
                         progress="0.50"
                         increase="+21%"
-                        icon={
-                            <PersonAddIcon
-                                sx={{
-                                    color: colors.greenAccent[600],
-                                    fontSize: "26px",
-                                }}
-                            />
-                        }
+                        icon={<PersonAddIcon className="text-greenAccent-600" style={{ fontSize: "26px" }} />}
                     />
-                </Box>
-                <Box
-                    gridColumn="span 3"
-                    sx={{ backgroundColor: colors.primary[400] }}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                >
+                </div>
+                <div className="bg-primary-400 rounded-lg flex items-center justify-center p-5">
                     <DashboardStatBox
                         title={permissions?.length}
                         subtitle="Nr i lejeve"
                         progress="0.30"
                         increase="+5%"
-                        icon={
-                            <EventNoteIcon
-                                sx={{
-                                    color: colors.greenAccent[600],
-                                    fontSize: "26px",
-                                }}
-                            />
-                        }
+                        icon={<EventNoteIcon className="text-greenAccent-600" style={{ fontSize: "26px" }} />}
                     />
-                </Box>
-            </Box>
-        </Box>
+                </div>
+            </div>
+        </div>
     );
 };
 

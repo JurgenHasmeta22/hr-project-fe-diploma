@@ -6,12 +6,9 @@ import usersController from "~/services/api/users";
 import { FormikProps } from "formik";
 import * as yup from "yup";
 import IUser from "~/interfaces/IUser";
-import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FormAdvanced from "~/components/form/Form";
 import { toast } from "react-toastify";
 
@@ -99,21 +96,29 @@ const User = () => {
     if (loading) return <CircularProgress />;
 
     return (
-        <Box m="20px">
-            <Box mb={"30px"} display={"flex"} flexDirection={"row"} alignItems={"center"} gap={"20px"}>
-                <Button
-                    color="secondary"
-                    variant="contained"
+        <div className="m-5">
+            <div className="mb-10 flex items-center gap-5">
+                <button
                     onClick={() => {
                         navigate("/users");
                     }}
+                    className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-secondary-dark transition-colors duration-300"
                 >
-                    <ArrowBackIcon color="action" />
-                </Button>
-                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-                    {breadcrumbs}
-                </Breadcrumbs>
-            </Box>
+                    <ArrowBackIcon className="text-white" />
+                </button>
+                <nav className="text-sm" aria-label="breadcrumb">
+                    <ol className="flex items-center space-x-2">
+                        {breadcrumbs.map((crumb, index) => (
+                            <li key={index} className="flex items-center">
+                                <span>{crumb}</span>
+                                {index !== breadcrumbs.length - 1 && (
+                                    <NavigateNextIcon className="text-gray-500" fontSize="small" />
+                                )}
+                            </li>
+                        ))}
+                    </ol>
+                </nav>
+            </div>
             <Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
             <FormAdvanced
                 initialValues={{
@@ -130,55 +135,41 @@ const User = () => {
                         name: "userId",
                         label: "Id e perdoruesit",
                         disabled: true,
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userName",
                         label: "Username",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userFirstname",
                         label: "Emri",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userLastname",
                         label: "Mbiemri",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userEmail",
                         label: "Email",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "balancaLeje",
                         label: "Balanca e lejeve",
-                        variant: "filled",
                         disabled: true,
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "userIsActive",
                         label: "Statusi",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                 ]}
-                onDataChange={(values: any) => {
+                onDataChange={(values) => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
@@ -189,14 +180,7 @@ const User = () => {
                         label: "Ruaj ndryshimet",
                         type: "submit",
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                        // icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
                     },
                     {
                         label: "Elemino",
@@ -213,14 +197,8 @@ const User = () => {
                             }
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
+                        type: "button",
+                        // icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
                     },
                     {
                         label: "Anullo",
@@ -229,18 +207,11 @@ const User = () => {
                             handleResetFromParent();
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                        // icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                     },
                 ]}
             />
-        </Box>
+        </div>
     );
 };
 

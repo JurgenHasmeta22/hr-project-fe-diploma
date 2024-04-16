@@ -55,7 +55,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
+            <div className=" container grid gap-3 grid-cols-2 md:grid-cols-2">
                 {fields.map((field: FieldConfig) => (
                     <div key={field.name}>
                         <label htmlFor={field.name} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -90,7 +90,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                             />
                         )}
                         {formik.touched[field.name] && formik.errors[field.name] && (
-                            <span className="mt-2 text-sm text-red-500 h-3" id={`${field.name}-error`}>
+                            <span className="mt-4 text-md text-red-500 h-5" id={`${field.name}-error`}>
                                 {/* @ts-ignore */}
                                 {formik.errors[field.name]}
                             </span>

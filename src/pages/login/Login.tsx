@@ -49,7 +49,7 @@ export default function Login() {
     };
 
     return (
-        <div className="h-full">
+        <div className="container mx-auto mt-20 h-full flex place-content-center">
             <div className="rounded-lg p-10 flex flex-col items-center bg-white shadow-md">
                 <h3 className="text-3xl mb-4 text-secondary">Login</h3>
                 <FormAdvanced

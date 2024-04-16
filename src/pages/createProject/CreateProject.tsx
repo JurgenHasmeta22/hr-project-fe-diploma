@@ -1,14 +1,11 @@
-import { Box } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
 import projectsController from "~/services/api/projects";
 import { FormikProps } from "formik";
 import * as yup from "yup";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { toast } from "react-toastify";
 import FormAdvanced from "~/components/form/Form";
 import { useState, useRef } from "react";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),
@@ -45,7 +42,7 @@ const CreateProject = () => {
     };
 
     return (
-        <Box m="20px">
+        <div className="m-5">
             <Header title="Shto projekt" subtitle="Krijo nje projekt te ri" />
             <FormAdvanced
                 initialValues={{
@@ -57,16 +54,12 @@ const CreateProject = () => {
                     {
                         name: "emriProjekt",
                         label: "Emri",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                     {
                         name: "pershkrimProjekt",
                         label: "Pershkrim",
-                        variant: "filled",
                         type: "text",
-                        sx: { gridColumn: "span 2" },
                     },
                 ]}
                 onDataChange={(values: any) => {
@@ -80,14 +73,7 @@ const CreateProject = () => {
                         label: "Ruaj ndryshimet",
                         type: "submit",
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
+                        // icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
                     },
                     {
                         label: "Anullo",
@@ -96,18 +82,11 @@ const CreateProject = () => {
                             handleResetFromParent();
                         },
                         color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                        // icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                     },
                 ]}
             />
-        </Box>
+        </div>
     );
 };
 
