@@ -14,10 +14,7 @@ const authenticationController = {
     onChangePassword: async (model: any): Promise<any> => {
         const response = await axios.patch(`${apiUrl}/api/Account/changePassword`, model);
         return response.data;
-    },
-    onLogout: () => {
-        localStorage.removeItem("token");
-    },
+    }
 };
 
 export default authenticationController;

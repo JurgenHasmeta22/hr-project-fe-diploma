@@ -9,6 +9,7 @@ import FormAdvanced from "~/components/form/Form";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { FormikProps } from "formik";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import * as CONSTANTS from "~/constants/Constants";
 
 const validationSchema = yup.object({
     oldPassword: yup.string().required("Passwordi aktual eshte i kerkuar"),
@@ -44,11 +45,11 @@ const ChangePassword: React.FC = () => {
         const response = await authenticationController.onLogin(payload);
 
         if (response) {
-            toast.success("Ju keni ndryshuar passwordin me sukses");
+            toast.success(CONSTANTS.CHANGEPASSWORD__SUCCESS);
             setUser(response);
             navigate("/dashboard");
         } else {
-            toast.error("Passwordi nuk eshte ndryshuar me sukses");
+            toast.error(CONSTANTS.CHANGEPASSWORD__FAILURE);
         }
     };
 

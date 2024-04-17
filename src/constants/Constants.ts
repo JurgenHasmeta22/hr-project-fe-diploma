@@ -1,0 +1,16 @@
+export const UPDATE__SUCCESS = "Azhornimi u krye me sukses!";
+export const UPDATE__FAILURE = "Azhornimi nuk u krye me sukses!";
+export const LOGIN__SUCCESS = "Ju jeni loguar me sukses";
+export const LOGIN__FAILURE = "Fjalekalimi ose username eshte gabim";
+export const CHANGEPASSWORD__SUCCESS = "Ju keni ndryshuar passwordin me sukses";
+export const CHANGEPASSWORD__FAILURE = "Passwordi nuk eshte ndryshuar me sukses";
+export const PERMISSION__RESERVATION__CREATE__SUCCESS = "Rezervimi i lejes u krijua me sukses !";
+export const PERMISSION__RESERVATION__CREATE__FAILURE = "Rezervimi i lejes nuk u krijua !";
+export const PERMISSION__RESERVATION__UPDATE__SUCCESS = "Rezervimi i lejes u ndryshua me sukses !";
+export const PERMISSION__RESERVATION__UPDATE__FAILURE = "Rezervimi i lejes nuk u ndryshua !";
+export const PERMISSION__RESERVATION__ERROR = "An error occurred while asking for permission.";
+export const GLOBAL__ERROR = "An error occurred:";
+export const GLOBAL__DELETE__SUCCESS = "Elemini u krye me sukses !";
+export const GLOBAL__DELETE__FAILURE = "Eleminimi nuk u realizua !";
+export const PROJECT__ASSIGN__SUCCESS = "Futja ne projekt u krye me sukses !";
+export const PROJECT__ASSIGN__FAILURE = "Futja ne projekt nuk u realizua !";

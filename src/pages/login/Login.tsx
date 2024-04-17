@@ -13,6 +13,7 @@ import FormAdvanced from "~/components/form/Form";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "react-router-dom";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
+import * as CONSTANTS from "~/constants/Constants";
 
 const loginSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -40,12 +41,12 @@ export default function Login() {
             const response: any = await authenticationController.onLogin(payload);
 
             if (response && response.status !== 401) {
-                toast.success("Ju jeni loguar me sukses");
+                toast.success(CONSTANTS.LOGIN__SUCCESS);
                 setItem(response);
                 setUser(response);
                 navigate("/dashboard");
             } else {
-                toast.error("Fjalekalimi ose username eshte gabim");
+                toast.error(CONSTANTS.LOGIN__FAILURE);
             }
         } catch (error) {
             console.error("An error occurred during the API call:", error);

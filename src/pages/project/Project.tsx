@@ -16,6 +16,7 @@ import * as yup from "yup";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import { useStore } from "~/store/store";
+import * as CONSTANTS from "~/constants/Constants";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),
@@ -60,10 +61,10 @@ const Project = () => {
         const response = await projectsController.updateProject(project?.projektId, payload);
 
         if (response === "") {
-            toast.success("Ruajtja e ndryshimeve me sukses !");
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
             getProject();
         } else {
-            toast.error("Rujtja nuk e realizua !");
+            toast.error(CONSTANTS.UPDATE__FAILURE);
         }
     };
 
@@ -161,10 +162,10 @@ const Project = () => {
                         onClick: async () => {
                             const response = await projectsController.deleteProject(projektId);
                             if (response === "") {
-                                toast.success("Elemini u krye me sukses !");
+                                toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
                                 navigate("/projects");
                             } else {
-                                toast.error("Eleminimi nuk u realizua !");
+                                toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
                             }
                         },
                         color: "secondary",
@@ -201,10 +202,10 @@ const Project = () => {
                                 dataMbarim: null,
                             });
                             if (response === "") {
-                                toast.success("Futja ne projekt u krye me sukses !");
+                                toast.success(CONSTANTS.PROJECT__ASSIGN__SUCCESS);
                                 navigate("/users");
                             } else {
-                                toast.error("Futja ne projekt nuk u realizua !");
+                                toast.error(CONSTANTS.PROJECT__ASSIGN__FAILURE);
                             }
                         },
                         color: "secondary",

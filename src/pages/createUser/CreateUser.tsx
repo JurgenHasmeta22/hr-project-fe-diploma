@@ -9,6 +9,7 @@ import { FormikProps } from "formik";
 import { useState, useRef } from "react";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
+import * as CONSTANTS from "~/constants/Constants";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -45,10 +46,10 @@ const CreateUser = () => {
         const response = await authenticationController.onRegister(payload);
 
         if (response) {
-            toast.success("Ruajtja e ndryshimeve me sukses !");
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
             navigate("/users");
         } else {
-            toast.error("Rujtja nuk e realizua !");
+            toast.error(CONSTANTS.UPDATE__FAILURE);
         }
     };
 

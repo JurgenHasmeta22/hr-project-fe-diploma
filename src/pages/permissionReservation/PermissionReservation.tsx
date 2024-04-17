@@ -3,7 +3,6 @@ import { Box, CircularProgress, Typography, useTheme } from "@mui/material";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -18,6 +17,7 @@ import { useStore } from "~/store/store";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import * as CONSTANTS from "~/constants/Constants";
 
 const permissionReservation = () => {
     const [open, setOpen] = useState(false);
@@ -57,7 +57,7 @@ const permissionReservation = () => {
             const response = await permissionsController.askPermission(formData, user?.userId);
 
             if (response) {
-                toast.success("Rezervimi i lejes u krijua me sukses !");
+                toast.success(CONSTANTS.PERMISSION__RESERVATION__CREATE__SUCCESS);
 
                 let calendarApi = selected.view.calendar;
                 calendarApi.unselect();
@@ -69,13 +69,13 @@ const permissionReservation = () => {
                     allDay: selected.allDay,
                 });
             } else {
-                toast.error("Rezervimi i lejes nuk u krijua !");
+                toast.error(CONSTANTS.PERMISSION__RESERVATION__CREATE__FAILURE);
             }
 
             handleClose();
         } catch (error) {
-            console.error("An error occurred:", error);
-            toast.error("An error occurred while asking for permission.");
+            console.error(CONSTANTS.GLOBAL__ERROR, error);
+            toast.error(CONSTANTS.PERMISSION__RESERVATION__ERROR);
         }
     };
 
@@ -84,7 +84,7 @@ const permissionReservation = () => {
             const response = await permissionsController.updatePermission(lejeId, formData);
 
             if (response === true) {
-                toast.success("Rezervimi i lejes u ndryshua me sukses !");
+                toast.success(CONSTANTS.PERMISSION__RESERVATION__UPDATE__SUCCESS);
 
                 let calendarApi = selected.view.calendar;
                 calendarApi.unselect();
@@ -96,12 +96,12 @@ const permissionReservation = () => {
                     allDay: selected.allDay,
                 });
             } else {
-                toast.error("Rezervimi i lejes nuk u ndryshua !");
+                toast.error(CONSTANTS.PERMISSION__RESERVATION__UPDATE__FAILURE);
             }
 
             handleClose();
         } catch (error) {
-            console.error("An error occurred:", error);
+            console.error(CONSTANTS.GLOBAL__ERROR, error);
             toast.error("An error occurred while updating the permission.");
         }
     };
@@ -217,15 +217,15 @@ const permissionReservation = () => {
 
                                         try {
                                             if (response === "") {
-                                                toast.success("Elemini u krye me sukses !");
+                                                toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
                                                 selected.event.remove();
                                                 handleClose();
                                             } else {
-                                                toast.error("Eleminimi nuk u realizua !");
+                                                toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
                                             }
                                         } catch (error) {
-                                            console.error("An error occurred:", error);
-                                            toast.error("An error occurred while deleting the permission.");
+                                            console.error(CONSTANTS.GLOBAL__ERROR, error);
+                                            toast.error(CONSTANTS.GLOBAL__ERROR);
                                         }
                                     },
                                     color: "secondary",

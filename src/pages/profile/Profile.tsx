@@ -1,6 +1,6 @@
 import { Box, Tab, Tabs, useTheme } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
@@ -18,11 +18,11 @@ import educationsController from "~/services/api/educations";
 import workExperiencesController from "~/services/api/workExperiences";
 import skillsController from "~/services/api/skills";
 import certificatesController from "~/services/api/certificates";
-import authenticationController from "~/services/api/authentication";
 import { useModal } from "~/services/providers/ModalContext";
 import { ProfileTabsPanels } from "./ProfileTabsPanels";
 import { ProfileHeader } from "./ProfileHeader";
 import { tokens } from "~/utils/theme";
+import * as CONSTANTS from "~/constants/Constants";
 
 // #region Schemas for validation
 const userSchema = Yup.object().shape({
@@ -221,9 +221,9 @@ export default function Profile() {
                 );
 
                 if (response1 && response2 === "") {
-                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    toast.success(CONSTANTS.UPDATE__SUCCESS);
                 } else {
-                    toast.error("Rujtja nuk e realizua !");
+                    toast.error(CONSTANTS.UPDATE__FAILURE);
                 }
             },
             onDataChange: (values: any) => {
@@ -250,9 +250,9 @@ export default function Profile() {
                 const response2 = await skillsController.addUserSkill(response1.aftesiId, userDetailsLoggedIn?.userId, payload2);
 
                 if (response1 && response2 === "") {
-                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    toast.success(CONSTANTS.UPDATE__SUCCESS);
                 } else {
-                    toast.error("Rujtja nuk e realizua !");
+                    toast.error(CONSTANTS.UPDATE__SUCCESS);
                 }
             },
             steps: [
@@ -473,9 +473,9 @@ export default function Profile() {
                 );
 
                 if (response1 && response2 === "") {
-                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    toast.success(CONSTANTS.UPDATE__SUCCESS);
                 } else {
-                    toast.error("Rujtja nuk e realizua !");
+                    toast.error(CONSTANTS.UPDATE__FAILURE);
                 }
             },
             onDataChange: (values: any) => {
@@ -609,9 +609,9 @@ export default function Profile() {
                     payload2,
                 );
                 if (response1 && response2) {
-                    toast.success("Ruajtja e ndryshimeve me sukses !");
+                    toast.success(CONSTANTS.UPDATE__SUCCESS);
                 } else {
-                    toast.error("Rujtja nuk e realizua !");
+                    toast.error(CONSTANTS.UPDATE__FAILURE);
                 }
             },
             onDataChange: (values: any) => {
@@ -678,11 +678,11 @@ export default function Profile() {
                     };
                     const response = await usersController.updateUser(values.userId, payload);
                     if (response) {
-                        toast.success("Ruajtja e ndryshimeve me sukses !");
+                        toast.success(CONSTANTS.UPDATE__SUCCESS);
                         setUserDetailsLoggedIn(response);
                         setUserProfile(response);
                     } else {
-                        toast.error("Rujtja nuk e realizua !");
+                        toast.error(CONSTANTS.UPDATE__FAILURE);
                     }
                 },
                 title: "Edito perdoruesin",
@@ -845,7 +845,7 @@ export default function Profile() {
                     );
 
                     if (response1 && response2) {
-                        toast.success("Ruajtja e ndryshimeve me sukses !");
+                        toast.success(CONSTANTS.UPDATE__SUCCESS);
                         const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
@@ -959,12 +959,12 @@ export default function Profile() {
                         payload2,
                     );
                     if (response1 && response2) {
-                        toast.success("Ruajtja e ndryshimeve me sukses !");
+                        toast.success(CONSTANTS.UPDATE__SUCCESS);
                         const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     } else {
-                        toast.error("Rujtja nuk e realizua !");
+                        toast.error(CONSTANTS.UPDATE__FAILURE);
                     }
                 },
                 onDataChange: (values: any) => {
@@ -1112,12 +1112,12 @@ export default function Profile() {
                         payload2,
                     );
                     if (response1 && response2) {
-                        toast.success("Ruajtja e ndryshimeve me sukses !");
+                        toast.success(CONSTANTS.UPDATE__SUCCESS);
                         const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     } else {
-                        toast.error("Rujtja nuk e realizua !");
+                        toast.error(CONSTANTS.UPDATE__FAILURE);
                     }
                 },
                 onDataChange: (values: any) => {
@@ -1257,12 +1257,12 @@ export default function Profile() {
                     );
 
                     if (response1 && response2) {
-                        toast.success("Ruajtja e ndryshimeve me sukses !");
+                        toast.success(CONSTANTS.UPDATE__SUCCESS);
                         const user = await usersController.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     } else {
-                        toast.error("Rujtja nuk e realizua !");
+                        toast.error(CONSTANTS.UPDATE__FAILURE);
                     }
                 },
                 onDataChange: (values: any) => {

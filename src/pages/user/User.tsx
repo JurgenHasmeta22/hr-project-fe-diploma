@@ -14,6 +14,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FormAdvanced from "~/components/form/Form";
 import { toast } from "react-toastify";
+import * as CONSTANTS from "~/constants/Constants";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -68,10 +69,10 @@ const User = () => {
         const response = await usersController.updateUser(user?.userId, payload);
 
         if (response) {
-            toast.success("Modifikimi u krye me sukses !");
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
             getUser();
         } else {
-            toast.error("Modifikimi nuk u krye me sukses !");
+            toast.error(CONSTANTS.UPDATE__FAILURE);
         }
     };
 
@@ -206,10 +207,10 @@ const User = () => {
                                 userIsActive: false,
                             });
                             if (response) {
-                                toast.success("Fshirja u krye me sukses !");
+                                toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
                                 navigate("/users");
                             } else {
-                                toast.error("Fshirja nuk u realizua !");
+                                toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
                             }
                         },
                         color: "secondary",

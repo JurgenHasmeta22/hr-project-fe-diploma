@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import FormAdvanced from "~/components/form/Form";
 import { useState, useRef } from "react";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
+import * as CONSTANTS from "~/constants/Constants";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),
@@ -37,10 +38,10 @@ const CreateProject = () => {
         const response = await projectsController.addProject(payload);
 
         if (response) {
-            toast.success("Ruajtja e ndryshimeve me sukses !");
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
             navigate("/projects");
         } else {
-            toast.error("Ruajtja nuk e realizua !");
+            toast.error(CONSTANTS.UPDATE__FAILURE);
         }
     };
 

@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
+import * as CONSTANTS from "~/constants/Constants";
 
 const Users = () => {
     const [users, setUsers] = useState<IUser[]>([]);
@@ -232,10 +233,10 @@ const Users = () => {
                     });
 
                     if (response) {
-                        toast.success("Fshirja u krye me sukses !");
+                        toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
                         getUsers();
                     } else {
-                        toast.error("Fshirja nuk u realizua !");
+                        toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
                     }
 
                     closeMenu();
