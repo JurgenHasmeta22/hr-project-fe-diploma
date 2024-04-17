@@ -108,7 +108,7 @@ const ChangePassword: React.FC = () => {
                     validationSchema={validationSchema}
                     actions={[
                         {
-                            label: "Ndrysho",
+                            label: CONSTANTS.FORM__CHANGE__BUTTON,
                             type: "submit",
                             color: "secondary",
                             variant: "contained",

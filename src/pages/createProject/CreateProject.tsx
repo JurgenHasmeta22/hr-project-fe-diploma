@@ -47,7 +47,10 @@ const CreateProject = () => {
 
     return (
         <Box m="20px">
-            <Header title="Shto projekt" subtitle="Krijo nje projekt te ri" />
+            <Header
+                title={CONSTANTS.PROJECT__ADD__TITLE}
+                subtitle={CONSTANTS.PROJECT__ADD__SUBTITLE}
+            />
             <FormAdvanced
                 initialValues={{
                     userId: "",

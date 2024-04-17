@@ -124,7 +124,7 @@ const User = () => {
                     {breadcrumbs}
                 </Breadcrumbs>
             </Box>
-            <Header title="Detajet e perdoruesit" subtitle="Vizualizo dhe edito perdoruesin" />
+            <Header title={CONSTANTS.USER__VIEW__TITLE} subtitle={CONSTANTS.USER__VIEW__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     userId,

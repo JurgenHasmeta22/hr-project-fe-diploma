@@ -11,7 +11,7 @@ import IPermission from "~/types/IPermission";
 import permissionsController from "~/services/api/permissions";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import { DashboardStatBox } from "./DashboardStatBox";
+import { DashboardStatBox } from "./components/DashboardStatBox";
 
 const Dashboard = () => {
     const [users, setUsers] = useState<IUser[]>([]);

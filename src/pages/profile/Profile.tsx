@@ -19,8 +19,8 @@ import workExperiencesController from "~/services/api/workExperiences";
 import skillsController from "~/services/api/skills";
 import certificatesController from "~/services/api/certificates";
 import { useModal } from "~/services/providers/ModalContext";
-import { ProfileTabsPanels } from "./ProfileTabsPanels";
-import { ProfileHeader } from "./ProfileHeader";
+import { ProfileTabsPanels } from "./components/ProfileTabsPanels";
+import { ProfileHeader } from "./components/ProfileHeader";
 import { tokens } from "~/utils/theme";
 import * as CONSTANTS from "~/constants/Constants";
 

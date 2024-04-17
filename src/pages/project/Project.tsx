@@ -1,15 +1,12 @@
-import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import IProject from "~/types/IProject";
 import projectsController from "~/services/api/projects";
 import { FormikProps } from "formik";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { toast } from "react-toastify";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Link } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FormAdvanced from "~/components/form/Form";
 import * as yup from "yup";
@@ -17,6 +14,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import { useStore } from "~/store/store";
 import * as CONSTANTS from "~/constants/Constants";
+import ProfileBreadCrumb from "../profile/components/ProfileBreadCrumb";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),
@@ -70,7 +68,6 @@ const Project = () => {
 
     async function getProject(): Promise<void> {
         const response: IProject = await projectsController.getProject(location.state?.projectId!);
-
         setProject(response);
         setProjektId(response.projektId);
         setEmriProjekt(response.emriProjekt);
@@ -92,30 +89,11 @@ const Project = () => {
 
     return (
         <Box m="20px">
-            <Box
-                mb={"30px"}
-                display={"flex"}
-                flexDirection={"row"}
-                alignItems={"center"}
-                gap={"20px"}
-            >
-                <Button
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => {
-                        navigate("/projects");
-                    }}
-                >
-                    <ArrowBackIcon color="action" />
-                </Button>
-                <Breadcrumbs
-                    separator={<NavigateNextIcon fontSize="small" />}
-                    aria-label="breadcrumb"
-                >
-                    {breadcrumbs}
-                </Breadcrumbs>
-            </Box>
-            <Header title="Detajet e projektit" subtitle="Vizualizo dhe edito projektin" />
+            <ProfileBreadCrumb breadcrumbs={breadcrumbs} />
+            <Header
+                title={CONSTANTS.PROJECT__VIEW__TITLE}
+                subtitle={CONSTANTS.PROJECT__VIEW__SUBTITLE}
+            />
             <FormAdvanced
                 initialValues={{
                     projektId,

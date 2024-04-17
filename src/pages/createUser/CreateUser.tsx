@@ -55,7 +55,7 @@ const CreateUser = () => {
 
     return (
         <Box m="20px">
-            <Header title="Shto nje perdorues" subtitle="Krijo nje perdorues te ri" />
+            <Header title={CONSTANTS.USER__ADD__TITLE} subtitle={CONSTANTS.USER__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     userName: "",
