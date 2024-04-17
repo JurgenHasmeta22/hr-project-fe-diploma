@@ -38,7 +38,15 @@ type FormProps = {
 type ActionConfig = {
     label: string;
     type?: string;
-    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
+    color?:
+        | "inherit"
+        | "primary"
+        | "secondary"
+        | "success"
+        | "error"
+        | "info"
+        | "warning"
+        | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
@@ -69,13 +77,19 @@ const FormAdvanced: React.FC<FormProps> = ({
 
                 return (
                     <Form onSubmit={handleSubmit}>
-                        <Box display="grid" gap="20px" gridTemplateColumns="repeat(2, minmax(0, 0.5fr))">
+                        <Box
+                            display="grid"
+                            gap="20px"
+                            gridTemplateColumns="repeat(2, minmax(0, 0.5fr))"
+                        >
                             {fields.map((field: FieldConfig) => {
                                 switch (field.type) {
                                     case "select":
                                         return (
                                             <FormControl fullWidth>
-                                                <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+                                                <InputLabel id={`${field.name}-label`}>
+                                                    {field.label}
+                                                </InputLabel>
                                                 <Field
                                                     key={field.name}
                                                     name={field.name}
@@ -89,7 +103,10 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                     variant={field.variant}
                                                 >
                                                     {field.options?.map((option) => (
-                                                        <MenuItem key={option.value} value={option.value}>
+                                                        <MenuItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
                                                             {option.label}
                                                         </MenuItem>
                                                     ))}
@@ -99,7 +116,9 @@ const FormAdvanced: React.FC<FormProps> = ({
                                     case "multiselect":
                                         return (
                                             <FormControl fullWidth>
-                                                <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+                                                <InputLabel id={`${field.name}-label`}>
+                                                    {field.label}
+                                                </InputLabel>
                                                 <Field
                                                     key={field.name}
                                                     name={field.name}
@@ -114,7 +133,10 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                     variant={field.variant}
                                                 >
                                                     {field.options?.map((option) => (
-                                                        <MenuItem key={option.value} value={option.value}>
+                                                        <MenuItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
                                                             {option.label}
                                                         </MenuItem>
                                                     ))}
@@ -135,9 +157,15 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 sx={field.sx}
                                                 value={values[field.name]}
                                                 type={field.type || "text"}
-                                                helperText={touched[field.name] && errors[field.name]}
+                                                helperText={
+                                                    touched[field.name] && errors[field.name]
+                                                }
                                                 error={touched[field.name] && !!errors[field.name]}
-                                                InputLabelProps={field.type === "date" ? { shrink: true } : undefined}
+                                                InputLabelProps={
+                                                    field.type === "date"
+                                                        ? { shrink: true }
+                                                        : undefined
+                                                }
                                             />
                                         );
                                     case "password":
@@ -154,7 +182,9 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 sx={field.sx}
                                                 value={values[field.name]}
                                                 type={field.type || "text"}
-                                                helperText={touched[field.name] && errors[field.name]}
+                                                helperText={
+                                                    touched[field.name] && errors[field.name]
+                                                }
                                                 error={touched[field.name] && !!errors[field.name]}
                                                 InputLabelProps={{
                                                     style: { color: "#b8b4b4" },
@@ -180,7 +210,9 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 disabled={field.disabled}
                                                 sx={field.sx}
                                                 type={field.type || "text"}
-                                                helperText={touched[field.name] && errors[field.name]}
+                                                helperText={
+                                                    touched[field.name] && errors[field.name]
+                                                }
                                                 error={touched[field.name] && !!errors[field.name]}
                                                 InputLabelProps={{
                                                     style: { color: "#b8b4b4" },

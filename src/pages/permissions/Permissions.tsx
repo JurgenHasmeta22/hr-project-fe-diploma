@@ -21,8 +21,10 @@ const Permissions = () => {
     const [rowSelection, setRowSelection] = useState<any>({});
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
-    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
-    
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some(
+        (el) => el.roli.roliEmri === "Employee",
+    );
+
     const columns: MRT_ColumnDef<IPermission>[] = useMemo(
         () => [
             { accessorKey: "lejeId", header: "Id", enableHiding: true, size: 30 },
@@ -86,7 +88,9 @@ const Permissions = () => {
     }
 
     async function handleDisapprovePermission(permissionId: any): Promise<void> {
-        const response: IPermission[] = await permissionsController.disapprovePermission(permissionId);
+        const response: IPermission[] = await permissionsController.disapprovePermission(
+            permissionId,
+        );
 
         if (response) {
             getPermissions();
@@ -189,7 +193,12 @@ const Permissions = () => {
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
-                            <Button color="success" disabled={isEmployee} onClick={handleAddUser} variant="contained">
+                            <Button
+                                color="success"
+                                disabled={isEmployee}
+                                onClick={handleAddUser}
+                                variant="contained"
+                            >
                                 <Add />
                                 Shto
                             </Button>

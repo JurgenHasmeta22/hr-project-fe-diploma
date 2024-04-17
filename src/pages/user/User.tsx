@@ -101,7 +101,13 @@ const User = () => {
 
     return (
         <Box m="20px">
-            <Box mb={"30px"} display={"flex"} flexDirection={"row"} alignItems={"center"} gap={"20px"}>
+            <Box
+                mb={"30px"}
+                display={"flex"}
+                flexDirection={"row"}
+                alignItems={"center"}
+                gap={"20px"}
+            >
                 <Button
                     color="secondary"
                     variant="contained"
@@ -111,7 +117,10 @@ const User = () => {
                 >
                     <ArrowBackIcon color="action" />
                 </Button>
-                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                <Breadcrumbs
+                    separator={<NavigateNextIcon fontSize="small" />}
+                    aria-label="breadcrumb"
+                >
                     {breadcrumbs}
                 </Breadcrumbs>
             </Box>

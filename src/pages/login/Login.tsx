@@ -65,7 +65,13 @@ export default function Login() {
                     bgcolor: "#b2d0f7",
                 }}
             >
-                <Typography variant="h2" component="h2" sx={{ mb: 2 }} gutterBottom color={"primary"}>
+                <Typography
+                    variant="h2"
+                    component="h2"
+                    sx={{ mb: 2 }}
+                    gutterBottom
+                    color={"primary"}
+                >
                     Login
                 </Typography>
                 <FormAdvanced
@@ -110,7 +116,15 @@ export default function Login() {
                         },
                     ]}
                 />
-                <Link to="/changePassword" style={{ color: "#fff", marginTop: "20px", textDecoration: "none", fontSize: "14px" }}>
+                <Link
+                    to="/changePassword"
+                    style={{
+                        color: "#fff",
+                        marginTop: "20px",
+                        textDecoration: "none",
+                        fontSize: "14px",
+                    }}
+                >
                     Keni harruar passwordin ?
                 </Link>
             </Box>

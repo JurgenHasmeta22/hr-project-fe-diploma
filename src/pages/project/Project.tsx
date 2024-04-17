@@ -92,7 +92,13 @@ const Project = () => {
 
     return (
         <Box m="20px">
-            <Box mb={"30px"} display={"flex"} flexDirection={"row"} alignItems={"center"} gap={"20px"}>
+            <Box
+                mb={"30px"}
+                display={"flex"}
+                flexDirection={"row"}
+                alignItems={"center"}
+                gap={"20px"}
+            >
                 <Button
                     color="secondary"
                     variant="contained"
@@ -102,7 +108,10 @@ const Project = () => {
                 >
                     <ArrowBackIcon color="action" />
                 </Button>
-                <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                <Breadcrumbs
+                    separator={<NavigateNextIcon fontSize="small" />}
+                    aria-label="breadcrumb"
+                >
                     {breadcrumbs}
                 </Breadcrumbs>
             </Box>
@@ -197,10 +206,14 @@ const Project = () => {
                     {
                         label: "Bashkangjitu projektit",
                         onClick: async () => {
-                            const response = await projectsController.assignProjectToUser(user?.userId, projektId, {
-                                dataFillim: currentTime,
-                                dataMbarim: null,
-                            });
+                            const response = await projectsController.assignProjectToUser(
+                                user?.userId,
+                                projektId,
+                                {
+                                    dataFillim: currentTime,
+                                    dataMbarim: null,
+                                },
+                            );
                             if (response === "") {
                                 toast.success(CONSTANTS.PROJECT__ASSIGN__SUCCESS);
                                 navigate("/users");

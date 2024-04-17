@@ -15,7 +15,9 @@ const Sidebar = ({ sidebarItems }: any) => {
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some(
+        (el) => el.roli.roliEmri === "Employee",
+    );
 
     const handleItemClick = (title: string, to: string, state: any) => {
         setSelectedLabel(title);
@@ -50,7 +52,8 @@ const Sidebar = ({ sidebarItems }: any) => {
                     </Avatar>
                     <Box ml={2}>
                         <Typography variant="subtitle1">
-                            {userDetailsLoggedIn && `${userDetailsLoggedIn?.userFirstname} ${userDetailsLoggedIn?.userLastname}`}
+                            {userDetailsLoggedIn &&
+                                `${userDetailsLoggedIn?.userFirstname} ${userDetailsLoggedIn?.userLastname}`}
                         </Typography>
                         <Typography variant="body2" color="textSecondary">
                             {userDetailsLoggedIn && `@${userDetailsLoggedIn?.userName}`}

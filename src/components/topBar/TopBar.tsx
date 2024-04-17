@@ -44,7 +44,13 @@ const TopBar = () => {
 
     return (
         <AppBar position="static">
-            <Toolbar sx={{ display: "flex", justifyContent: "space-between", backgroundColor: colors.primary[900] }}>
+            <Toolbar
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    backgroundColor: colors.primary[900],
+                }}
+            >
                 <Box display={"flex"} justifyContent={"start"}>
                     {!openSidebar && (
                         <IconButton
@@ -58,7 +64,11 @@ const TopBar = () => {
                 </Box>
                 <Box display={"flex"} flexDirection={"row"}>
                     <IconButton onClick={colorMode.toggleColorMode}>
-                        {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+                        {theme.palette.mode === "dark" ? (
+                            <DarkModeOutlinedIcon />
+                        ) : (
+                            <LightModeOutlinedIcon />
+                        )}
                     </IconButton>
                     <IconButton
                         id="buttonProfile"
@@ -81,11 +91,17 @@ const TopBar = () => {
                             "aria-labelledby": "buttonProfile",
                         }}
                     >
-                        <MenuItem onClick={handleRedirectToProfile} style={{ color: colors.primary[100] }}>
+                        <MenuItem
+                            onClick={handleRedirectToProfile}
+                            style={{ color: colors.primary[100] }}
+                        >
                             Profili im
                         </MenuItem>
                         <MenuItem>
-                            <Link to="/changePassword" style={{ color: colors.primary[100], textDecoration: "none" }}>
+                            <Link
+                                to="/changePassword"
+                                style={{ color: colors.primary[100], textDecoration: "none" }}
+                            >
                                 Ndrysho passwordin
                             </Link>
                         </MenuItem>

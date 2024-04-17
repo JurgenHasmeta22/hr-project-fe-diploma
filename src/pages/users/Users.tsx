@@ -38,7 +38,9 @@ const Users = () => {
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
 
-    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some(
+        (el) => el.roli.roliEmri === "Employee",
+    );
 
     const columns = useMemo<MRT_ColumnDef<IUser>[]>(
         () => [
@@ -268,7 +270,12 @@ const Users = () => {
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
-                            <Button color="success" disabled={isEmployee} onClick={handleAddUser} variant="contained">
+                            <Button
+                                color="success"
+                                disabled={isEmployee}
+                                onClick={handleAddUser}
+                                variant="contained"
+                            >
                                 <Add />
                                 Shto
                             </Button>

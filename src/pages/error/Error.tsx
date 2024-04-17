@@ -21,7 +21,11 @@ const Error: React.FC = () => {
                 <Typography variant="h4" gutterBottom>
                     Page Not Found
                 </Typography>
-                <Button variant="contained" color="secondary" onClick={() => navigate("/dashboard")}>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => navigate("/dashboard")}
+                >
                     Go to Home
                 </Button>
             </Box>

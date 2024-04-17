@@ -213,7 +213,10 @@ const permissionReservation = () => {
                                 {
                                     label: "Po",
                                     onClick: async () => {
-                                        const response = await permissionsController.deletePermission(selected.event.id);
+                                        const response =
+                                            await permissionsController.deletePermission(
+                                                selected.event.id,
+                                            );
 
                                         try {
                                             if (response === "") {
@@ -333,7 +336,12 @@ const permissionReservation = () => {
         <Box m="20px">
             <Header title="Rezervimi i lejeve" subtitle="Marrja e lejeve per punonjesit" />
             <Box display="flex" justifyContent="space-between">
-                <Box flex="1 1 15%" sx={{ backgroundColor: colors.primary[400] }} p="15px" borderRadius="4px">
+                <Box
+                    flex="1 1 15%"
+                    sx={{ backgroundColor: colors.primary[400] }}
+                    p="15px"
+                    borderRadius="4px"
+                >
                     <Typography variant="h5">Legjenda</Typography>
                 </Box>
                 <Box flex="1 1 100%" ml="15px">

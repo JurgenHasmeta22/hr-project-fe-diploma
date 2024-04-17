@@ -50,7 +50,15 @@ type ActionConfig = {
     onClick: () => void;
     label: string;
     type?: string;
-    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
+    color?:
+        | "inherit"
+        | "primary"
+        | "secondary"
+        | "success"
+        | "error"
+        | "info"
+        | "warning"
+        | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
@@ -149,10 +157,19 @@ const RightPanel: React.FC<DrawerProps> = ({
                                         <Grid item xs={6} key={field.name}>
                                             {field.type === "select" ? (
                                                 <FormControl fullWidth size="medium">
-                                                    <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
-                                                    <Field name={field.name} labelId={`${field.name}-label`} as={Select}>
+                                                    <InputLabel id={`${field.name}-label`}>
+                                                        {field.label}
+                                                    </InputLabel>
+                                                    <Field
+                                                        name={field.name}
+                                                        labelId={`${field.name}-label`}
+                                                        as={Select}
+                                                    >
                                                         {field.options?.map((option) => (
-                                                            <MenuItem key={option.value} value={option.value}>
+                                                            <MenuItem
+                                                                key={option.value}
+                                                                value={option.value}
+                                                            >
                                                                 {option.label}
                                                             </MenuItem>
                                                         ))}
@@ -166,29 +183,39 @@ const RightPanel: React.FC<DrawerProps> = ({
                                                     fullWidth
                                                     size="medium"
                                                     type={field.type || "text"}
-                                                    helperText={touched[field.name] && errors[field.name]}
-                                                    error={touched[field.name] && !!errors[field.name]}
-                                                    InputLabelProps={field.type === "date" ? { shrink: true } : undefined}
+                                                    helperText={
+                                                        touched[field.name] && errors[field.name]
+                                                    }
+                                                    error={
+                                                        touched[field.name] && !!errors[field.name]
+                                                    }
+                                                    InputLabelProps={
+                                                        field.type === "date"
+                                                            ? { shrink: true }
+                                                            : undefined
+                                                    }
                                                 />
                                             )}
                                         </Grid>
                                     ))}
                                 </Grid>
                                 <Box mt={3} display={"flex"} gap={"10px"} justifyContent={"end"}>
-                                    {(steps ? steps[activeStep].actions! : actions!).map((action, index) => (
-                                        <Button
-                                            key={index}
-                                            onClick={action.onClick}
-                                            // @ts-ignore
-                                            color={action.color || "default"}
-                                            variant={action.variant || "text"}
-                                            sx={action.sx}
-                                            type={action.type}
-                                            endIcon={action.icon}
-                                        >
-                                            {action.label}
-                                        </Button>
-                                    ))}
+                                    {(steps ? steps[activeStep].actions! : actions!).map(
+                                        (action, index) => (
+                                            <Button
+                                                key={index}
+                                                onClick={action.onClick}
+                                                // @ts-ignore
+                                                color={action.color || "default"}
+                                                variant={action.variant || "text"}
+                                                sx={action.sx}
+                                                type={action.type}
+                                                endIcon={action.icon}
+                                            >
+                                                {action.label}
+                                            </Button>
+                                        ),
+                                    )}
                                 </Box>
                                 {steps && (
                                     <Box mt={12} display="flex" justifyContent="space-between">
@@ -201,7 +228,11 @@ const RightPanel: React.FC<DrawerProps> = ({
                                             Mbrapa
                                         </Button>
                                         {!isLastStep() && (
-                                            <Button variant="contained" color="primary" type="submit">
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                type="submit"
+                                            >
                                                 Tjetra
                                             </Button>
                                         )}

@@ -247,7 +247,11 @@ export default function Profile() {
                 const payload2 = {
                     dataPerfitimit: values.dataPerfitimit,
                 };
-                const response2 = await skillsController.addUserSkill(response1.aftesiId, userDetailsLoggedIn?.userId, payload2);
+                const response2 = await skillsController.addUserSkill(
+                    response1.aftesiId,
+                    userDetailsLoggedIn?.userId,
+                    payload2,
+                );
 
                 if (response1 && response2 === "") {
                     toast.success(CONSTANTS.UPDATE__SUCCESS);
@@ -833,7 +837,10 @@ export default function Profile() {
                         certEmri: values.certEmri,
                         certPershkrim: values.certPershkrim,
                     };
-                    const response1 = await certificatesController.editCertificate(values.certId, payload1);
+                    const response1 = await certificatesController.editCertificate(
+                        values.certId,
+                        payload1,
+                    );
                     const payload2 = {
                         dataFituar: values.dataFituar,
                         dataSkadence: values.dataSkadence,
@@ -1097,7 +1104,10 @@ export default function Profile() {
                     const payload1: IWorkExperience = {
                         ppemri: values.ppemri,
                     };
-                    const response1 = await workExperiencesController.editWorkExperience(values.ppId, payload1);
+                    const response1 = await workExperiencesController.editWorkExperience(
+                        values.ppId,
+                        payload1,
+                    );
                     const payload2 = {
                         ppemri: values.ppemri,
                         dataFillim: values.dataFillim,
@@ -1242,7 +1252,10 @@ export default function Profile() {
                     const payload1: IEducation = {
                         eduName: values.eduName,
                     };
-                    const response1 = await educationsController.editEducation(values.eduId, payload1);
+                    const response1 = await educationsController.editEducation(
+                        values.eduId,
+                        payload1,
+                    );
                     const payload2 = {
                         eduName: values.eduName,
                         mesatarja: values.mesatarja,
@@ -1507,34 +1520,60 @@ export default function Profile() {
         <>
             <ProfileHeader userProfile={userProfile} handleEditProfile={handleEditProfile} />
             <Box>
-                <Tabs value={value} onChange={handleChange} variant="fullWidth" textColor="primary" orientation="horizontal">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    textColor="primary"
+                    orientation="horizontal"
+                >
                     <Tab
                         label="Certifikatat"
-                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
+                        style={{
+                            backgroundColor: colors.redAccent[400],
+                            color: colors.primary[100],
+                            fontWeight: "700",
+                        }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Edukimet"
-                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
+                        style={{
+                            backgroundColor: colors.redAccent[400],
+                            color: colors.primary[100],
+                            fontWeight: "700",
+                        }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Projektet"
-                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
+                        style={{
+                            backgroundColor: colors.redAccent[400],
+                            color: colors.primary[100],
+                            fontWeight: "700",
+                        }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Aftesite"
-                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
+                        style={{
+                            backgroundColor: colors.redAccent[400],
+                            color: colors.primary[100],
+                            fontWeight: "700",
+                        }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />
                     <Tab
                         label="Pervoja e punes"
-                        style={{ backgroundColor: colors.redAccent[400], color: colors.primary[100], fontWeight: "700" }}
+                        style={{
+                            backgroundColor: colors.redAccent[400],
+                            color: colors.primary[100],
+                            fontWeight: "700",
+                        }}
                         disableRipple={true}
                         disableFocusRipple={true}
                     />

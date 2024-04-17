@@ -13,7 +13,10 @@ import * as CONSTANTS from "~/constants/Constants";
 
 const validationSchema = yup.object({
     oldPassword: yup.string().required("Passwordi aktual eshte i kerkuar"),
-    newPassword: yup.string().required("Passwordi i ri eshte i kerkuar").min(8, "Passwordi duhet te jete minimum 8 karaktere"),
+    newPassword: yup
+        .string()
+        .required("Passwordi i ri eshte i kerkuar")
+        .min(8, "Passwordi duhet te jete minimum 8 karaktere"),
     confirmNewPassword: yup
         .string()
         .oneOf([yup.ref("newPassword")], "Passwordet nuk perputhen")
@@ -134,7 +137,15 @@ const ChangePassword: React.FC = () => {
                         },
                     ]}
                 />
-                <Link to="/login" style={{ color: "#fff", marginTop: "20px", textDecoration: "none", fontSize: "14px" }}>
+                <Link
+                    to="/login"
+                    style={{
+                        color: "#fff",
+                        marginTop: "20px",
+                        textDecoration: "none",
+                        fontSize: "14px",
+                    }}
+                >
                     Shkoni tek login
                 </Link>
             </Box>

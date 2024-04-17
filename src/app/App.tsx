@@ -19,7 +19,9 @@ const Dashboard = React.lazy(() => import("~/pages/dashboard/Dashboard"));
 const Permissions = React.lazy(() => import("~/pages/permissions/Permissions"));
 const Users = React.lazy(() => import("~/pages/users/Users"));
 const Projects = React.lazy(() => import("~/pages/projects/Projects"));
-const PermissionReservation = React.lazy(() => import("~/pages/permissionReservation/PermissionReservation"));
+const PermissionReservation = React.lazy(
+    () => import("~/pages/permissionReservation/PermissionReservation"),
+);
 const Project = React.lazy(() => import("~/pages/project/Project"));
 const User = React.lazy(() => import("~/pages/user/User"));
 const CreateUser = React.lazy(() => import("~/pages/createUser/CreateUser"));

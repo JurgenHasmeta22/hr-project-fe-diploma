@@ -1,5 +1,13 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from "@mui/material";
+import {
+    Collapse,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    useTheme,
+} from "@mui/material";
 import React from "react";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
@@ -58,7 +66,10 @@ export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick, isEmpl
                                 }}
                                 selected={selectedLabel === subItem.label}
                                 onClick={() => {
-                                    handleItemClick(subItem.label, subItem.to, { label: subItem.label, index });
+                                    handleItemClick(subItem.label, subItem.to, {
+                                        label: subItem.label,
+                                        index,
+                                    });
                                 }}
                             >
                                 <ListItemText primary={subItem.label} />

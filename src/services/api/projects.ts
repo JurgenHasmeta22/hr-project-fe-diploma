@@ -4,16 +4,24 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 const projectsController = {
     getAllProjects: async () => {
-        return await axios.get(`${apiUrl}/Projekt/getAllProjects`).then((response) => response.data);
+        return await axios
+            .get(`${apiUrl}/Projekt/getAllProjects`)
+            .then((response) => response.data);
     },
     getProject: async (projectId: string) => {
-        return await axios.get(`${apiUrl}/Projekt/GetById/${projectId}`).then((response) => response.data);
+        return await axios
+            .get(`${apiUrl}/Projekt/GetById/${projectId}`)
+            .then((response) => response.data);
     },
     deleteProject: async (projectId: any) => {
-        return await axios.delete(`${apiUrl}/Projekt/Delete/${projectId}`).then((response) => response.data);
+        return await axios
+            .delete(`${apiUrl}/Projekt/Delete/${projectId}`)
+            .then((response) => response.data);
     },
     updateProject: async (projectId: any, model: any) => {
-        return await axios.put(`${apiUrl}/Projekt/Put/${projectId}`, model).then((response) => response.data);
+        return await axios
+            .put(`${apiUrl}/Projekt/Put/${projectId}`, model)
+            .then((response) => response.data);
     },
     addProject: async (model: any) => {
         return await axios.post(`${apiUrl}/Projekt`, model).then((response) => response.data);

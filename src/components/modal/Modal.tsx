@@ -42,7 +42,15 @@ type ActionConfig = {
     label: string;
     onClick: () => void;
     type?: string;
-    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
+    color?:
+        | "inherit"
+        | "primary"
+        | "secondary"
+        | "success"
+        | "error"
+        | "info"
+        | "warning"
+        | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: any;
@@ -64,7 +72,10 @@ const Modal: React.FC<ModalProps> = ({
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
             <DialogTitle fontSize={"22px"}>
                 {title}
-                <IconButton style={{ position: "absolute", right: 0, top: 0 }} onClick={onClose ? onClose : () => {}}>
+                <IconButton
+                    style={{ position: "absolute", right: 0, top: 0 }}
+                    onClick={onClose ? onClose : () => {}}
+                >
                     <CloseIcon color="action" />
                 </IconButton>
             </DialogTitle>
@@ -95,7 +106,9 @@ const Modal: React.FC<ModalProps> = ({
                                                 <Grid item xs={6} key={field.name}>
                                                     {field.type === "select" ? (
                                                         <FormControl fullWidth size="medium">
-                                                            <InputLabel id={`${field.name}-label`}>{field.label}</InputLabel>
+                                                            <InputLabel id={`${field.name}-label`}>
+                                                                {field.label}
+                                                            </InputLabel>
                                                             <Field
                                                                 name={field.name}
                                                                 value={values[field.name]}
@@ -103,7 +116,10 @@ const Modal: React.FC<ModalProps> = ({
                                                                 as={Select}
                                                             >
                                                                 {field.options?.map((option) => (
-                                                                    <MenuItem key={option.value} value={option.value}>
+                                                                    <MenuItem
+                                                                        key={option.value}
+                                                                        value={option.value}
+                                                                    >
                                                                         {option.label}
                                                                     </MenuItem>
                                                                 ))}
@@ -118,8 +134,14 @@ const Modal: React.FC<ModalProps> = ({
                                                             value={values[field.name]}
                                                             size="medium"
                                                             type={field.type || "text"}
-                                                            helperText={touched[field.name] && errors[field.name]}
-                                                            error={touched[field.name] && !!errors[field.name]}
+                                                            helperText={
+                                                                touched[field.name] &&
+                                                                errors[field.name]
+                                                            }
+                                                            error={
+                                                                touched[field.name] &&
+                                                                !!errors[field.name]
+                                                            }
                                                             InputLabelProps={
                                                                 field.type === "date"
                                                                     ? {

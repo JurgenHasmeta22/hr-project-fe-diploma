@@ -28,7 +28,9 @@ const Projects = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
+    const isEmployee = userDetailsLoggedIn?.userRolis?.some(
+        (el) => el.roli.roliEmri === "Employee",
+    );
 
     const checkIsUserInProject = (projektId: any): boolean => {
         if (!userDetailsLoggedIn?.userProjekts) {
@@ -255,7 +257,12 @@ const Projects = () => {
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
-                            <Button color="success" disabled={isEmployee} onClick={() => {}} variant="contained">
+                            <Button
+                                color="success"
+                                disabled={isEmployee}
+                                onClick={() => {}}
+                                variant="contained"
+                            >
                                 <Add />
                                 Shto
                             </Button>

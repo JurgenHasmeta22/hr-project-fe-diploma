@@ -4,7 +4,6 @@
     "version": "1.0.0",
     "scripts": {
         "dev": "vite",
-        "start": "run dev",
         "build": "tsc && vite build",
         "preview": "vite preview",
         "pretty": "prettier --write \"./**/*.{js,jsx,tsx,css,ts,html,json}\""
