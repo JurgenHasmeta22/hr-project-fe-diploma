@@ -16,6 +16,7 @@ import {
     StepButton,
     useTheme,
     IconButton,
+    SxProps,
 } from "@mui/material";
 import { Formik, Form, Field, FormikProps } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
@@ -25,7 +26,7 @@ type FieldConfig = {
     label: string;
     type?: string;
     options?: Array<{ label: string; value: any }>;
-    variant?: any;
+    variant?: string;
     disabled?: boolean;
     sx: {
         gridColumn: string;
@@ -61,7 +62,7 @@ type ActionConfig = {
         | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
-    sx?: any;
+    sx?: SxProps;
 };
 
 type StepConfig = {

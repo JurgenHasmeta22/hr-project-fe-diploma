@@ -13,6 +13,7 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
+    SxProps,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
@@ -53,7 +54,7 @@ type ActionConfig = {
         | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
-    sx?: any;
+    sx?: SxProps;
 };
 
 const Modal: React.FC<ModalProps> = ({

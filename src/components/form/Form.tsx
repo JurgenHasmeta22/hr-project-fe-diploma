@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, TextField, Select, MenuItem, FormControl, InputLabel, Button } from "@mui/material";
+import { Box, TextField, Select, MenuItem, FormControl, InputLabel, Button, SxProps } from "@mui/material";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
 
@@ -18,7 +18,7 @@ type FieldConfig = {
     helperText?: React.ReactNode;
     error?: boolean | undefined;
     variant?: "filled" | undefined;
-    sx?: any;
+    sx?: SxProps;
     onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
     onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
 };
@@ -49,7 +49,7 @@ type ActionConfig = {
         | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
-    sx?: any;
+    sx?: SxProps;
     onClick?: () => void;
 };
 
