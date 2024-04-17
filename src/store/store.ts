@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import AppStoreState from "~/interfaces/IStore";
+import AppStoreState from "~/types/IStore";
 
 export const useStore = create<AppStoreState>(
     (set, get): AppStoreState => ({

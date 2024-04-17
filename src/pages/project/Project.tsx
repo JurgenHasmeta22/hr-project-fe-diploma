@@ -2,7 +2,7 @@ import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/mat
 import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
-import IProject from "~/interfaces/IProject";
+import IProject from "~/types/IProject";
 import projectsController from "~/services/api/projects";
 import { FormikProps } from "formik";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
@@ -15,7 +15,7 @@ import FormAdvanced from "~/components/form/Form";
 import * as yup from "yup";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),

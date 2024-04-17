@@ -13,11 +13,11 @@ import {
 } from "material-react-table";
 import Header from "~/components/header/Header";
 import { useState, useEffect, useMemo } from "react";
-import IUser from "~/interfaces/IUser";
+import IUser from "~/types/IUser";
 import usersController from "~/services/api/users";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 import { Edit, Delete, AccountCircle, Add } from "@mui/icons-material";
 
 const Users = () => {

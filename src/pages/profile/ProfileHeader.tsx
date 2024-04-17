@@ -1,7 +1,7 @@
 import { Button, Typography, Divider, Box } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 

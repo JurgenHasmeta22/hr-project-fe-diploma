@@ -3,7 +3,7 @@ import { Box, List, Typography, Avatar, Drawer, IconButton, useTheme } from "@mu
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
 import { NestedSidebarItem } from "./NestedSidebarItem";
 import { SidebarItem } from "./SidebarItem";

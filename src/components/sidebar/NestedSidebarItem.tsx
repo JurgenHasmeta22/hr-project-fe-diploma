@@ -1,7 +1,7 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from "@mui/material";
 import React from "react";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
 
 export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick, isEmployee }: any) => {

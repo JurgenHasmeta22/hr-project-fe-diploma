@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 import TabPanel from "~/components/tab/Tab";
 
 export const ProfileTabsPanels = ({

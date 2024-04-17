@@ -10,11 +10,11 @@ import {
 } from "material-react-table";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
-import IProject from "~/interfaces/IProject";
+import IProject from "~/types/IProject";
 import { useEffect, useState, useMemo } from "react";
 import projectsController from "~/services/api/projects";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 import usersController from "~/services/api/users";
 import { Edit, Delete, Add } from "@mui/icons-material";
 

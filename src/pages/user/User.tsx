@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router";
 import usersController from "~/services/api/users";
 import { FormikProps } from "formik";
 import * as yup from "yup";
-import IUser from "~/interfaces/IUser";
+import IUser from "~/types/IUser";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";

@@ -11,11 +11,11 @@ import {
 } from "material-react-table";
 // import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
-import IPermission from "~/interfaces/IPermission";
+import IPermission from "~/types/IPermission";
 import permissionsController from "~/services/api/permissions";
 import { Delete, Add, Approval } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "~/services/store/store";
+import { useStore } from "~/store/store";
 
 const Permissions = () => {
     const [permissions, setPermissions] = useState<IPermission[]>([]);
