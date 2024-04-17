@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     TextField,
@@ -8,9 +8,12 @@ import {
     InputLabel,
     Button,
     SxProps,
+    InputAdornment,
+    IconButton,
 } from "@mui/material";
 import { Formik, FormikProps, Form, Field } from "formik";
 import * as yup from "yup";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 type FieldOption = {
     label: string;
@@ -26,7 +29,7 @@ type FieldConfig = {
     span?: number;
     helperText?: React.ReactNode;
     error?: boolean | undefined;
-    variant?: "filled" | undefined;
+    variant?: any;
     sx?: SxProps;
     onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
     onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
@@ -71,6 +74,11 @@ const FormAdvanced: React.FC<FormProps> = ({
     formRef,
     actions,
 }) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
     return (
         <Formik
             innerRef={formRef}
@@ -190,16 +198,34 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 onChange={handleChange}
                                                 sx={field.sx}
                                                 value={values[field.name]}
-                                                type={field.type || "text"}
+                                                type={showPassword ? "text" : "password"}
+                                                autoComplete={"on"}
                                                 helperText={
                                                     touched[field.name] && errors[field.name]
                                                 }
                                                 error={touched[field.name] && !!errors[field.name]}
                                                 InputLabelProps={{
-                                                    style: { color: "#b8b4b4" },
+                                                    style: { color: "#000" },
                                                 }}
                                                 InputProps={{
                                                     style: { color: "#000" },
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowPassword}
+                                                                onMouseDown={
+                                                                    handleMouseDownPassword
+                                                                }
+                                                            >
+                                                                {showPassword ? (
+                                                                    <Visibility color="primary" />
+                                                                ) : (
+                                                                    <VisibilityOff color="primary" />
+                                                                )}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
                                                 }}
                                                 // InputLabelProps={field.type === "password" ? { shrink: true } : undefined}
                                             />
@@ -224,7 +250,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 }
                                                 error={touched[field.name] && !!errors[field.name]}
                                                 InputLabelProps={{
-                                                    style: { color: "#b8b4b4" },
+                                                    style: { color: "#000" },
                                                 }}
                                                 InputProps={{
                                                     style: { color: "#000" },

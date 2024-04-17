@@ -85,21 +85,21 @@ const ChangePassword: React.FC = () => {
                         {
                             name: "oldPassword",
                             label: "Passwordi aktual",
-                            variant: "filled",
+                            variant: "outlined",
                             type: "password",
                             sx: { gridColumn: "span 8", backgroundColor: "#e9eef5" },
                         },
                         {
                             name: "newPassword",
                             label: "Passwordi i ri",
-                            variant: "filled",
+                            variant: "outlined",
                             type: "password",
                             sx: { gridColumn: "span 8", backgroundColor: "#e9eef5" },
                         },
                         {
                             name: "confirmNewPassword",
                             label: "Konfirmo passwordin",
-                            variant: "filled",
+                            variant: "outlined",
                             type: "password",
                             sx: { gridColumn: "span 8", backgroundColor: "#e9eef5" },
                         },
@@ -119,7 +119,7 @@ const ChangePassword: React.FC = () => {
                             sx: {
                                 bgcolor: "#30969f",
                                 fontSize: "16px",
-                                fontWeight: "500",
+                                fontWeight: "600",
                             },
                             icon: <LockOutlinedIcon sx={{ ml: "10px" }} color="action" />,
                         },
@@ -135,7 +135,7 @@ const ChangePassword: React.FC = () => {
                                 border: "1px solid #000",
                                 bgcolor: "#ff5252",
                                 fontSize: "16px",
-                                fontWeight: "500",
+                                fontWeight: "600",
                             },
                             icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                         },
@@ -144,10 +144,11 @@ const ChangePassword: React.FC = () => {
                 <Link
                     to="/login"
                     style={{
-                        color: "#fff",
+                        color: "#000",
                         marginTop: "20px",
                         textDecoration: "none",
                         fontSize: "14px",
+                        fontWeight: 600,
                     }}
                 >
                     Shkoni tek login

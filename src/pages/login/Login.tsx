@@ -88,14 +88,14 @@ export default function Login() {
                         {
                             name: "userName",
                             label: "Username",
-                            variant: "filled",
+                            variant: "outlined",
                             type: "text",
                             sx: { gridColumn: "span 15", backgroundColor: "#e9eef5" },
                         },
                         {
                             name: "password",
                             label: "Passwordi",
-                            variant: "filled",
+                            variant: "outlined",
                             type: "password",
                             sx: { gridColumn: "span 15", backgroundColor: "#e9eef5" },
                         },
@@ -124,10 +124,11 @@ export default function Login() {
                 <Link
                     to="/changePassword"
                     style={{
-                        color: "#fff",
+                        color: "#000",
                         marginTop: "20px",
                         textDecoration: "none",
                         fontSize: "14px",
+                        fontWeight: 600,
                     }}
                 >
                     Keni harruar passwordin ?
