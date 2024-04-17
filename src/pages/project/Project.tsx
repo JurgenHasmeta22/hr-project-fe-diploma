@@ -3,7 +3,7 @@ import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import IProject from "~/types/IProject";
-import projectsController from "~/services/api/projects";
+import projectService from "~/services/api/projectService";
 import { FormikProps } from "formik";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { toast } from "react-toastify";
@@ -60,7 +60,7 @@ const Project = () => {
             pershkrimProjekt: values.pershkrimProjekt,
         };
 
-        const response = await projectsController.updateProject(project?.projektId, payload);
+        const response = await projectService.updateProject(project?.projektId, payload);
 
         if (response === "") {
             toast.success(CONSTANTS.UPDATE__SUCCESS);
@@ -71,7 +71,7 @@ const Project = () => {
     };
 
     async function getProject(): Promise<void> {
-        const response: IProject = await projectsController.getProject(location.state?.projectId!);
+        const response: IProject = await projectService.getProject(location.state?.projectId!);
 
         setProject(response);
         setProjektId(response.projektId);
@@ -153,7 +153,7 @@ const Project = () => {
                     {
                         label: "Elemino",
                         onClick: async () => {
-                            const response = await projectsController.deleteProject(projektId);
+                            const response = await projectService.deleteProject(projektId);
                             if (response === "") {
                                 toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
                                 navigate("/projects");
@@ -190,7 +190,7 @@ const Project = () => {
                     {
                         label: "Bashkangjitu projektit",
                         onClick: async () => {
-                            const response = await projectsController.assignProjectToUser(
+                            const response = await projectService.assignProjectToUser(
                                 user?.userId,
                                 projektId,
                                 {

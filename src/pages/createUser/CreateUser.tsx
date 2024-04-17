@@ -3,7 +3,7 @@ import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import authenticationController from "~/services/api/authentication";
+import authenticationService from "~/services/api/authenticationService";
 import FormAdvanced from "~/components/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
@@ -45,7 +45,7 @@ const CreateUser = () => {
             roles: [values.roles],
         };
 
-        const response = await authenticationController.onRegister(payload);
+        const response = await authenticationService.onRegister(payload);
 
         if (response) {
             toast.success(CONSTANTS.UPDATE__SUCCESS);

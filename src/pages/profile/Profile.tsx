@@ -7,17 +7,17 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { useRightPanel } from "~/services/providers/RightPanelContext";
 import { useStore } from "~/store/store";
-import usersController from "~/services/api/users";
+import userService from "~/services/api/userService";
 import IUser from "~/types/IUser";
 import ICertification from "~/types/ICertification";
 import IEducation from "~/types/IEducation";
 import ISkill from "~/types/ISkill";
 import IWorkExperience from "~/types/IWorkExperience";
 import { toast } from "react-toastify";
-import educationsController from "~/services/api/educations";
-import workExperiencesController from "~/services/api/workExperiences";
-import skillsController from "~/services/api/skills";
-import certificatesController from "~/services/api/certificates";
+import educationService from "~/services/api/educationService";
+import workExperiencesService from "~/services/api/workExperiencesService";
+import skillService from "~/services/api/skillService";
+import certificateService from "~/services/api/certificateService";
 import { useModal } from "~/services/providers/ModalContext";
 import { ProfileTabsPanels } from "./components/ProfileTabsPanels";
 import { ProfileHeader } from "./components/ProfileHeader";
@@ -214,12 +214,12 @@ export default function Profile() {
                     certEmri: values.certEmri,
                     certPershkrim: values.certPershkrim,
                 };
-                const response1 = await certificatesController.createCertificate(payload1);
+                const response1 = await certificateService.createCertificate(payload1);
                 const payload2 = {
                     dataSkadence: values.dataSkadence,
                     dataFituar: values.dataFituar,
                 };
-                const response2 = await certificatesController.addUserCertificate(
+                const response2 = await certificateService.addUserCertificate(
                     response1.certId,
                     userDetailsLoggedIn?.userId,
                     payload2,
@@ -248,11 +248,11 @@ export default function Profile() {
                 const payload1: ISkill = {
                     llojiAftesise: values.llojiAftesise,
                 };
-                const response1 = await skillsController.createSkill(payload1);
+                const response1 = await skillService.createSkill(payload1);
                 const payload2 = {
                     dataPerfitimit: values.dataPerfitimit,
                 };
-                const response2 = await skillsController.addUserSkill(
+                const response2 = await skillService.addUserSkill(
                     response1.aftesiId,
                     userDetailsLoggedIn?.userId,
                     payload2,
@@ -467,7 +467,7 @@ export default function Profile() {
                 const payload1: IWorkExperience = {
                     ppemri: values.ppemri,
                 };
-                const response1 = await workExperiencesController.createWorkExperience(payload1);
+                const response1 = await workExperiencesService.createWorkExperience(payload1);
                 const payload2 = {
                     dataFillim: values.dataFillim,
                     dataMbarim: values.dataMbarim,
@@ -475,7 +475,7 @@ export default function Profile() {
                     konfidencialiteti: values.konfidencialiteti,
                     pershkrimiPunes: values.pershkrimiPunes,
                 };
-                const response2 = await workExperiencesController.addUserWorkExperience(
+                const response2 = await workExperiencesService.addUserWorkExperience(
                     response1.ppId,
                     userDetailsLoggedIn?.userId,
                     payload2,
@@ -605,14 +605,14 @@ export default function Profile() {
                 const payload1: IEducation = {
                     eduName: values.eduName,
                 };
-                const response1 = await educationsController.createEducation(payload1);
+                const response1 = await educationService.createEducation(payload1);
                 const payload2 = {
                     mesatarja: values.mesatarja,
                     dataFillim: values.dataFillim,
                     dataMbarim: values.dataMbarim,
                     llojiMaster: values.llojiMaster,
                 };
-                const response2 = await educationsController.addUserEducation(
+                const response2 = await educationService.addUserEducation(
                     response1.eduId,
                     userDetailsLoggedIn?.userId,
                     payload2,
@@ -685,7 +685,7 @@ export default function Profile() {
                         userLastname: values.userLastname,
                         userEmail: values.userEmail,
                     };
-                    const response = await usersController.updateUser(values.userId, payload);
+                    const response = await userService.updateUser(values.userId, payload);
                     if (response) {
                         toast.success(CONSTANTS.UPDATE__SUCCESS);
                         setUserDetailsLoggedIn(response);
@@ -842,7 +842,7 @@ export default function Profile() {
                         certEmri: values.certEmri,
                         certPershkrim: values.certPershkrim,
                     };
-                    const response1 = await certificatesController.editCertificate(
+                    const response1 = await certificateService.editCertificate(
                         values.certId,
                         payload1,
                     );
@@ -850,7 +850,7 @@ export default function Profile() {
                         dataFituar: values.dataFituar,
                         dataSkadence: values.dataSkadence,
                     };
-                    const response2 = await certificatesController.editUserCertificate(
+                    const response2 = await certificateService.editUserCertificate(
                         values.certId,
                         userDetailsLoggedIn?.userId,
                         payload2,
@@ -858,7 +858,7 @@ export default function Profile() {
 
                     if (response1 && response2) {
                         toast.success(CONSTANTS.UPDATE__SUCCESS);
-                        const user = await usersController.getUser(userDetailsLoggedIn?.userId);
+                        const user = await userService.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     }
@@ -961,18 +961,18 @@ export default function Profile() {
                     const payload1: ISkill = {
                         llojiAftesise: values.llojiAftesise,
                     };
-                    const response1 = await skillsController.editSkill(values.aftesiId, payload1);
+                    const response1 = await skillService.editSkill(values.aftesiId, payload1);
                     const payload2 = {
                         dataPerfitimit: values.dataPerfitimit,
                     };
-                    const response2 = await skillsController.editUserSkill(
+                    const response2 = await skillService.editUserSkill(
                         values.aftesiId,
                         userDetailsLoggedIn?.userId,
                         payload2,
                     );
                     if (response1 && response2) {
                         toast.success(CONSTANTS.UPDATE__SUCCESS);
-                        const user = await usersController.getUser(userDetailsLoggedIn?.userId);
+                        const user = await userService.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     } else {
@@ -1109,7 +1109,7 @@ export default function Profile() {
                     const payload1: IWorkExperience = {
                         ppemri: values.ppemri,
                     };
-                    const response1 = await workExperiencesController.editWorkExperience(
+                    const response1 = await workExperiencesService.editWorkExperience(
                         values.ppId,
                         payload1,
                     );
@@ -1121,14 +1121,14 @@ export default function Profile() {
                         konfidencialiteti: values.konfidencialiteti,
                         pershkrimiPunes: values.pershkrimiPunes,
                     };
-                    const response2 = await workExperiencesController.editUserWorkExperience(
+                    const response2 = await workExperiencesService.editUserWorkExperience(
                         values.ppId,
                         userDetailsLoggedIn?.userId,
                         payload2,
                     );
                     if (response1 && response2) {
                         toast.success(CONSTANTS.UPDATE__SUCCESS);
-                        const user = await usersController.getUser(userDetailsLoggedIn?.userId);
+                        const user = await userService.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     } else {
@@ -1257,7 +1257,7 @@ export default function Profile() {
                     const payload1: IEducation = {
                         eduName: values.eduName,
                     };
-                    const response1 = await educationsController.editEducation(
+                    const response1 = await educationService.editEducation(
                         values.eduId,
                         payload1,
                     );
@@ -1268,7 +1268,7 @@ export default function Profile() {
                         dataMbarim: values.dataMbarim,
                         llojiMaster: values.llojiMaster,
                     };
-                    const response2 = await educationsController.editUserEducation(
+                    const response2 = await educationService.editUserEducation(
                         values.eduId,
                         userDetailsLoggedIn?.userId,
                         payload2,
@@ -1276,7 +1276,7 @@ export default function Profile() {
 
                     if (response1 && response2) {
                         toast.success(CONSTANTS.UPDATE__SUCCESS);
-                        const user = await usersController.getUser(userDetailsLoggedIn?.userId);
+                        const user = await userService.getUser(userDetailsLoggedIn?.userId);
                         setUserDetailsLoggedIn(user);
                         setUserProfile(user);
                     } else {
@@ -1317,12 +1317,12 @@ export default function Profile() {
                     label: "Elemino",
                     // onClick: async () => {
                     //     const response2 =
-                    //         await educationsController.deleteUserEducation(
+                    //         await educationService.deleteUserEducation(
                     //             userDetailsLoggedIn?.userId,
                     //             education.edu.eduId,
                     //         );
                     //     const response1 =
-                    //         await educationsController.deleteEducation(
+                    //         await educationService.deleteEducation(
                     //             education.edu.eduId,
                     //         );
 
@@ -1371,12 +1371,12 @@ export default function Profile() {
                     type: "delete",
                     // onClick: async () => {
                     //     const response2 =
-                    //         await certificatesController.deleteUserCertificate(
+                    //         await certificateService.deleteUserCertificate(
                     //             userDetailsLoggedIn?.userId,
                     //             certificate.cert.certId,
                     //         );
                     //     const response1 =
-                    //         await certificatesController.deleteCertificate(
+                    //         await certificateService.deleteCertificate(
                     //             certificate.cert.certId,
                     //         );
 
@@ -1424,7 +1424,7 @@ export default function Profile() {
                     type: "delete",
                     // onClick: async () => {
                     //     const response =
-                    //         await workExperiencesController.deleteUserWorkExperience(
+                    //         await workExperiencesService.deleteUserWorkExperience(
                     //             userDetailsLoggedIn?.userId,
                     //             work.pp.ppId,
                     //         );
@@ -1473,11 +1473,11 @@ export default function Profile() {
                     type: "delete",
                     // onClick: async () => {
                     //     const response1 =
-                    //         await skillsController.deleteUserSkill(
+                    //         await skillService.deleteUserSkill(
                     //             userDetailsLoggedIn?.userId,
                     //             skill.aftesi.aftesiId,
                     //         );
-                    //     const response2 = await skillsController.deleteSkill(
+                    //     const response2 = await skillService.deleteSkill(
                     //         skill.aftesi.aftesiId,
                     //     );
 
@@ -1505,7 +1505,7 @@ export default function Profile() {
         if (location.state?.userId) {
             async function fetchUserDetails() {
                 try {
-                    const user = await usersController.getUser(location.state?.userId);
+                    const user = await userService.getUser(location.state?.userId);
 
                     if (user) {
                         setUserProfile(user);

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const workExperiencesController = {
+const workExperienceService = {
     createWorkExperience: async (model: any) => {
         return await axios
             .post(`${apiUrl}/api/PervojePune`, model)
@@ -35,4 +35,4 @@ const workExperiencesController = {
     },
 };
 
-export default workExperiencesController;
+export default workExperienceService;

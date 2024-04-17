@@ -4,11 +4,11 @@ import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
 import { useEffect, useState } from "react";
 import IUser from "~/types/IUser";
-import usersController from "~/services/api/users";
+import userService from "~/services/api/userService";
 import IProject from "~/types/IProject";
-import projectsController from "~/services/api/projects";
+import projectService from "~/services/api/projectService";
 import IPermission from "~/types/IPermission";
-import permissionsController from "~/services/api/permissions";
+import permissionService from "~/services/api/permissionService";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import { DashboardStatBox } from "./components/DashboardStatBox";
@@ -22,7 +22,7 @@ const Dashboard = () => {
     const colors = tokens(theme.palette.mode);
 
     async function getUsers(): Promise<void> {
-        const response: IUser[] = await usersController.getAllUsers();
+        const response: IUser[] = await userService.getAllUsers();
 
         if (response) {
             setUsers(response);
@@ -30,7 +30,7 @@ const Dashboard = () => {
     }
 
     async function getProjects(): Promise<void> {
-        const response: IProject[] = await projectsController.getAllProjects();
+        const response: IProject[] = await projectService.getAllProjects();
 
         if (response) {
             setProjects(response);
@@ -38,7 +38,7 @@ const Dashboard = () => {
     }
 
     async function getPermissions(): Promise<void> {
-        const response: IPermission[] = await permissionsController.getAllPermissions();
+        const response: IPermission[] = await permissionService.getAllPermissions();
 
         if (response) {
             const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);

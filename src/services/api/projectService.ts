@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const projectsController = {
+const projectService = {
     getAllProjects: async () => {
         return await axios
             .get(`${apiUrl}/Projekt/getAllProjects`)
@@ -38,4 +38,4 @@ const projectsController = {
     },
 };
 
-export default projectsController;
+export default projectService;

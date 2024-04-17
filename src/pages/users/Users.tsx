@@ -14,7 +14,7 @@ import {
 import Header from "~/components/header/Header";
 import { useState, useEffect, useMemo } from "react";
 import IUser from "~/types/IUser";
-import usersController from "~/services/api/users";
+import userService from "~/services/api/userService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
@@ -102,7 +102,7 @@ const Users = () => {
         url.searchParams.set("sorting", JSON.stringify(sorting ?? []));
 
         try {
-            const response: IUser[] = await usersController.getAllUsers();
+            const response: IUser[] = await userService.getAllUsers();
             setUsers(response);
             // setRowCount(response.totalRowCount);
         } catch (error) {
@@ -233,7 +233,7 @@ const Users = () => {
             <MenuItem
                 key={1}
                 onClick={async () => {
-                    const response = await usersController.updateUser(row.original, {
+                    const response = await userService.updateUser(row.original, {
                         ...row.original,
                         userIsActive: false,
                     });

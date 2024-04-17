@@ -3,7 +3,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { FormikProps } from "formik";
 import * as yup from "yup";
-import authenticationController from "~/services/api/authentication";
+import authenticationService from "~/services/api/authenticationService";
 import ILoginReq from "~/types/ILoginReq";
 import { useNavigate } from "react-router";
 import { useStore } from "~/store/store";
@@ -42,7 +42,7 @@ export default function Login() {
         };
 
         try {
-            const response: any = await authenticationController.onLogin(payload);
+            const response: any = await authenticationService.onLogin(payload);
 
             if (response && response.status !== 401) {
                 toast.success(CONSTANTS.LOGIN__SUCCESS);

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const authenticationController = {
+const authenticationService = {
     onLogin: async (model: any): Promise<any> => {
         const response = await axios.post(`${apiUrl}/api/Account/login`, model);
         return response.data;
@@ -17,4 +17,4 @@ const authenticationController = {
     },
 };
 
-export default authenticationController;
+export default authenticationService;

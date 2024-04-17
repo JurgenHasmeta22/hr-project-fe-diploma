@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const educationController = {
+const educationService = {
     createEducation: async (educationModel: any) => {
         return await axios
             .post(`${apiUrl}/api/Edukim`, educationModel)
@@ -35,4 +35,4 @@ const educationController = {
     },
 };
 
-export default educationController;
+export default educationService;

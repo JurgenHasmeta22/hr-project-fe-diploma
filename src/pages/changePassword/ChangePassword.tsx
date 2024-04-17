@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Box, Typography, Container } from "@mui/material";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import authenticationController from "~/services/api/authentication";
+import authenticationService from "~/services/api/authenticationService";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import FormAdvanced from "~/components/form/Form";
@@ -48,7 +48,7 @@ const ChangePassword: React.FC = () => {
             confirmNewPassword: values.confirmNewPassword,
         };
 
-        const response = await authenticationController.onLogin(payload);
+        const response = await authenticationService.onLogin(payload);
 
         if (response) {
             toast.success(CONSTANTS.CHANGEPASSWORD__SUCCESS);

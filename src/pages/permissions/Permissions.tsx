@@ -11,7 +11,7 @@ import {
 } from "material-react-table";
 import Header from "~/components/header/Header";
 import IPermission from "~/types/IPermission";
-import permissionsController from "~/services/api/permissions";
+import permissionService from "~/services/api/permissionService";
 import { Delete, Add, Approval } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/store";
@@ -83,7 +83,7 @@ const Permissions = () => {
     }
 
     async function handleApprovePermission(permissionId: any): Promise<void> {
-        const response: IPermission[] = await permissionsController.approvePermission(permissionId);
+        const response: IPermission[] = await permissionService.approvePermission(permissionId);
 
         if (response) {
             getPermissions();
@@ -91,7 +91,7 @@ const Permissions = () => {
     }
 
     async function handleDisapprovePermission(permissionId: any): Promise<void> {
-        const response: IPermission[] = await permissionsController.disapprovePermission(
+        const response: IPermission[] = await permissionService.disapprovePermission(
             permissionId,
         );
 
@@ -101,7 +101,7 @@ const Permissions = () => {
     }
 
     async function getPermissions(): Promise<void> {
-        const response: IPermission[] = await permissionsController.getAllPermissions();
+        const response: IPermission[] = await permissionService.getAllPermissions();
         const filteredPermissions = response.filter((permission) => permission.aprovuar === 2);
 
         if (response) {

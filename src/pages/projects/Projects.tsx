@@ -12,10 +12,10 @@ import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
 import IProject from "~/types/IProject";
 import { useEffect, useState, useMemo } from "react";
-import projectsController from "~/services/api/projects";
+import projectService from "~/services/api/projectService";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/store";
-import usersController from "~/services/api/users";
+import userService from "~/services/api/userService";
 import { Edit, Delete, Add } from "@mui/icons-material";
 
 const Projects = () => {
@@ -73,7 +73,7 @@ const Projects = () => {
     );
 
     async function getProjects(): Promise<void> {
-        const response: IProject[] = await projectsController.getAllProjects();
+        const response: IProject[] = await projectService.getAllProjects();
         setProjects(response);
     }
 
@@ -82,7 +82,7 @@ const Projects = () => {
     //         let response;
 
     //         for (const element of selectedRows) {
-    //             response = await projectsController.deleteProject(element.projektId);
+    //             response = await projectService.deleteProject(element.projektId);
     //         }
 
     //         if (response === "") {
@@ -158,7 +158,7 @@ const Projects = () => {
                 <MenuItem
                     key={2}
                     onClick={async () => {
-                        const response = await usersController.updateUser(row.original, {
+                        const response = await userService.updateUser(row.original, {
                             ...row.original,
                             userIsActive: false,
                         });
@@ -182,7 +182,7 @@ const Projects = () => {
             //                       sx={{ m: 0 }}
             //                       disabled={!isEmployee}
             //                       onClick={async () => {
-            //                           const response = await projectsController.assignProjectToUser(
+            //                           const response = await projectService.assignProjectToUser(
             //                               user?.userId,
             //                               project.projektId,
             //                               {
@@ -193,7 +193,7 @@ const Projects = () => {
 
             //                           if (response === "") {
             //                               toast.success("Futja ne projekt u krye me sukses !");
-            //                               const response = await usersController.getUser(user.userId);
+            //                               const response = await userService.getUser(user.userId);
 
             //                               if (response) {
             //                                   setUserDetailsLoggedIn(response);
@@ -215,14 +215,14 @@ const Projects = () => {
             //                       sx={{ m: 0 }}
             //                       disabled={!isEmployee}
             //                       onClick={async () => {
-            //                           const response = await projectsController.deleteProjectToUser(
+            //                           const response = await projectService.deleteProjectToUser(
             //                               user?.userId,
             //                               project.projektId,
             //                           );
 
             //                           if (response === "") {
             //                               toast.success("Ikja nga projekti u krye me sukses !");
-            //                               const response = await usersController.getUser(user.userId);
+            //                               const response = await userService.getUser(user.userId);
 
             //                               if (response) {
             //                                   setUserDetailsLoggedIn(response);

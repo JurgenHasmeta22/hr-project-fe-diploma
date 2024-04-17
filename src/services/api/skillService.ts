@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const skillsController = {
+const skillService = {
     createSkill: async (skillModel: any) => {
         return await axios
             .post(`${apiUrl}/api/Aftesi`, skillModel)
@@ -35,4 +35,4 @@ const skillsController = {
     },
 };
 
-export default skillsController;
+export default skillService;

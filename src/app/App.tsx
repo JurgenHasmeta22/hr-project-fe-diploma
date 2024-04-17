@@ -6,7 +6,7 @@ import TopBar from "~/components/topBar/TopBar";
 import Sidebar from "~/components/sidebar/Sidebar";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
-import usersController from "~/services/api/users";
+import userService from "~/services/api/userService";
 import { useStore } from "~/store/store";
 import IUser from "~/types/IUser";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
@@ -163,7 +163,7 @@ function App() {
         const fetchUser = async () => {
             if (user) {
                 try {
-                    const response: IUser = await usersController.getUser(user.userId);
+                    const response: IUser = await userService.getUser(user.userId);
 
                     if (response) {
                         setUserDetailsLoggedIn(response);

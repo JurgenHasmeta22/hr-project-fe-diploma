@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const certificatesController = {
+const certificateService = {
     createCertificate: async (certificateData: any) => {
         return await axios
             .post(`${apiUrl}/api/Certifikate`, certificateData)
@@ -35,4 +35,4 @@ const certificatesController = {
     },
 };
 
-export default certificatesController;
+export default certificateService;

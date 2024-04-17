@@ -2,7 +2,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
-import usersController from "~/services/api/users";
+import userService from "~/services/api/userService";
 import { FormikProps } from "formik";
 import * as yup from "yup";
 import IUser from "~/types/IUser";
@@ -68,7 +68,7 @@ const User = () => {
             userIsActive: values.userIsActive,
         };
 
-        const response = await usersController.updateUser(user?.userId, payload);
+        const response = await userService.updateUser(user?.userId, payload);
 
         if (response) {
             toast.success(CONSTANTS.UPDATE__SUCCESS);
@@ -79,7 +79,7 @@ const User = () => {
     };
 
     async function getUser(): Promise<void> {
-        const response: IUser = await usersController.getUser(location.state?.userId!);
+        const response: IUser = await userService.getUser(location.state?.userId!);
 
         setUser(response);
         setUserId(response.userId!);
@@ -192,7 +192,7 @@ const User = () => {
                     {
                         label: "Elemino",
                         onClick: async () => {
-                            const response = await usersController.updateUser(userId, {
+                            const response = await userService.updateUser(userId, {
                                 ...user,
                                 userIsActive: false,
                             });

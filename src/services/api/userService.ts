@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const usersController = {
+const userService = {
     getAllUsers: async () => {
         return await axios.get(`${apiUrl}/User/getAllUsers`).then((response) => response.data);
     },
@@ -14,4 +14,4 @@ const usersController = {
     },
 };
 
-export default usersController;
+export default userService;

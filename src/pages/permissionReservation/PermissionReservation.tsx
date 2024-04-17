@@ -10,7 +10,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
-import permissionsController from "~/services/api/permissions";
+import permissionService from "~/services/api/permissionService";
 import { useModal } from "~/services/providers/ModalContext";
 import IPermission from "~/types/IPermission";
 import { useStore } from "~/store/store";
@@ -58,7 +58,7 @@ const permissionReservation = () => {
 
     const handleSave = async (selected: any) => {
         try {
-            const response = await permissionsController.askPermission(formData, user?.userId);
+            const response = await permissionService.askPermission(formData, user?.userId);
 
             if (response) {
                 toast.success(CONSTANTS.PERMISSION__RESERVATION__CREATE__SUCCESS);
@@ -86,7 +86,7 @@ const permissionReservation = () => {
 
     const handleUpdate = async (lejeId: any, selected: any) => {
         try {
-            const response = await permissionsController.updatePermission(lejeId, formData);
+            const response = await permissionService.updatePermission(lejeId, formData);
 
             if (response === true) {
                 toast.success(CONSTANTS.PERMISSION__RESERVATION__UPDATE__SUCCESS);
@@ -220,7 +220,7 @@ const permissionReservation = () => {
                                     label: "Po",
                                     onClick: async () => {
                                         const response =
-                                            await permissionsController.deletePermission(
+                                            await permissionService.deletePermission(
                                                 selected.event.id,
                                             );
 
@@ -313,7 +313,7 @@ const permissionReservation = () => {
     };
 
     async function getPermissions(): Promise<void> {
-        const response: IPermission[] = await permissionsController.getAllPermissions();
+        const response: IPermission[] = await permissionService.getAllPermissions();
         const filteredPermissions = response.filter((permission) => permission.aprovuar === 1);
         const convertedEvents = filteredPermissions.map((permission) => ({
             id: permission.lejeId?.toString(),

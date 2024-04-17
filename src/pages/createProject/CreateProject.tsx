@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useNavigate } from "react-router";
-import projectsController from "~/services/api/projects";
+import projectService from "~/services/api/projectService";
 import { FormikProps } from "formik";
 import * as yup from "yup";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
@@ -37,7 +37,7 @@ const CreateProject = () => {
             pershkrimProjekt: values.pershkrimProjekt,
         };
 
-        const response = await projectsController.addProject(payload);
+        const response = await projectService.addProject(payload);
 
         if (response) {
             toast.success(CONSTANTS.UPDATE__SUCCESS);

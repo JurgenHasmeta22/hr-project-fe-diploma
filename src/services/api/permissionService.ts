@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const permissionsController = {
+const permissionService = {
     askPermission: async (model: any, id: string) => {
         return await axios
             .post(`${apiUrl}/User/AssignLejeToUser/${id}`, model)
@@ -33,4 +33,4 @@ const permissionsController = {
     },
 };
 
-export default permissionsController;
+export default permissionService;
