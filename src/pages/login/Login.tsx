@@ -56,16 +56,15 @@ export default function Login() {
         <Container component="div" maxWidth="sm" sx={{ mt: 15 }}>
             <Box
                 sx={{
-                    borderRadius: 5,
-                    padding: "50px 50px",
+                    borderRadius: 2,
+                    padding: "30px 30px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    bgcolor: "background.paper",
-                    boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
+                    bgcolor: "#b2d0f7",
                 }}
             >
-                <Typography variant="h3" component="h3" sx={{ mb: 2 }} gutterBottom color={"secondary"}>
+                <Typography variant="h2" component="h2" sx={{ mb: 2 }} gutterBottom color={"primary"}>
                     Login
                 </Typography>
                 <FormAdvanced
@@ -79,14 +78,14 @@ export default function Login() {
                             label: "Username",
                             variant: "filled",
                             type: "text",
-                            sx: { gridColumn: "span 15" },
+                            sx: { gridColumn: "span 15", backgroundColor: "#e9eef5" },
                         },
                         {
                             name: "password",
                             label: "Passwordi",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 15" },
+                            sx: { gridColumn: "span 15", backgroundColor: "#e9eef5" },
                         },
                     ]}
                     onDataChange={(values: any) => {

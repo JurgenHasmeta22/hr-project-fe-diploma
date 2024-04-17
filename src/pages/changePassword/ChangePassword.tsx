@@ -61,11 +61,10 @@ const ChangePassword: React.FC = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    bgcolor: "background.paper",
-                    boxShadow: "0 4px 10px 0 rgba(0, 0, 0, 0.2), 0 4px 20px 0 rgba(0, 0, 0, 0.19)",
+                    bgcolor: "#b2d0f7",
                 }}
             >
-                <Typography variant="h3" gutterBottom align="center" color={"secondary"} mb={2}>
+                <Typography variant="h2" gutterBottom align="center" color={"primary"} mb={2}>
                     Ndrysho passwordin
                 </Typography>
                 <FormAdvanced
@@ -80,21 +79,21 @@ const ChangePassword: React.FC = () => {
                             label: "Passwordi aktual",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 8" },
+                            sx: { gridColumn: "span 8", backgroundColor: "#e9eef5" },
                         },
                         {
                             name: "newPassword",
                             label: "Passwordi i ri",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 8" },
+                            sx: { gridColumn: "span 8", backgroundColor: "#e9eef5" },
                         },
                         {
                             name: "confirmNewPassword",
                             label: "Konfirmo passwordin",
                             variant: "filled",
                             type: "password",
-                            sx: { gridColumn: "span 8" },
+                            sx: { gridColumn: "span 8", backgroundColor: "#e9eef5" },
                         },
                     ]}
                     onDataChange={(values: any) => {

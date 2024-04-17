@@ -156,6 +156,12 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 type={field.type || "text"}
                                                 helperText={touched[field.name] && errors[field.name]}
                                                 error={touched[field.name] && !!errors[field.name]}
+                                                InputLabelProps={{
+                                                    style: { color: "#b8b4b4" },
+                                                }}
+                                                InputProps={{
+                                                    style: { color: "#000" },
+                                                }}
                                                 // InputLabelProps={field.type === "password" ? { shrink: true } : undefined}
                                             />
                                         );
@@ -176,6 +182,12 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 type={field.type || "text"}
                                                 helperText={touched[field.name] && errors[field.name]}
                                                 error={touched[field.name] && !!errors[field.name]}
+                                                InputLabelProps={{
+                                                    style: { color: "#b8b4b4" },
+                                                }}
+                                                InputProps={{
+                                                    style: { color: "#000" },
+                                                }}
                                             />
                                         );
                                 }

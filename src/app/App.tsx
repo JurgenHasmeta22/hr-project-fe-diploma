@@ -1,14 +1,14 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { Box, CircularProgress, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import { useMode, ColorModeContext } from "~/utils/theme";
 import TopBar from "~/components/topBar/TopBar";
+import Sidebar from "~/components/sidebar/Sidebar";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
-import { useStore } from "~/store/store"; 
-import { useEffect, useState } from "react";
-import IUser from "~/types/IUser";
 import usersController from "~/services/api/users";
-import Sidebar from "~/components/sidebar/Sidebar";
+import { useStore } from "~/store/store"; 
+import IUser from "~/types/IUser";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { sidebarItems } from "~/utils/sidebarItems";
 import AppRoutes from "~/utils/Routes";

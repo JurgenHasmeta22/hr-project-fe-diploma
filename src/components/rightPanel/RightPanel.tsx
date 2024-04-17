@@ -77,7 +77,6 @@ const RightPanel: React.FC<DrawerProps> = ({
     title,
 }) => {
     const [activeStep, setActiveStep] = useState(0);
-
     const theme = useTheme();
 
     const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);
@@ -100,7 +99,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                 sx={{
                     width: 500,
                     p: 3,
-                    height: "100%",
+                    height: "100vh",
                 }}
             >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
