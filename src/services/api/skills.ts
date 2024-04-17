@@ -1,29 +1,29 @@
 import axios from "axios";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const skillsController = {
     createSkill: async (skillModel: any) => {
-        return await axios.post("https://localhost:7006/api/Aftesi", skillModel).then((response) => response.data);
+        return await axios.post(`${apiUrl}/api/Aftesi`, skillModel).then((response) => response.data);
     },
     editSkill: async (aftesiId: any, skillModel: any) => {
-        return await axios.put(`https://localhost:7006/api/Aftesi/${aftesiId}`, skillModel).then((response) => response.data);
+        return await axios.put(`${apiUrl}/api/Aftesi/${aftesiId}`, skillModel).then((response) => response.data);
     },
     deleteSkill: async (aftesiId: any) => {
-        return await axios.delete(`https://localhost:7006/api/Aftesi/${aftesiId}`).then((response) => response.data);
+        return await axios.delete(`${apiUrl}/api/Aftesi/${aftesiId}`).then((response) => response.data);
     },
     addUserSkill: async (aftesiId: any, userId: any, skillModel: any) => {
         return await axios
-            .post(`https://localhost:7006/User/AddUserAftesi/${userId},${aftesiId}`, skillModel)
+            .post(`${apiUrl}/User/AddUserAftesi/${userId},${aftesiId}`, skillModel)
             .then((response) => response.data);
     },
     editUserSkill: async (aftesiId: any, userId: any, skillModel: any) => {
         return await axios
-            .put(`https://localhost:7006/User/UpdateUserAftesi/${userId},${aftesiId}`, skillModel)
+            .put(`${apiUrl}/User/UpdateUserAftesi/${userId},${aftesiId}`, skillModel)
             .then((response) => response.data);
     },
     deleteUserSkill: async (aftesiId: any, userId: any) => {
-        return await axios
-            .delete(`https://localhost:7006/User/DeleteUserAftesi/${userId},${aftesiId}`)
-            .then((response) => response.data);
+        return await axios.delete(`${apiUrl}/User/DeleteUserAftesi/${userId},${aftesiId}`).then((response) => response.data);
     },
 };
 

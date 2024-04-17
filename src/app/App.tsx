@@ -12,6 +12,7 @@ import IUser from "~/types/IUser";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { sidebarItems } from "~/utils/sidebarItems";
 import AppRoutes from "~/utils/Routes";
+import { useResizeWindow } from "~/hooks/useResizeWindow";
 
 // #region Lazy Imports pages
 const Dashboard = React.lazy(() => import("~/pages/dashboard/Dashboard"));
@@ -145,10 +146,10 @@ export interface UserData {
 }
 
 function App() {
-    const [isPageShrunk, setIsPageShrunk] = useState(false);
-    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore();
-    const { value } = useLocalStorage("user");
-    const [theme, colorMode] = useMode();
+    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore(); // Zustand State global
+    const { value } = useLocalStorage("user"); // Custom hook for handling local storage logic
+    const [theme, colorMode] = useMode(); // MUI theme mode hook
+    const isPageShrunk = useResizeWindow(); // Custom hook for handling resize logic state and useEffect
 
     useEffect(() => {
         if (value) {
@@ -173,18 +174,6 @@ function App() {
 
         fetchUser();
     }, [user]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsPageShrunk(window.innerWidth < 768);
-        };
-
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
 
     useEffect(() => {
         if (isPageShrunk) {

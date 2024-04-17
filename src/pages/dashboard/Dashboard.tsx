@@ -17,7 +17,6 @@ const Dashboard = () => {
     const [users, setUsers] = useState<IUser[]>([]);
     const [projects, setProjects] = useState<IProject[]>([]);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 

@@ -79,7 +79,6 @@ export default function Profile() {
     const [userProfile, setUserProfile] = useState<IUser | null>(null);
     const [formData, setFormData] = useState({});
     const [open, setOpen] = useState(false);
-    const navigate = useNavigate();
     const location = useLocation();
     const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
     const formikRef = useRef<FormikProps<any>>(null);
@@ -677,7 +676,7 @@ export default function Profile() {
                         userLastname: values.userLastname,
                         userEmail: values.userEmail,
                     };
-                    const response = await authenticationController.updateUser(values.userId, payload);
+                    const response = await usersController.updateUser(values.userId, payload);
                     if (response) {
                         toast.success("Ruajtja e ndryshimeve me sukses !");
                         setUserDetailsLoggedIn(response);
@@ -1276,224 +1275,212 @@ export default function Profile() {
     // #endregion
 
     // #region HandleDelete
-    const handleDeleteEducation = useCallback(
-        (education: any) => {
-            openModal({
-                formRef: formikRef,
-                onClose: () => setOpen(false),
-                title: "Eleminimi i Edukimit",
-                actions: [
-                    {
-                        label: "Anullo",
-                        onClick: () => handleClose(),
-                        type: "reset",
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon />,
+    const handleDeleteEducation = useCallback(() => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: "Eleminimi i Edukimit",
+            actions: [
+                {
+                    label: "Anullo",
+                    onClick: () => handleClose(),
+                    type: "reset",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                    {
-                        label: "Elemino",
-                        // onClick: async () => {
-                        //     const response2 =
-                        //         await educationsController.deleteUserEducation(
-                        //             userDetailsLoggedIn?.userId,
-                        //             education.edu.eduId,
-                        //         );
-                        //     const response1 =
-                        //         await educationsController.deleteEducation(
-                        //             education.edu.eduId,
-                        //         );
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: "Elemino",
+                    // onClick: async () => {
+                    //     const response2 =
+                    //         await educationsController.deleteUserEducation(
+                    //             userDetailsLoggedIn?.userId,
+                    //             education.edu.eduId,
+                    //         );
+                    //     const response1 =
+                    //         await educationsController.deleteEducation(
+                    //             education.edu.eduId,
+                    //         );
 
-                        //     if (response1 && response2) {
-                        //         handleClose();
-                        //     }
-                        // },
-                        type: "submit",
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon />,
+                    //     if (response1 && response2) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                ],
-                subTitle: "Deshironi ta eleminoni ?",
-            });
-        },
-        [userProfile],
-    );
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: "Deshironi ta eleminoni ?",
+        });
+    }, [userProfile]);
 
-    const handleDeleteCertificate = useCallback(
-        (certificate: any) => {
-            openModal({
-                formRef: formikRef,
-                onClose: () => setOpen(false),
-                title: "Eleminimi i Certifikates",
-                actions: [
-                    {
-                        label: "Anullo",
-                        onClick: () => handleClose(),
-                        type: "close",
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon />,
+    const handleDeleteCertificate = useCallback(() => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: "Eleminimi i Certifikates",
+            actions: [
+                {
+                    label: "Anullo",
+                    onClick: () => handleClose(),
+                    type: "close",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                    {
-                        label: "Elemino",
-                        type: "delete",
-                        // onClick: async () => {
-                        //     const response2 =
-                        //         await certificatesController.deleteUserCertificate(
-                        //             userDetailsLoggedIn?.userId,
-                        //             certificate.cert.certId,
-                        //         );
-                        //     const response1 =
-                        //         await certificatesController.deleteCertificate(
-                        //             certificate.cert.certId,
-                        //         );
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: "Elemino",
+                    type: "delete",
+                    // onClick: async () => {
+                    //     const response2 =
+                    //         await certificatesController.deleteUserCertificate(
+                    //             userDetailsLoggedIn?.userId,
+                    //             certificate.cert.certId,
+                    //         );
+                    //     const response1 =
+                    //         await certificatesController.deleteCertificate(
+                    //             certificate.cert.certId,
+                    //         );
 
-                        //     if (response1 && response2) {
-                        //         handleClose();
-                        //     }
-                        // },
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon />,
+                    //     if (response1 && response2) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                ],
-                subTitle: "Deshironi ta eleminoni ?",
-            });
-        },
-        [userProfile],
-    );
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: "Deshironi ta eleminoni ?",
+        });
+    }, [userProfile]);
 
-    const handleDeleteWork = useCallback(
-        (work: any) => {
-            openModal({
-                formRef: formikRef,
-                onClose: () => setOpen(false),
-                title: "Eleminimi i punes",
-                actions: [
-                    {
-                        label: "Anullo",
-                        onClick: () => handleClose(),
-                        type: "close",
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon />,
+    const handleDeleteWork = useCallback(() => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: "Eleminimi i punes",
+            actions: [
+                {
+                    label: "Anullo",
+                    onClick: () => handleClose(),
+                    type: "close",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                    {
-                        label: "Elemino",
-                        type: "delete",
-                        // onClick: async () => {
-                        //     const response =
-                        //         await workExperiencesController.deleteUserWorkExperience(
-                        //             userDetailsLoggedIn?.userId,
-                        //             work.pp.ppId,
-                        //         );
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: "Elemino",
+                    type: "delete",
+                    // onClick: async () => {
+                    //     const response =
+                    //         await workExperiencesController.deleteUserWorkExperience(
+                    //             userDetailsLoggedIn?.userId,
+                    //             work.pp.ppId,
+                    //         );
 
-                        //     if (response) {
-                        //         handleClose();
-                        //     }
-                        // },
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon />,
+                    //     if (response) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                ],
-                subTitle: "Deshironi ta eleminoni ?",
-            });
-        },
-        [userProfile],
-    );
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: "Deshironi ta eleminoni ?",
+        });
+    }, [userProfile]);
 
-    const handleDeleteSkill = useCallback(
-        (skill: any) => {
-            openModal({
-                formRef: formikRef,
-                onClose: () => setOpen(false),
-                title: "Eleminimi i Aftesise",
-                actions: [
-                    {
-                        label: "Anullo",
-                        onClick: () => handleClose(),
-                        type: "close",
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <ClearAllIcon />,
+    const handleDeleteSkill = useCallback(() => {
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: "Eleminimi i Aftesise",
+            actions: [
+                {
+                    label: "Anullo",
+                    onClick: () => handleClose(),
+                    type: "close",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#ff5252",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                    {
-                        label: "Elemino",
-                        type: "delete",
-                        // onClick: async () => {
-                        //     const response1 =
-                        //         await skillsController.deleteUserSkill(
-                        //             userDetailsLoggedIn?.userId,
-                        //             skill.aftesi.aftesiId,
-                        //         );
-                        //     const response2 = await skillsController.deleteSkill(
-                        //         skill.aftesi.aftesiId,
-                        //     );
+                    icon: <ClearAllIcon />,
+                },
+                {
+                    label: "Elemino",
+                    type: "delete",
+                    // onClick: async () => {
+                    //     const response1 =
+                    //         await skillsController.deleteUserSkill(
+                    //             userDetailsLoggedIn?.userId,
+                    //             skill.aftesi.aftesiId,
+                    //         );
+                    //     const response2 = await skillsController.deleteSkill(
+                    //         skill.aftesi.aftesiId,
+                    //     );
 
-                        //     if (response1 && response2) {
-                        //         handleClose();
-                        //     }
-                        // },
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon />,
+                    //     if (response1 && response2) {
+                    //         handleClose();
+                    //     }
+                    // },
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        border: "1px solid #000",
+                        bgcolor: "#30969f",
+                        fontSize: "15px",
+                        fontWeight: "700",
                     },
-                ],
-                subTitle: "Deshironi ta eleminoni ?",
-            });
-        },
-        [userProfile],
-    );
+                    icon: <SaveAsIcon />,
+                },
+            ],
+            subTitle: "Deshironi ta eleminoni ?",
+        });
+    }, [userProfile]);
     // #endregion
 
     useEffect(() => {
