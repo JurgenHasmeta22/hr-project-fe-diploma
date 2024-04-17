@@ -9,7 +9,7 @@ import { NestedSidebarItem } from "./NestedSidebarItem";
 import { SidebarItem } from "./SidebarItem";
 
 const Sidebar = ({ sidebarItems }: any) => {
-    const { userDetailsLoggedIn, openSidebar, setOpenSidebar, openTopBarList, setOpenTopBarList } = useStore();
+    const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
@@ -20,18 +20,21 @@ const Sidebar = ({ sidebarItems }: any) => {
     const handleItemClick = (title: string, to: string, state: any) => {
         setSelectedLabel(title);
         navigate(to, { state });
+
+        if (window.innerWidth < 768) {
+            setOpenSidebar(false);
+        }
     };
 
     const onClose = () => {
         setOpenSidebar(false);
-        setOpenTopBarList(false);
     };
 
     return (
         <Drawer
             variant={"persistent"}
-            anchor={`${!openTopBarList && openSidebar ? "left" : openTopBarList && !openSidebar ? "top" : "left"}`}
-            open={openSidebar || openTopBarList}
+            anchor={"left"}
+            open={openSidebar}
             onClose={onClose}
             PaperProps={{ sx: { backgroundColor: colors.grey[1000] } }}
         >

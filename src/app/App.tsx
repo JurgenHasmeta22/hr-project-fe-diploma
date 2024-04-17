@@ -7,7 +7,7 @@ import Sidebar from "~/components/sidebar/Sidebar";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
 import usersController from "~/services/api/users";
-import { useStore } from "~/store/store"; 
+import { useStore } from "~/store/store";
 import IUser from "~/types/IUser";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { sidebarItems } from "~/utils/sidebarItems";
@@ -32,7 +32,7 @@ const Test = React.lazy(() => import("~/pages/test/Test"));
 
 // #region Creating Main Layout
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-    const { openSidebar, openTopBarList } = useStore();
+    const { openSidebar } = useStore();
 
     return (
         <React.Fragment>
@@ -46,23 +46,21 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                             </Grid>
                             <Grid item xs={12} md={openSidebar ? 10 : 12}>
                                 <TopBar />
-                                <Box ml={3} mt={openTopBarList ? 50 : 5} mr={3}>
-                                    <React.Suspense
-                                        fallback={
-                                            <Box
-                                                sx={{
-                                                    display: "flex",
-                                                    placeItems: "center",
-                                                    height: "100vh",
-                                                }}
-                                            >
-                                                <CircularProgress size={80} thickness={4} />
-                                            </Box>
-                                        }
-                                    >
-                                        {children}
-                                    </React.Suspense>
-                                </Box>
+                                <React.Suspense
+                                    fallback={
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                placeItems: "center",
+                                                height: "100vh",
+                                            }}
+                                        >
+                                            <CircularProgress size={80} thickness={4} />
+                                        </Box>
+                                    }
+                                >
+                                    <Box ml={4}>{children}</Box>
+                                </React.Suspense>
                             </Grid>
                         </Grid>
                     </div>
@@ -148,7 +146,7 @@ export interface UserData {
 
 function App() {
     const [isPageShrunk, setIsPageShrunk] = useState(false);
-    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar, setOpenTopBarList } = useStore();
+    const { user, setUserDetailsLoggedIn, setUser, setOpenSidebar } = useStore();
     const { value } = useLocalStorage("user");
     const [theme, colorMode] = useMode();
 
@@ -191,10 +189,8 @@ function App() {
     useEffect(() => {
         if (isPageShrunk) {
             setOpenSidebar(false);
-            setOpenTopBarList(true);
         } else {
             setOpenSidebar(true);
-            setOpenTopBarList(false);
         }
     }, [isPageShrunk]);
 
