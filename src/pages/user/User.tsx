@@ -36,9 +36,12 @@ const User = () => {
     const [userIsActive, setUserIsActive] = useState<number>(0);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({});
+
     const navigate = useNavigate();
     const location = useLocation();
+
     const formikRef = useRef<FormikProps<any>>(null);
+
     const breadcrumbs = [
         <Link key="1" to={"/users"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
@@ -78,6 +81,7 @@ const User = () => {
 
     async function getUser(): Promise<void> {
         const response: IUser = await usersController.getUser(location.state?.userId!);
+
         setUser(response);
         setUserId(response.userId!);
         setUserName(response.userName);

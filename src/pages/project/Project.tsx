@@ -29,10 +29,14 @@ const Project = () => {
     const [pershkrimProjekt, setPershkrimProjekt] = useState<string>("");
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({});
+
     const { user } = useStore();
+
     const navigate = useNavigate();
     const location = useLocation();
+
     const formikRef = useRef<FormikProps<any>>(null);
+
     const breadcrumbs = [
         <Link key="1" to={"/projects"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
@@ -68,6 +72,7 @@ const Project = () => {
 
     async function getProject(): Promise<void> {
         const response: IProject = await projectsController.getProject(location.state?.projectId!);
+
         setProject(response);
         setProjektId(response.projektId);
         setEmriProjekt(response.emriProjekt);
@@ -81,6 +86,7 @@ const Project = () => {
         }
 
         fetchData();
+
         const now = new Date().toISOString();
         setCurrentTime(now);
     }, []);

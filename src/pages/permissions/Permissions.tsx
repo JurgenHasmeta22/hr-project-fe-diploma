@@ -19,8 +19,11 @@ import { useStore } from "~/store/store";
 const Permissions = () => {
     const [permissions, setPermissions] = useState<IPermission[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
+
     const { userDetailsLoggedIn } = useStore();
+
     const navigate = useNavigate();
+
     const isEmployee = userDetailsLoggedIn?.userRolis?.some(
         (el) => el.roli.roliEmri === "Employee",
     );

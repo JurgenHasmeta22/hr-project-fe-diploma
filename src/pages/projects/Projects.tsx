@@ -22,31 +22,33 @@ const Projects = () => {
     const [projects, setProjects] = useState<IProject[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [currentTime, setCurrentTime] = useState("");
-    const { user } = useStore();
-    const { userDetailsLoggedIn } = useStore();
-    const { setUserDetailsLoggedIn } = useStore();
+
+    const { user, userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
+
     const navigate = useNavigate();
+
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    // const colors = tokens(theme.palette.mode);
+
     const isEmployee = userDetailsLoggedIn?.userRolis?.some(
         (el) => el.roli.roliEmri === "Employee",
     );
 
-    const checkIsUserInProject = (projektId: any): boolean => {
-        if (!userDetailsLoggedIn?.userProjekts) {
-            return false;
-        }
+    // const checkIsUserInProject = (projektId: any): boolean => {
+    //     if (!userDetailsLoggedIn?.userProjekts) {
+    //         return false;
+    //     }
 
-        for (let el of userDetailsLoggedIn.userProjekts) {
-            if (el.projekt.projektId === projektId) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+    //     for (let el of userDetailsLoggedIn.userProjekts) {
+    //         if (el.projekt.projektId === projektId) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     }
 
-        return false;
-    };
+    //     return false;
+    // };
 
     const columns = useMemo<MRT_ColumnDef<IProject>[]>(
         () => [

@@ -26,9 +26,13 @@ const permissionReservation = () => {
     const [loading, setLoading] = useState(true);
     const [permissions, setPermissions] = useState<IPermission[]>([]);
     const [currentPermissions, setCurrentPermissions] = useState([]);
+
     const theme = useTheme();
+
     const formikRef = useRef<FormikProps<any>>(null);
+
     const { openModal } = useModal();
+
     const { user } = useStore();
     const colors = tokens(theme.palette.mode);
 
@@ -60,6 +64,7 @@ const permissionReservation = () => {
                 toast.success(CONSTANTS.PERMISSION__RESERVATION__CREATE__SUCCESS);
 
                 let calendarApi = selected.view.calendar;
+
                 calendarApi.unselect();
                 calendarApi.updateEvent({
                     id: formData.lejeId,
@@ -87,6 +92,7 @@ const permissionReservation = () => {
                 toast.success(CONSTANTS.PERMISSION__RESERVATION__UPDATE__SUCCESS);
 
                 let calendarApi = selected.view.calendar;
+
                 calendarApi.unselect();
                 calendarApi.updateEvent({
                     id: formData.lejeId,

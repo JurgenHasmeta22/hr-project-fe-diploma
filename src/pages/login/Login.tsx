@@ -22,9 +22,13 @@ const loginSchema = yup.object().shape({
 
 export default function Login() {
     const [formData, setFormData] = useState({});
+
     const { setUser } = useStore();
+
     const navigate = useNavigate();
+
     const formikRef = useRef<FormikProps<any>>(null);
+
     const { setItem } = useLocalStorage("user");
 
     const handleDataChange = (values: any) => {
@@ -42,6 +46,7 @@ export default function Login() {
 
             if (response && response.status !== 401) {
                 toast.success(CONSTANTS.LOGIN__SUCCESS);
+
                 setItem(response);
                 setUser(response);
                 navigate("/dashboard");

@@ -25,8 +25,11 @@ const validationSchema = yup.object({
 
 const ChangePassword: React.FC = () => {
     const [formData, setFormData] = useState({});
+
     const navigate = useNavigate();
+
     const { user, setUser } = useStore();
+
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {
@@ -49,6 +52,7 @@ const ChangePassword: React.FC = () => {
 
         if (response) {
             toast.success(CONSTANTS.CHANGEPASSWORD__SUCCESS);
+
             setUser(response);
             navigate("/dashboard");
         } else {

@@ -18,7 +18,9 @@ const projectSchema = yup.object().shape({
 
 const CreateProject = () => {
     const [formData, setFormData] = useState({});
+
     const navigate = useNavigate();
+
     const formikRef = useRef<FormikProps<any>>(null);
 
     const handleDataChange = (values: any) => {

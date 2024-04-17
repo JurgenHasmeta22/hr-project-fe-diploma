@@ -35,7 +35,9 @@ const Users = () => {
         pageIndex: 0,
         pageSize: 5,
     });
+
     const { userDetailsLoggedIn } = useStore();
+
     const navigate = useNavigate();
 
     const isEmployee = userDetailsLoggedIn?.userRolis?.some(
@@ -92,6 +94,7 @@ const Users = () => {
         }
 
         const url = new URL("http://127.0.0.1:5173/users/");
+
         url.searchParams.set("page", `${pagination.pageIndex * pagination.pageSize}`);
         url.searchParams.set("pageSize", `${pagination.pageSize}`);
         url.searchParams.set("filters", JSON.stringify(columnFilters ?? []));
@@ -105,6 +108,7 @@ const Users = () => {
         } catch (error) {
             setIsError(true);
             console.error(error);
+
             return;
         }
 
