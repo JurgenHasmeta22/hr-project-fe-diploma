@@ -14,7 +14,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import { useStore } from "~/store/store";
 import * as CONSTANTS from "~/constants/Constants";
-import ProfileBreadCrumb from "../profile/components/ProfileBreadCrumb";
+import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 
 const projectSchema = yup.object().shape({
     emriProjekt: yup.string().required("required"),
@@ -95,7 +95,7 @@ const Project = () => {
 
     return (
         <Box m="20px">
-            <ProfileBreadCrumb breadcrumbs={breadcrumbs} />
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/projects"} />
             <Header
                 title={CONSTANTS.PROJECT__VIEW__TITLE}
                 subtitle={CONSTANTS.PROJECT__VIEW__SUBTITLE}

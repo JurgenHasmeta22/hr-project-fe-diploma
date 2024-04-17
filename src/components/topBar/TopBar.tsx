@@ -11,12 +11,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
     const { user, unsetUser, openSidebar, setOpenSidebar } = useStore();
+
     const navigate = useNavigate();
+
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     const open = Boolean(anchorEl);
+
     const { removeItem } = useLocalStorage("user");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

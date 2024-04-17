@@ -79,11 +79,16 @@ export default function Profile() {
     const [userProfile, setUserProfile] = useState<IUser | null>(null);
     const [formData, setFormData] = useState({});
     const [open, setOpen] = useState(false);
+
     const location = useLocation();
+
     const { userDetailsLoggedIn, setUserDetailsLoggedIn } = useStore();
+
     const formikRef = useRef<FormikProps<any>>(null);
+
     const { openRightPanel } = useRightPanel();
     const { openModal } = useModal();
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 

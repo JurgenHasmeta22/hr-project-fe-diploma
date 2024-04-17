@@ -14,6 +14,7 @@ import { tokens } from "~/utils/theme";
 
 export const NestedSidebarItem = ({ item, selectedLabel, handleItemClick, isEmployee }: any) => {
     const { openSubMenu, setOpenSubMenu } = useStore();
+    
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 

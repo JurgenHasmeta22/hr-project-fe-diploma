@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Button, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Header from "~/components/header/Header";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -8,13 +8,12 @@ import * as yup from "yup";
 import IUser from "~/types/IUser";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { Link } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import FormAdvanced from "~/components/form/Form";
 import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
+import Breadcrumb from "~/components/breadcrumb/Breadcrumb";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -105,29 +104,7 @@ const User = () => {
 
     return (
         <Box m="20px">
-            <Box
-                mb={"30px"}
-                display={"flex"}
-                flexDirection={"row"}
-                alignItems={"center"}
-                gap={"20px"}
-            >
-                <Button
-                    color="secondary"
-                    variant="contained"
-                    onClick={() => {
-                        navigate("/users");
-                    }}
-                >
-                    <ArrowBackIcon color="action" />
-                </Button>
-                <Breadcrumbs
-                    separator={<NavigateNextIcon fontSize="small" />}
-                    aria-label="breadcrumb"
-                >
-                    {breadcrumbs}
-                </Breadcrumbs>
-            </Box>
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/users"} />
             <Header title={CONSTANTS.USER__VIEW__TITLE} subtitle={CONSTANTS.USER__VIEW__SUBTITLE} />
             <FormAdvanced
                 initialValues={{

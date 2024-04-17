@@ -3,11 +3,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useNavigate } from "react-router-dom";
 
-type ProfileBreadCrumbProps = {
+type BreadcrumbProps = {
     breadcrumbs: JSX.Element[];
+    navigateTo: string;
 };
 
-const ProfileBreadCrumb = ({ breadcrumbs }: ProfileBreadCrumbProps) => {
+const Breadcrumb = ({ breadcrumbs, navigateTo }: BreadcrumbProps) => {
     const navigate = useNavigate();
 
     return (
@@ -16,7 +17,7 @@ const ProfileBreadCrumb = ({ breadcrumbs }: ProfileBreadCrumbProps) => {
                 color="secondary"
                 variant="contained"
                 onClick={() => {
-                    navigate("/projects");
+                    navigate(navigateTo);
                 }}
             >
                 <ArrowBackIcon color="action" />
@@ -28,4 +29,4 @@ const ProfileBreadCrumb = ({ breadcrumbs }: ProfileBreadCrumbProps) => {
     );
 };
 
-export default ProfileBreadCrumb;
+export default Breadcrumb;

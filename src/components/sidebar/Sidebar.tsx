@@ -5,16 +5,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
-import { NestedSidebarItem } from "./NestedSidebarItem";
-import { SidebarItem } from "./SidebarItem";
+import { NestedSidebarItem } from "./components/NestedSidebarItem";
+import { SidebarItem } from "./components/SidebarItem";
 
 const Sidebar = ({ sidebarItems }: any) => {
     const { userDetailsLoggedIn, openSidebar, setOpenSidebar } = useStore();
+
     const navigate = useNavigate();
     const location = useLocation();
+
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     const isEmployee = userDetailsLoggedIn?.userRolis?.some(
         (el) => el.roli.roliEmri === "Employee",
     );
