@@ -4,7 +4,7 @@ import { useMode, ColorModeContext } from "~/utils/theme";
 import TopBar from "~/components/topBar/TopBar";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { ModalProvider } from "~/services/providers/ModalContext";
-import { useStore } from "~/store/store";
+import { useStore } from "~/store/store"; 
 import { useEffect, useState } from "react";
 import IUser from "~/types/IUser";
 import usersController from "~/services/api/users";
