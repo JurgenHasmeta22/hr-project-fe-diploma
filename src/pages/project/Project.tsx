@@ -145,7 +145,7 @@ const Project = () => {
                 formRef={formikRef}
                 actions={[
                     {
-                        label: "Ruaj ndryshimet",
+                        label: CONSTANTS.FORM__UPDATE__BUTTON,
                         type: "submit",
                         color: "secondary",
                         variant: "contained",
@@ -179,7 +179,7 @@ const Project = () => {
                         icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
                     },
                     {
-                        label: "Anullo",
+                        label: CONSTANTS.FORM__RESET__BUTTON,
                         type: "reset",
                         onClick: () => {
                             handleResetFromParent();

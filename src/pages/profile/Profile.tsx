@@ -135,7 +135,7 @@ export default function Profile() {
                     title: "Shto certifikate",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -173,7 +173,7 @@ export default function Profile() {
                     title: "Shto certifikaten tende",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -189,7 +189,7 @@ export default function Profile() {
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: "Ruaj ndryshimet",
+                            label: CONSTANTS.FORM__UPDATE__BUTTON,
                             type: "submit",
                             color: "secondary",
                             variant: "contained",
@@ -270,7 +270,7 @@ export default function Profile() {
                     title: "Krijo aftesine",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -301,7 +301,7 @@ export default function Profile() {
                     title: "Krijo aftesine tende",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -317,7 +317,7 @@ export default function Profile() {
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: "Ruaj ndryshimet",
+                            label: CONSTANTS.FORM__UPDATE__BUTTON,
                             type: "submit",
                             color: "secondary",
                             variant: "contained",
@@ -364,7 +364,7 @@ export default function Profile() {
                     title: "Shto pervojen e punes",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -423,7 +423,7 @@ export default function Profile() {
                     title: "Shto pervojen e punes tende",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -439,7 +439,7 @@ export default function Profile() {
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: "Ruaj ndryshimet",
+                            label: CONSTANTS.FORM__UPDATE__BUTTON,
                             type: "submit",
                             color: "secondary",
                             variant: "contained",
@@ -509,7 +509,7 @@ export default function Profile() {
                     title: "Shto edukimin",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -561,7 +561,7 @@ export default function Profile() {
                     title: "Shto edukimin tend",
                     actions: [
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             onClick: () => {
                                 handleResetFromParent();
                             },
@@ -577,7 +577,7 @@ export default function Profile() {
                             icon: <ClearAllIcon />,
                         },
                         {
-                            label: "Ruaj ndryshimet",
+                            label: CONSTANTS.FORM__UPDATE__BUTTON,
                             type: "submit",
                             color: "secondary",
                             variant: "contained",
@@ -688,7 +688,7 @@ export default function Profile() {
                 title: "Edito perdoruesin",
                 actions: [
                     {
-                        label: "Anullo",
+                        label: CONSTANTS.FORM__RESET__BUTTON,
                         onClick: () => {
                             handleResetFromParent();
                         },
@@ -704,7 +704,7 @@ export default function Profile() {
                         icon: <ClearAllIcon />,
                     },
                     {
-                        label: "Ruaj ndryshimet",
+                        label: CONSTANTS.FORM__UPDATE__BUTTON,
                         type: "submit",
                         color: "secondary",
                         variant: "contained",
@@ -759,7 +759,7 @@ export default function Profile() {
                         title: "Edito certifikate",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -797,7 +797,7 @@ export default function Profile() {
                         title: "Edito certifikaten tende",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -813,7 +813,7 @@ export default function Profile() {
                                 icon: <ClearAllIcon />,
                             },
                             {
-                                label: "Ruaj ndryshimet",
+                                label: CONSTANTS.FORM__UPDATE__BUTTON,
                                 type: "submit",
                                 color: "secondary",
                                 variant: "contained",
@@ -883,7 +883,7 @@ export default function Profile() {
                         title: "Edito aftesine",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -914,7 +914,7 @@ export default function Profile() {
                         title: "Edito aftesine tende",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -930,7 +930,7 @@ export default function Profile() {
                                 icon: <ClearAllIcon />,
                             },
                             {
-                                label: "Ruaj ndryshimet",
+                                label: CONSTANTS.FORM__UPDATE__BUTTON,
                                 type: "submit",
                                 color: "secondary",
                                 variant: "contained",
@@ -1003,7 +1003,7 @@ export default function Profile() {
                         title: "Edito pervojen e punes",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -1062,7 +1062,7 @@ export default function Profile() {
                         title: "Edito pervojen e punes tende",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -1078,7 +1078,7 @@ export default function Profile() {
                                 icon: <ClearAllIcon />,
                             },
                             {
-                                label: "Ruaj ndryshimet",
+                                label: CONSTANTS.FORM__UPDATE__BUTTON,
                                 type: "submit",
                                 color: "secondary",
                                 variant: "contained",
@@ -1155,7 +1155,7 @@ export default function Profile() {
                         title: "Edito edukimin",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -1207,7 +1207,7 @@ export default function Profile() {
                         title: "Edito edukimin tend",
                         actions: [
                             {
-                                label: "Anullo",
+                                label: CONSTANTS.FORM__RESET__BUTTON,
                                 onClick: () => {
                                     handleResetFromParent();
                                 },
@@ -1223,7 +1223,7 @@ export default function Profile() {
                                 icon: <ClearAllIcon />,
                             },
                             {
-                                label: "Ruaj ndryshimet",
+                                label: CONSTANTS.FORM__UPDATE__BUTTON,
                                 type: "submit",
                                 color: "secondary",
                                 variant: "contained",
@@ -1282,7 +1282,7 @@ export default function Profile() {
             title: "Eleminimi i Edukimit",
             actions: [
                 {
-                    label: "Anullo",
+                    label: CONSTANTS.FORM__RESET__BUTTON,
                     onClick: () => handleClose(),
                     type: "reset",
                     color: "secondary",
@@ -1335,7 +1335,7 @@ export default function Profile() {
             title: "Eleminimi i Certifikates",
             actions: [
                 {
-                    label: "Anullo",
+                    label: CONSTANTS.FORM__RESET__BUTTON,
                     onClick: () => handleClose(),
                     type: "close",
                     color: "secondary",
@@ -1388,7 +1388,7 @@ export default function Profile() {
             title: "Eleminimi i punes",
             actions: [
                 {
-                    label: "Anullo",
+                    label: CONSTANTS.FORM__RESET__BUTTON,
                     onClick: () => handleClose(),
                     type: "close",
                     color: "secondary",
@@ -1437,7 +1437,7 @@ export default function Profile() {
             title: "Eleminimi i Aftesise",
             actions: [
                 {
-                    label: "Anullo",
+                    label: CONSTANTS.FORM__RESET__BUTTON,
                     onClick: () => handleClose(),
                     type: "close",
                     color: "secondary",

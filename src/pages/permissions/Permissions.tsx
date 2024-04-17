@@ -9,7 +9,6 @@ import {
     MRT_ShowHideColumnsButton,
     MRT_ToggleDensePaddingButton,
 } from "material-react-table";
-// import { tokens } from "~/utils/theme";
 import Header from "~/components/header/Header";
 import IPermission from "~/types/IPermission";
 import permissionsController from "~/services/api/permissions";
@@ -22,9 +21,8 @@ const Permissions = () => {
     const [rowSelection, setRowSelection] = useState<any>({});
     const { userDetailsLoggedIn } = useStore();
     const navigate = useNavigate();
-    // const theme = useTheme();
-    // const colors = tokens(theme.palette.mode);
     const isEmployee = userDetailsLoggedIn?.userRolis?.some((el) => el.roli.roliEmri === "Employee");
+    
     const columns: MRT_ColumnDef<IPermission>[] = useMemo(
         () => [
             { accessorKey: "lejeId", header: "Id", enableHiding: true, size: 30 },

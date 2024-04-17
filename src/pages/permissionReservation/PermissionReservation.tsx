@@ -132,7 +132,7 @@ const permissionReservation = () => {
             title: "Rezervo leje",
             actions: [
                 {
-                    label: "Anullo",
+                    label: CONSTANTS.FORM__RESET__BUTTON,
                     onClick: () => handleResetFromParent(),
                     type: "reset",
                     color: "secondary",
@@ -146,7 +146,7 @@ const permissionReservation = () => {
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: "Ruaj ndryshimet",
+                    label: CONSTANTS.FORM__UPDATE__BUTTON,
                     onClick: () => handleSave(selected),
                     type: "submit",
                     color: "secondary",
@@ -265,7 +265,7 @@ const permissionReservation = () => {
                     icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
                 },
                 {
-                    label: "Anullo",
+                    label: CONSTANTS.FORM__RESET__BUTTON,
                     onClick: () => handleResetFromParent(),
                     type: "reset",
                     color: "secondary",
@@ -279,7 +279,7 @@ const permissionReservation = () => {
                     icon: <ClearAllIcon />,
                 },
                 {
-                    label: "Ruaj ndryshimet",
+                    label: CONSTANTS.FORM__UPDATE__BUTTON,
                     onClick: () => {
                         handleUpdate(selected.event.id, selected);
                     },

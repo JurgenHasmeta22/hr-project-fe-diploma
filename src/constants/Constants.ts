@@ -14,3 +14,5 @@ export const GLOBAL__DELETE__SUCCESS = "Elemini u krye me sukses !";
 export const GLOBAL__DELETE__FAILURE = "Eleminimi nuk u realizua !";
 export const PROJECT__ASSIGN__SUCCESS = "Futja ne projekt u krye me sukses !";
 export const PROJECT__ASSIGN__FAILURE = "Futja ne projekt nuk u realizua !";
+export const FORM__UPDATE__BUTTON = "Ruaj ndryshimet";
+export const FORM__RESET__BUTTON = "Anullo";

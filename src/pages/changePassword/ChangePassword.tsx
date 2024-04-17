@@ -117,7 +117,7 @@ const ChangePassword: React.FC = () => {
                             icon: <LockOutlinedIcon sx={{ ml: "10px" }} color="action" />,
                         },
                         {
-                            label: "Anullo",
+                            label: CONSTANTS.FORM__RESET__BUTTON,
                             type: "reset",
                             color: "secondary",
                             variant: "contained",

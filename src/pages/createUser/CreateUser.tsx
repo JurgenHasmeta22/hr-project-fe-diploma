@@ -115,7 +115,7 @@ const CreateUser = () => {
                 ]}
                 actions={[
                     {
-                        label: "Ruaj ndryshimet",
+                        label: CONSTANTS.FORM__UPDATE__BUTTON,
                         type: "submit",
                         color: "secondary",
                         variant: "contained",
@@ -128,7 +128,7 @@ const CreateUser = () => {
                         icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
                     },
                     {
-                        label: "Anullo",
+                        label: CONSTANTS.FORM__RESET__BUTTON,
                         type: "reset",
                         onClick: () => {
                             handleResetFromParent();
